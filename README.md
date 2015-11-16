@@ -25,3 +25,4 @@ récupérer les modifications :
 	
 récupérer des informations sur l'état des fichiers :
 	git status
+	

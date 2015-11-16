@@ -1,4 +1,6 @@
 \contentsline {part}{I\hspace {1em}Introduction}{4}
+\contentsline {section}{\numberline {1}Sc\IeC {\'e}nario}{4}
+\contentsline {section}{\numberline {2}Propositions de PNJs}{5}
 \contentsline {part}{II\hspace {1em}Fonctionnement du jeu}{6}
 \contentsline {section}{\numberline {1}Objectifs}{6}
 \contentsline {subsection}{\numberline {1.1}King of the hill}{6}
