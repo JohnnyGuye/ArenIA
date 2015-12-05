@@ -62,7 +62,7 @@ bool AppWindow::Init()
 
     //Initialize the color of the clear buffer
     glClearDepth(1.f);
-    glClearColor(0.1f, 0.1f, 0.1f, 0.f);
+    glClearColor(0.1f, 0.1f, 0.2f, 0.f);
 
     //Activates culling clockwork
     glEnable(GL_CULL_FACE);
@@ -76,7 +76,17 @@ bool AppWindow::Init()
     //Activate r/w on depth buffer
     glEnable(GL_DEPTH_TEST);
 
-    std::cout << "Activation du tempon de profondeur" << std::endl;
+    //LUMOS !
+    int MatSpec [4] = {0,0,0,0};    //Color of specular light (r,v,b, alpha)
+
+    glEnable(GL_COLOR_MATERIAL);
+    glMaterialiv(GL_FRONT_AND_BACK,GL_SPECULAR,MatSpec);
+    glMateriali(GL_FRONT_AND_BACK,GL_SHININESS,100);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    float LightDif[4] = {.5f,.5f,.5f,1.f};
+    glLightfv(GL_LIGHT0,GL_DIFFUSE, LightDif );
+
     gluLookAt(50.0, 50, 50,
         0, 0, 0,
         0, 0, 1);

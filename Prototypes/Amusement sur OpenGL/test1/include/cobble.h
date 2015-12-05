@@ -46,16 +46,25 @@ class Cobble
         Cobble& operator=(const Cobble& other);
 
         /**
+        * Get a vector tab with all the colors possibly drawable
+        **/
+        Vector3* GetColorset();
+
+        /**
         * Draw the Front side of the form
         **/
         void Draw(const sf::Time& time) const;
+
         /**
         *       Draw the Back side of the form
         **/
         void DrawBack(const sf::Time& time) const;
 
     private:
+        //Draw a face of the cobble
         void DrawFace(const Vector3 a, const Vector3 b, const Vector3 c, Vector3 d, const Vector3 Color) const;
+
+        //Draw lines of the cobble
         void DrawLine(const Vector3 a, const Vector3 b) const;
 
     protected:
@@ -63,7 +72,7 @@ class Cobble
                 m_bSide,
                 m_cSide;
         Vector3 m_points[8];
-        Vector3 m_color[8];
+        Vector3 m_color[6];
 
         bool m_profil;
         Vector3 m_profil_color;
