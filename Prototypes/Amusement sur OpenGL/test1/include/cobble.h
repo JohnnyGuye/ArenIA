@@ -51,6 +51,21 @@ class Cobble
         Vector3* GetColorset();
 
         /**
+        * Change the profil color
+        * @param newColor the rvb color, ranging from 0 to 1 for each part
+        **/
+        void SetProfilColor(Vector3 newColor);
+
+        /**
+        * Change the profil color
+        *
+        * @param r The red part
+        * @param v The green part
+        * @param b The blue part
+        **/
+        void SetProfilColor(float r, float v, float b);
+
+        /**
         * Draw the Front side of the form
         **/
         void Draw(const sf::Time& time) const;
@@ -68,14 +83,14 @@ class Cobble
         void DrawLine(const Vector3 a, const Vector3 b) const;
 
     protected:
-        float   m_aSide,
-                m_bSide,
-                m_cSide;
-        Vector3 m_points[8];
-        Vector3 m_color[6];
+        float   m_aSide,        /// The length of the a side
+                m_bSide,         /// The length of the b side
+                m_cSide;        /// The length of the c side
+        Vector3 m_points[8];    ///An array containing all the points for this form
+        Vector3 m_color[6];     ///An array containing the panel of colors drawable on faces
 
-        bool m_profil;
-        Vector3 m_profil_color;
+        bool m_profil;  ///True if you have to display the profil
+        Vector3 m_profil_color; ///The color of this profil
 };
 
 #endif // Cobble_H

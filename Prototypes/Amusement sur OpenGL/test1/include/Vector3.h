@@ -21,8 +21,8 @@ public:
                 Vector3         operator+(const Vector3& other) const;
                 Vector3         operator-(const Vector3& other) const;
                 Vector3         operator-() const;
-                Vector3         operator*(float num) const;
-                Vector3         operator/(float num) const;
+                Vector3         operator*(const float num) const;
+                Vector3         operator/(const float num) const;
 
                 Vector3&         operator=(const Vector3& other);
 
@@ -33,6 +33,11 @@ public:
 
                 bool            operator==(const Vector3& other) const;
                 bool            operator!=(const Vector3& other) const;
+
+                Vector3& normalize();
+                Vector3 crossProduct(const Vector3 & other) const;
+                float scalarProduct(const Vector3 & other) const;
+                float length() const;
 
                 static const Vector3 Zero;
                 static const float     Epsilon;

@@ -59,9 +59,10 @@ class AppWindow
                 sf::Clock m_clock;
                 sf::Window m_window;
 
-
                 MarkZero m_mark;
                 Cobble m_cob1;
+
+                int m_mapGrid[2][2];
 
 };
 

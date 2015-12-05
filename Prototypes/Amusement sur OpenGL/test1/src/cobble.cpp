@@ -2,7 +2,6 @@
 
 void Cobble::Draw(const sf::Time& time) const
 {
-        glLoadIdentity();
         glBegin(GL_QUADS);
                 DrawFace(m_points[1], m_points[7], m_points[6], m_points[2], m_color[0]);         //Front-face
                 DrawFace(m_points[2], m_points[6], m_points[5], m_points[3], m_color[1]);         //Right-face
@@ -15,7 +14,6 @@ void Cobble::Draw(const sf::Time& time) const
 
 void Cobble::DrawBack(const sf::Time& time) const
 {
-        glLoadIdentity();
         glLineWidth(4);
         glBegin(GL_LINES);
                 glColor3f(m_profil_color.X, m_profil_color.Y, m_profil_color.Z);
@@ -71,6 +69,18 @@ Cobble::~Cobble()
 Vector3 * Cobble::GetColorset()
 {
         return m_color;
+}
+
+void Cobble::SetProfilColor(Vector3 newColor)
+{
+                m_profil_color = newColor;
+}
+
+void Cobble::SetProfilColor(float r, float v, float b)
+{
+                m_profil_color.X = r;
+                m_profil_color.Y = v;
+                m_profil_color.Z = b;
 }
 
 void Cobble::DrawFace(const Vector3 a, const Vector3 b, const Vector3 c, Vector3 d, const Vector3 Color) const

@@ -8,7 +8,7 @@
 
 int main()
 {
-	sf::ContextSettings settings = sf::ContextSettings(24, 8, 4, 3, 0);
+	sf::ContextSettings settings = sf::ContextSettings(24, 8, 8, 3, 0);
     AppWindow GameApp = AppWindow(1600,900,"OpenGL test1", settings);
     GameApp.Run();
     return 0;

@@ -9,10 +9,16 @@ AppWindow::AppWindow(unsigned int width,
         m_clock(),
         m_window(sf::VideoMode(width, height, 32), title, sf::Style::Close, settings),
         m_mark(),
-        m_cob1(20, 20, 20)
+        m_cob1(10, 10, 10)
 {
     m_window.getSettings();
-    std::cout << settings.depthBits << std::endl;
+    std::cout << "DepthBuffer : " <<settings.depthBits << std::endl
+        << "StencilBuffer : " <<settings.stencilBits << std::endl
+        << "Anti-aliasing : " <<settings.antialiasingLevel << std::endl
+        << "Flags : " <<settings.attributeFlags << std::endl;
+
+        m_mapGrid[0][0] = m_mapGrid[1][0] = m_mapGrid[1][1] = 1;
+
 }
 
 void AppWindow::Run()
@@ -87,7 +93,7 @@ bool AppWindow::Init()
     float LightDif[4] = {.5f,.5f,.5f,1.f};
     glLightfv(GL_LIGHT0,GL_DIFFUSE, LightDif );
 
-    gluLookAt(50.0, 50, 50,
+    gluLookAt(30.0, 30, 30,
         0, 0, 0,
         0, 0, 1);
 
@@ -104,13 +110,30 @@ void AppWindow::Render(sf::Time& time)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
-    glCullFace(GL_FRONT);
-    m_cob1.Draw(time);
-    m_mark.Draw(time);
+    for(int i = 0; i < 2 ; i++)
+    {
+        glLoadIdentity();
+        glTranslatef(5.f + i*10.f, 5.f, 5.f);
 
-    //glCullFace(GL_BACK);
-    m_cob1.DrawBack(time);
+        for(int j = 0; j < 2 ; j++)
+        {
+            glTranslatef(0.f, 10.f, 0.f);
+            if(m_mapGrid[i][j] == 1)
+            {
+                glCullFace(GL_FRONT);
+                m_cob1.Draw(time);
+                m_mark.Draw(time);
+
+                glCullFace(GL_BACK);
+                m_cob1.DrawBack(time);
+                m_cob1.DrawBack(time);
+            }
+        }
+
+    }
+
 
     glFlush();
     m_window.display();
