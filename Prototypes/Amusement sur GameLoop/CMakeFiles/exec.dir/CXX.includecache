@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/DummyGameState.cpp
+DummyGameState.h
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/DummyGameState.h
+iostream
+-
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/DummyGameState.h
+GameState.h
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/GameState.h
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/GameState.cpp
+GameState.h
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/GameState.h
+chrono
+-
+iostream
+-
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/GameState.h
+chrono
+-
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/main.cpp
+DummyGameState.h
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur GameLoop/src/DummyGameState.h
+

@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/exec.dir/src/objet.o CMakeFiles/exec.dir/src/main.o  -o exec -rdynamic -llua5.1 -lm 

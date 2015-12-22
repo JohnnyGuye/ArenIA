@@ -1,0 +1,84 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/main.cpp
+stdio.h
+-
+iostream
+-
+string
+-
+objet.h
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/objet.h
+lua.h
+-
+lauxlib.h
+-
+lualib.h
+-
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/objet.cpp
+objet.h
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/objet.h
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/objet.h
+iostream
+-
+lua.h
+-
+lauxlib.h
+-
+lualib.h
+-
+
+/usr/include/lua5.1/lauxlib.h
+stddef.h
+-
+stdio.h
+-
+lua.h
+/usr/include/lua5.1/lua.h
+
+/usr/include/lua5.1/lua.h
+stdarg.h
+-
+stddef.h
+-
+luaconf.h
+/usr/include/lua5.1/luaconf.h
+
+/usr/include/lua5.1/luaconf.h
+limits.h
+-
+stddef.h
+-
+lua5.1-deb-multiarch.h
+/usr/include/lua5.1/lua5.1-deb-multiarch.h
+unistd.h
+-
+io.h
+-
+stdio.h
+-
+stdio.h
+-
+readline/readline.h
+-
+readline/history.h
+-
+assert.h
+-
+math.h
+-
+unistd.h
+-
+
+/usr/include/lua5.1/lualib.h
+lua.h
+/usr/include/lua5.1/lua.h
+

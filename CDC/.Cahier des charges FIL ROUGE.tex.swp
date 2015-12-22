@@ -1,0 +1,67 @@
+\documentclass[10pt]{article}
+%\usepackage[utf8]{inputenc} 
+\usepackage{listings}
+\usepackage{graphicx, lmodern, array}
+\usepackage{geometry}
+\usepackage{hyperref}
+%\usepackage{slashbox}
+%\geometry{hmargin=3.5cm,vmargin=3.5cm}
+
+\begin{document}
+
+
+
+\title{\textbf{ArenIA Project}}
+\author{Quentin "Johnny" Guye}
+\date{}
+\setlength{\headheight}{40pt}
+\renewcommand{\arraystretch}{2}
+
+
+
+\parbox[c][200pt][c]{\textwidth}{
+	\begin{center}
+	\textsc{\Large ArenIA Project \newline
+	\normalsize Projet fil rouge INSA 2015-2016 \\
+	\vspace{10pt} \scriptsize Alexandra Blanc, Alp Yucesoy,\\ Anne Pourcelot, Clément Espeute, \\Quentin "Johnny" Guye, Samory Ka, Simon Belletier\\}
+	\end{center}
+}
+
+\renewcommand{\contentsname}{Sommaire}
+
+\setcounter{section}{0}
+
+\section{But}
+Le but de ce projet fil rouge est de réaliser un jeu vidéo compétitif où les joueurs s'affrontent à l'aide de robots dont ils ont programmé intelligence artificielle. 
+
+Chaque robot possède différentes armes et ils doivent soit détruire leur(s) adversaire(s), soit remplir un autre objectif comme capturer un drapeau. 
+
+Les graphismes du jeu sont en 3D, les robots serons programmés à l'aide du langage de programmation Lua, mais il sera aussi possible de programmer sous forme d'organigramme pour les débutants.
+
+Voici une liste non exhaustive des différentes parties du rendu minimum attendu :
+\section{Caractéristiques du projet}
+\begin{description}
+	\item[Langage :] C++ (moteur du jeu), Lua (programmation des robots)
+	\item[Librairies :] Ogre3D (Moteur de jeu), Lua (Script), SFML (Interface)
+\end{description}
+
+\section{Robots}
+Chaque joueur programme l'IA de son robot. Cette IA sera ensuite exécutée lors des combats. L'API proposera des fonctions simples comme \texttt{tourner(x)} ou \texttt{tirer()} qui permettent d'interagir avec son robot et récupérer des informations sur son environnement. Le langage de script utilisé sera le Lua car il s'interface parfaitement avec le C++.
+\section{Graphismes}
+Les graphismes seront 3D "low poly", afin d'avoir un rendu facile à réaliser et clair à lire.
+\section{Arènes}
+Le lieu où se déroulent les combats. Divers obstacles peuvent être disposés pour rendre le combat plus intéressant.
+\section{Combats}
+Le style de combat sera le match à mort : le dernier robot vivant gagne le match.
+
+\section{Améliorations possibles}
+Une fois le prototype réalisé, on pourra améliorer le jeu en ajoutant différents types de robots, d'arènes et de modes de jeu. Un tutoriel pourra aussi être réalisé pour guider les débutants dans l'apprentissage de la programmation.
+
+\section{Contacts}
+\url{clement.espeute@insa-lyon.fr} \\
+\noindent\url{quentin.guye@insa-lyon.fr}
+
+
+
+
+\end{document}

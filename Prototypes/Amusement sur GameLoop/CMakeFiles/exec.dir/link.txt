@@ -1,0 +1,1 @@
+/usr/bin/c++   -g   CMakeFiles/exec.dir/src/GameState.o CMakeFiles/exec.dir/src/DummyGameState.o CMakeFiles/exec.dir/src/main.o  -o exec -rdynamic -llua5.1 -lm 
