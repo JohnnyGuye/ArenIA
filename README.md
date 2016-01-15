@@ -15,7 +15,7 @@ supprimer un fichier :
 	git rm <nomFichier>
 	
 valider des modifications :
-	git -a -m "Message de commit"
+	git commit -a -m "Message de commit"
 	
 envoyer ses modifications :
 	git push
