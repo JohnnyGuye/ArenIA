@@ -1,0 +1,123 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc} 
+
+\begin{document}
+
+\part*{{Réunion du 27/01/2016}}
+
+\renewcommand{\contentsname}{Sommaire}
+\tableofcontents
+
+
+
+
+
+\newpage
+
+\section{Les Robots}
+
+\subsection{Description générale}
+
+Un robot a plusieurs caractéristiques : 
+
+\begin{itemize}
+\item PV (Points de Vie)
+\item Energie
+\item Armure
+\item Vitesse de déplacement
+\item Champ de vision (qui est aussi sa fenêtre de tir)
+\item Compétences exécutables (dont tirer)
+
+\end{itemize}
+
+A chaque tour, un robot prend une décision, puis effectue uen action.
+
+
+
+\subsection{Paramètres pris en compte pour la décision}
+
+Les paramètres que peut prendre en compte un robot sont :
+\begin{itemize}
+
+\item "GetObjet" : son environnement.
+
+Il peut à la fois détecter les obstacles, ses alliés et ses ennemis, et les caractéristiques de ces derniers (PV, orientation, direction).
+
+\item Ses paramètres interner : PV, orientation, vitesse, position relative à la carte, 
+
+\end{itemize}
+
+
+
+\subsection{Actions réalisables}
+
+Toutes les actions sont compatibles entre elles (sauf utiliser plusieurs compétences en même temps et effectuer des actions contradictoires [ex : tourner la tourelle à gauche et à droite]). Dans le cas où on essaye de lancer deux actions contradictoires, le dernier ordre prévaut.
+
+\paragraph{}
+Un robot peut :
+
+\begin{itemize}
+\item Utiliser une compétence (le tir en fait partie)
+\item Tourner sa tourelle
+\item Tourner ses roues
+\item Avancer
+\end{itemize}
+
+
+
+\newpage
+
+\section{Les Parties}
+
+On lance une partie à partir d'une map et d'équipes de robots.
+
+A chaque tour, tous les robots prennent leurs décisions \textbf{en même temps} (pour ne pas en favoriser un), on détecte/résout les problèmes de collisions, et les robots effectuent leurs actions.
+
+On donne un nombre limite de tours après lequel le match se transforme en mort subite.
+
+
+
+\section{Roadmap}
+
+\begin{itemize}
+\item Prototype fonctionnel ( lancement en ligne de commande "ArenIA Robot1 Robot2" , fenêtre où se déroule le match)
+\item Possibilité d'avoir des équipes
+\item GUI
+\item 0bstacles
+\item Objectifs (donc plusieurs maps)
+\item Mode multijoueur
+\item Tutoriel
+\item Mode histoire
+\paragraph{}
+\item Déploiement, DLCs, tons of money, meeting John Cena and world domination.
+\end{itemize}
+
+
+
+
+\section{Répartition du travail}
+
+\begin{tabular}{| c | c |}
+
+\hline
+Tâche & Personne(s) \\
+\hline
+Son & Clément, Johnny \\
+\hline
+Robot & Alp, Simon \\
+\hline
+GFX & Johnny, Samory \\
+\hline
+Moteur physique & Clément \\
+\hline
+IA & Clément \\
+\hline
+
+\end{tabular}
+
+
+
+\section{UML}
+cf UML de Johnny sur draw.io
+
+\end{document}
