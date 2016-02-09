@@ -26,3 +26,34 @@ récupérer les modifications :
 récupérer des informations sur l'état des fichiers :
 	git status
 	
+# Liste des dépendendances d'un projet Ogre
+
+• Fichier d'en-tête
+Pour les fichiers d'Ogre :
+$(OgreDir)\include
+$(OgreDir)\include\OGRE
+
+Pour les Inputs/Outpus
+$(OgreDir)\include\OIS
+
+Pour les Overlays :
+$(OgreDir)\include\OGRE\Overlay
+
+Pour boost (ça dépend de si vous prenez boost seul ou dans le package Ogre)
+$(OgreDir)\include\boost 
+
+• Libs
+$(OgreDir)\boost\lib
+$(OgreDir)\lib\$(Configuration)
+
+• EDL
+- lib debug
+OgreMain_d.lib
+OIS_d.lib
+OgreOverlay_d.lib
+
+- lib release
+OgreMain.lib
+OIS.lib
+OgreOverlay.lib
+

@@ -5,9 +5,9 @@
 #include <GL/glu.h>
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
-#include <iostream>
 
-#include "Rectangle.h"
+#include <iostream>
+#include "Vector3.h"
 
 class Cobble
 {
@@ -36,7 +36,7 @@ class Cobble
         virtual ~Cobble();
 
         /**
-        * Clone the Cobble without the texture
+        * Clone the Cobble without texture
         */
         Cobble(const Cobble& other);
 
