@@ -4,11 +4,17 @@ Un jeu avec des robots dont l'IA est codée par le joueur.
 # RoadMap
 
 ► Prototype fonctionnel : Deux IAs qui s'affrontent et rien de plus
+
 ► Prototype teamplay : Plus de 2 robots et des équipes
+
 ► GUI : Halte au terminal, bonjour le jeu !
+
 ► Objectifs : DeathMatch oui, mais aussi King of Hill, CTF, etc...
+
 ► Tutoriel : C'est parti pour apprendre à coder !
+
 ► Mode histoire : Des IAs oui, mais des IAs badass !
+
 ► Online !
 
 # Comment utiliser git dans le terminal :
