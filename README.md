@@ -1,8 +1,17 @@
 # ArenIA
 Un jeu avec des robots dont l'IA est codée par le joueur.
 
+# RoadMap
 
-# Comment utiliser git sur linux :
+► Prototype fonctionnel : Deux IAs qui s'affrontent et rien de plus
+► Prototype teamplay : Plus de 2 robots et des équipes
+► GUI : Halte au terminal, bonjour le jeu !
+► Objectifs : DeathMatch oui, mais aussi King of Hill, CTF, etc...
+► Tutoriel : C'est parti pour apprendre à coder !
+► Mode histoire : Des IAs oui, mais des IAs badass !
+► Online !
+
+# Comment utiliser git dans le terminal :
 
 récupérer le dépot sur son PC :
 	git clone https://github.com/JohnnyGuye/ArenIA.git
@@ -30,7 +39,6 @@ revenir à ancien commit
 en gardant la copie locale (#le nombre de retour en arrière jusqu'au bon commit)
 	git reset --mixed HEAD^# 
 Il a deux autres options mais la première est agréablement inutile, et la deuxième terriblement dangereuse
-
 
 # Liste des dépendendances d'un projet Ogre
 
