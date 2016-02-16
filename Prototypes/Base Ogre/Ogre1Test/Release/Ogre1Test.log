@@ -1,0 +1,35 @@
+﻿La génération a démarré 10/02/2016 01:20:35.
+     1>Projet "C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Ogre1Test\Ogre1Test.vcxproj" sur le nœud 2 (build cible(s)).
+     1>InitializeBuildStatus:
+         Création de "Release\Ogre1Test.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt BaseApplication.cpp main.cpp TryWindow.cpp
+         BaseApplication.cpp
+         main.cpp
+         TryWindow.cpp
+     1>TryWindow.cpp(87): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>TryWindow.cpp(87): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>TryWindow.cpp(87): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>TryWindow.cpp(93): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>TryWindow.cpp(93): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>TryWindow.cpp(93): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>TryWindow.cpp(99): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>TryWindow.cpp(99): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>TryWindow.cpp(99): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Ogre1Test.exe" /NOLOGO OgreMain.lib OIS.lib OgreOverlay.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Ogre1Test.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Ogre1Test.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Ogre1Test.lib" /MACHINE:X86 Release\BaseApplication.obj
+         Release\main.obj
+         Release\TryWindow.obj
+         Génération de code en cours
+         Fin de la génération du code
+         Ogre1Test.vcxproj -> C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Ogre1Test.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Ogre1Test.exe;#1" /manifest Release\Ogre1Test.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Suppression du fichier "Release\Ogre1Test.unsuccessfulbuild".
+         Mise à jour de l'horodatage "Release\Ogre1Test.lastbuildstate".
+     1>Génération du projet "C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Ogre1Test\Ogre1Test.vcxproj" terminée (build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:32.65
