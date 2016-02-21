@@ -75,11 +75,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseApplication.cpp" />
+    <ClCompile Include="ExceptionArenIA.cpp" />
+    <ClCompile Include="FightManager.cpp" />
+    <ClCompile Include="FightWindow.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TryWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseApplication.h" />
+    <ClInclude Include="ExceptionArenIA.h" />
+    <ClInclude Include="FightManager.h" />
+    <ClInclude Include="FightWindow.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="TryWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

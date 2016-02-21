@@ -392,6 +392,7 @@ bool BaseApplication::keyPressed( const OIS::KeyEvent &arg )
     }
     else if (arg.key == OIS::KC_ESCAPE)
     {
+
         mShutDown = true;
     }
 

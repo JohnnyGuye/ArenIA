@@ -18,11 +18,13 @@ http://www.ogre3d.org/wiki/
 #ifndef __TryWindow_h_
 #define __TryWindow_h_
 
-#include "BaseApplication.h"
+#include "FightWindow.h"
+#include "FightManager.h"
+#include <vector>
 
 //---------------------------------------------------------------------------
 
-class TryWindow : public BaseApplication
+class TryWindow : public FightWindow
 {
 public:
     TryWindow(void);
@@ -33,6 +35,11 @@ protected:
 	virtual void createCamera(void);
 	virtual void createViewports(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+protected:
+
+	FightManager* fightManager_;
+	std::vector<Ogre::Entity*> DecorEntities;
 };
 
 //---------------------------------------------------------------------------

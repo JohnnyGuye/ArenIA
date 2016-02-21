@@ -1,25 +1,9 @@
-/*
------------------------------------------------------------------------------
-Filename:    TryWindow.cpp
------------------------------------------------------------------------------
-
-This source file is part of the
-   ___                 __    __ _ _    _
-  /___\__ _ _ __ ___  / / /\ \ (_) | _(_)
- //  // _` | '__/ _ \ \ \/  \/ / | |/ / |
-/ \_// (_| | | |  __/  \  /\  /| |   <| |
-\___/ \__, |_|  \___|   \/  \/ |_|_|\_\_|
-      |___/
-Tutorial Framework (for Ogre 1.9)
-http://www.ogre3d.org/wiki/
------------------------------------------------------------------------------
-*/
-
 #include "TryWindow.h"
 
 //---------------------------------------------------------------------------
 TryWindow::TryWindow(void)
 {
+	fightManager_ = new FightManager();
 }
 //---------------------------------------------------------------------------
 TryWindow::~TryWindow(void)
@@ -29,32 +13,28 @@ TryWindow::~TryWindow(void)
 //---------------------------------------------------------------------------
 void TryWindow::createScene(void)
 {
-
-	// Pour voir les fonctionnalités de bases, mettez en commentaire ou non les blocks que vous voulez
-	// Les lumières sont importantes donc il faut à minima en garder une pour garder du sens
-
 	//========ABOUT LIGHT=========
 	//Adding ambient light to the scene manager
     //mSceneMgr->setAmbientLight(Ogre::ColourValue(0.1, 0.1, 0.1));
 
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.9f, 1, 1));
-	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_MODULATIVE);
+	sceneMgr_->setAmbientLight(Ogre::ColourValue(0.9f, 1, 1));
+	sceneMgr_->setShadowTechnique(Ogre::SHADOWTYPE_NONE);
 	
 	//Add a second light
 	//Ogre::Light* light = mSceneMgr->createLight("MainLight");
 	//light->setPosition(20, 200, 50);
 
-	Ogre::Light* spotLight = mSceneMgr->createLight("SpotLight");
+	Ogre::Light* spotLight = sceneMgr_->createLight("SpotLight");
 	spotLight->setDiffuseColour(0, 0, 1.0);
 	spotLight->setSpecularColour(0, 0, 1.0);
 	spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
-	spotLight->setDirection(mCamera->getDirection());
-	spotLight->setPosition(mCamera->getPosition());
+	spotLight->setDirection(camera_->getDirection());
+	spotLight->setPosition(camera_->getPosition());
 	spotLight->setSpotlightRange(Ogre::Degree(45), Ogre::Degree(50));
 
 
 	//======ABOUT THE CAMERA=======
-	mCamera->setPosition(90.0, 280.0, 535.0);
+	camera_->setPosition(100.0, 100.0, 100.0);
 
 
 	//========THE GROUND=========
@@ -64,36 +44,57 @@ void TryWindow::createScene(void)
 	  "ground",
 	  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 	  plane, 
-	  1500, 1500, 20, 20, 
+	  2000, 2000, 40, 40, 
 	  true, 
 	  1, 5, 5, 
 	  Ogre::Vector3::UNIT_Z);
 
-	Ogre::Entity* groundEntity = mSceneMgr->createEntity("ground");
-	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);
+	Ogre::Entity* groundEntity = sceneMgr_->createEntity("ground");
+	sceneMgr_->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);
 	groundEntity->setCastShadows(false);
 	groundEntity->setMaterialName("Examples/Rockwall");
-	
+
+	//========CREATE ENTITIES FROM TERRAIN===========
+	GameObject*** grille = fightManager_->getTerrain()->getGrille();
+	unsigned int width = fightManager_->getTerrain()->getWidth();
+	unsigned int height = fightManager_->getTerrain()->getHeight();
+
+	for(unsigned int i = 0; i < width; i++)
+	{
+		for(unsigned int j = 0; j < height; j++)
+		{
+			//	if(grille[i][j]->getName() != "0")
+			{
+				Ogre::Entity* decorEntity;
+				Ogre::SceneNode* node;
+				decorEntity = sceneMgr_->createEntity("knot.mesh");
+				//node = sceneMgr_->getRootSceneNode()->createChildSceneNode(grille[i][j]->getPosition());
+				node = sceneMgr_->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(i * 100.0, 0.0, j * 100));
+				node->attachObject(decorEntity);
+				DecorEntities.push_back(decorEntity);
+			}
+		}
+	}
 }
 
 //---------------------------------------------------------------------------
 void TryWindow::createCamera()
 {
-	mCamera = mSceneMgr->createCamera("PlayerCam");
-	mCamera->setPosition(Ogre::Vector3(0, 300, 500));
-	mCamera->lookAt(Ogre::Vector3(0, 0, 0));
+	camera_ = sceneMgr_->createCamera("PlayerCam");
+	camera_->setPosition(Ogre::Vector3(0, 300, 500));
+	camera_->lookAt(Ogre::Vector3(0, 0, 0));
 
-	mCamera->setNearClipDistance(5);
-	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+	camera_->setNearClipDistance(5);
+	cameraMan_ = new OgreBites::SdkCameraMan(camera_);
 
 }
 
 void TryWindow::createViewports()
 {
-	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
+	Ogre::Viewport* vp = window_->addViewport(camera_);
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
 
-	mCamera->setAspectRatio(
+	camera_->setAspectRatio(
 		  Ogre::Real(vp->getActualWidth()) /
 		  Ogre::Real(vp->getActualHeight()));
 }
@@ -102,30 +103,30 @@ void TryWindow::createViewports()
 /* Gaming Loop */
 bool TryWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-    if(mWindow->isClosed())
+    if(window_->isClosed())
         return false;
 
-    if(mShutDown)
+    if(shutDown_)
         return false;
 
     // Need to capture/update each device
-    mKeyboard->capture();
-    mMouse->capture();
+    keyboard_->capture();
+    mouse_->capture();
 
-    mTrayMgr->frameRenderingQueued(evt);
+    trayMgr_->frameRenderingQueued(evt);
 
-    if (!mTrayMgr->isDialogVisible())
+    if (!trayMgr_->isDialogVisible())
     {
-        mCameraMan->frameRenderingQueued(evt);   // If dialog isn't up, then update the camera
-        if (mDetailsPanel->isVisible())          // If details panel is visible, then update its contents
+        cameraMan_->frameRenderingQueued(evt);   // If dialog isn't up, then update the camera
+        if (detailsPanel_->isVisible())          // If details panel is visible, then update its contents
         {
-            mDetailsPanel->setParamValue(0, Ogre::StringConverter::toString(mCamera->getDerivedPosition().x));
-            mDetailsPanel->setParamValue(1, Ogre::StringConverter::toString(mCamera->getDerivedPosition().y));
-            mDetailsPanel->setParamValue(2, Ogre::StringConverter::toString(mCamera->getDerivedPosition().z));
-            mDetailsPanel->setParamValue(4, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().w));
-            mDetailsPanel->setParamValue(5, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().x));
-            mDetailsPanel->setParamValue(6, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().y));
-            mDetailsPanel->setParamValue(7, Ogre::StringConverter::toString(mCamera->getDerivedOrientation().z));
+            detailsPanel_->setParamValue(0, Ogre::StringConverter::toString(camera_->getDerivedPosition().x));
+            detailsPanel_->setParamValue(1, Ogre::StringConverter::toString(camera_->getDerivedPosition().y));
+            detailsPanel_->setParamValue(2, Ogre::StringConverter::toString(camera_->getDerivedPosition().z));
+            detailsPanel_->setParamValue(4, Ogre::StringConverter::toString(camera_->getDerivedOrientation().w));
+            detailsPanel_->setParamValue(5, Ogre::StringConverter::toString(camera_->getDerivedOrientation().x));
+            detailsPanel_->setParamValue(6, Ogre::StringConverter::toString(camera_->getDerivedOrientation().y));
+            detailsPanel_->setParamValue(7, Ogre::StringConverter::toString(camera_->getDerivedOrientation().z));
         }
     }
 
