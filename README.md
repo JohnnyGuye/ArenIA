@@ -48,16 +48,27 @@ Il a deux autres options mais la première est agréablement inutile, et la deux
 
 # Liste des dépendendances d'un projet Ogre
 
+J'ai nommé mes variable d'environnement CEGUI_HOME (pour le dossier de CEGUI) et OGRE_HOME (je vais pas faire un dessin...)
+Du coup en utilisant ces noms de variables et en les mettant à jour pour votre PC, les bons chemins se font tout seuls pour MSVS2010
+Normalement pour utiliser les librairies il suffit que chacun les installe sur son PC et mette à jour les variables d'environnement. C'est un peu relou à installer et générer pour CEGUI, je sais pas si j'ai la motivation de faire un .zip et de l'envoyer à tout le monde, ou juste donner un lien vers de quoi l'installer. Alors solution de fainéant :
+pour CEGUI : https://www.youtube.com/watch?v=VaD-MQJLtWk et http://cegui.org.uk/wiki/Building_CEGUI_for_Ogre_/_OgreRenderer#Steps_for_Microsoft_Visual_Studio (FAISEZ PAS LES CONS, lisez avant de voir la vidéo)
+pour OGRE : faut DL sur leur site la version précompilée de 1.9 pour MSVS2010 et normalement ça se fait tout seul.
+Après réflexion, la faire compiler édite les variables d'environnement aussi, ça à l'air plus compliqué (et c'est plus compliqué) mais ça simplifie CEGUI.
+
 • Fichier d'en-tête
-Pour les fichiers d'Ogre :
+Pour Ogre :
 $(OgreDir)\include
 $(OgreDir)\include\OGRE
 
-Pour les Inputs/Outpus
+Pour les Inputs/Outputs
 $(OgreDir)\include\OIS
 
 Pour les Overlays :
 $(OgreDir)\include\OGRE\Overlay
+
+Pour CEGUI
+$(CEGUIDir)\include\
+$(CEGUIDir)\include\CEGUI
 
 Pour boost (ça dépend de si vous prenez boost seul ou dans le package Ogre)
 $(OgreDir)\include\boost 
@@ -65,17 +76,29 @@ $(OgreDir)\include\boost
 • Libs
 $(OgreDir)\boost\lib
 $(OgreDir)\lib\$(Configuration)
+$(CEGUIDir)\lib
 
 • EDL
 - lib debug
 OgreMain_d.lib
 OIS_d.lib
 OgreOverlay_d.lib
+CEGUIBase_d.lib
+CEGUIOgreRenderer_d.lib
 
 - lib release
 OgreMain.lib
 OIS.lib
 OgreOverlay.lib
+CEGUIBase.lib
+CEGUIOgreRenderer.lib
+
+# Features:
+
+- Maps
+On peut utiliser Tiled pour créer des maps, il suffit ensuite de les ajouter dans le dossier maps pour qu'elle soit chargeables
+http://www.mapeditor.org/
+Bien entendi il n'y a pas corrélation directe entre la map de tiled et la map réelle. Mais sur la map tiled, une case vide est une case sans mur dans le jeu, toutes les autres sont des murs. Au fur et à mesure j'ajouterai la création de triggers d'events quand on aura suffisamment avancé le reste.
 
 # Répartition des tâches
 
