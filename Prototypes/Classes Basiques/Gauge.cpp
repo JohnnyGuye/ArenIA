@@ -23,7 +23,7 @@ Gauge & Gauge::operator = ( const Gauge & unGauge )
 
 //-------------------------------------------- Constructors - destructor
 Gauge::Gauge ( const Gauge & unGauge )
-{
+
 	max_ = unGauge.max_;
 	min_ = unGauge.min_;
 	current_ = unGauge.current_;

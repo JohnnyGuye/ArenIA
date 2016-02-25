@@ -39,7 +39,9 @@ public:
 	// -- Member classes
 protected:
 
-	/** A class made for an easiest reading of the file **/
+	/** A class made for an easiest reading of the file 
+	*	Assuming a tiled object can have all the attributes you want,
+	*	this object can also catch all of them **/
 	class DOMObject
 	{
 		typedef std::map<std::string, std::string> MapAttr;
@@ -99,7 +101,7 @@ protected:
 	GameObject*** grille_;
 	
 	///A list of vector2 for each position possible for a start
-	std::list<Ogre::Vector2> starts;
+	std::list<Ogre::Vector2> starts_;
 
 	//ObjectDataBase objectDataBase_;
 

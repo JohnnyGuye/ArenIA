@@ -37,7 +37,7 @@ public:
 	{
 	}
 
-	inline virtual int			getTeamID() const {		return team_;	}
+	inline virtual int			getTeamId() const {		return team_;	}
 
 	inline virtual EventType	getEventType() const {	return TEAM_KILL;	}
 
