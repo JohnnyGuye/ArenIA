@@ -102,12 +102,12 @@ Bien entendi il n'y a pas corrélation directe entre la map de tiled et la map r
 
 # Répartition des tâches
 
-Logique du jeu : Johnny
-GameLoop : Clément
-Son : Clément/Johnny
-Robot : Alp/Simon
-GFX-Interface : Johnny/Samory
-Utilitaires : Alltogether
+- Logique du jeu : Johnny
+- GameLoop : Clément
+- Son : Clément/Johnny
+- Robot : Alp/Simon
+- GFX-Interface : Johnny/Samory
+- Utilitaires : Alltogether
 
 #TODO-LIST
 
