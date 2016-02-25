@@ -38,16 +38,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\include\OGRE\Overlay;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\include\OIS;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\include\OGRE;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\include;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\boost\;$(IncludePath)</IncludePath>
+    <IncludePath>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\boost\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\boost\lib;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\include\OIS;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\include\OGRE\Overlay;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\include\OGRE;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\include;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\boost;$(IncludePath)</IncludePath>
+    <IncludePath>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\boost\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\boost\lib;D:\Programmation\C++ et C\Ogre1.9100\OgreSDK_vc10_v1-9-0\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -74,13 +74,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseApplication.cpp" />
+    <ClCompile Include="ExceptionArenIA.cpp" />
+    <ClCompile Include="FightManager.cpp" />
+    <ClCompile Include="FightWindow.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SceneryObject.cpp" />
+    <ClCompile Include="TargetVictory.cpp" />
+    <ClCompile Include="TeamKillVictory.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TryWindow.cpp" />
+    <ClCompile Include="VictoryHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseApplication.h" />
+    <ClInclude Include="ExceptionArenIA.h" />
+    <ClInclude Include="FightManager.h" />
+    <ClInclude Include="FightWindow.h" />
+    <ClInclude Include="GameEvent.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameTime.h" />
+    <ClInclude Include="GameTimeDuration.h" />
+    <ClInclude Include="GameTimeMoment.h" />
+    <ClInclude Include="ReachPointEvent.h" />
+    <ClInclude Include="RobotKillEvent.h" />
+    <ClInclude Include="SceneryObject.h" />
+    <ClInclude Include="TargetVictory.h" />
+    <ClInclude Include="TeamKillEvent.h" />
+    <ClInclude Include="TeamKillVictory.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="TryWindow.h" />
+    <ClInclude Include="VictoryHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

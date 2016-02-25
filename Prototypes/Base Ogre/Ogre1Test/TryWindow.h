@@ -1,28 +1,33 @@
-/*
------------------------------------------------------------------------------
-Filename:    TryWindow.h
------------------------------------------------------------------------------
+#pragma once
 
-This source file is part of the
-   ___                 __    __ _ _    _
-  /___\__ _ _ __ ___  / / /\ \ (_) | _(_)
- //  // _` | '__/ _ \ \ \/  \/ / | |/ / |
-/ \_// (_| | | |  __/  \  /\  /| |   <| |
-\___/ \__, |_|  \___|   \/  \/ |_|_|\_\_|
-      |___/
-Tutorial Framework (for Ogre 1.9)
-http://www.ogre3d.org/wiki/
------------------------------------------------------------------------------
+/*
+* This source file is a part of the 
+*           ______      _______________________     ___   ______
+*          /      |   /	        The new         \  |   | |      \
+*         /       |  |        Robot fight !      | |   | |       \
+*        /        |  |___________________________| |   | |        \
+*       /    /|   |  ______     _______   __   __  |   | |   |\    \
+*      /    / |   | |      \   |   ____| |  \ |  | |   | |   | \    \
+*     /    /__|   | |  |)   |  |  |__    |   \|  | |   | |   |__\    \
+*    /    ____    | |      /   |   __|   |       | |   | |    ___     \
+*   /    /    |   | |   _  \   |  |      |       | |   | |   |    \    \
+*  /    /     |   | |  | \  \  |  |____  |  |\   | |   | |   |     \    \
+* /____/      |___| |__|  \__\ |_______| |__| \__| |___| |___|project____\
+* 
+* Copyright (c) 2016-2017
+*
+* @author Johnny Guye
+* @summary : This class show the game
 */
 
-#ifndef __TryWindow_h_
-#define __TryWindow_h_
+#include "FightWindow.h"
+#include "FightManager.h"
 
-#include "BaseApplication.h"
+#include <vector>
 
 //---------------------------------------------------------------------------
 
-class TryWindow : public BaseApplication
+class TryWindow : public FightWindow
 {
 public:
     TryWindow(void);
@@ -33,10 +38,18 @@ protected:
 	virtual void createCamera(void);
 	virtual void createViewports(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+protected:
+
+	/** The logic of the game **/
+	FightManager* fightManager_;
+
+	/** The entities corresponding to the scenery **/
+	std::vector<Ogre::Entity*> DecorEntities;
+
+	/** The sun **/
+	Ogre::Light* sunLight;
+	Ogre::Entity* sunEntity;
 };
-
-//---------------------------------------------------------------------------
-
-#endif // #ifndef __TryWindow_h_
 
 //---------------------------------------------------------------------------
