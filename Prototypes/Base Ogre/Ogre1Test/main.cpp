@@ -1,4 +1,5 @@
 #include <Ogre.h>
+#include "FightWindow.h"
 #include "TryWindow.h"
 
 
