@@ -102,31 +102,18 @@ Bien entendi il n'y a pas corrélation directe entre la map de tiled et la map r
 
 # Répartition des tâches
 
-Logique du jeu : Johnny
-GameLoop : Clément
-Son : Clément/Johnny
-Robot : Alp/Simon
-GFX-Interface : Johnny/Samory
-Utilitaires : Alltogether
+- Logique du jeu : Johnny
+- GameLoop : Clément
+- Son : Clément/Johnny
+- Robot : Alp/Simon
+- GFX-Interface : Johnny/Samory
+- Utilitaires : Alltogether
 
 #TODO-LIST
 
 - Créer un tileset qui permette d'avoir concordance entre tiled et le jeu (et modifier le commentaire de SceneryObject après)
 - Faire un joli logo en ASCII art pour pouvoir le mettre dans ton les includes
-L'actuel:
-/*
-*           ______                                  ___   ______
-*          /      |                                |   | |      \
-*         /       |                                |   | |       \
-*        /        |                                |   | |        \
-*       /    /|   |  ______     _______   __   __  |   | |   |\    \
-*      /    / |   | |      \   |   ____| |  \ |  | |   | |   | \    \
-*     /    /__|   | |  |)   |  |  |__    |   \|  | |   | |   |__\    \
-*    /    ____    | |      /   |   __|   |       | |   | |    ___     \
-*   /    /    |   | |   _  \   |  |      |       | |   | |   |    \    \
-*  /    /     |   | |  | \  \  |  |____  |  |\   | |   | |   |     \    \
-* /____/      |___| |__|  \__\ |_______| |__| \__| |___| |___|project____\
-*/
+L'actuel est à chercher dans les fichier parce que ça ressemble à rien dans les read me.
 
 #Préceptes et guide de style
 - Dans les fichiers tout est en anglais ! Les petites private jokes ont le droit d'être en FR
