@@ -31,7 +31,7 @@ public:
 	* @param current Current value of the gauge
 	* @param modifier Modifier of the gauge
    	*/
-    Gauge ( int borne1 = 100, int borne2 = 0, double current = 100, double modifier =  1)
+    Gauge ( int borne1 = 100, int borne2 = 0, double current = 100, double modifier =  0.0)
 		: modifier_(modifier)
 	{
 		max_ = (borne1 >= borne2 ? borne1 : borne2);
@@ -48,6 +48,8 @@ public:
 	}
 
 //------------------------------------------------- Public methods
+
+	inline bool IsFull() const{	return (int)current_ == max_;	}
 
 //--------------------------------------GETTERS
 
@@ -77,7 +79,7 @@ public:
 	* Returns the modifier the gauge
 	* @return modifier_ of the gauge
 	*/
-	inline double getModifier() const {	return modifier_	}
+	inline double getModifier() const {	return modifier_;	}
 
 
 

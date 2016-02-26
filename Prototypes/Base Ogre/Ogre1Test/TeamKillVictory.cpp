@@ -20,7 +20,7 @@ void TeamKillVictory::updateFlags()
 	case GameEvent::EventType::TEAM_KILL:
 		{
 			TeamKillEvent* tke = (TeamKillEvent*)ge;
-			if(tke->getTeamID() == teamID_)
+			if(tke->getTeamId() == teamID_)
 				setFlag("teamkilled");
 		}
 		break;

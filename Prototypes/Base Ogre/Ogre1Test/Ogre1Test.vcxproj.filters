@@ -37,21 +37,18 @@
     <Filter Include="Fichiers sources\Exception">
       <UniqueIdentifier>{0158f32b-02f6-4265-b6e4-7454037221a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Util">
+      <UniqueIdentifier>{5a819d62-516a-44ed-8c8c-92a4e13d49f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="TryWindow.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="FightManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="FightWindow.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="TargetVictory.cpp">
@@ -72,18 +69,21 @@
     <ClCompile Include="TeamKillVictory.cpp">
       <Filter>Fichiers sources\Victory</Filter>
     </ClCompile>
+    <ClCompile Include="Stats.cpp">
+      <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseFightWindow.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FightWindow.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TryWindow.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="FightManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="FightWindow.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="RobotKillEvent.h">
@@ -124,6 +124,21 @@
     </ClInclude>
     <ClInclude Include="TeamKillVictory.h">
       <Filter>Fichiers d%27en-tête\Victory</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats.h">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Gauge.h">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseFightWindow.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="FightWindow.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="StartSDEvent.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

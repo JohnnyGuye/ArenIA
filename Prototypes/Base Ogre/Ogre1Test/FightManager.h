@@ -25,7 +25,9 @@
 
 #include "Terrain.h"
 #include "GameEvent.h"
+#include "StartSDEvent.h"
 #include "VictoryHandler.h"
+#include "Gauge.h"
 
 #include <string>
 #include <list>
@@ -64,8 +66,9 @@ public:
 
 protected:
 
-	/** The numer of rounds since the last reset **/
-	int round_;
+	/** A gauge representing a day : at the end of the Gauge the fight enter
+	the sudden death mode **/
+	Gauge day_;
 
 	/** The object representing the victory **/
 	VictoryHandler* victoryHandler_;
@@ -78,5 +81,7 @@ protected:
 
 	/** A chronological list of the events **/
 	std::list<GameEvent*>	events_;
+
+	int roundAfterSD_;
 };
 

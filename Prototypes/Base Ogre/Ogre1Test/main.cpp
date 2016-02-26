@@ -1,6 +1,5 @@
 #include <Ogre.h>
 #include "FightWindow.h"
-#include "TryWindow.h"
 
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
@@ -19,7 +18,7 @@ extern "C" {
 #endif
     {
         // Create application object
-        TryWindow fightApp;
+        FightWindow fightApp;
 
         try {
             fightApp.go();

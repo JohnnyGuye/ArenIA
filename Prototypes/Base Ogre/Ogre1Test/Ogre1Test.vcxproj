@@ -76,33 +76,37 @@
   <ItemGroup>
     <ClCompile Include="ExceptionArenIA.cpp" />
     <ClCompile Include="FightManager.cpp" />
-    <ClCompile Include="FightWindow.cpp" />
+    <ClCompile Include="BaseFightWindow.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SceneryObject.cpp" />
+    <ClCompile Include="Stats.cpp" />
     <ClCompile Include="TargetVictory.cpp" />
     <ClCompile Include="TeamKillVictory.cpp" />
     <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="TryWindow.cpp" />
+    <ClCompile Include="FightWindow.cpp" />
     <ClCompile Include="VictoryHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExceptionArenIA.h" />
     <ClInclude Include="FightManager.h" />
-    <ClInclude Include="FightWindow.h" />
+    <ClInclude Include="BaseFightWindow.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GameTimeDuration.h" />
     <ClInclude Include="GameTimeMoment.h" />
+    <ClInclude Include="Gauge.h" />
     <ClInclude Include="ReachPointEvent.h" />
     <ClInclude Include="RobotKillEvent.h" />
     <ClInclude Include="SceneryObject.h" />
+    <ClInclude Include="StartSDEvent.h" />
+    <ClInclude Include="Stats.h" />
     <ClInclude Include="TargetVictory.h" />
     <ClInclude Include="TeamKillEvent.h" />
     <ClInclude Include="TeamKillVictory.h" />
     <ClInclude Include="Terrain.h" />
-    <ClInclude Include="TryWindow.h" />
+    <ClInclude Include="FightWindow.h" />
     <ClInclude Include="VictoryHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

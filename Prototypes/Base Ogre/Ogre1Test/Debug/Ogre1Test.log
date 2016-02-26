@@ -1,21 +1,22 @@
-﻿La génération a démarré 25/02/2016 03:24:50.
+﻿La génération a démarré 26/02/2016 03:13:18.
      1>Projet "C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Ogre1Test\Ogre1Test.vcxproj" sur le nœud 2 (build cible(s)).
      1>InitializeBuildStatus:
          Création de "Debug\Base Ogre.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Terrain.cpp
-         Terrain.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FightWindow.cpp
+         FightWindow.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Debug\Base Ogre.exe" /NOLOGO OgreMain_d.lib OIS_d.lib OgreOverlay_d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Base Ogre.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Debug\Base Ogre.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Debug\Base Ogre.lib" /MACHINE:X86 Debug\ExceptionArenIA.obj
          Debug\FightManager.obj
-         Debug\FightWindow.obj
+         Debug\BaseFightWindow.obj
          Debug\GameObject.obj
          Debug\main.obj
          Debug\SceneryObject.obj
+         Debug\Stats.obj
          Debug\TargetVictory.obj
          Debug\TeamKillVictory.obj
          Debug\Terrain.obj
-         Debug\TryWindow.obj
+         Debug\FightWindow.obj
          Debug\VictoryHandler.obj
          LINK : C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Debug\Base Ogre.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
          Ogre1Test.vcxproj -> C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Debug\Base Ogre.exe
@@ -28,4 +29,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:09.25
+Temps écoulé 00:00:10.30

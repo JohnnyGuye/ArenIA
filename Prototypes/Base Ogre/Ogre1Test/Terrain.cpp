@@ -82,7 +82,7 @@ void Terrain::LoadFromFile()
 	std::ifstream mapFile(path + sourceFile_, ios::in);
 	std::string sRead;
 
-	std::ofstream testFile(path + "log_" + sourceFile_, ios::in);//test
+	//std::ofstream testFile(path + "log_" + sourceFile_, ios::in);//test
 
 	if(mapFile)
 	{
@@ -177,7 +177,7 @@ void Terrain::LoadFromFile()
 						while(!sRead.empty() && !mainFlux.eof())
 						{
 							
-							testFile << sRead << "°";
+							//testFile << sRead << "°";
 							liness << sRead;
 							getline(liness, sRead, '=');//Separate it 
 							
@@ -220,7 +220,7 @@ void Terrain::LoadFromFile()
 			}
 		}
 		mapFile.close();
-		testFile.close();
+		//testFile.close();
 	}
 	else
 	{
