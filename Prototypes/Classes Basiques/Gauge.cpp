@@ -23,7 +23,7 @@ Gauge & Gauge::operator = ( const Gauge & unGauge )
 
 //-------------------------------------------- Constructors - destructor
 Gauge::Gauge ( const Gauge & unGauge )
-
+{
 	max_ = unGauge.max_;
 	min_ = unGauge.min_;
 	current_ = unGauge.current_;
@@ -43,7 +43,7 @@ Gauge::Gauge ( int max, int min, double modifier )
 {
 	max_ = max;
 	min_ = min;
-	current_ = max;
+	setCurrent((double) max);
 	modifier_ = modifier;
 }
 
@@ -51,7 +51,7 @@ Gauge::Gauge ( int max, int min, double current, double modifier )
 {
 	max_ = max;
 	min_ = min;
-	current_ = current;
+	setCurrent(current);
 	modifier_ = modifier;
 }
 
