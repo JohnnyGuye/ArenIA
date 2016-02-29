@@ -4,12 +4,13 @@ using namespace Ogre;
 using namespace std;
 
 
-// -------------- THE SUN ----------------
-FightWindow::Sun::Sun(Ogre::SceneManager* sceneMgr = nullptr)
-	: sceneMgr_(sceneMgr)
+// ---------------- THE SUN ---------------------
+FightWindow::Sun::Sun(FightWindow* fw = nullptr)
+	: fw_(fw), sceneMgr_(fw->sceneMgr_)
 {
 	//Entity and position
-	Vector3 initPos = Vector3(-1000, 1000, 500);
+	double initX = -fw_->fightManager_->getRemainingTime() / 2;
+	Vector3 initPos = Vector3(initX, 1000, 500);
 	sun_ = sceneMgr_->createEntity("sphere.mesh");
 	sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos)->attachObject(sun_);
 
@@ -35,8 +36,33 @@ FightWindow::Sun::~Sun()
 void FightWindow::Sun::update()
 {
 	Ogre::Node*node = sun_->getParentNode();
-	node->translate(Vector3(1,0,0));
+	if(fw_->fightManager_->getActualTime() < fw_->fightManager_->getRemindingTime())
+	{
+		node->translate(1,1,0);
+	}
+	else
+	{
+		node->translate(1,-1,0);
+	}
 	light_->setPosition(node->getPosition());
+}
+
+// --------------- GAME ENTITY ------------------
+
+FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh,
+	const Ogre::Vector3& position, const int& scale)
+	:	sceneMgr_(sceneMgr)
+{
+	entity_ = sceneMgr_->createEntity(mesh); 
+	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode();
+	node_->setPosition(position);
+	node_->setScale(scale, scale, scale);
+	node_->attachObject(entity_);
+	node_->pitch(Degree(-90));
+}
+
+FightWindow::GameEntity::~GameEntity()
+{
 }
 
 //------------- THE FIGHT WINDOW ----------------
@@ -51,11 +77,17 @@ FightWindow::~FightWindow(void)
 	if(theSun_)	delete theSun_;
 }
 
+void FightWindow::createEntity(const string& mesh, const Vector3& position, const int& scale)
+{
+	//Add some configuration
+	GameEntity(sceneMgr_, mesh, position, scale);
+}
+
 void FightWindow::createScene(void)
 {
 	//======== ABOUT LIGHT =========
 	// -- The sun -- //
-	theSun_ = new Sun(sceneMgr_);
+	theSun_ = new Sun(this);
 	sceneMgr_->setSkyBox(true, "Examples/SpaceSkyBox");
 
 	//======ABOUT THE CAMERA=======
@@ -64,7 +96,8 @@ void FightWindow::createScene(void)
 		300.0, 
 		fightManager_->getTerrain()->getWidth() * 50.0
 		);
-
+	//=======ONE ROBOT FOR THE TEST======
+	createEntity("RobotLaveLinge.mesh", Vector3(250,0,250), 40);
 
 	//========THE GROUND=========
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);

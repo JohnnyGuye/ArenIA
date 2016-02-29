@@ -25,6 +25,7 @@
 
 #include "Terrain.h"
 #include "GameEvent.h"
+#include "EndOfDayVictory.h"
 #include "StartSDEvent.h"
 #include "VictoryHandler.h"
 #include "Gauge.h"
@@ -35,7 +36,7 @@
 class FightManager
 {
 public:
-	FightManager(const std::string& mapFileName = "essai1.txt");
+	FightManager(const std::string& mapFileName = "essai1.txt", VictoryHandler* vo = new EndOfDayVictory());
 	virtual ~FightManager(void);
 
 	/** @brief Load a new terrain into the fight manager 
@@ -60,6 +61,10 @@ public:
 
 	/** @brief go to the next round **/
 	virtual void update();
+
+	virtual double getActualTime() const;
+
+	virtual double getRemainingTime() const;
 
 	/** @brief reset the fight manager to the first state of the match **/
 	virtual void reset();

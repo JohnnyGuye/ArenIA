@@ -78,20 +78,20 @@ $(OgreDir)\boost\lib
 $(OgreDir)\lib\$(Configuration)
 $(CEGUIDir)\lib
 
-• EDL
-- lib debug
-OgreMain_d.lib
-OIS_d.lib
-OgreOverlay_d.lib
-CEGUIBase_d.lib
-CEGUIOgreRenderer_d.lib
+• EDL  
+- lib debug   
+OgreMain_d.lib  
+OIS_d.lib  
+OgreOverlay_d.lib  
+CEGUIBase_d.lib  
+CEGUIOgreRenderer_d.lib  
 
-- lib release
-OgreMain.lib
-OIS.lib
-OgreOverlay.lib
-CEGUIBase.lib
-CEGUIOgreRenderer.lib
+- lib release  
+OgreMain.lib  
+OIS.lib  
+OgreOverlay.lib  
+CEGUIBase.lib  
+CEGUIOgreRenderer.lib  
 
 # Features:
 

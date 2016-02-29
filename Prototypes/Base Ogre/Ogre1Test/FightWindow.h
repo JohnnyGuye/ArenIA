@@ -35,6 +35,7 @@ public:
 
 protected:
     virtual void createScene(void);
+	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const int& scale);
 	virtual void createCamera(void);
 	virtual void createViewports(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -43,13 +44,25 @@ protected:
 	{
 	public:
 		/** Create a sun, be sure note te create two or more Suns, it will cause problems **/
-		Sun(Ogre::SceneManager* sceneMgr);
+		Sun(FightWindow* fw);
 		virtual~Sun();
 		void update();
 	protected:
+		FightWindow* fw_;
 		Ogre::SceneManager* sceneMgr_;
 		Ogre::Entity* sun_;
 		Ogre::Light* light_;
+	};
+
+	class GameEntity
+	{
+	public:
+		GameEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale);
+		virtual~GameEntity();
+	protected:
+		Ogre::SceneManager* sceneMgr_;
+		Ogre::Entity* entity_;
+		Ogre::SceneNode* node_;
 	};
 
 protected:

@@ -48,8 +48,8 @@ bool BaseFightWindow::configure(void)
 {
 
 	// One fore restore setting, the other for setting them
-	if(root_->restoreConfig())
-	//if(root_->showConfigDialog())
+	//if(root_->restoreConfig())
+	if(root_->showConfigDialog())
 	{
 		window_ = root_->initialise(true, "ArenIA : Fight");
 		return true;

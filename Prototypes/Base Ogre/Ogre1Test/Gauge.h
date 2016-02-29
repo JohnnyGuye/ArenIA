@@ -74,6 +74,15 @@ public:
 	*/
 	inline double getCurrent() const {	return current_;	}
 
+	/** @return the the filled portion of the gauge **/
+	inline double getFilledAbsolute() const {	return current_-min_;	}
+
+	/** @return the notfilled portion of the gauge **/
+	inline double getNotFilledAbsolute() const {	return max_-current_;	}
+
+	/** @return the filled percent of the gauge **/
+	inline double getPercent() const {	return current_ / (double)(max_-min_);	}
+
     /**
 	* Modifier getter
 	* Returns the modifier the gauge

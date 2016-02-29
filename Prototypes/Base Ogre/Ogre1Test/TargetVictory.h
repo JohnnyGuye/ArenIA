@@ -29,7 +29,7 @@ public:
 	TargetVictory(const int& targetID);
 	virtual ~TargetVictory(void);
 
-	virtual void updateFlags();
+	virtual void updateFlags(void);
 
 protected:
 	int targetID_;

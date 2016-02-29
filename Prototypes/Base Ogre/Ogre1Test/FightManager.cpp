@@ -2,8 +2,8 @@
 
 using namespace std;
 
-FightManager::FightManager(const std::string& mapFileName)
-	: day_(60 * 60, 0, 0.0, 1.0), roundAfterSD_(0)
+FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
+	: day_(60 * 60, 0, 0.0, 1.0), roundAfterSD_(0), victoryHandler_(vo)
 {
 	loadTerrain(mapFileName);
 }
@@ -62,8 +62,18 @@ void FightManager::update()
 //TODO implement reset
 void FightManager::reset()
 {
-	addEvent(new GameEvent(GameEvent::EventType::RESET_TIMER));
+	addEvent(new GameEvent(GameEvent::RESET_TIMER));
 	day_.empty();
+}
+
+double FightManager::getActualTime() const
+{
+	return day_.getFilledAbsolute();
+}
+
+double FightManager::getRemainingTime() const
+{
+	return day_.getNotFilledAbsolute();
 }
 
 Terrain* FightManager::getTerrain() const

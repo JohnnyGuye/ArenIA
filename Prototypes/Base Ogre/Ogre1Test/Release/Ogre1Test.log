@@ -1,13 +1,18 @@
-﻿La génération a démarré 26/02/2016 03:58:49.
+﻿La génération a démarré 28/02/2016 01:58:57.
      1>Projet "C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Ogre1Test\Ogre1Test.vcxproj" sur le nœud 2 (build cible(s)).
      1>InitializeBuildStatus:
-         Mise à jour de l'horodatage "Release\Base Ogre.unsuccessfulbuild".
+         Création de "Release\Base Ogre.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FightManager.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FightManager.cpp FightWindow.cpp Stats.cpp main.cpp
          FightManager.cpp
-     1>FightManager.cpp(65): warning C4482: extension non standard utilisée : enum 'GameEvent::EventType' utilisé dans le nom qualifié
+     1>FightManager.cpp(71): warning C4244: 'return' : conversion de 'double' en 'int', perte possible de données
+     1>FightManager.cpp(76): warning C4244: 'return' : conversion de 'double' en 'int', perte possible de données
+         FightWindow.cpp
+         Stats.cpp
+         main.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.exe" /NOLOGO OgreMain.lib OIS.lib OgreOverlay.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Base Ogre.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.lib" /MACHINE:X86 Release\ExceptionArenIA.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.exe" /NOLOGO OgreMain.lib OIS.lib OgreOverlay.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Base Ogre.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.lib" /MACHINE:X86 Release\EndOfDayVictory.obj
+         Release\ExceptionArenIA.obj
          Release\FightManager.obj
          Release\BaseFightWindow.obj
          Release\GameObject.obj
@@ -31,4 +36,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:18.93
+Temps écoulé 00:00:59.63

@@ -4,7 +4,7 @@
 TargetVictory::TargetVictory(const int& targetID)
 	: VictoryHandler(), targetID_(targetID)
 {
-	eventsToHandle_.insert(GameEvent::EventType::ROBOT_KILL);
+	eventsToHandle_.insert(GameEvent::ROBOT_KILL);
 	createFlag("killed");
 }
 
@@ -12,7 +12,7 @@ TargetVictory::~TargetVictory(void)
 {
 }
 
-void TargetVictory::updateFlags()
+void TargetVictory::updateFlags(void)
 {
 	GameEvent* ge = events_.back();
 	switch(ge->getEventType())
