@@ -19,6 +19,13 @@ public:
 //------------------------------------------------- Operators overload
     Gauge & operator = ( const Gauge & otherGauge );
 
+    friend std::ostream & operator<<(std::ostream & os, Gauge & gauge)
+        {
+        	return os << "Gauge: " << std::endl
+        			  << "Current value: " << gauge.getCurrent() << " in [" << gauge.getMin() << ";" << gauge.getMax() << "]" << std::endl
+					  << "Evolving at: " << gauge.getModifier() << std::endl;
+        }
+
 
 
 
