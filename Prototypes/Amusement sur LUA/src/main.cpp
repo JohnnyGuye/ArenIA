@@ -6,7 +6,7 @@ extern "C" {
     #include <lua.h>
     #include <lauxlib.h>
     #include <lualib.h>
-  }
+}
 
 using namespace std;
 
@@ -95,19 +95,12 @@ int main (void) {
 
   ret = luaL_dofile(L, "script.lua");
 
-  if(ret != 0){
+ ² if(ret != 0){
     fprintf(stderr, "%s\n", lua_tostring(L, -1));
   }
 
   obj.print();
-  // while (fgets(buff, sizeof(buff), stdin) != NULL) {
-  //   error = luaL_loadbuffer(L, buff, strlen(buff), "line") ||
-  //           lua_pcall(L, 0, 0, 0);
-  //   if (error) {
-  //     fprintf(stderr, "%s", lua_tostring(L, -1));
-  //     lua_pop(L, 1);  /* pop error message from the stack */
-  //   }
-  // }
+  
 
   for ( int i = 0; i < 10; i++)
   {
@@ -117,4 +110,3 @@ int main (void) {
   lua_close(L);
   return 0;
 }
-
