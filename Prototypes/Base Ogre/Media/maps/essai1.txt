@@ -1,0 +1,39 @@
+[header]
+width=10
+height=10
+tilewidth=16
+tileheight=16
+orientation=orthogonal
+
+[tilesets]
+tileset=baseTileset.png,16,16,0,0
+
+[layer]
+type=Niveau 1
+data=
+1,2,2,2,2,2,2,2,2,3,
+17,0,0,0,0,0,0,0,0,19,
+17,0,0,0,0,0,0,0,0,19,
+17,0,0,18,0,0,18,0,0,19,
+17,0,0,0,0,0,0,0,0,19,
+17,0,0,0,0,0,0,0,0,19,
+17,0,0,18,0,0,18,0,0,19,
+17,0,0,0,0,0,0,0,0,19,
+17,0,0,0,0,0,0,0,0,19,
+33,34,34,34,34,34,34,34,34,35
+
+[Starts]
+# Start1
+type=Start
+location=8,1,1,1
+
+[Starts]
+# Start2
+type=Start
+location=1,8,1,1
+
+[TriggersOnWalk]
+# OnWalk1
+type=OnWalk1
+location=4,4,2,2
+

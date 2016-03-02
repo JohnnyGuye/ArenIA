@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" nextobjectid="11">
+ <tileset firstgid="1" name="baseTileset.png" tilewidth="16" tileheight="16">
+  <image source="baseTileset.png" width="256" height="256"/>
+ </tileset>
+ <layer name="Calque de Tile 1" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzdlFEKgCAMQGflAcrq38Luf8Q2mGCyZJIfFfSY4njMyQIDgB90D+kRYNfO6yd4do4NXBGX+SjYpPYSUm7umzEsyKrwSbm5j3oQlP2UcnNf6/590TeBvH5Lfa18FGguj+R8gOus1vhKdbsf+jyGjbFM3N/No/Z9afY1/wjy+cJ71fhMUnd6N4nAlHKi6wTH6gnF
+  </data>
+ </layer>
+ <objectgroup name="Starts">
+  <object id="4" name="Start1" type="Start" x="176" y="288" width="16" height="16" rotation="5"/>
+  <object id="6" name="Start2" type="Start" x="128" y="288" width="16" height="16"/>
+ </objectgroup>
+</map>

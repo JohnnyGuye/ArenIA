@@ -10,9 +10,10 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
+#include "Form3D.h"
 #include "cobble.h"
-#include "Rectangle.h"
 #include "MarkZero.h"
 
 class AppWindow
@@ -63,6 +64,7 @@ class AppWindow
                 Cobble m_cob1;
 
                 int m_mapGrid[2][2];
+                std::vector <Form3D> m_forms3D;
 
 };
 

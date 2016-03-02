@@ -1,0 +1,32 @@
+﻿La génération a démarré 16/02/2016 11:12:11.
+     1>Projet "C:\Users\Johnny\Documents\ArenIA\Prototypes\Ogre1Test\Ogre1Test\Ogre1Test.vcxproj" sur le nœud 2 (build cible(s)).
+     1>InitializeBuildStatus:
+         Création de "Debug\Ogre1Test.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt TryWindow.cpp
+         TryWindow.cpp
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(87): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(87): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(87): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(93): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(93): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(93): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(99): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(99): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+     1>c:\users\johnny\documents\arenia\prototypes\ogre1test\ogre1test\trywindow.cpp(99): warning C4305: 'argument' : troncation de 'double' à 'Ogre::Real'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Ogre1Test\Debug\Ogre1Test.exe" /NOLOGO OgreMain_d.lib OIS_d.lib OgreOverlay_d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Ogre1Test.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Ogre1Test\Debug\Ogre1Test.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Ogre1Test\Debug\Ogre1Test.lib" /MACHINE:X86 Debug\BaseApplication.obj
+         Debug\main.obj
+         Debug\TryWindow.obj
+         LINK : C:\Users\Johnny\Documents\ArenIA\Prototypes\Ogre1Test\Debug\Ogre1Test.exe introuvable ou non généré par la dernière édition de liens incrémentielle ; édition de liens complète en cours
+         Ogre1Test.vcxproj -> C:\Users\Johnny\Documents\ArenIA\Prototypes\Ogre1Test\Debug\Ogre1Test.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Ogre1Test\Debug\Ogre1Test.exe;#1" /manifest Debug\Ogre1Test.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Suppression du fichier "Debug\Ogre1Test.unsuccessfulbuild".
+         Mise à jour de l'horodatage "Debug\Ogre1Test.lastbuildstate".
+     1>Génération du projet "C:\Users\Johnny\Documents\ArenIA\Prototypes\Ogre1Test\Ogre1Test\Ogre1Test.vcxproj" terminée (build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:28.08

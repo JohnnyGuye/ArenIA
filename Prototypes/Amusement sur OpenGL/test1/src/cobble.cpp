@@ -1,4 +1,4 @@
-#include "..\include\cobble.h"
+#include "cobble.h"
 
 void Cobble::Draw(const sf::Time& time) const
 {
@@ -14,24 +14,14 @@ void Cobble::Draw(const sf::Time& time) const
 
 void Cobble::DrawBack(const sf::Time& time) const
 {
-        glLineWidth(4);
-        glBegin(GL_LINES);
-                glColor3f(m_profil_color.X, m_profil_color.Y, m_profil_color.Z);
-
-                DrawLine(m_points[1], m_points[2]);
-                DrawLine(m_points[2], m_points[3]);
-                DrawLine(m_points[3], m_points[0]);
-                DrawLine(m_points[0], m_points[1]);
-
-                DrawLine(m_points[4], m_points[7]);
-                DrawLine(m_points[5], m_points[4]);
-                DrawLine(m_points[6], m_points[5]);
-                DrawLine(m_points[7], m_points[6]);
-
-                DrawLine(m_points[4], m_points[0]);
-                DrawLine(m_points[5], m_points[3]);
-                DrawLine(m_points[6], m_points[2]);
-                DrawLine(m_points[7], m_points[1]);
+        glLineWidth(10);
+        glBegin(GL_QUADS);
+                DrawFace(m_points[1], m_points[7], m_points[6], m_points[2], m_profil_color);         //Front-face
+                DrawFace(m_points[2], m_points[6], m_points[5], m_points[3], m_profil_color);         //Right-face
+                DrawFace(m_points[3], m_points[5], m_points[4], m_points[0], m_profil_color);         //Back_face
+                DrawFace(m_points[0], m_points[4], m_points[7], m_points[1], m_profil_color);         //Left-face
+                DrawFace(m_points[1], m_points[2], m_points[3], m_points[0], m_profil_color);         //Top-face
+                DrawFace(m_points[4], m_points[5], m_points[6], m_points[7],  m_profil_color);
         glEnd();
 }
 
@@ -49,12 +39,13 @@ Cobble::Cobble(float aSide, float bSide, float cSide)
         m_points[6] = Vector3(m_aSide/2, m_bSide/2, -m_cSide/2);
         m_points[7] = Vector3(m_aSide/2, -m_bSide/2, -m_cSide/2);
 
-        m_color[0] = Vector3(0.5f, 0.5f, 0.5f);
+        //Default set of colors
+        m_color[0] = Vector3(0.5f, 0.5f, 0.2f);
         m_color[1] = Vector3(0.7f, 0.5f, 0.2f);
-        m_color[2] = Vector3(0.8f, 0.9f, 1.f);
-        m_color[3] = Vector3(0.1f, 0.8f, 1.f);
-        m_color[4] = Vector3(0.9f, 0.5, 0.9f);
-        m_color[5] = Vector3(0.2f, 0.8f, 0.5f);
+        m_color[2] = Vector3(.5f, 0.3f, 0.3f);
+        m_color[3] = Vector3(0.7f, 0.8f, 0.2f);
+        m_color[4] = Vector3(0.8f, 0.7, 1.f);
+        m_color[5] = Vector3(0.7f, 0.6f, 0.2f);
 }
 
 Cobble::Cobble(float sides)

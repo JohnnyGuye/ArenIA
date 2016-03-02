@@ -9,16 +9,16 @@ AppWindow::AppWindow(unsigned int width,
         m_clock(),
         m_window(sf::VideoMode(width, height, 32), title, sf::Style::Close, settings),
         m_mark(),
-        m_cob1(10, 10, 10)
+        m_cob1(20, 10, 10)
 {
     m_window.getSettings();
+    std::cout << "=== OPENGL ACTIVE CONFIGURATION ===" <<  std::endl;
     std::cout << "DepthBuffer : " <<settings.depthBits << std::endl
         << "StencilBuffer : " <<settings.stencilBits << std::endl
         << "Anti-aliasing : " <<settings.antialiasingLevel << std::endl
         << "Flags : " <<settings.attributeFlags << std::endl;
 
-        m_mapGrid[0][0] = m_mapGrid[1][0] = m_mapGrid[1][1] = 1;
-
+        m_mapGrid[0][0] = 1;
 }
 
 void AppWindow::Run()
@@ -68,11 +68,10 @@ bool AppWindow::Init()
 
     //Initialize the color of the clear buffer
     glClearDepth(1.f);
-    glClearColor(0.1f, 0.1f, 0.2f, 0.f);
-
-    //Activates culling clockwork
-    glEnable(GL_CULL_FACE);
+    glClearColor(0.8f, 0.7f, 0.7f, 0.f);
+    //glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW);
+    glCullFace(GL_FRONT);
 
     //Generating the projection matrix
     glMatrixMode(GL_PROJECTION);
@@ -97,6 +96,8 @@ bool AppWindow::Init()
         0, 0, 0,
         0, 0, 1);
 
+    //Add content
+
     return true;
 }
 
@@ -115,23 +116,24 @@ void AppWindow::Render(sf::Time& time)
     for(int i = 0; i < 2 ; i++)
     {
         glLoadIdentity();
-        glTranslatef(5.f + i*10.f, 5.f, 5.f);
+        m_mark.Draw(time);
+        //glTranslatef(5.f + i*10.f, 5.f, 5.f);
 
         for(int j = 0; j < 2 ; j++)
         {
-            glTranslatef(0.f, 10.f, 0.f);
+
             if(m_mapGrid[i][j] == 1)
             {
                 glCullFace(GL_FRONT);
+               glPolygonMode(GL_FRONT, GL_FILL);
                 m_cob1.Draw(time);
-                m_mark.Draw(time);
 
                 glCullFace(GL_BACK);
+                glPolygonMode(GL_FRONT, GL_LINE);
                 m_cob1.DrawBack(time);
-                m_cob1.DrawBack(time);
+                glTranslatef(0.f, 10.f, 0.f);
             }
         }
-
     }
 
 

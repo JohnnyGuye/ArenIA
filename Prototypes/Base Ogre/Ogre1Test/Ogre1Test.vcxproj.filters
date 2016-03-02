@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Events">
+      <UniqueIdentifier>{49d09526-6adc-4e43-8417-3ef61e0fe93c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Victory">
+      <UniqueIdentifier>{d7c7ec18-8a11-4cdd-821f-3f578b0d98f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Victory">
+      <UniqueIdentifier>{4d198a96-fc79-4da9-bc37-60a364ba2cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Exception">
+      <UniqueIdentifier>{6f36992b-5426-40aa-a283-8c08b7f914cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Util">
+      <UniqueIdentifier>{892e6c5b-3968-440c-82bc-4e134a806547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Objects">
+      <UniqueIdentifier>{c9873943-f042-42a9-8c29-f56a26ada39b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Objects">
+      <UniqueIdentifier>{e447a83c-4e2f-4ca3-9cd8-fd958a4e23ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Exception">
+      <UniqueIdentifier>{0158f32b-02f6-4265-b6e4-7454037221a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Util">
+      <UniqueIdentifier>{5a819d62-516a-44ed-8c8c-92a4e13d49f0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FightManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TargetVictory.cpp">
+      <Filter>Fichiers sources\Victory</Filter>
+    </ClCompile>
+    <ClCompile Include="VictoryHandler.cpp">
+      <Filter>Fichiers sources\Victory</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneryObject.cpp">
+      <Filter>Fichiers sources\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Fichiers sources\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ExceptionArenIA.cpp">
+      <Filter>Fichiers sources\Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="TeamKillVictory.cpp">
+      <Filter>Fichiers sources\Victory</Filter>
+    </ClCompile>
+    <ClCompile Include="Stats.cpp">
+      <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseFightWindow.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FightWindow.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="EndOfDayVictory.cpp">
+      <Filter>Fichiers sources\Victory</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Terrain.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="FightManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotKillEvent.h">
+      <Filter>Fichiers d%27en-tête\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="TeamKillEvent.h">
+      <Filter>Fichiers d%27en-tête\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="ReachPointEvent.h">
+      <Filter>Fichiers d%27en-tête\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>Fichiers d%27en-tête\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="VictoryHandler.h">
+      <Filter>Fichiers d%27en-tête\Victory</Filter>
+    </ClInclude>
+    <ClInclude Include="TargetVictory.h">
+      <Filter>Fichiers d%27en-tête\Victory</Filter>
+    </ClInclude>
+    <ClInclude Include="ExceptionArenIA.h">
+      <Filter>Fichiers d%27en-tête\Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimeDuration.h">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimeMoment.h">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Fichiers d%27en-tête\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneryObject.h">
+      <Filter>Fichiers d%27en-tête\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TeamKillVictory.h">
+      <Filter>Fichiers d%27en-tête\Victory</Filter>
+    </ClInclude>
+    <ClInclude Include="Stats.h">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Gauge.h">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseFightWindow.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="FightWindow.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="StartSDEvent.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="EndOfDayVictory.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

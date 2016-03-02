@@ -39,7 +39,7 @@ public:
                 float scalarProduct(const Vector3 & other) const;
                 float length() const;
 
-                static const Vector3 Zero;
-                static const float     Epsilon;
+                //static const Vector3 Zero = Vector3(0.f, 0.f, 0.f);
+                //static const float     Epsilon = 0.000000001f;
         };
 #endif
