@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/LuaHandler.cpp
+LuaHandler.h
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/LuaHandler.h
+
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/LuaHandler.h
+lua.h
+-
+lauxlib.h
+-
+lualib.h
+-
+
 /home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/main.cpp
 stdio.h
 -
@@ -15,12 +27,8 @@ string
 -
 objet.h
 /home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/objet.h
-lua.h
--
-lauxlib.h
--
-lualib.h
--
+LuaHandler.h
+/home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/LuaHandler.h
 
 /home/element/Documents/CODE/ArenIA/Prototypes/Amusement sur LUA/src/objet.cpp
 objet.h
