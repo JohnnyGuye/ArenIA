@@ -59,10 +59,12 @@ protected:
 	public:
 		GameEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale);
 		virtual~GameEntity();
+		virtual void update();
 	protected:
 		Ogre::SceneManager* sceneMgr_;
 		Ogre::Entity* entity_;
 		Ogre::SceneNode* node_;
+		Ogre::AnimationState* animState_;
 	};
 
 protected:
@@ -75,6 +77,9 @@ protected:
 
 	/** The sun **/
 	Sun* theSun_;
+
+	/** The robots to carry **/
+	std::list<GameEntity> robotsEntities_;
 };
 
 //---------------------------------------------------------------------------

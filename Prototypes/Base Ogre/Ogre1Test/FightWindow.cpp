@@ -36,7 +36,7 @@ FightWindow::Sun::~Sun()
 void FightWindow::Sun::update()
 {
 	Ogre::Node*node = sun_->getParentNode();
-	if(fw_->fightManager_->getActualTime() < fw_->fightManager_->getRemindingTime())
+	if(fw_->fightManager_->getActualTime() < fw_->fightManager_->getRemainingTime())
 	{
 		node->translate(1,1,0);
 	}
@@ -59,9 +59,17 @@ FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const std::str
 	node_->setScale(scale, scale, scale);
 	node_->attachObject(entity_);
 	node_->pitch(Degree(-90));
+
+	animState_ = entity_->getAnimationState("Forward");
+	animState_->setLoop(true);
+	animState_->setEnabled(true);
 }
 
 FightWindow::GameEntity::~GameEntity()
+{
+}
+
+void FightWindow::GameEntity::update()
 {
 }
 
@@ -80,7 +88,7 @@ FightWindow::~FightWindow(void)
 void FightWindow::createEntity(const string& mesh, const Vector3& position, const int& scale)
 {
 	//Add some configuration
-	GameEntity(sceneMgr_, mesh, position, scale);
+	robotsEntities_.push_back(GameEntity(sceneMgr_, mesh, position, scale));
 }
 
 void FightWindow::createScene(void)
@@ -97,7 +105,7 @@ void FightWindow::createScene(void)
 		fightManager_->getTerrain()->getWidth() * 50.0
 		);
 	//=======ONE ROBOT FOR THE TEST======
-	createEntity("RobotLaveLinge.mesh", Vector3(250,0,250), 40);
+	createEntity("RobotLaveLinge.mesh", Vector3(550,0,250), 40);
 
 	//========THE GROUND=========
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
@@ -194,6 +202,11 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	fightManager_->update();
 
 	theSun_->update();
+
+	for(std::list<GameEntity>::iterator ge = robotsEntities_.begin() ; ge != robotsEntities_.end() ; ge++)
+	{
+		//(*ge).update();
+	}
 
     return true;
 }

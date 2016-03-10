@@ -141,10 +141,10 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="StartSDEvent.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Events</Filter>
     </ClInclude>
     <ClInclude Include="EndOfDayVictory.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Victory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
