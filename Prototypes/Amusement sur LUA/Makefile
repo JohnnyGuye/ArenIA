@@ -115,6 +115,21 @@ exec/fast:
 .PHONY : exec/fast
 
 # target to build an object file
+src/LuaHandler.o:
+	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/src/LuaHandler.o
+.PHONY : src/LuaHandler.o
+
+# target to preprocess a source file
+src/LuaHandler.i:
+	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/src/LuaHandler.i
+.PHONY : src/LuaHandler.i
+
+# target to generate assembly for a file
+src/LuaHandler.s:
+	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/src/LuaHandler.s
+.PHONY : src/LuaHandler.s
+
+# target to build an object file
 src/main.o:
 	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/src/main.o
 .PHONY : src/main.o
@@ -153,6 +168,9 @@ help:
 	@echo "... exec"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... src/LuaHandler.o"
+	@echo "... src/LuaHandler.i"
+	@echo "... src/LuaHandler.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

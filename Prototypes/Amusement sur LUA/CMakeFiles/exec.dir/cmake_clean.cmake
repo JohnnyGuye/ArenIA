@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/exec.dir/src/objet.o"
+  "CMakeFiles/exec.dir/src/LuaHandler.o"
   "CMakeFiles/exec.dir/src/main.o"
   "exec.pdb"
   "exec"
