@@ -58,20 +58,28 @@ class Robot: public Object
             **/
         bool useAbility(int idxAbility);
         /** **/
-        void getKnownCompetence(Robot robot);
+        void getKnownCompetences(Robot robot);
         /** **/
         bool addAbility();
         /** **/
-        bool removeAbility();
+        bool removeAbility(int idxAbility){abilities_.pop(idxAbility);}
         /** **/
         //MUST RETURN A VECTOR WITH A NORM=1
         Ogre::Vector3 getWheelOrientation();
         /** **/
-        int getSpeed();
+        double getSpeed(){return stats_.getSpeed() + additionalStats_.getSpeed();}
         /** **/
         Ogre::Vector3 getTurretOrientation();
         /** **/
-        Team getTeam();
+        Team getTeam(){return team_;}
+        /** **/
+        int getAction(){return action_;}
+        /** **/
+        bool isMoving(){return (action_ & MOVING);}
+        /** **/
+        bool isShooting(){return (action_ & SHOOTING);}
+        /** **/
+        bool isIDLE(){return (action_ == IDLE);}
 
     //protected methods
     protected:
