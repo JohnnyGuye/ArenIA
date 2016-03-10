@@ -7,9 +7,9 @@ Un jeu avec des robots dont l'IA est codée par le joueur.
 
 ► Prototype teamplay : Plus de 2 robots et des équipes
 
-► GUI : Halte au terminal, bonjour le jeu !
-
 ► Objectifs : DeathMatch oui, mais aussi King of Hill, CTF, etc...
+
+► GUI : Halte au terminal, bonjour le jeu !
 
 ► Tutoriel : C'est parti pour apprendre à coder !
 
@@ -55,31 +55,33 @@ pour CEGUI : https://www.youtube.com/watch?v=VaD-MQJLtWk et http://cegui.org.uk/
 pour OGRE : faut DL sur leur site la version précompilée de 1.9 pour MSVS2010 et normalement ça se fait tout seul.
 Après réflexion, la faire compiler édite les variables d'environnement aussi, ça à l'air plus compliqué (et c'est plus compliqué) mais ça simplifie CEGUI.
 
-• Fichier d'en-tête
-Pour Ogre :
-$(OgreDir)\include
-$(OgreDir)\include\OGRE
+ELLES SONT LA A TITRE INDICATIF, TOUT EST CONFIGURE DANS LE PROJET, N'Y TOUCHEZ PAS ! C'est juste pour pouvoir vérifier au cas où y a un pb de compilation.
 
-Pour les Inputs/Outputs
-$(OgreDir)\include\OIS
+• Fichier d'en-tête  
+Pour Ogre :  
+$(OgreDir)\include  
+$(OgreDir)\include\OGRE  
 
-Pour les Overlays :
-$(OgreDir)\include\OGRE\Overlay
+Pour les Inputs/Outputs  
+$(OgreDir)\include\OIS  
 
-Pour CEGUI
-$(CEGUIDir)\include\
-$(CEGUIDir)\include\CEGUI
+Pour les Overlays :  
+$(OgreDir)\include\OGRE\Overlay  
 
-Pour boost (ça dépend de si vous prenez boost seul ou dans le package Ogre)
-$(OgreDir)\include\boost 
+Pour CEGUI  
+$(CEGUIDir)\include\  
+$(CEGUIDir)\include\CEGUI  
+
+Pour boost (ça dépend de si vous prenez boost seul ou dans le package Ogre)  
+$(OgreDir)\include\boost   
 
 • Libs
-$(OgreDir)\boost\lib
-$(OgreDir)\lib\$(Configuration)
-$(CEGUIDir)\lib
+$(OgreDir)\boost\lib  
+$(OgreDir)\lib\$(Configuration)  
+$(CEGUIDir)\lib  
 
 • EDL  
-- lib debug   
+- lib debug    
 OgreMain_d.lib  
 OIS_d.lib  
 OgreOverlay_d.lib  
@@ -95,34 +97,32 @@ CEGUIOgreRenderer.lib
 
 # Features:
 
-- Maps
+- Maps  
 On peut utiliser Tiled pour créer des maps, il suffit ensuite de les ajouter dans le dossier maps pour qu'elle soit chargeables
 http://www.mapeditor.org/
 Bien entendi il n'y a pas corrélation directe entre la map de tiled et la map réelle. Mais sur la map tiled, une case vide est une case sans mur dans le jeu, toutes les autres sont des murs. Au fur et à mesure j'ajouterai la création de triggers d'events quand on aura suffisamment avancé le reste.
 
 # Répartition des tâches
 
-- Logique du jeu : Johnny
-- GameLoop : Clément
-- Son : Clément/Johnny
-- Robot : Alp/Simon
-- GFX-Interface : Johnny/Samory
-- Utilitaires : Alltogether
+- Logique du jeu : Johnny  
+- GameLoop : Clément  
+- Son : Clément/Johnny  
+- Robot : Alp/Simon  
+- GFX-Interface : Johnny/Samory  
+- Utilitaires : Alltogether  
 
 #TODO-LIST
 
-- Créer un tileset qui permette d'avoir concordance entre tiled et le jeu (et modifier le commentaire de SceneryObject après)
-- Faire un joli logo en ASCII art pour pouvoir le mettre dans ton les includes
-L'actuel est à chercher dans les fichier parce que ça ressemble à rien dans les read me.
+-  GIMME A FUCKIN' ROBOT SIMON
 
 #Préceptes et guide de style
-- Dans les fichiers tout est en anglais ! Les petites private jokes ont le droit d'être en FR
-- Les méthodes commencent par une minuscule
-- Les attributs termines par un '_' ou commencent par un 'm'. En tout cas, on change pas de style dans une classe ou ses filles et on laisse bien les attributs plus visibles que les autres
-- Pas de classes moitié inline moitié .cpp. Soit on fait tout en inline (exemple GameTimeDuration et GameTimeMoment) soit on fait tout dans un .cpp. Mais on ne mélange pas (lisibilité et puissance du code)
-- Ajouter dans l'en-tête son nom pour les plus gros participants à chaque fichiers. Ca sera plus simple pour déboguer ou discuter d'une faute de conception.
-- Insultez mon anglais, je ne vous en voudrait pas mais dites moi quand vous corrigez comme ça j'aprends !
-- Ne pas oublier de mettre un joli résumé du fonctionnement de la classe, c'est chiant pour les autres de devoir lire tout le code d'une classe quand on a besoin que d'une ou deux méthodes
-- Toujours privilégier du CODE MAINTENABLE au code optimisé as fuck
+- Dans les fichiers tout est en anglais ! Les petites private jokes ont le droit d'être en FR  
+- Les méthodes commencent par une minuscule  
+- Les attributs termines par un '_' ou commencent par un 'm'. En tout cas, on change pas de style dans une classe ou ses filles et on laisse bien les attributs plus visibles que les autres  
+- Pas de classes moitié inline moitié .cpp. Soit on fait tout en inline (exemple GameTimeDuration et GameTimeMoment) soit on fait tout dans un .cpp. Mais on ne mélange pas (lisibilité et puissance du code)  
+- Ajouter dans l'en-tête son nom pour les plus gros participants à chaque fichiers. Ca sera plus simple pour déboguer ou discuter d'une faute de conception.  
+- Insultez mon anglais, je ne vous en voudrait pas mais dites moi quand vous corrigez comme ça j'aprends !  
+- Ne pas oublier de mettre un joli résumé du fonctionnement de la classe, c'est chiant pour les autres de devoir lire tout le code d'une classe quand on a besoin que d'une ou deux méthodes  
+- Toujours privilégier du CODE MAINTENABLE au code optimisé as fuck  
 
 Diagramme de classe : https://drive.google.com/file/d/0B7ykpBf0E6UZa0pPaDYyOVpzUVk/view?usp=sharing
