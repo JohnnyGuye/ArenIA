@@ -14,72 +14,95 @@
 #include <string>
 #include <vector>
 
+#include "GameObject.h"
 #include "Stats.h"
-#include "Ability.h"
+//#include "Ability.h"
 
 enum Team{
-    red=1,
-    yellow=2,
-    green=4,
-    blue=8,
-    black=16,
-    white=32,
-    orange=64,
+	NO_TEAM = 0,
+    RED = 1,
+    YELLOW = 2,
+    GREEN = 4,
+    BLUE = 8,
+    BLACK = 16,
+    WHITE = 32,
+    ORANGE = 64,
     };
 
 
-class Robot: public Object
+class Robot: public GameObject
 {
     //attributes of the class
     protected:
+
         /** The teams to which the Robot Belongs **/
         Team team_;
+
         /** The base stats of the Robot**/
         Stats stats_;
+
         /** modifier for the base stats **/
         Stats additionalStats_;
+
         /** The Robot's name **/
-        string name_;
+        std::string name_;
+
         /** The Robot's abilities **/
-        vector<Ability*> abilities_;
+        //std::vector<Ability*> abilities_;
+
         /** Current actions done by the robot**/
         int action_;
+
         /** The IA's filename **/
-        string iaFilename_;
+        std::string iaFilename_;
 
     //public methods
     public:
+
+		Robot();
+		virtual ~Robot();
+
         /** @brief  Called to make the Robot fire his turret
             @return  **/
         bool fire();
+
         /** @brief Use the idxth Ability
             @param idxAbility : The index of the Ability to use
             @return
             **/
         bool useAbility(int idxAbility);
+
         /** **/
-        void getKnownCompetences(Robot robot);
+        void getKnownCompetences(Robot robot) const;
+
         /** **/
         bool addAbility();
+
         /** **/
-        bool removeAbility(int idxAbility){abilities_.pop(idxAbility);}
+        bool removeAbility(int idxAbility);
+
         /** **/
         //MUST RETURN A VECTOR WITH A NORM=1
         Ogre::Vector3 getWheelOrientation();
+
         /** **/
-        double getSpeed(){return stats_.getSpeed() + additionalStats_.getSpeed();}
+        //double getSpeed();
+
         /** **/
-        Ogre::Vector3 getTurretOrientation();
+        Ogre::Vector3 getTurretOrientation() const;
+
         /** **/
-        Team getTeam(){return team_;}
+        Team getTeam() const;
+
         /** **/
-        int getAction(){return action_;}
+        int getAction() const;
+
         /** **/
-        bool isMoving(){return (action_ & MOVING);}
+        bool isMoving() const;
         /** **/
-        bool isShooting(){return (action_ & SHOOTING);}
+        bool isShooting() const;
         /** **/
-        bool isIDLE(){return (action_ == IDLE);}
+		bool isIDLE() const;
 
     //protected methods
     protected:

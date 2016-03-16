@@ -7,6 +7,7 @@
 
 #include <string>
 #include <iostream>
+#include "Gauge.h"
 
 class Stats
 {

@@ -63,12 +63,13 @@ protected :
 
 //Constantes
 public :
-	static const int
+	enum Stats{
 			ABLE = 0,
 			IMMORTAL = 1,
 			SNARE = 2,
 			IMPOTENT = 4,
-			STASE = 7;
+			STASE = 7
+	};
 
 
 
