@@ -6,3 +6,6 @@ Prototypes/Base Ogre/Base Ogre.suo
 Prototypes/Base Ogre/Ogre1Test/Release/Ogre1Test.log
 *.log
 *.log
+Prototypes/Base Ogre/Ogre1Test/Release/Base Ogre.lastbuildstate
+*.obj
+*.pdb
