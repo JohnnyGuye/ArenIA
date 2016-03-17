@@ -88,15 +88,15 @@ class Robot: public GameObject
         /** **/
         Ogre::Vector3 getTurretOrientation();
         /** **/
-        Team getTeam();
+        Team getTeam() const;
         /** **/
-        int getAction();
+        int getAction() const;
         /** **/
-        bool isMoving();
+        bool isMoving() const;
         /** **/
-        bool isShooting();
+        bool isShooting() const;
         /** **/
-        bool isIDLE();
+        bool isIDLE() const;
 
         /** **/
         Robot();

@@ -35,7 +35,7 @@ bool Robot::move(){
     return true;
 }
 
-bool turnTurret(Ogre::Degree angle){
+bool Robot::turnTurret(Ogre::Degree angle){
     //conversion for the quaternion's constructor (Degrees are more intuitive to use)
     Ogre::Radian rotation(angle);
     Ogre::Quaternion newDirection(angle, FORWARD_DEFAULT);
@@ -43,7 +43,7 @@ bool turnTurret(Ogre::Degree angle){
     return true;
 }
 
-bool turnDirection(Ogre::Degree angle){
+bool Robot::turnDirection(Ogre::Degree angle){
     //conversion for the quaternion's constructor (Degrees are more intuitive to use)
     Ogre::Radian rotation(angle);
     Ogre::Quaternion newDirection(angle, FORWARD_DEFAULT);
@@ -54,21 +54,21 @@ bool turnDirection(Ogre::Degree angle){
 /*
 Ability-based Methods
 */
-bool useAbility(int idxAbility){
+bool Robot::useAbility(int idxAbility){
     //Something like return abilities_[idxAbility].run()
     return false //no actual effects for now
 }
 
-vector<Ability*> getKnownCompetences(Robot & robot){
+vector<Ability*> Robot::getKnownCompetences(Robot & robot){
     return robot.abilities_;
 }
 
-int addAbility(Ability* anAbility){
+int Robot::addAbility(Ability* anAbility){
     abilities_.push_back(anAbility);
     return abilities_.size() - 1;//returns the index of the Ability insert
 }
 
-bool removeAbility(int idxAbility){
+bool Robot::removeAbility(int idxAbility){
     abilities_.pop(idxAbility);
 }
 
@@ -76,66 +76,16 @@ bool removeAbility(int idxAbility){
 Basic Getters
 */
 
-Ogre::Vector3 getWheelOrientation(){
+Ogre::Vector3 Robot::getWheelOrientation(){
     return orientation_;
 }
 
-double getSpeed(){
+double Robot::getSpeed(){
     return stats_.getSpeed() + additionalStats_.getSpeed();
 }
 
-Ogre::Vector3 getTurretOrientation(){
+Ogre::Vector3 Robot::getTurretOrientation(){
     return turretOrientation_;
-}
-
-Team getTeam(){
-    return team_;
-}
-
-int getAction(){
-    return action_;
-}
-
-bool isMoving(){
-    return (action_ & MOVING);
-}
-
-bool isShooting(){
-    return (action_ & SHOOTING);
-}
-
-bool isIDLE(){
-    return (action_ == IDLE);
-}
-
-
-/*
-Constructors & Destructors
-*/
-Robot::Robot()
-    :stats_(),additionalStats_(),GameObject()
-    {
-#ifdef MAP
-    cout << "Creation of Robot "<< name_ << endl;
-#endif
-    team_ = none;
-    }
-
-Robot::~Robot()
-{
-#ifdef MAP
-    cout << "Destruction of Robot "<< name_ << endl;
-#endif
-}
-#include "Robot.h"
-
-
-Robot::Robot(void)
-{
-}
-
-Robot::~Robot(void)
-{
 }
 
 Team Robot::getTeam() const
@@ -157,3 +107,30 @@ bool Robot::isIDLE() const
 {
 	return (action_ == IDLE);
 }
+bool isShooting() const{
+    return (action_ & SHOOTING);
+}
+
+/*
+Constructors & Destructors
+*/
+Robot::Robot()
+    :stats_(),additionalStats_(),GameObject()
+    {
+#ifdef MAP
+    cout << "Creation of Robot "<< name_ << endl;
+#endif
+    team_ = none;
+    }
+
+Robot::~Robot()
+{
+#ifdef MAP
+    cout << "Destruction of Robot "<< name_ << endl;
+#endif
+}
+#include "Robot.h"
+
+}
+
+
