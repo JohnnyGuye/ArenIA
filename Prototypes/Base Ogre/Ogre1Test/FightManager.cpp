@@ -22,12 +22,23 @@ FightManager::~FightManager(void)
 		objects_.pop_front();
 	}
 
+	while(robots_.size() > 0)
+	{
+		delete *(robots_.begin());
+		robots_.pop_front();
+	}
+
 	if(victoryHandler_)	delete victoryHandler_;
 }
 
 void FightManager::loadTerrain(const string& fileName)
 {
 	terrain_ = new Terrain(fileName);
+}
+
+void FightManager::addRobot(Robot* robot)
+{
+	robots_.push_back(robot);
 }
 
 GameTime FightManager::getTime() const
@@ -49,7 +60,13 @@ bool FightManager::IsVictory() const
 //TODO implement update
 void FightManager::update()
 {
-	
+	//updating robots
+	for(list<Robot*>::iterator it = robots_.begin() ; it != robots_.end() ; it++)
+	{
+		(*it)->update();
+	}
+
+	//updating the day
 	day_.update();
 	if(day_.IsFull())
 	{

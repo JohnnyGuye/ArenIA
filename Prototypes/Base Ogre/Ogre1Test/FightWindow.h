@@ -22,6 +22,7 @@
 
 #include "BaseFightWindow.h"
 #include "FightManager.h"
+#include "Robot.h"
 
 #include <vector>
 
@@ -36,6 +37,7 @@ public:
 protected:
     virtual void createScene(void);
 	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const int& scale);
+	virtual void createRobot(const std::string& mesg, const Ogre::Vector3& position, const int& scale, Robot* robot);
 	virtual void createCamera(void);
 	virtual void createViewports(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -57,7 +59,7 @@ protected:
 	class GameEntity
 	{
 	public:
-		GameEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale);
+		GameEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale, GameObject * object = nullptr);
 		virtual~GameEntity();
 		virtual void update();
 	protected:
@@ -65,6 +67,16 @@ protected:
 		Ogre::Entity* entity_;
 		Ogre::SceneNode* node_;
 		Ogre::AnimationState* animState_;
+		GameObject* object_;
+	};
+
+	class RobotEntity : GameEntity
+	{
+	public:
+		RobotEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale, Robot* robot);
+		virtual~RobotEntity();
+		virtual void update();
+	protected:
 	};
 
 protected:
@@ -79,7 +91,10 @@ protected:
 	Sun* theSun_;
 
 	/** The robots to carry **/
-	std::list<GameEntity> robotsEntities_;
+	std::list<RobotEntity> robotsEntities_;
+
+	/** The other objects to carry **/
+	std::list<GameEntity> objectEntities_;
 };
 
 //---------------------------------------------------------------------------

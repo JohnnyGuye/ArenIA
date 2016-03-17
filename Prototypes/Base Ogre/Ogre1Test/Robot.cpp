@@ -6,17 +6,25 @@
 //#include "Ability.h"
 #include "Robot.h"
 
+using namespace Ogre;
+using namespace std;
 
 /*
  action_ modifying methods
 */
-bool Robot::resetAction(){
+bool Robot::resetAction()
+{
     action_ = Robot::IDLE;
-    return true;
+    return true; 
 }
 
+void Robot::update()
+{
 
-bool Robot::fire(){
+}
+
+bool Robot::fire()
+{
     //Something happens here to make the actual shooting
     if ( !(action_ & Robot::SHOOTING)){
         //To avoid continuous fire toggling
@@ -25,29 +33,34 @@ bool Robot::fire(){
     return true;
 }
 
-bool Robot::move(){
-    double speed = (this->stats_).getSpeed() + (this->additionalStats_).getSpeed();
-    GameObject::move(speed*orientation_);
-    if ( !(action_ & Robot::MOVING)){
+bool Robot::move()
+{
+    double speed = getSpeed();
+    GameObject::move(Real(speed) * orientation_);
+    if ( !(action_ & Robot::MOVING))
+	{
         //To avoid continuous move toggling
         action_ += Robot::MOVING;
     }
     return true;
 }
 
-bool turnTurret(Ogre::Degree angle){
+bool Robot::turnTurret (Ogre::Degree angle)
+{
     //conversion for the quaternion's constructor (Degrees are more intuitive to use)
-    Ogre::Radian rotation(angle);
-    Ogre::Quaternion newDirection(angle, FORWARD_DEFAULT);
-    turretOrientation_ = (turretOrientation_*newDirection).normalise();
+    Radian rotation(angle);
+    Quaternion newDirection(angle, FORWARD_DEFAULT);
+    turretOrientation_ = (newDirection * turretOrientation_).normalise();
     return true;
 }
 
-bool turnDirection(Ogre::Degree angle){
+bool Robot::turnDirection (Ogre::Degree angle)
+{
     //conversion for the quaternion's constructor (Degrees are more intuitive to use)
-    Ogre::Radian rotation(angle);
-    Ogre::Quaternion newDirection(angle, FORWARD_DEFAULT);
-    orientation_ = (orientation_*newDirection).normalise();
+    Radian rotation(angle);
+    Quaternion newDirection(angle, FORWARD_DEFAULT);
+    orientation_ = (newDirection * orientation_).normalise();
+	return true;
 }
 
 
@@ -77,15 +90,18 @@ bool removeAbility(int idxAbility){
 Basic Getters
 */
 
-Ogre::Vector3 getWheelOrientation(){
+Ogre::Vector3 Robot::getWheelOrientation() const
+{
     return orientation_;
 }
 
-double getSpeed(){
+double Robot::getSpeed() const
+{
     return stats_.getSpeed() + additionalStats_.getSpeed();
 }
 
-Ogre::Vector3 getTurretOrientation(){
+Ogre::Vector3 Robot::getTurretOrientation() const
+{
     return turretOrientation_;
 }
 
@@ -119,17 +135,13 @@ bool Robot::isIDLE() const
 Constructors & Destructors
 */
 Robot::Robot()
-    :stats_(),additionalStats_(),GameObject()
-    {
-#ifdef MAP
-    cout << "Creation of Robot "<< name_ << endl;
-#endif
-    team_ = none;
-    }
+    :stats_(),
+	additionalStats_(),
+	GameObject(),
+	team_(NONE)
+{
+}
 
 Robot::~Robot()
 {
-#ifdef MAP
-    cout << "Destruction of Robot "<< name_ << endl;
-#endif
 }

@@ -29,6 +29,7 @@
 #include "StartSDEvent.h"
 #include "VictoryHandler.h"
 #include "Gauge.h"
+#include "Robot.h"
 
 #include <string>
 #include <list>
@@ -43,6 +44,9 @@ public:
 	**	@param fileName the name of the new map to load **/
 	virtual void loadTerrain(const std::string& fileName);
 
+	/** @brief add a new robot in the fight 
+	*	@param robot : the new robot **/
+	virtual void addRobot(Robot* robot);
 	/** @brief Return the terrain
 	*	@return the terrain **/
 	virtual Terrain* getTerrain() const;
@@ -62,8 +66,10 @@ public:
 	/** @brief go to the next round **/
 	virtual void update();
 
+	/** @brief return the number of rounds since the beginning **/
 	virtual double getActualTime() const;
 
+	/** @brief return the number of rounds before the end of a day **/
 	virtual double getRemainingTime() const;
 
 	/** @brief reset the fight manager to the first state of the match **/
@@ -86,6 +92,9 @@ protected:
 
 	/** A chronological list of the events **/
 	std::list<GameEvent*>	events_;
+
+	/** A list of the robots in the fight **/
+	std::list<Robot*>	robots_;
 
 	int roundAfterSD_;
 };

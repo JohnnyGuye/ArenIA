@@ -1,10 +1,10 @@
-﻿La génération a démarré 16/03/2016 19:04:52.
+﻿La génération a démarré 17/03/2016 09:34:01.
      1>Projet "C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Ogre1Test\Ogre1Test.vcxproj" sur le nœud 2 (build cible(s)).
      1>InitializeBuildStatus:
          Mise à jour de l'horodatage "Release\Base Ogre.unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Robot.cpp
-         Robot.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FightWindow.cpp
+         FightWindow.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.exe" /NOLOGO OgreMain.lib OIS.lib OgreOverlay.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Base Ogre.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Johnny\Documents\ArenIA\Prototypes\Base Ogre\Release\Base Ogre.lib" /MACHINE:X86 Release\EndOfDayVictory.obj
          Release\ExceptionArenIA.obj
@@ -32,4 +32,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:30.17
+Temps écoulé 00:00:25.48

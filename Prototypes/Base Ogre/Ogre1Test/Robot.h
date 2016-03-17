@@ -1,3 +1,5 @@
+#pragma once
+
 /*
 * ARENIA project
 * Robot.h
@@ -5,10 +7,6 @@
 * @author Simon Belletier
 * @summary :  Header file of the Robot Class, a Robot is the main fighting entity.
 */
-
-
-#pragma once
-
 
 #include <Ogre.h>
 #include <string>
@@ -21,53 +19,46 @@
 //for the rotations
 #define FORWARD_DEFAULT Ogre::Vector3::NEGATIVE_UNIT_Z
 
-
-enum Team{
-	none=0,
-    red=1,
-    yellow=2,
-    green=4,
-    blue=8,
-    black=16,
-    white=32,
-    orange=64,
+enum Team	{
+	NONE = 0,
+    RED = 1,
+    YELLOW = 2,
+    GREEN = 4,
+    BLUE = 8,
+    BLACK = 16,
+    WHITE = 32,
+    ORANGE = 64,
     };
 
 
 class Robot: public GameObject
 {
-    //attributes of the class
-    protected:
-        /** The teams to which the Robot Belongs **/
-        Team team_;
-        /** The base stats of the Robot**/
-        GameObject::Stats stats_;
-        /** modifier for the base stats **/
-        GameObject::Stats additionalStats_;
-        /** The Robot's abilities **/
-        //vector<Ability*> abilities_;
-        /** Current actions done by the robot**/
-        int action_;
-        /** The IA's filename **/
-        std::string iaFilename_;
-        /**Turret Orientation**/
-        Ogre::Vector3 turretOrientation_;
-        /**Wheel Orientation **/
-        Ogre::Vector3 orientation_;
-
     //public methods
     public:
+
+		/** **/
+        Robot();
+
+        /** **/
+        virtual ~Robot();
+
         /** @brief  Reset the action state of the Robot to IDLE**/
-        bool Robot::resetAction();
+        virtual bool Robot::resetAction();
+
+		virtual void update();
+
         /** @brief  Called to make the Robot fire his turret
             @return True after a complete execution**/
-        bool fire();
+        virtual bool fire();
+
         /** @brief  Called to make the Robot move**/
-        bool move();
+        virtual bool move();
+
         /** **/
-        bool turnTurret(Ogre::Degree angle);
+        virtual bool turnTurret(Ogre::Degree angle);
+
         /** /!\ doesn't change the turret's orientation as of now **/
-        bool turnDirection(Ogre::Degree angle);
+        virtual bool turnDirection(Ogre::Degree angle);
 		
         /** @brief Use the idxth Ability
             @param idxAbility : The index of the Ability to use
@@ -83,26 +74,50 @@ class Robot: public GameObject
 		**/
         /** **/
         //MUST RETURN A VECTOR WITH A NORM=1
-        Ogre::Vector3 getWheelOrientation();
+        virtual Ogre::Vector3 getWheelOrientation() const;
         /** **/
-        double getSpeed();
+        virtual double getSpeed() const;
         /** **/
-        Ogre::Vector3 getTurretOrientation();
+        virtual Ogre::Vector3 getTurretOrientation() const;
         /** **/
-        Team getTeam() const;
+        virtual Team getTeam() const;
         /** **/
-        int getAction() const;
+        virtual int getAction() const;
         /** **/
-        bool isMoving() const;
+        virtual bool isMoving() const;
         /** **/
-        bool isShooting() const;
+        virtual bool isShooting() const;
         /** **/
-        bool isIDLE() const;
+        virtual bool isIDLE() const;
 
-        /** **/
-        Robot();
-        /** **/
-        ~Robot();
+     
+
+	//attributes
+    protected:
+
+        /** The teams to which the Robot Belongs **/
+        Team team_;
+
+        /** The base stats of the Robot**/
+        Stats stats_;
+
+        /** modifier for the base stats **/
+        Stats additionalStats_;
+
+        /** The Robot's abilities **/
+        //vector<Ability*> abilities_;
+
+        /** Current actions done by the robot**/
+        int action_;
+
+        /** The IA's filename **/
+        std::string iaFilename_;
+
+        /**Turret Orientation**/
+        Ogre::Vector3 turretOrientation_;
+
+        /**Wheel Orientation **/
+        Ogre::Vector3 orientation_;
 
     //constants
     public:

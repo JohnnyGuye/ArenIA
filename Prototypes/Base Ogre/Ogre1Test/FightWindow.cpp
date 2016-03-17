@@ -48,10 +48,10 @@ void FightWindow::Sun::update()
 }
 
 // --------------- GAME ENTITY ------------------
-
-FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh,
-	const Ogre::Vector3& position, const int& scale)
-	:	sceneMgr_(sceneMgr)
+FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
+	const Ogre::Vector3& position, const int& scale, GameObject* object)
+	:	sceneMgr_(sceneMgr),
+	object_(object)
 {
 	entity_ = sceneMgr_->createEntity(mesh); 
 	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode();
@@ -73,8 +73,23 @@ void FightWindow::GameEntity::update()
 {
 }
 
-//------------- THE FIGHT WINDOW ----------------
+// --------------- ROBOT ENTITY -----------------
+FightWindow::RobotEntity::RobotEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
+	const Ogre::Vector3& position, const int& scale, Robot* robot)
+	:	GameEntity(sceneMgr, mesh, position, scale, robot)
+{
+}
 
+FightWindow::RobotEntity::~RobotEntity()
+{
+}
+
+void FightWindow::RobotEntity::update()
+{
+	node_->setPosition(object_->getPosition());
+}
+
+//------------- THE FIGHT WINDOW ----------------
 FightWindow::FightWindow(void)
 {
 	fightManager_ = new FightManager("essai2.txt");
@@ -88,7 +103,14 @@ FightWindow::~FightWindow(void)
 void FightWindow::createEntity(const string& mesh, const Vector3& position, const int& scale)
 {
 	//Add some configuration
-	robotsEntities_.push_back(GameEntity(sceneMgr_, mesh, position, scale));
+	objectEntities_.push_back(GameEntity(sceneMgr_, mesh, position, scale));
+}
+
+void FightWindow::createRobot(const string& mesh, const Vector3& position, const int& scale, Robot* robot)
+{
+	//Add some configuration
+	robot->setPosition(position);
+	robotsEntities_.push_back(RobotEntity(sceneMgr_, mesh, position, scale, robot));
 }
 
 void FightWindow::createScene(void)
@@ -106,6 +128,7 @@ void FightWindow::createScene(void)
 		);
 	//=======ONE ROBOT FOR THE TEST======
 	createEntity("RobotLaveLinge.mesh", Vector3(550,0,250), 40);
+	createRobot("RobotLaveLinge.mesh", Vector3(650,0,350), 50, new Robot());
 
 	//========THE GROUND=========
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
@@ -203,9 +226,14 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 	theSun_->update();
 
-	for(std::list<GameEntity>::iterator ge = robotsEntities_.begin() ; ge != robotsEntities_.end() ; ge++)
+	for(std::list<GameEntity>::iterator ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
 	{
 		//(*ge).update();
+	}
+
+	for(std::list<RobotEntity>::iterator re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
+	{
+		(*re).update();
 	}
 
     return true;

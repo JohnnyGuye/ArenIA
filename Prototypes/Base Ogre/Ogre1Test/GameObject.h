@@ -31,19 +31,19 @@ public:
 	**	this object totally disabled you can set flag to IMMORTAL | SNARE | IMPOTENT (STASE does the same thing)
 	**	this object totally able set flag to nothing (ABLE function too)
 	**/
-	virtual void setStatus(const int flag = ABLE);
+	virtual void setStatus	(const int flag = ABLE);
 
 	/** @brief move the object to the location in param
 	**  @param newPos : the new location **/
-	virtual bool setPosition(Ogre::Vector3 const& newPos);
+	virtual bool setPosition	(Ogre::Vector3 const& newPos);
 
 	/** @brief move the object in the direction given
 	**	@param direction : the translation vector **/
-	virtual bool move(Ogre::Vector3 const& direction);
+	virtual bool move	(Ogre::Vector3 const& direction);
 
 	/** @brief deal damages caused by a direct hit into the object
 	**	@param other : the object in wich you collide **/
-	virtual void dealHitBoxDamages(GameObject* other) const;
+	virtual void dealHitBoxDamages	(GameObject* other) const;
 
 	/** @brief the position of the object
 	**	@return : the position **/
@@ -63,7 +63,7 @@ protected :
 
 //Constantes
 public :
-	enum Stats{
+	enum Status{
 			ABLE = 0,
 			IMMORTAL = 1,
 			SNARE = 2,

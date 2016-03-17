@@ -81,10 +81,6 @@ Stats & Stats::operator-=(Stats & otherStats)
 }
 
 //-------------------------------------------- Constructors - destructor
-/**
- * Copy constructor
- * @param otherStats Stats that we want to copy
- */
 Stats::Stats ( const Stats & otherStats )
 	: 
 	energy_(otherStats.energy_),
@@ -106,11 +102,6 @@ Stats::Stats ( Gauge energy, Gauge hp, double visionAngle, int range, int resist
 {
 }
 
-
-/**
- * Destructor
- * Destroys an instance of Stats
- */
 Stats::~Stats ()
 {
 }
