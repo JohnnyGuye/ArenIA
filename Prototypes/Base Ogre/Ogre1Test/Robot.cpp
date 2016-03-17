@@ -35,7 +35,7 @@ bool Robot::move(){
     return true;
 }
 
-bool turnTurret(Ogre::Degree angle){
+bool Robot::turnTurret(Ogre::Degree angle){
     //conversion for the quaternion's constructor (Degrees are more intuitive to use)
     Ogre::Radian rotation(angle);
     Ogre::Quaternion newDirection(angle, FORWARD_DEFAULT);
@@ -43,7 +43,7 @@ bool turnTurret(Ogre::Degree angle){
     return true;
 }
 
-bool turnDirection(Ogre::Degree angle){
+bool Robot::turnDirection(Ogre::Degree angle){
     //conversion for the quaternion's constructor (Degrees are more intuitive to use)
     Ogre::Radian rotation(angle);
     Ogre::Quaternion newDirection(angle, FORWARD_DEFAULT);
@@ -77,15 +77,15 @@ bool removeAbility(int idxAbility){
 Basic Getters
 */
 
-Ogre::Vector3 getWheelOrientation(){
+Ogre::Vector3 Robot::getWheelOrientation(){
     return orientation_;
 }
 
-double getSpeed(){
+double Robot::getSpeed(){
     return stats_.getSpeed() + additionalStats_.getSpeed();
 }
 
-Ogre::Vector3 getTurretOrientation(){
+Ogre::Vector3 Robot::getTurretOrientation(){
     return turretOrientation_;
 }
 
