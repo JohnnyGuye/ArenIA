@@ -75,18 +75,33 @@ class Robot: public GameObject
         /** **/
         //MUST RETURN A VECTOR WITH A NORM=1
         virtual Ogre::Vector3 getWheelOrientation() const;
+
+		/** @brief The angle between the X-axis of the game, and the X-axis of the robot 
+		*	@return this angle in degrees **/
+		virtual Ogre::Degree getWheelAngle() const;
+
+		/** **/
+        virtual Ogre::Vector3 getTurretOrientation() const;
+
+		/** @brief The angle between the X-axis of the wheels, and the X-axis of the turret 
+		*	@return this angle in degrees **/
+		virtual Ogre::Degree getTurretAngle() const;
+
         /** **/
         virtual double getSpeed() const;
-        /** **/
-        virtual Ogre::Vector3 getTurretOrientation() const;
+
         /** **/
         virtual Team getTeam() const;
+
         /** **/
         virtual int getAction() const;
+
         /** **/
         virtual bool isMoving() const;
+
         /** **/
         virtual bool isShooting() const;
+
         /** **/
         virtual bool isIDLE() const;
 
@@ -122,11 +137,11 @@ class Robot: public GameObject
     //constants
     public:
         /** **/
-        static const int TURNING_WHEELS = 1,
+        static const int IDLE = 0,
+						TURNING_WHEELS = 1,
                         MOVING = 2,
                         TURNING_TURRET = 4,
-                        SHOOTING = 8,
-                        IDLE = 0;
+                        SHOOTING = 8;
 
 
 };

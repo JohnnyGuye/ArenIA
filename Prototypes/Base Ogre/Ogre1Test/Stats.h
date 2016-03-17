@@ -223,6 +223,11 @@ public:
 protected:
 	void display(std::ostream &flux) const;
 
+public:
+
+	static const Stats STAT_ZERO;
+	//Gauge energy = Gauge(), Gauge hp = Gauge(), double visionAngle = 60, 
+	//		int range = 300, int resistance = 0, double speed = 1.0
 
 //----------------------------------------------------------------- PROTECTED
 protected:

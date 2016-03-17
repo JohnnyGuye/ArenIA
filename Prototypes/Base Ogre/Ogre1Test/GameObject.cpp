@@ -40,7 +40,6 @@ void GameObject::setStatus(const int flag)
 
 bool GameObject::setPosition(Ogre::Vector3 const& newPos)
 {
-	if(isSnared())	return false;
 	position_ = newPos;
 	return true;
 }

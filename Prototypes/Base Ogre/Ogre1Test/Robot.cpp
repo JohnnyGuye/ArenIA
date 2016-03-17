@@ -1,10 +1,12 @@
+#include "Robot.h"
+
 #include <Ogre.h>
 #include <string>
 #include <vector>
+
 #include "GameObject.h"
 #include "Stats.h"
 //#include "Ability.h"
-#include "Robot.h"
 
 using namespace Ogre;
 using namespace std;
@@ -12,6 +14,25 @@ using namespace std;
 /*
  action_ modifying methods
 */
+
+
+Robot::Robot()
+    :team_(NONE),
+	stats_(),
+	additionalStats_(),
+	GameObject(),
+	action_(IDLE),
+	iaFilename_("EMPTY"),
+	orientation_(Vector3::UNIT_X),
+	turretOrientation_(Vector3::UNIT_X)
+{
+	setStatus();
+}
+
+Robot::~Robot()
+{
+}
+
 bool Robot::resetAction()
 {
     action_ = Robot::IDLE;
@@ -26,10 +47,7 @@ void Robot::update()
 bool Robot::fire()
 {
     //Something happens here to make the actual shooting
-    if ( !(action_ & Robot::SHOOTING)){
-        //To avoid continuous fire toggling
-        action_ += Robot::SHOOTING;
-    }
+    action_ = action_ | SHOOTING;
     return true;
 }
 
@@ -37,11 +55,7 @@ bool Robot::move()
 {
     double speed = getSpeed();
     GameObject::move(Real(speed) * orientation_);
-    if ( !(action_ & Robot::MOVING))
-	{
-        //To avoid continuous move toggling
-        action_ += Robot::MOVING;
-    }
+    action_ = action_ | MOVING;
     return true;
 }
 
@@ -51,6 +65,7 @@ bool Robot::turnTurret (Ogre::Degree angle)
     Radian rotation(angle);
     Quaternion newDirection(angle, FORWARD_DEFAULT);
     turretOrientation_ = (newDirection * turretOrientation_).normalise();
+	action_ = action_ | TURNING_TURRET;
     return true;
 }
 
@@ -60,8 +75,10 @@ bool Robot::turnDirection (Ogre::Degree angle)
     Radian rotation(angle);
     Quaternion newDirection(angle, FORWARD_DEFAULT);
     orientation_ = (newDirection * orientation_).normalise();
+	action_ = action_ | TURNING_WHEELS;
 	return true;
 }
+
 
 
 /*
@@ -90,7 +107,17 @@ bool removeAbility(int idxAbility){
 Basic Getters
 */
 
-Ogre::Vector3 Robot::getWheelOrientation() const
+Degree Robot::getWheelAngle() const
+{
+	return Degree(orientation_.angleBetween(Vector3(Vector3::UNIT_X)));
+}
+
+Degree Robot::getTurretAngle() const
+{
+	return Degree(turretOrientation_.angleBetween(orientation_));
+}
+
+Vector3 Robot::getWheelOrientation() const
 {
     return orientation_;
 }
@@ -100,7 +127,7 @@ double Robot::getSpeed() const
     return stats_.getSpeed() + additionalStats_.getSpeed();
 }
 
-Ogre::Vector3 Robot::getTurretOrientation() const
+Vector3 Robot::getTurretOrientation() const
 {
     return turretOrientation_;
 }
@@ -134,14 +161,3 @@ bool Robot::isIDLE() const
 /*
 Constructors & Destructors
 */
-Robot::Robot()
-    :stats_(),
-	additionalStats_(),
-	GameObject(),
-	team_(NONE)
-{
-}
-
-Robot::~Robot()
-{
-}

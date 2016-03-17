@@ -59,7 +59,6 @@ FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const string& 
 	node_->setScale(scale, scale, scale);
 	node_->attachObject(entity_);
 	node_->pitch(Degree(-90));
-
 	animState_ = entity_->getAnimationState("Forward");
 	animState_->setLoop(true);
 	animState_->setEnabled(true);
@@ -127,7 +126,7 @@ void FightWindow::createScene(void)
 		fightManager_->getTerrain()->getWidth() * 50.0
 		);
 	//=======ONE ROBOT FOR THE TEST======
-	createEntity("RobotLaveLinge.mesh", Vector3(550,0,250), 40);
+	//createEntity("RobotLaveLinge.mesh", Vector3(550,0,250), 40);
 	createRobot("RobotLaveLinge.mesh", Vector3(650,0,350), 50, new Robot());
 
 	//========THE GROUND=========

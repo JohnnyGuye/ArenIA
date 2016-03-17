@@ -13,7 +13,6 @@ using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
 
-
 //------------------------------------------------- Operators overload
 Stats & Stats::operator+=(Stats & otherStats)
 {
