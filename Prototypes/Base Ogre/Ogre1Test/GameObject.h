@@ -33,14 +33,19 @@ public:
 	**/
 	virtual void setStatus	(const int flag = ABLE);
 
+	/** @brief turn the orientation of the object
+	*	@param the angle in degrees between the X-axis of the object, and the X-axis of the scene
+	**/
+	virtual void setOrientation (const Ogre::Degree& angle);
+
 	/** @brief move the object to the location in param
 	**  @param newPos : the new location **/
-	virtual bool setPosition	(Ogre::Vector3 const& newPos);
+	virtual void setPosition	(Ogre::Vector3 const& newPos);
 
 	/** @brief move the object in the direction given
 	**	@param direction : the translation vector **/
 	virtual bool move	(Ogre::Vector3 const& direction);
-
+	
 	/** @brief deal damages caused by a direct hit into the object
 	**	@param other : the object in wich you collide **/
 	virtual void dealHitBoxDamages	(GameObject* other) const;
@@ -49,6 +54,10 @@ public:
 	**	@return : the position **/
 	virtual Ogre::Vector3	getPosition() const;
 
+	/** @brief the direction currently face by the object
+	**	@return : the orientation **/
+	virtual Ogre::Vector3	getOrientation() const;
+
 	/** @brief the name of this
 	**	@return : the name **/
 	virtual std::string		getName() const;
@@ -56,6 +65,8 @@ public:
 //Atributes
 protected :
 	Ogre::Vector3 position_;
+	Ogre::Vector3 orientation_;
+
 	bool	immortal_,
 			snare_,
 			impotent_;

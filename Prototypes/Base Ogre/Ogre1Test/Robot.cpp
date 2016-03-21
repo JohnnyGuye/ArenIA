@@ -23,7 +23,6 @@ Robot::Robot()
 	GameObject(),
 	action_(IDLE),
 	iaFilename_("EMPTY"),
-	orientation_(Vector3::UNIT_X),
 	turretOrientation_(Vector3::UNIT_X)
 {
 	setStatus();
@@ -122,14 +121,14 @@ Vector3 Robot::getWheelOrientation() const
     return orientation_;
 }
 
-double Robot::getSpeed() const
-{
-    return stats_.getSpeed() + additionalStats_.getSpeed();
-}
-
 Vector3 Robot::getTurretOrientation() const
 {
     return turretOrientation_;
+}
+
+double Robot::getSpeed() const
+{
+    return stats_.getSpeed() + additionalStats_.getSpeed();
 }
 
 Team Robot::getTeam() const

@@ -1,0 +1,228 @@
+\hypertarget{class_gauge}{}\section{Gauge Class Reference}
+\label{class_gauge}\index{Gauge@{Gauge}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_gauge_a0c464af6a463abc4f646822d26072255}{Gauge} (const \hyperlink{class_gauge}{Gauge} \&other\+Gauge)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_gauge_aadee8ec19df78a3c8e2b5284567d8686}{Gauge} (int borne1=100, int borne2=0, double current=100, double modifier=0.\+0)
+\item 
+virtual \hyperlink{class_gauge_aa125f240fc349172e61626a8d8914b74}{$\sim$\+Gauge} ()
+\item 
+bool {\bfseries Is\+Full} () const \hypertarget{class_gauge_a9d21b1035f0f1eefe3422ac622648c90}{}\label{class_gauge_a9d21b1035f0f1eefe3422ac622648c90}
+
+\item 
+int \hyperlink{class_gauge_ae278058b7cb17c746550522a0d452c41}{get\+Max} () const 
+\item 
+int \hyperlink{class_gauge_a9fd3cc038eb7c9ca6cbca3e0ea72fd12}{get\+Min} () const 
+\item 
+double \hyperlink{class_gauge_a3c489b4ba680aa40fc4e43bdc06035fd}{get\+Current} () const 
+\item 
+double \hyperlink{class_gauge_aa2b2abbd25dcab2e0cd44e61e78959a2}{get\+Filled\+Absolute} () const 
+\item 
+double \hyperlink{class_gauge_aba1c324da15a054dd7a0811dfe1fd447}{get\+Not\+Filled\+Absolute} () const 
+\item 
+double \hyperlink{class_gauge_af11d1954655aa1b899afe7d3631c42b5}{get\+Percent} () const 
+\item 
+double \hyperlink{class_gauge_a205e5ac44a3665a3ba3d2c1731f8c55c}{get\+Modifier} () const 
+\item 
+void \hyperlink{class_gauge_a36b459e95f5eb1d5ede5bf4159e2ad3a}{set\+Current} (double value)
+\item 
+void \hyperlink{class_gauge_a3e37f13101672e8f063bf8c7505215a4}{set\+Modifier} (double value=0.\+0)
+\item 
+void \hyperlink{class_gauge_a9e5a18eb968c6b0ef93ba0fa54e6ee3d}{fill} ()
+\item 
+void \hyperlink{class_gauge_a8a6aa2631b3c91ddda499e3b4a4fc9c9}{empty} ()
+\item 
+void \hyperlink{class_gauge_ac84a9ad4758b97a9eb4f470770faf181}{update} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_gauge_ae5cf0c9f8a9fb1f45c0f66a054cf3ff9}{max\+\_\+}\hypertarget{class_gauge_ae5cf0c9f8a9fb1f45c0f66a054cf3ff9}{}\label{class_gauge_ae5cf0c9f8a9fb1f45c0f66a054cf3ff9}
+
+\begin{DoxyCompactList}\small\item\em Maximum value of the gauge. \end{DoxyCompactList}\item 
+int \hyperlink{class_gauge_a7e9ece57f4630719c89bf15f0092d89a}{min\+\_\+}\hypertarget{class_gauge_a7e9ece57f4630719c89bf15f0092d89a}{}\label{class_gauge_a7e9ece57f4630719c89bf15f0092d89a}
+
+\begin{DoxyCompactList}\small\item\em Minimum value of the gauge. \end{DoxyCompactList}\item 
+double \hyperlink{class_gauge_aef6213cbdfc8b730e1131b62c746f34a}{current\+\_\+}\hypertarget{class_gauge_aef6213cbdfc8b730e1131b62c746f34a}{}\label{class_gauge_aef6213cbdfc8b730e1131b62c746f34a}
+
+\begin{DoxyCompactList}\small\item\em Current value of the gauge. \end{DoxyCompactList}\item 
+double \hyperlink{class_gauge_a92907a4fc9bab701e02e16bea129409c}{modifier\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Gauge@{Gauge}!Gauge@{Gauge}}
+\index{Gauge@{Gauge}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{Gauge(const Gauge \&other\+Gauge)}{Gauge(const Gauge &otherGauge)}}]{\setlength{\rightskip}{0pt plus 5cm}Gauge\+::\+Gauge (
+\begin{DoxyParamCaption}
+\item[{const {\bf Gauge} \&}]{other\+Gauge}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_a0c464af6a463abc4f646822d26072255}{}\label{class_gauge_a0c464af6a463abc4f646822d26072255}
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Gauge} & \hyperlink{class_gauge}{Gauge} that we want to copy \\
+\hline
+\end{DoxyParams}
+\index{Gauge@{Gauge}!Gauge@{Gauge}}
+\index{Gauge@{Gauge}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{Gauge(int borne1=100, int borne2=0, double current=100, double modifier=0.\+0)}{Gauge(int borne1=100, int borne2=0, double current=100, double modifier=0.0)}}]{\setlength{\rightskip}{0pt plus 5cm}Gauge\+::\+Gauge (
+\begin{DoxyParamCaption}
+\item[{int}]{borne1 = {\ttfamily 100}, }
+\item[{int}]{borne2 = {\ttfamily 0}, }
+\item[{double}]{current = {\ttfamily 100}, }
+\item[{double}]{modifier = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_aadee8ec19df78a3c8e2b5284567d8686}{}\label{class_gauge_aadee8ec19df78a3c8e2b5284567d8686}
+Initiates a not necessarily filled gauge. gauge. 
+\begin{DoxyParams}{Parameters}
+{\em borne1} & Maximum value of the gauge \\
+\hline
+{\em borne2} & Minimum value of the gauge \\
+\hline
+{\em current} & Current value of the gauge \\
+\hline
+{\em modifier} & Modifier of the gauge \\
+\hline
+\end{DoxyParams}
+\index{Gauge@{Gauge}!````~Gauge@{$\sim$\+Gauge}}
+\index{````~Gauge@{$\sim$\+Gauge}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{$\sim$\+Gauge()}{~Gauge()}}]{\setlength{\rightskip}{0pt plus 5cm}virtual Gauge\+::$\sim$\+Gauge (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_gauge_aa125f240fc349172e61626a8d8914b74}{}\label{class_gauge_aa125f240fc349172e61626a8d8914b74}
+Destructor Destroys an instance of \hyperlink{class_gauge}{Gauge} 
+
+\subsection{Member Function Documentation}
+\index{Gauge@{Gauge}!empty@{empty}}
+\index{empty@{empty}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{empty()}{empty()}}]{\setlength{\rightskip}{0pt plus 5cm}void Gauge\+::empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_a8a6aa2631b3c91ddda499e3b4a4fc9c9}{}\label{class_gauge_a8a6aa2631b3c91ddda499e3b4a4fc9c9}
+Empties the gauge (sets current\+\_\+ to min\+\_\+) \index{Gauge@{Gauge}!fill@{fill}}
+\index{fill@{fill}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{fill()}{fill()}}]{\setlength{\rightskip}{0pt plus 5cm}void Gauge\+::fill (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_a9e5a18eb968c6b0ef93ba0fa54e6ee3d}{}\label{class_gauge_a9e5a18eb968c6b0ef93ba0fa54e6ee3d}
+Fills the gauge (sets current\+\_\+ to max\+\_\+) \index{Gauge@{Gauge}!get\+Current@{get\+Current}}
+\index{get\+Current@{get\+Current}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{get\+Current() const }{getCurrent() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Gauge\+::get\+Current (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_a3c489b4ba680aa40fc4e43bdc06035fd}{}\label{class_gauge_a3c489b4ba680aa40fc4e43bdc06035fd}
+Current getter Returns the current value value the gauge \begin{DoxyReturn}{Returns}
+current\+\_\+ of the gauge 
+\end{DoxyReturn}
+\index{Gauge@{Gauge}!get\+Filled\+Absolute@{get\+Filled\+Absolute}}
+\index{get\+Filled\+Absolute@{get\+Filled\+Absolute}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{get\+Filled\+Absolute() const }{getFilledAbsolute() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Gauge\+::get\+Filled\+Absolute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_aa2b2abbd25dcab2e0cd44e61e78959a2}{}\label{class_gauge_aa2b2abbd25dcab2e0cd44e61e78959a2}
+\begin{DoxyReturn}{Returns}
+the the filled portion of the gauge 
+\end{DoxyReturn}
+\index{Gauge@{Gauge}!get\+Max@{get\+Max}}
+\index{get\+Max@{get\+Max}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{get\+Max() const }{getMax() const }}]{\setlength{\rightskip}{0pt plus 5cm}int Gauge\+::get\+Max (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_ae278058b7cb17c746550522a0d452c41}{}\label{class_gauge_ae278058b7cb17c746550522a0d452c41}
+Max getter Returns the maximum value reachable by the gauge \begin{DoxyReturn}{Returns}
+max\+\_\+ of the gauge 
+\end{DoxyReturn}
+\index{Gauge@{Gauge}!get\+Min@{get\+Min}}
+\index{get\+Min@{get\+Min}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{get\+Min() const }{getMin() const }}]{\setlength{\rightskip}{0pt plus 5cm}int Gauge\+::get\+Min (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_a9fd3cc038eb7c9ca6cbca3e0ea72fd12}{}\label{class_gauge_a9fd3cc038eb7c9ca6cbca3e0ea72fd12}
+Min getter Returns the minimum value reachable by the gauge \begin{DoxyReturn}{Returns}
+min\+\_\+ of the gauge 
+\end{DoxyReturn}
+\index{Gauge@{Gauge}!get\+Modifier@{get\+Modifier}}
+\index{get\+Modifier@{get\+Modifier}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{get\+Modifier() const }{getModifier() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Gauge\+::get\+Modifier (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_a205e5ac44a3665a3ba3d2c1731f8c55c}{}\label{class_gauge_a205e5ac44a3665a3ba3d2c1731f8c55c}
+Modifier getter Returns the modifier the gauge \begin{DoxyReturn}{Returns}
+modifier\+\_\+ of the gauge 
+\end{DoxyReturn}
+\index{Gauge@{Gauge}!get\+Not\+Filled\+Absolute@{get\+Not\+Filled\+Absolute}}
+\index{get\+Not\+Filled\+Absolute@{get\+Not\+Filled\+Absolute}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{get\+Not\+Filled\+Absolute() const }{getNotFilledAbsolute() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Gauge\+::get\+Not\+Filled\+Absolute (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_aba1c324da15a054dd7a0811dfe1fd447}{}\label{class_gauge_aba1c324da15a054dd7a0811dfe1fd447}
+\begin{DoxyReturn}{Returns}
+the notfilled portion of the gauge 
+\end{DoxyReturn}
+\index{Gauge@{Gauge}!get\+Percent@{get\+Percent}}
+\index{get\+Percent@{get\+Percent}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{get\+Percent() const }{getPercent() const }}]{\setlength{\rightskip}{0pt plus 5cm}double Gauge\+::get\+Percent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_af11d1954655aa1b899afe7d3631c42b5}{}\label{class_gauge_af11d1954655aa1b899afe7d3631c42b5}
+\begin{DoxyReturn}{Returns}
+the filled percent of the gauge 
+\end{DoxyReturn}
+\index{Gauge@{Gauge}!set\+Current@{set\+Current}}
+\index{set\+Current@{set\+Current}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{set\+Current(double value)}{setCurrent(double value)}}]{\setlength{\rightskip}{0pt plus 5cm}void Gauge\+::set\+Current (
+\begin{DoxyParamCaption}
+\item[{double}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_a36b459e95f5eb1d5ede5bf4159e2ad3a}{}\label{class_gauge_a36b459e95f5eb1d5ede5bf4159e2ad3a}
+Current setter Sets current\+\_\+ to value 
+\begin{DoxyParams}{Parameters}
+{\em value} & The value that you want current to become \\
+\hline
+\end{DoxyParams}
+\index{Gauge@{Gauge}!set\+Modifier@{set\+Modifier}}
+\index{set\+Modifier@{set\+Modifier}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{set\+Modifier(double value=0.\+0)}{setModifier(double value=0.0)}}]{\setlength{\rightskip}{0pt plus 5cm}void Gauge\+::set\+Modifier (
+\begin{DoxyParamCaption}
+\item[{double}]{value = {\ttfamily 0.0}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_a3e37f13101672e8f063bf8c7505215a4}{}\label{class_gauge_a3e37f13101672e8f063bf8c7505215a4}
+Modifier setter Sets modifier\+\_\+ to value 
+\begin{DoxyParams}{Parameters}
+{\em value} & The value that you want modifier\+\_\+ to become \\
+\hline
+\end{DoxyParams}
+\index{Gauge@{Gauge}!update@{update}}
+\index{update@{update}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{update()}{update()}}]{\setlength{\rightskip}{0pt plus 5cm}void Gauge\+::update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{class_gauge_ac84a9ad4758b97a9eb4f470770faf181}{}\label{class_gauge_ac84a9ad4758b97a9eb4f470770faf181}
+Updates the current value of the gauge. 
+
+\subsection{Member Data Documentation}
+\index{Gauge@{Gauge}!modifier\+\_\+@{modifier\+\_\+}}
+\index{modifier\+\_\+@{modifier\+\_\+}!Gauge@{Gauge}}
+\subsubsection[{\texorpdfstring{modifier\+\_\+}{modifier_}}]{\setlength{\rightskip}{0pt plus 5cm}double Gauge\+::modifier\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_gauge_a92907a4fc9bab701e02e16bea129409c}{}\label{class_gauge_a92907a4fc9bab701e02e16bea129409c}
+Modifier of the current gauge \+: value of the evolution of current\+\_\+ at the beginning of a round 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Ogre1\+Test/\hyperlink{_gauge_8h}{Gauge.\+h}\end{DoxyCompactItemize}

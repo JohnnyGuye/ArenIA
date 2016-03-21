@@ -1,10 +1,14 @@
 #include "GameObject.h"
 
 using namespace std;
+using namespace Ogre;
 
 GameObject::GameObject(Ogre::Vector3 position, std::string name)
-	: name_(name), position_(position)
+	: name_(name), 
+	position_(position),
+	orientation_(Vector3::UNIT_X)
 {
+	setStatus();
 }
 
 
@@ -26,6 +30,7 @@ bool GameObject::isImmortal() const
 {
 	return immortal_;
 }
+
 bool GameObject::isInStase() const
 {
 	return (impotent_ && snare_ && immortal_);
@@ -38,10 +43,14 @@ void GameObject::setStatus(const int flag)
 	impotent_	= ((flag & IMPOTENT) == 1);
 }
 
-bool GameObject::setPosition(Ogre::Vector3 const& newPos)
+void GameObject::setPosition(Ogre::Vector3 const& newPos)
 {
 	position_ = newPos;
-	return true;
+}
+
+void GameObject::setOrientation(const Degree& angle)
+{
+	orientation_;
 }
 
 bool GameObject::move(Ogre::Vector3 const& direction)
@@ -57,9 +66,14 @@ void GameObject::dealHitBoxDamages(GameObject* other) const
 
 }
 
-Ogre::Vector3 GameObject::getPosition() const
+Vector3 GameObject::getPosition() const
 {
 	return position_;
+}
+
+Vector3 GameObject::getOrientation() const
+{
+	return orientation_;
 }
 
 string GameObject::getName() const

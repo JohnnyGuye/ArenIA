@@ -1,0 +1,76 @@
+\hypertarget{class_fight_window}{}\section{Fight\+Window Class Reference}
+\label{class_fight_window}\index{Fight\+Window@{Fight\+Window}}
+Inheritance diagram for Fight\+Window\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.382979cm]{class_fight_window}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_fight_window_1_1_game_entity}{Game\+Entity}
+\item 
+class \hyperlink{class_fight_window_1_1_robot_entity}{Robot\+Entity}
+\item 
+class \hyperlink{class_fight_window_1_1_sun}{Sun}
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bfseries create\+Scene} (void)\hypertarget{class_fight_window_a3aee535d7ace85acd1f0d0656d1433e0}{}\label{class_fight_window_a3aee535d7ace85acd1f0d0656d1433e0}
+
+\item 
+virtual void {\bfseries create\+Entity} (const std\+::string \&mesh, const Ogre\+::\+Vector3 \&position, const int \&scale)\hypertarget{class_fight_window_a1f6ec19b6b0bc3fe0a8036084532fc7a}{}\label{class_fight_window_a1f6ec19b6b0bc3fe0a8036084532fc7a}
+
+\item 
+virtual void {\bfseries create\+Robot} (const std\+::string \&mesg, const Ogre\+::\+Vector3 \&position, const int \&scale, \hyperlink{class_robot}{Robot} $\ast$robot)\hypertarget{class_fight_window_a535fe2c1bfff705c76aa047234f8e0e7}{}\label{class_fight_window_a535fe2c1bfff705c76aa047234f8e0e7}
+
+\item 
+virtual void {\bfseries create\+Camera} (void)\hypertarget{class_fight_window_a62b0ed087163dd1cd80cc1ed4d58853b}{}\label{class_fight_window_a62b0ed087163dd1cd80cc1ed4d58853b}
+
+\item 
+virtual void {\bfseries create\+Viewports} (void)\hypertarget{class_fight_window_a7dabb8fcaf9f3d2df3e8b5f37613603b}{}\label{class_fight_window_a7dabb8fcaf9f3d2df3e8b5f37613603b}
+
+\item 
+virtual bool {\bfseries frame\+Rendering\+Queued} (const Ogre\+::\+Frame\+Event \&evt)\hypertarget{class_fight_window_a2c83dddec520710d01f55c363f48b768}{}\label{class_fight_window_a2c83dddec520710d01f55c363f48b768}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_fight_manager}{Fight\+Manager} $\ast$ \hyperlink{class_fight_window_a5353954a2361e6ecd1a91f2882c6ed76}{fight\+Manager\+\_\+}
+\item 
+std\+::vector$<$ Ogre\+::\+Entity $\ast$ $>$ \hyperlink{class_fight_window_a6c0baedcad2a8d6d6f051b27c73ad5ec}{Decor\+Entities\+\_\+}
+\item 
+\hyperlink{class_fight_window_1_1_sun}{Sun} $\ast$ \hyperlink{class_fight_window_ac0efa5268674b08d31c3adc7dc3ab7a3}{the\+Sun\+\_\+}
+\item 
+std\+::list$<$ \hyperlink{class_fight_window_1_1_robot_entity}{Robot\+Entity} $>$ \hyperlink{class_fight_window_a07cdb20ba127910023e0bd45f4b007a8}{robots\+Entities\+\_\+}
+\item 
+std\+::list$<$ \hyperlink{class_fight_window_1_1_game_entity}{Game\+Entity} $>$ \hyperlink{class_fight_window_af9ed710d89b1a0a0ab326d3bcd55a072}{object\+Entities\+\_\+}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Member Data Documentation}
+\index{Fight\+Window@{Fight\+Window}!Decor\+Entities\+\_\+@{Decor\+Entities\+\_\+}}
+\index{Decor\+Entities\+\_\+@{Decor\+Entities\+\_\+}!Fight\+Window@{Fight\+Window}}
+\subsubsection[{\texorpdfstring{Decor\+Entities\+\_\+}{DecorEntities_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$Ogre\+::\+Entity$\ast$$>$ Fight\+Window\+::\+Decor\+Entities\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_window_a6c0baedcad2a8d6d6f051b27c73ad5ec}{}\label{class_fight_window_a6c0baedcad2a8d6d6f051b27c73ad5ec}
+The entities corresponding to the scenery \index{Fight\+Window@{Fight\+Window}!fight\+Manager\+\_\+@{fight\+Manager\+\_\+}}
+\index{fight\+Manager\+\_\+@{fight\+Manager\+\_\+}!Fight\+Window@{Fight\+Window}}
+\subsubsection[{\texorpdfstring{fight\+Manager\+\_\+}{fightManager_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Fight\+Manager}$\ast$ Fight\+Window\+::fight\+Manager\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_window_a5353954a2361e6ecd1a91f2882c6ed76}{}\label{class_fight_window_a5353954a2361e6ecd1a91f2882c6ed76}
+The logic of the game \index{Fight\+Window@{Fight\+Window}!object\+Entities\+\_\+@{object\+Entities\+\_\+}}
+\index{object\+Entities\+\_\+@{object\+Entities\+\_\+}!Fight\+Window@{Fight\+Window}}
+\subsubsection[{\texorpdfstring{object\+Entities\+\_\+}{objectEntities_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::list$<${\bf Game\+Entity}$>$ Fight\+Window\+::object\+Entities\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_window_af9ed710d89b1a0a0ab326d3bcd55a072}{}\label{class_fight_window_af9ed710d89b1a0a0ab326d3bcd55a072}
+The other objects to carry \index{Fight\+Window@{Fight\+Window}!robots\+Entities\+\_\+@{robots\+Entities\+\_\+}}
+\index{robots\+Entities\+\_\+@{robots\+Entities\+\_\+}!Fight\+Window@{Fight\+Window}}
+\subsubsection[{\texorpdfstring{robots\+Entities\+\_\+}{robotsEntities_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::list$<${\bf Robot\+Entity}$>$ Fight\+Window\+::robots\+Entities\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_window_a07cdb20ba127910023e0bd45f4b007a8}{}\label{class_fight_window_a07cdb20ba127910023e0bd45f4b007a8}
+The robots to carry \index{Fight\+Window@{Fight\+Window}!the\+Sun\+\_\+@{the\+Sun\+\_\+}}
+\index{the\+Sun\+\_\+@{the\+Sun\+\_\+}!Fight\+Window@{Fight\+Window}}
+\subsubsection[{\texorpdfstring{the\+Sun\+\_\+}{theSun_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Sun}$\ast$ Fight\+Window\+::the\+Sun\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_window_ac0efa5268674b08d31c3adc7dc3ab7a3}{}\label{class_fight_window_ac0efa5268674b08d31c3adc7dc3ab7a3}
+The sun 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Ogre1\+Test/Fight\+Window.\+h\item 
+Ogre1\+Test/Fight\+Window.\+cpp\end{DoxyCompactItemize}

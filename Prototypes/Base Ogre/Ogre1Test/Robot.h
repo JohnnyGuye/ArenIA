@@ -131,9 +131,6 @@ class Robot: public GameObject
         /**Turret Orientation**/
         Ogre::Vector3 turretOrientation_;
 
-        /**Wheel Orientation **/
-        Ogre::Vector3 orientation_;
-
     //constants
     public:
         /** **/

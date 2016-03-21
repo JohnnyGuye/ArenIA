@@ -1,0 +1,149 @@
+\hypertarget{class_terrain}{}\section{Terrain Class Reference}
+\label{class_terrain}\index{Terrain@{Terrain}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_terrain_1_1_d_o_m_object}{D\+O\+M\+Object}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Terrain} (const std\+::string \&source\+File)\hypertarget{class_terrain_ab58f28f01080863529be2be5059a9ae2}{}\label{class_terrain_ab58f28f01080863529be2be5059a9ae2}
+
+\item 
+bool \hyperlink{class_terrain_a4dbc413a6736ca0939ea342d4cf2155f}{get\+Collision} (\hyperlink{class_game_object}{Game\+Object} $\ast$other)
+\begin{DoxyCompactList}\small\item\em verify collision between object and wall \end{DoxyCompactList}\item 
+bool \hyperlink{class_terrain_a822320e686563e07301abc1c4ef1cb9f}{Is\+A\+Wall} (const int \&x, const int \&y)
+\begin{DoxyCompactList}\small\item\em verify if there is a wall in this cell \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_terrain_a79523f56e769e661d96b7910f6e4cb23}{get\+Width} () const 
+\begin{DoxyCompactList}\small\item\em give width of the terrain \end{DoxyCompactList}\item 
+unsigned int \hyperlink{class_terrain_a871a9554970fab92d4003e44663e30bd}{get\+Height} () const 
+\begin{DoxyCompactList}\small\item\em give height of the terrain \end{DoxyCompactList}\item 
+\hyperlink{class_game_object}{Game\+Object} $\ast$ \hyperlink{class_terrain_aeda05fd3caffde9f10501f7455895c18}{get\+Object\+In\+Cell} (int const \&x, int const \&y) const 
+\begin{DoxyCompactList}\small\item\em return the element in the cell (x,y) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int {\bfseries C\+E\+L\+L\+\_\+\+S\+I\+ZE} = 100\hypertarget{class_terrain_a98fdc36982387d0cb430342423aae6e4}{}\label{class_terrain_a98fdc36982387d0cb430342423aae6e4}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void {\bfseries Load\+From\+File} ()\hypertarget{class_terrain_afd6ee4f91ff4298e572431135a0e63f2}{}\label{class_terrain_afd6ee4f91ff4298e572431135a0e63f2}
+
+\item 
+void {\bfseries Interpreter\+D\+OM} (const \hyperlink{class_terrain_1_1_d_o_m_object}{D\+O\+M\+Object} \&domo)\hypertarget{class_terrain_adb42c31dd75631476b5802560c34466e}{}\label{class_terrain_adb42c31dd75631476b5802560c34466e}
+
+\item 
+void {\bfseries create\+Object\+In\+Cell} (const int \&x, const int \&y, const std\+::string \&num=\char`\"{}0\char`\"{})\hypertarget{class_terrain_a7691ac72600c48070289ccb91248fbcb}{}\label{class_terrain_a7691ac72600c48070289ccb91248fbcb}
+
+\item 
+int {\bfseries pos\+To\+Cell} (const Ogre\+::\+Real \&val) const \hypertarget{class_terrain_ad86cc66637b53a00b3fb4cd5ff39ef95}{}\label{class_terrain_ad86cc66637b53a00b3fb4cd5ff39ef95}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_terrain_ae286556f7fb77345a4a3fbc6901edf4e}{source\+File\+\_\+}\hypertarget{class_terrain_ae286556f7fb77345a4a3fbc6901edf4e}{}\label{class_terrain_ae286556f7fb77345a4a3fbc6901edf4e}
+
+\begin{DoxyCompactList}\small\item\em The name of the sourcefile. \end{DoxyCompactList}\item 
+\hyperlink{class_game_object}{Game\+Object} $\ast$$\ast$$\ast$ \hyperlink{class_terrain_a5cf02f28fd2d993a6b7417cc46dc9855}{grille\+\_\+}\hypertarget{class_terrain_a5cf02f28fd2d993a6b7417cc46dc9855}{}\label{class_terrain_a5cf02f28fd2d993a6b7417cc46dc9855}
+
+\begin{DoxyCompactList}\small\item\em The object grille representing the terrain. \end{DoxyCompactList}\item 
+std\+::list$<$ Ogre\+::\+Vector2 $>$ \hyperlink{class_terrain_a271c49a8e30c106cc1bbf547513f1923}{starts\+\_\+}\hypertarget{class_terrain_a271c49a8e30c106cc1bbf547513f1923}{}\label{class_terrain_a271c49a8e30c106cc1bbf547513f1923}
+
+\begin{DoxyCompactList}\small\item\em A list of vector2 for each position possible for a start. \end{DoxyCompactList}\item 
+int {\bfseries width\+\_\+}\hypertarget{class_terrain_ab92044760ae9c7429d120e152a29b0d4}{}\label{class_terrain_ab92044760ae9c7429d120e152a29b0d4}
+
+\item 
+int \hyperlink{class_terrain_ab2307840dabffc4f01b346508717e51a}{height\+\_\+}\hypertarget{class_terrain_ab2307840dabffc4f01b346508717e51a}{}\label{class_terrain_ab2307840dabffc4f01b346508717e51a}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_terrain}{Terrain} width. \end{DoxyCompactList}\item 
+int \hyperlink{class_terrain_a18bf07b70f49ed1099817698ea94479a}{tilew\+\_\+}\hypertarget{class_terrain_a18bf07b70f49ed1099817698ea94479a}{}\label{class_terrain_a18bf07b70f49ed1099817698ea94479a}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_terrain}{Terrain} height. \end{DoxyCompactList}\item 
+int \hyperlink{class_terrain_a91d5d86aad04e5bf1210671b329073a7}{tileh\+\_\+}\hypertarget{class_terrain_a91d5d86aad04e5bf1210671b329073a7}{}\label{class_terrain_a91d5d86aad04e5bf1210671b329073a7}
+
+\begin{DoxyCompactList}\small\item\em tile width (only used for parsing) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Terrain@{Terrain}!get\+Collision@{get\+Collision}}
+\index{get\+Collision@{get\+Collision}!Terrain@{Terrain}}
+\subsubsection[{\texorpdfstring{get\+Collision(\+Game\+Object $\ast$other)}{getCollision(GameObject *other)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Terrain\+::get\+Collision (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+Object} $\ast$}]{other}
+\end{DoxyParamCaption}
+)}\hypertarget{class_terrain_a4dbc413a6736ca0939ea342d4cf2155f}{}\label{class_terrain_a4dbc413a6736ca0939ea342d4cf2155f}
+
+
+verify collision between object and wall 
+
+\begin{DoxyReturn}{Returns}
+\+: true if other and a wall are coliding 
+\end{DoxyReturn}
+\index{Terrain@{Terrain}!get\+Height@{get\+Height}}
+\index{get\+Height@{get\+Height}!Terrain@{Terrain}}
+\subsubsection[{\texorpdfstring{get\+Height() const }{getHeight() const }}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Terrain\+::get\+Height (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_terrain_a871a9554970fab92d4003e44663e30bd}{}\label{class_terrain_a871a9554970fab92d4003e44663e30bd}
+
+
+give height of the terrain 
+
+\begin{DoxyReturn}{Returns}
+\+: height 
+\end{DoxyReturn}
+\index{Terrain@{Terrain}!get\+Object\+In\+Cell@{get\+Object\+In\+Cell}}
+\index{get\+Object\+In\+Cell@{get\+Object\+In\+Cell}!Terrain@{Terrain}}
+\subsubsection[{\texorpdfstring{get\+Object\+In\+Cell(int const \&x, int const \&y) const }{getObjectInCell(int const &x, int const &y) const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Object} $\ast$ Terrain\+::get\+Object\+In\+Cell (
+\begin{DoxyParamCaption}
+\item[{int const \&}]{x, }
+\item[{int const \&}]{y}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_terrain_aeda05fd3caffde9f10501f7455895c18}{}\label{class_terrain_aeda05fd3caffde9f10501f7455895c18}
+
+
+return the element in the cell (x,y) 
+
+\begin{DoxyReturn}{Returns}
+\+: the Object in the cell, null if no Object there 
+\end{DoxyReturn}
+\index{Terrain@{Terrain}!get\+Width@{get\+Width}}
+\index{get\+Width@{get\+Width}!Terrain@{Terrain}}
+\subsubsection[{\texorpdfstring{get\+Width() const }{getWidth() const }}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int Terrain\+::get\+Width (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_terrain_a79523f56e769e661d96b7910f6e4cb23}{}\label{class_terrain_a79523f56e769e661d96b7910f6e4cb23}
+
+
+give width of the terrain 
+
+\begin{DoxyReturn}{Returns}
+\+: width 
+\end{DoxyReturn}
+\index{Terrain@{Terrain}!Is\+A\+Wall@{Is\+A\+Wall}}
+\index{Is\+A\+Wall@{Is\+A\+Wall}!Terrain@{Terrain}}
+\subsubsection[{\texorpdfstring{Is\+A\+Wall(const int \&x, const int \&y)}{IsAWall(const int &x, const int &y)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Terrain\+::\+Is\+A\+Wall (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{x, }
+\item[{const int \&}]{y}
+\end{DoxyParamCaption}
+)}\hypertarget{class_terrain_a822320e686563e07301abc1c4ef1cb9f}{}\label{class_terrain_a822320e686563e07301abc1c4ef1cb9f}
+
+
+verify if there is a wall in this cell 
+
+\begin{DoxyReturn}{Returns}
+\+: true if there is a wall there 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Ogre1\+Test/Terrain.\+h\item 
+Ogre1\+Test/Terrain.\+cpp\end{DoxyCompactItemize}

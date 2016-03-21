@@ -3,8 +3,10 @@
 using namespace Ogre;
 using namespace std;
 
-
+// ----------------------------------------------
 // ---------------- THE SUN ---------------------
+// ----------------------------------------------
+
 FightWindow::Sun::Sun(FightWindow* fw = nullptr)
 	: fw_(fw), sceneMgr_(fw->sceneMgr_)
 {
@@ -47,18 +49,23 @@ void FightWindow::Sun::update()
 	light_->setPosition(node->getPosition());
 }
 
+// ----------------------------------------------
 // --------------- GAME ENTITY ------------------
+// ----------------------------------------------
+
 FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
 	const Ogre::Vector3& position, const int& scale, GameObject* object)
 	:	sceneMgr_(sceneMgr),
 	object_(object)
 {
 	entity_ = sceneMgr_->createEntity(mesh); 
+
 	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode();
 	node_->setPosition(position);
 	node_->setScale(scale, scale, scale);
 	node_->attachObject(entity_);
 	node_->pitch(Degree(-90));
+
 	animState_ = entity_->getAnimationState("Forward");
 	animState_->setLoop(true);
 	animState_->setEnabled(true);
@@ -68,27 +75,37 @@ FightWindow::GameEntity::~GameEntity()
 {
 }
 
-void FightWindow::GameEntity::update()
+void FightWindow::GameEntity::update(const FrameEvent& evt)
 {
+	node_->setPosition(object_->getPosition());
+	animState_->addTime(evt.timeSinceLastFrame);
 }
 
+// ----------------------------------------------
 // --------------- ROBOT ENTITY -----------------
+// ----------------------------------------------
+
 FightWindow::RobotEntity::RobotEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
 	const Ogre::Vector3& position, const int& scale, Robot* robot)
 	:	GameEntity(sceneMgr, mesh, position, scale, robot)
 {
+	//robot->turnDirection(Degree(90));
+	node_->roll(Degree(robot->getWheelAngle()));
 }
 
 FightWindow::RobotEntity::~RobotEntity()
 {
 }
 
-void FightWindow::RobotEntity::update()
+void FightWindow::RobotEntity::update(const FrameEvent& evt)
 {
-	node_->setPosition(object_->getPosition());
+	GameEntity::update(evt);
 }
 
-//------------- THE FIGHT WINDOW ----------------
+// ----------------------------------------------
+// ------------ THE FIGHT WINDOW ----------------
+// ----------------------------------------------
+
 FightWindow::FightWindow(void)
 {
 	fightManager_ = new FightManager("essai2.txt");
@@ -190,9 +207,10 @@ void FightWindow::createViewports()
 		  Ogre::Real(vp->getActualHeight()));
 }
 
-/* Gaming Loop */
+/* Render loop */
 bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+	//Not really the game
     if(window_->isClosed())
         return false;
 
@@ -223,16 +241,17 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	/* Update correctly the fightManager CLEMENT, I NEED YOU*/
 	fightManager_->update();
 
+	/* Update rendering */
 	theSun_->update();
 
 	for(std::list<GameEntity>::iterator ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
 	{
-		//(*ge).update();
+		(*ge).update(evt);
 	}
 
 	for(std::list<RobotEntity>::iterator re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
 	{
-		(*re).update();
+		(*re).update(evt);
 	}
 
     return true;

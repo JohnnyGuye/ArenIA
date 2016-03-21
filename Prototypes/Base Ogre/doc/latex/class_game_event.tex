@@ -1,0 +1,79 @@
+\hypertarget{class_game_event}{}\section{Game\+Event Class Reference}
+\label{class_game_event}\index{Game\+Event@{Game\+Event}}
+Inheritance diagram for Game\+Event\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.931034cm]{class_game_event}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Event\+Type} \{ \\*
+{\bfseries R\+O\+B\+O\+T\+\_\+\+K\+I\+LL}, 
+{\bfseries T\+E\+A\+M\+\_\+\+K\+I\+LL}, 
+{\bfseries A\+L\+L\+\_\+\+R\+O\+B\+O\+T\+S\+\_\+\+K\+I\+LL}, 
+{\bfseries N\+E\+W\+\_\+\+R\+O\+B\+O\+T\+\_\+\+S\+P\+A\+WN}, 
+\\*
+{\bfseries A\+L\+L\+\_\+\+R\+E\+S\+S\+O\+U\+R\+C\+E\+\_\+\+C\+O\+L\+L\+E\+C\+T\+ED}, 
+{\bfseries R\+E\+A\+C\+H\+E\+D\+\_\+\+P\+O\+I\+NT}, 
+{\bfseries R\+E\+S\+E\+T\+\_\+\+T\+I\+M\+ER}, 
+{\bfseries S\+T\+A\+R\+T\+\_\+\+SD}, 
+\\*
+{\bfseries S\+T\+A\+N\+D\+A\+R\+D\+\_\+\+E\+V\+E\+NT}
+ \}\hypertarget{class_game_event_a2e8fe3fa81734632c5e121ea0143b72f}{}\label{class_game_event_a2e8fe3fa81734632c5e121ea0143b72f}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Game\+Event} (\hyperlink{class_game_time}{Game\+Time} time=\hyperlink{class_game_time}{Game\+Time}())\hypertarget{class_game_event_a300cc52bb8581fadd2384d8805961988}{}\label{class_game_event_a300cc52bb8581fadd2384d8805961988}
+
+\item 
+virtual Event\+Type \hyperlink{class_game_event_a7fbb5c78f90ff2d6ba905e827d416b24}{get\+Event\+Type} () const 
+\item 
+virtual \hyperlink{class_game_time}{Game\+Time} \hyperlink{class_game_event_a66ea9108338cbd86a2aa9a77a0306925}{get\+Time} () const 
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_game_time}{Game\+Time} \hyperlink{class_game_event_aeda42e09992a2699a8df14bac49c2a12}{timer\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Game\+Event@{Game\+Event}!get\+Event\+Type@{get\+Event\+Type}}
+\index{get\+Event\+Type@{get\+Event\+Type}!Game\+Event@{Game\+Event}}
+\subsubsection[{\texorpdfstring{get\+Event\+Type() const }{getEventType() const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual Event\+Type Game\+Event\+::get\+Event\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_game_event_a7fbb5c78f90ff2d6ba905e827d416b24}{}\label{class_game_event_a7fbb5c78f90ff2d6ba905e827d416b24}
+\begin{DoxyReturn}{Returns}
+the eventtype of your event 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{class_robot_kill_event_a8a17b10570a6a64ff1d3f57487aa8979}{Robot\+Kill\+Event}, \hyperlink{class_team_kill_event_a5767fd00879f1e0e41909742bf94d979}{Team\+Kill\+Event}, \hyperlink{class_reach_point_event_a101793759f1abcc60b97102dc93db349}{Reach\+Point\+Event}, and \hyperlink{class_start_s_d_event_af941e104b21800436afacccadb5ba2f7}{Start\+S\+D\+Event}.
+
+\index{Game\+Event@{Game\+Event}!get\+Time@{get\+Time}}
+\index{get\+Time@{get\+Time}!Game\+Event@{Game\+Event}}
+\subsubsection[{\texorpdfstring{get\+Time() const }{getTime() const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Game\+Time} Game\+Event\+::get\+Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{class_game_event_a66ea9108338cbd86a2aa9a77a0306925}{}\label{class_game_event_a66ea9108338cbd86a2aa9a77a0306925}
+\begin{DoxyReturn}{Returns}
+the time when the event was created 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\index{Game\+Event@{Game\+Event}!timer\+\_\+@{timer\+\_\+}}
+\index{timer\+\_\+@{timer\+\_\+}!Game\+Event@{Game\+Event}}
+\subsubsection[{\texorpdfstring{timer\+\_\+}{timer_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Time} Game\+Event\+::timer\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_game_event_aeda42e09992a2699a8df14bac49c2a12}{}\label{class_game_event_aeda42e09992a2699a8df14bac49c2a12}
+A timer on the beginning of the action and its duration 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Ogre1\+Test/Game\+Event.\+h\end{DoxyCompactItemize}

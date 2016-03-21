@@ -1,0 +1,186 @@
+\hypertarget{class_robot}{}\section{Robot Class Reference}
+\label{class_robot}\index{Robot@{Robot}}
+Inheritance diagram for Robot\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_robot}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{class_robot_a6bc1ba7151313210f04584db866d45c8}{reset\+Action} ()\hypertarget{class_robot_a6bc1ba7151313210f04584db866d45c8}{}\label{class_robot_a6bc1ba7151313210f04584db866d45c8}
+
+\begin{DoxyCompactList}\small\item\em Reset the action state of the \hyperlink{class_robot}{Robot} to I\+D\+LE. \end{DoxyCompactList}\item 
+virtual void {\bfseries update} ()\hypertarget{class_robot_adc34eec22821c2dce23904a5ea75cf13}{}\label{class_robot_adc34eec22821c2dce23904a5ea75cf13}
+
+\item 
+virtual bool \hyperlink{class_robot_a23936e7872d4732a0f742e131cde0864}{fire} ()
+\begin{DoxyCompactList}\small\item\em Called to make the \hyperlink{class_robot}{Robot} fire his turret. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_robot_a706f116e6359920401c07767d7d63989}{move} ()\hypertarget{class_robot_a706f116e6359920401c07767d7d63989}{}\label{class_robot_a706f116e6359920401c07767d7d63989}
+
+\begin{DoxyCompactList}\small\item\em Called to make the \hyperlink{class_robot}{Robot} move. \end{DoxyCompactList}\item 
+virtual bool {\bfseries turn\+Turret} (Ogre\+::\+Degree angle)\hypertarget{class_robot_ab5e2d0f15330edb713db220438a388ab}{}\label{class_robot_ab5e2d0f15330edb713db220438a388ab}
+
+\item 
+virtual bool \hyperlink{class_robot_a79904b8907071381b97c00931fe522b8}{turn\+Direction} (Ogre\+::\+Degree angle)
+\item 
+virtual Ogre\+::\+Vector3 \hyperlink{class_robot_ad4e340a0d2bd48d480ccfc8b9a0591ec}{get\+Wheel\+Orientation} () const 
+\begin{DoxyCompactList}\small\item\em Use the idxth Ability. \end{DoxyCompactList}\item 
+virtual Ogre\+::\+Degree \hyperlink{class_robot_ab3895f49d7d1ea4c3e753533dd95052e}{get\+Wheel\+Angle} () const 
+\begin{DoxyCompactList}\small\item\em The angle between the X-\/axis of the game, and the X-\/axis of the robot. \end{DoxyCompactList}\item 
+virtual Ogre\+::\+Vector3 {\bfseries get\+Turret\+Orientation} () const \hypertarget{class_robot_a6560036edc7677c03e26595bbd24c98e}{}\label{class_robot_a6560036edc7677c03e26595bbd24c98e}
+
+\item 
+virtual Ogre\+::\+Degree \hyperlink{class_robot_a11e5ffac2bc13d610406e2a791661788}{get\+Turret\+Angle} () const 
+\begin{DoxyCompactList}\small\item\em The angle between the X-\/axis of the wheels, and the X-\/axis of the turret. \end{DoxyCompactList}\item 
+virtual double {\bfseries get\+Speed} () const \hypertarget{class_robot_a51a941b259f52d3189d638be80e3a7be}{}\label{class_robot_a51a941b259f52d3189d638be80e3a7be}
+
+\item 
+virtual Team {\bfseries get\+Team} () const \hypertarget{class_robot_a8bf33cb05e84c73c2cdb2b266282a59f}{}\label{class_robot_a8bf33cb05e84c73c2cdb2b266282a59f}
+
+\item 
+virtual int {\bfseries get\+Action} () const \hypertarget{class_robot_a4e47f4a32f0d7b0ea911a1bbf1cad7ef}{}\label{class_robot_a4e47f4a32f0d7b0ea911a1bbf1cad7ef}
+
+\item 
+virtual bool {\bfseries is\+Moving} () const \hypertarget{class_robot_a1cecc2e1972fc22ea27d214a45e175b7}{}\label{class_robot_a1cecc2e1972fc22ea27d214a45e175b7}
+
+\item 
+virtual bool {\bfseries is\+Shooting} () const \hypertarget{class_robot_ab0ab556eaddc3646a9637dbc9e00fd00}{}\label{class_robot_ab0ab556eaddc3646a9637dbc9e00fd00}
+
+\item 
+virtual bool {\bfseries is\+I\+D\+LE} () const \hypertarget{class_robot_ac7df18d3817fa2b30e21817b55d9c73f}{}\label{class_robot_ac7df18d3817fa2b30e21817b55d9c73f}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int {\bfseries I\+D\+LE} = 0\hypertarget{class_robot_aafd6cf7303e05377bc643d67eeaec243}{}\label{class_robot_aafd6cf7303e05377bc643d67eeaec243}
+
+\item 
+static const int {\bfseries T\+U\+R\+N\+I\+N\+G\+\_\+\+W\+H\+E\+E\+LS} = 1\hypertarget{class_robot_ae38156fc21c7072e5d73ae743f66c5d4}{}\label{class_robot_ae38156fc21c7072e5d73ae743f66c5d4}
+
+\item 
+static const int {\bfseries M\+O\+V\+I\+NG} = 2\hypertarget{class_robot_ac9bccd1d10e1df73274f7cdaa5c0d60e}{}\label{class_robot_ac9bccd1d10e1df73274f7cdaa5c0d60e}
+
+\item 
+static const int {\bfseries T\+U\+R\+N\+I\+N\+G\+\_\+\+T\+U\+R\+R\+ET} = 4\hypertarget{class_robot_abcfbf98fcca5c9338227b2947faa66f9}{}\label{class_robot_abcfbf98fcca5c9338227b2947faa66f9}
+
+\item 
+static const int {\bfseries S\+H\+O\+O\+T\+I\+NG} = 8\hypertarget{class_robot_a3bf9287d863a9376b7b7778d833c9645}{}\label{class_robot_a3bf9287d863a9376b7b7778d833c9645}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Team \hyperlink{class_robot_a3a6eab3bff35041a41f823d8a873d69e}{team\+\_\+}
+\item 
+\hyperlink{class_stats}{Stats} \hyperlink{class_robot_accf825493537bfd819a7c7ac2f89fb63}{stats\+\_\+}
+\item 
+\hyperlink{class_stats}{Stats} \hyperlink{class_robot_a5dce20554ad211dd37a44ded1d08dd92}{additional\+Stats\+\_\+}
+\item 
+int \hyperlink{class_robot_afdd1731d959b952e0cdd707d4acebdd7}{action\+\_\+}
+\item 
+std\+::string \hyperlink{class_robot_a59d201b32aeef7a255b539aadd061e9c}{ia\+Filename\+\_\+}
+\item 
+Ogre\+::\+Vector3 \hyperlink{class_robot_aebf0e363388dc7d6c80964016189511a}{turret\+Orientation\+\_\+}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Member Function Documentation}
+\index{Robot@{Robot}!fire@{fire}}
+\index{fire@{fire}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{fire()}{fire()}}]{\setlength{\rightskip}{0pt plus 5cm}bool Robot\+::fire (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_robot_a23936e7872d4732a0f742e131cde0864}{}\label{class_robot_a23936e7872d4732a0f742e131cde0864}
+
+
+Called to make the \hyperlink{class_robot}{Robot} fire his turret. 
+
+\begin{DoxyReturn}{Returns}
+True after a complete execution 
+\end{DoxyReturn}
+\index{Robot@{Robot}!get\+Turret\+Angle@{get\+Turret\+Angle}}
+\index{get\+Turret\+Angle@{get\+Turret\+Angle}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{get\+Turret\+Angle() const }{getTurretAngle() const }}]{\setlength{\rightskip}{0pt plus 5cm}Degree Robot\+::get\+Turret\+Angle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_robot_a11e5ffac2bc13d610406e2a791661788}{}\label{class_robot_a11e5ffac2bc13d610406e2a791661788}
+
+
+The angle between the X-\/axis of the wheels, and the X-\/axis of the turret. 
+
+\begin{DoxyReturn}{Returns}
+this angle in degrees 
+\end{DoxyReturn}
+\index{Robot@{Robot}!get\+Wheel\+Angle@{get\+Wheel\+Angle}}
+\index{get\+Wheel\+Angle@{get\+Wheel\+Angle}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{get\+Wheel\+Angle() const }{getWheelAngle() const }}]{\setlength{\rightskip}{0pt plus 5cm}Degree Robot\+::get\+Wheel\+Angle (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_robot_ab3895f49d7d1ea4c3e753533dd95052e}{}\label{class_robot_ab3895f49d7d1ea4c3e753533dd95052e}
+
+
+The angle between the X-\/axis of the game, and the X-\/axis of the robot. 
+
+\begin{DoxyReturn}{Returns}
+this angle in degrees 
+\end{DoxyReturn}
+\index{Robot@{Robot}!get\+Wheel\+Orientation@{get\+Wheel\+Orientation}}
+\index{get\+Wheel\+Orientation@{get\+Wheel\+Orientation}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{get\+Wheel\+Orientation() const }{getWheelOrientation() const }}]{\setlength{\rightskip}{0pt plus 5cm}Vector3 Robot\+::get\+Wheel\+Orientation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_robot_ad4e340a0d2bd48d480ccfc8b9a0591ec}{}\label{class_robot_ad4e340a0d2bd48d480ccfc8b9a0591ec}
+
+
+Use the idxth Ability. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em idx\+Ability} & \+: The index of the Ability to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+bool use\+Ability(int idx\+Ability); /$\ast$$\ast$ vector$<$\+Ability$\ast$$>$ get\+Known\+Competences(\+Robot robot); /$\ast$$\ast$ bool add\+Ability(\& Ability); /$\ast$$\ast$ bool remove\+Ability(int idx\+Ability); \index{Robot@{Robot}!turn\+Direction@{turn\+Direction}}
+\index{turn\+Direction@{turn\+Direction}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{turn\+Direction(\+Ogre\+::\+Degree angle)}{turnDirection(Ogre::Degree angle)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Robot\+::turn\+Direction (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Degree}]{angle}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_robot_a79904b8907071381b97c00931fe522b8}{}\label{class_robot_a79904b8907071381b97c00931fe522b8}
+/!\textbackslash{} doesn\textquotesingle{}t change the turret\textquotesingle{}s orientation as of now 
+
+\subsection{Member Data Documentation}
+\index{Robot@{Robot}!action\+\_\+@{action\+\_\+}}
+\index{action\+\_\+@{action\+\_\+}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{action\+\_\+}{action_}}]{\setlength{\rightskip}{0pt plus 5cm}int Robot\+::action\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_robot_afdd1731d959b952e0cdd707d4acebdd7}{}\label{class_robot_afdd1731d959b952e0cdd707d4acebdd7}
+The \hyperlink{class_robot}{Robot}\textquotesingle{}s abilities Current actions done by the robot \index{Robot@{Robot}!additional\+Stats\+\_\+@{additional\+Stats\+\_\+}}
+\index{additional\+Stats\+\_\+@{additional\+Stats\+\_\+}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{additional\+Stats\+\_\+}{additionalStats_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Stats} Robot\+::additional\+Stats\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_robot_a5dce20554ad211dd37a44ded1d08dd92}{}\label{class_robot_a5dce20554ad211dd37a44ded1d08dd92}
+modifier for the base stats \index{Robot@{Robot}!ia\+Filename\+\_\+@{ia\+Filename\+\_\+}}
+\index{ia\+Filename\+\_\+@{ia\+Filename\+\_\+}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{ia\+Filename\+\_\+}{iaFilename_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Robot\+::ia\+Filename\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_robot_a59d201b32aeef7a255b539aadd061e9c}{}\label{class_robot_a59d201b32aeef7a255b539aadd061e9c}
+The IA\textquotesingle{}s filename \index{Robot@{Robot}!stats\+\_\+@{stats\+\_\+}}
+\index{stats\+\_\+@{stats\+\_\+}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{stats\+\_\+}{stats_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Stats} Robot\+::stats\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_robot_accf825493537bfd819a7c7ac2f89fb63}{}\label{class_robot_accf825493537bfd819a7c7ac2f89fb63}
+The base stats of the \hyperlink{class_robot}{Robot} \index{Robot@{Robot}!team\+\_\+@{team\+\_\+}}
+\index{team\+\_\+@{team\+\_\+}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{team\+\_\+}{team_}}]{\setlength{\rightskip}{0pt plus 5cm}Team Robot\+::team\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_robot_a3a6eab3bff35041a41f823d8a873d69e}{}\label{class_robot_a3a6eab3bff35041a41f823d8a873d69e}
+The teams to which the \hyperlink{class_robot}{Robot} Belongs \index{Robot@{Robot}!turret\+Orientation\+\_\+@{turret\+Orientation\+\_\+}}
+\index{turret\+Orientation\+\_\+@{turret\+Orientation\+\_\+}!Robot@{Robot}}
+\subsubsection[{\texorpdfstring{turret\+Orientation\+\_\+}{turretOrientation_}}]{\setlength{\rightskip}{0pt plus 5cm}Ogre\+::\+Vector3 Robot\+::turret\+Orientation\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_robot_aebf0e363388dc7d6c80964016189511a}{}\label{class_robot_aebf0e363388dc7d6c80964016189511a}
+Turret Orientation 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Ogre1\+Test/Robot.\+h\item 
+Ogre1\+Test/Robot.\+cpp\end{DoxyCompactItemize}

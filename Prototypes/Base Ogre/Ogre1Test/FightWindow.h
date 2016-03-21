@@ -61,13 +61,13 @@ protected:
 	public:
 		GameEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale, GameObject * object = nullptr);
 		virtual~GameEntity();
-		virtual void update();
+		virtual void update(const Ogre::FrameEvent& evt);
 	protected:
 		Ogre::SceneManager* sceneMgr_;
 		Ogre::Entity* entity_;
 		Ogre::SceneNode* node_;
-		Ogre::AnimationState* animState_;
 		GameObject* object_;
+		Ogre::AnimationState* animState_;
 	};
 
 	class RobotEntity : GameEntity
@@ -75,7 +75,7 @@ protected:
 	public:
 		RobotEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale, Robot* robot);
 		virtual~RobotEntity();
-		virtual void update();
+		virtual void update(const	Ogre::FrameEvent& evt);
 	protected:
 	};
 

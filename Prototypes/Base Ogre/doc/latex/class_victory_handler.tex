@@ -1,0 +1,93 @@
+\hypertarget{class_victory_handler}{}\section{Victory\+Handler Class Reference}
+\label{class_victory_handler}\index{Victory\+Handler@{Victory\+Handler}}
+Inheritance diagram for Victory\+Handler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_victory_handler}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{class_victory_handler_a0ed8ae4b1585207a23983f4c91d3139b}{update\+Flags} ()=0\hypertarget{class_victory_handler_a0ed8ae4b1585207a23983f4c91d3139b}{}\label{class_victory_handler_a0ed8ae4b1585207a23983f4c91d3139b}
+
+\begin{DoxyCompactList}\small\item\em Update the flags. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_victory_handler_a29595ec35f431f90d0e970ccd80e9da9}{handle\+Event} (\hyperlink{class_game_event}{Game\+Event} $\ast$ge)
+\begin{DoxyCompactList}\small\item\em hold the event if usefull for victory \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_victory_handler_a659d49bc2a41afe67e66f96e90431a0f}{Is\+Victory} () const 
+\begin{DoxyCompactList}\small\item\em Check if the fight reached an end point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{class_victory_handler_ae7ff58aa1a0d461863e6c3ae16f786ca}{create\+Flag} (const std\+::string \&attr)\hypertarget{class_victory_handler_ae7ff58aa1a0d461863e6c3ae16f786ca}{}\label{class_victory_handler_ae7ff58aa1a0d461863e6c3ae16f786ca}
+
+\begin{DoxyCompactList}\small\item\em add a flag \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_victory_handler_abf2f8c2d2bc9df0d4b2ed0856db67f73}{set\+Flag} (const std\+::string \&attr, const bool \&state=true)\hypertarget{class_victory_handler_abf2f8c2d2bc9df0d4b2ed0856db67f73}{}\label{class_victory_handler_abf2f8c2d2bc9df0d4b2ed0856db67f73}
+
+\begin{DoxyCompactList}\small\item\em set the state of a flag \end{DoxyCompactList}\item 
+virtual int \hyperlink{class_victory_handler_a35263f72fac35cea0ec3616f8d51cf61}{get\+Flags\+To\+Raise} () const \hypertarget{class_victory_handler_a35263f72fac35cea0ec3616f8d51cf61}{}\label{class_victory_handler_a35263f72fac35cea0ec3616f8d51cf61}
+
+\begin{DoxyCompactList}\small\item\em Number of flags before end. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::set$<$ Game\+Event\+::\+Event\+Type $>$ \hyperlink{class_victory_handler_ad77dbdde03da886a905c4daa274c4a0a}{events\+To\+Handle\+\_\+}
+\item 
+std\+::list$<$ \hyperlink{class_game_event}{Game\+Event} $\ast$ $>$ \hyperlink{class_victory_handler_a632e68ca2b6ffd913d5e27fc33f08123}{events\+\_\+}
+\item 
+Flags\+Map \hyperlink{class_victory_handler_a01fcaa39ade4234c761326e1f262b822}{flags\+\_\+}
+\item 
+int \hyperlink{class_victory_handler_ad692ca6b37d7e31e0b1bb8903a30d4f0}{flags\+To\+Raise\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Victory\+Handler@{Victory\+Handler}!handle\+Event@{handle\+Event}}
+\index{handle\+Event@{handle\+Event}!Victory\+Handler@{Victory\+Handler}}
+\subsubsection[{\texorpdfstring{handle\+Event(\+Game\+Event $\ast$ge)}{handleEvent(GameEvent *ge)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Victory\+Handler\+::handle\+Event (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+Event} $\ast$}]{ge}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_victory_handler_a29595ec35f431f90d0e970ccd80e9da9}{}\label{class_victory_handler_a29595ec35f431f90d0e970ccd80e9da9}
+
+
+hold the event if usefull for victory 
+
+\begin{DoxyReturn}{Returns}
+true if usefull 
+\end{DoxyReturn}
+\index{Victory\+Handler@{Victory\+Handler}!Is\+Victory@{Is\+Victory}}
+\index{Is\+Victory@{Is\+Victory}!Victory\+Handler@{Victory\+Handler}}
+\subsubsection[{\texorpdfstring{Is\+Victory() const }{IsVictory() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Victory\+Handler\+::\+Is\+Victory (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_victory_handler_a659d49bc2a41afe67e66f96e90431a0f}{}\label{class_victory_handler_a659d49bc2a41afe67e66f96e90431a0f}
+
+
+Check if the fight reached an end point. 
+
+\begin{DoxyReturn}{Returns}
+true if someone won 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\index{Victory\+Handler@{Victory\+Handler}!events\+\_\+@{events\+\_\+}}
+\index{events\+\_\+@{events\+\_\+}!Victory\+Handler@{Victory\+Handler}}
+\subsubsection[{\texorpdfstring{events\+\_\+}{events_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::list$<${\bf Game\+Event}$\ast$$>$ Victory\+Handler\+::events\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_victory_handler_a632e68ca2b6ffd913d5e27fc33f08123}{}\label{class_victory_handler_a632e68ca2b6ffd913d5e27fc33f08123}
+A list with pointers on all the events needed to change the flags \index{Victory\+Handler@{Victory\+Handler}!events\+To\+Handle\+\_\+@{events\+To\+Handle\+\_\+}}
+\index{events\+To\+Handle\+\_\+@{events\+To\+Handle\+\_\+}!Victory\+Handler@{Victory\+Handler}}
+\subsubsection[{\texorpdfstring{events\+To\+Handle\+\_\+}{eventsToHandle_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::set$<$Game\+Event\+::\+Event\+Type$>$ Victory\+Handler\+::events\+To\+Handle\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_victory_handler_ad77dbdde03da886a905c4daa274c4a0a}{}\label{class_victory_handler_ad77dbdde03da886a905c4daa274c4a0a}
+The list of the event\+Types to handle \index{Victory\+Handler@{Victory\+Handler}!flags\+\_\+@{flags\+\_\+}}
+\index{flags\+\_\+@{flags\+\_\+}!Victory\+Handler@{Victory\+Handler}}
+\subsubsection[{\texorpdfstring{flags\+\_\+}{flags_}}]{\setlength{\rightskip}{0pt plus 5cm}Flags\+Map Victory\+Handler\+::flags\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_victory_handler_a01fcaa39ade4234c761326e1f262b822}{}\label{class_victory_handler_a01fcaa39ade4234c761326e1f262b822}
+A map containing the flags needed for a victory \index{Victory\+Handler@{Victory\+Handler}!flags\+To\+Raise\+\_\+@{flags\+To\+Raise\+\_\+}}
+\index{flags\+To\+Raise\+\_\+@{flags\+To\+Raise\+\_\+}!Victory\+Handler@{Victory\+Handler}}
+\subsubsection[{\texorpdfstring{flags\+To\+Raise\+\_\+}{flagsToRaise_}}]{\setlength{\rightskip}{0pt plus 5cm}int Victory\+Handler\+::flags\+To\+Raise\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_victory_handler_ad692ca6b37d7e31e0b1bb8903a30d4f0}{}\label{class_victory_handler_ad692ca6b37d7e31e0b1bb8903a30d4f0}
+Number of flags to raise before victory 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Ogre1\+Test/Victory\+Handler.\+h\item 
+Ogre1\+Test/Victory\+Handler.\+cpp\end{DoxyCompactItemize}

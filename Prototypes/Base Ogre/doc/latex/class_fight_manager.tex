@@ -1,0 +1,170 @@
+\hypertarget{class_fight_manager}{}\section{Fight\+Manager Class Reference}
+\label{class_fight_manager}\index{Fight\+Manager@{Fight\+Manager}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Fight\+Manager} (const std\+::string \&map\+File\+Name=\char`\"{}essai1.\+txt\char`\"{}, Victory\+Handler $\ast$vo=new \hyperlink{class_end_of_day_victory}{End\+Of\+Day\+Victory}())\hypertarget{class_fight_manager_a323829deac221a6e6fa0766be3db126d}{}\label{class_fight_manager_a323829deac221a6e6fa0766be3db126d}
+
+\item 
+virtual void \hyperlink{class_fight_manager_a5693c049f006dd4235f82f7a78bb53a8}{load\+Terrain} (const std\+::string \&file\+Name)
+\begin{DoxyCompactList}\small\item\em Load a new terrain into the fight manager. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_fight_manager_ae244d39ff3b816f3385ef0478f19eb5e}{add\+Robot} (\hyperlink{class_robot}{Robot} $\ast$robot)
+\begin{DoxyCompactList}\small\item\em add a new robot in the fight \end{DoxyCompactList}\item 
+virtual \hyperlink{class_terrain}{Terrain} $\ast$ \hyperlink{class_fight_manager_af23b8f57fc730aa983fdadc69e0599b5}{get\+Terrain} () const 
+\begin{DoxyCompactList}\small\item\em Return the terrain. \end{DoxyCompactList}\item 
+virtual \hyperlink{class_game_time}{Game\+Time} \hyperlink{class_fight_manager_aea369fd69fde5ff1da97cf1720f17ac5}{get\+Time} () const 
+\begin{DoxyCompactList}\small\item\em give a timestamp on the actual round \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_fight_manager_ad2cae62ea87ba4a4424e7de1c75145b2}{add\+Event} (\hyperlink{class_game_event}{Game\+Event} $\ast$ge)
+\begin{DoxyCompactList}\small\item\em add en event to the events list \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_fight_manager_abaffb72b5353358c5560aaa26636cf49}{Is\+Victory} () const 
+\begin{DoxyCompactList}\small\item\em verify if someone won \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_fight_manager_aff6765fc0a4e22564d39f03210579129}{update} ()\hypertarget{class_fight_manager_aff6765fc0a4e22564d39f03210579129}{}\label{class_fight_manager_aff6765fc0a4e22564d39f03210579129}
+
+\begin{DoxyCompactList}\small\item\em go to the next round \end{DoxyCompactList}\item 
+virtual double \hyperlink{class_fight_manager_a73e564643e056c3ab66516e78a5ae899}{get\+Actual\+Time} () const \hypertarget{class_fight_manager_a73e564643e056c3ab66516e78a5ae899}{}\label{class_fight_manager_a73e564643e056c3ab66516e78a5ae899}
+
+\begin{DoxyCompactList}\small\item\em return the number of rounds since the beginning \end{DoxyCompactList}\item 
+virtual double \hyperlink{class_fight_manager_ae33ba3d6171ee2caea9f0cc87f4e1d63}{get\+Remaining\+Time} () const \hypertarget{class_fight_manager_ae33ba3d6171ee2caea9f0cc87f4e1d63}{}\label{class_fight_manager_ae33ba3d6171ee2caea9f0cc87f4e1d63}
+
+\begin{DoxyCompactList}\small\item\em return the number of rounds before the end of a day \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_fight_manager_a339f74a74fc4b229bec63bf968cc2f3b}{reset} ()\hypertarget{class_fight_manager_a339f74a74fc4b229bec63bf968cc2f3b}{}\label{class_fight_manager_a339f74a74fc4b229bec63bf968cc2f3b}
+
+\begin{DoxyCompactList}\small\item\em reset the fight manager to the first state of the match \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_gauge}{Gauge} \hyperlink{class_fight_manager_ad929270ed8c1733e92b10b617b1e1b7d}{day\+\_\+}
+\item 
+\hyperlink{class_victory_handler}{Victory\+Handler} $\ast$ \hyperlink{class_fight_manager_a416376c948af3f11a4fe144ca994599a}{victory\+Handler\+\_\+}
+\item 
+\hyperlink{class_terrain}{Terrain} $\ast$ \hyperlink{class_fight_manager_a9bf673e56ca054a1367754e4a372798d}{terrain\+\_\+}
+\item 
+std\+::list$<$ \hyperlink{class_game_object}{Game\+Object} $\ast$ $>$ \hyperlink{class_fight_manager_a347a9e8860763700c12f4ceaa9c95616}{objects\+\_\+}
+\item 
+std\+::list$<$ \hyperlink{class_game_event}{Game\+Event} $\ast$ $>$ \hyperlink{class_fight_manager_a09acc794f05e6281f067bbcecd5c0e7e}{events\+\_\+}
+\item 
+std\+::list$<$ \hyperlink{class_robot}{Robot} $\ast$ $>$ \hyperlink{class_fight_manager_afb1ab0e038832ad09f96479d05eae33a}{robots\+\_\+}
+\item 
+int {\bfseries round\+After\+S\+D\+\_\+}\hypertarget{class_fight_manager_a4506179a3004a96fa133902c696c80cb}{}\label{class_fight_manager_a4506179a3004a96fa133902c696c80cb}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Fight\+Manager@{Fight\+Manager}!add\+Event@{add\+Event}}
+\index{add\+Event@{add\+Event}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{add\+Event(\+Game\+Event $\ast$ge)}{addEvent(GameEvent *ge)}}]{\setlength{\rightskip}{0pt plus 5cm}void Fight\+Manager\+::add\+Event (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+Event} $\ast$}]{ge}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_fight_manager_ad2cae62ea87ba4a4424e7de1c75145b2}{}\label{class_fight_manager_ad2cae62ea87ba4a4424e7de1c75145b2}
+
+
+add en event to the events list 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ge} & \+: the event to add \\
+\hline
+\end{DoxyParams}
+\index{Fight\+Manager@{Fight\+Manager}!add\+Robot@{add\+Robot}}
+\index{add\+Robot@{add\+Robot}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{add\+Robot(\+Robot $\ast$robot)}{addRobot(Robot *robot)}}]{\setlength{\rightskip}{0pt plus 5cm}void Fight\+Manager\+::add\+Robot (
+\begin{DoxyParamCaption}
+\item[{{\bf Robot} $\ast$}]{robot}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_fight_manager_ae244d39ff3b816f3385ef0478f19eb5e}{}\label{class_fight_manager_ae244d39ff3b816f3385ef0478f19eb5e}
+
+
+add a new robot in the fight 
+
+
+\begin{DoxyParams}{Parameters}
+{\em robot} & \+: the new robot \\
+\hline
+\end{DoxyParams}
+\index{Fight\+Manager@{Fight\+Manager}!get\+Terrain@{get\+Terrain}}
+\index{get\+Terrain@{get\+Terrain}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{get\+Terrain() const }{getTerrain() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Terrain} $\ast$ Fight\+Manager\+::get\+Terrain (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_fight_manager_af23b8f57fc730aa983fdadc69e0599b5}{}\label{class_fight_manager_af23b8f57fc730aa983fdadc69e0599b5}
+
+
+Return the terrain. 
+
+\begin{DoxyReturn}{Returns}
+the terrain 
+\end{DoxyReturn}
+\index{Fight\+Manager@{Fight\+Manager}!get\+Time@{get\+Time}}
+\index{get\+Time@{get\+Time}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{get\+Time() const }{getTime() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Game\+Time} Fight\+Manager\+::get\+Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_fight_manager_aea369fd69fde5ff1da97cf1720f17ac5}{}\label{class_fight_manager_aea369fd69fde5ff1da97cf1720f17ac5}
+
+
+give a timestamp on the actual round 
+
+\begin{DoxyReturn}{Returns}
+the \hyperlink{class_game_time}{Game\+Time} of the round 
+\end{DoxyReturn}
+\index{Fight\+Manager@{Fight\+Manager}!Is\+Victory@{Is\+Victory}}
+\index{Is\+Victory@{Is\+Victory}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{Is\+Victory() const }{IsVictory() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Fight\+Manager\+::\+Is\+Victory (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_fight_manager_abaffb72b5353358c5560aaa26636cf49}{}\label{class_fight_manager_abaffb72b5353358c5560aaa26636cf49}
+
+
+verify if someone won 
+
+\begin{DoxyReturn}{Returns}
+true conditions of victory are fullfilled 
+\end{DoxyReturn}
+\index{Fight\+Manager@{Fight\+Manager}!load\+Terrain@{load\+Terrain}}
+\index{load\+Terrain@{load\+Terrain}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{load\+Terrain(const std\+::string \&file\+Name)}{loadTerrain(const std::string &fileName)}}]{\setlength{\rightskip}{0pt plus 5cm}void Fight\+Manager\+::load\+Terrain (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{file\+Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_fight_manager_a5693c049f006dd4235f82f7a78bb53a8}{}\label{class_fight_manager_a5693c049f006dd4235f82f7a78bb53a8}
+
+
+Load a new terrain into the fight manager. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & the name of the new map to load \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\index{Fight\+Manager@{Fight\+Manager}!day\+\_\+@{day\+\_\+}}
+\index{day\+\_\+@{day\+\_\+}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{day\+\_\+}{day_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Gauge} Fight\+Manager\+::day\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_manager_ad929270ed8c1733e92b10b617b1e1b7d}{}\label{class_fight_manager_ad929270ed8c1733e92b10b617b1e1b7d}
+A gauge representing a day \+: at the end of the \hyperlink{class_gauge}{Gauge} the fight enter the sudden death mode \index{Fight\+Manager@{Fight\+Manager}!events\+\_\+@{events\+\_\+}}
+\index{events\+\_\+@{events\+\_\+}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{events\+\_\+}{events_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::list$<${\bf Game\+Event}$\ast$$>$ Fight\+Manager\+::events\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_manager_a09acc794f05e6281f067bbcecd5c0e7e}{}\label{class_fight_manager_a09acc794f05e6281f067bbcecd5c0e7e}
+A chronological list of the events \index{Fight\+Manager@{Fight\+Manager}!objects\+\_\+@{objects\+\_\+}}
+\index{objects\+\_\+@{objects\+\_\+}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{objects\+\_\+}{objects_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::list$<${\bf Game\+Object}$\ast$$>$ Fight\+Manager\+::objects\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_manager_a347a9e8860763700c12f4ceaa9c95616}{}\label{class_fight_manager_a347a9e8860763700c12f4ceaa9c95616}
+A list of the objects which want to be updated \index{Fight\+Manager@{Fight\+Manager}!robots\+\_\+@{robots\+\_\+}}
+\index{robots\+\_\+@{robots\+\_\+}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{robots\+\_\+}{robots_}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::list$<${\bf Robot}$\ast$$>$ Fight\+Manager\+::robots\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_manager_afb1ab0e038832ad09f96479d05eae33a}{}\label{class_fight_manager_afb1ab0e038832ad09f96479d05eae33a}
+A list of the robots in the fight \index{Fight\+Manager@{Fight\+Manager}!terrain\+\_\+@{terrain\+\_\+}}
+\index{terrain\+\_\+@{terrain\+\_\+}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{terrain\+\_\+}{terrain_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Terrain}$\ast$ Fight\+Manager\+::terrain\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_manager_a9bf673e56ca054a1367754e4a372798d}{}\label{class_fight_manager_a9bf673e56ca054a1367754e4a372798d}
+The terrain nothing more to say \index{Fight\+Manager@{Fight\+Manager}!victory\+Handler\+\_\+@{victory\+Handler\+\_\+}}
+\index{victory\+Handler\+\_\+@{victory\+Handler\+\_\+}!Fight\+Manager@{Fight\+Manager}}
+\subsubsection[{\texorpdfstring{victory\+Handler\+\_\+}{victoryHandler_}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Victory\+Handler}$\ast$ Fight\+Manager\+::victory\+Handler\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{class_fight_manager_a416376c948af3f11a4fe144ca994599a}{}\label{class_fight_manager_a416376c948af3f11a4fe144ca994599a}
+The object representing the victory 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Ogre1\+Test/Fight\+Manager.\+h\item 
+Ogre1\+Test/Fight\+Manager.\+cpp\end{DoxyCompactItemize}

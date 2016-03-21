@@ -1,0 +1,244 @@
+\hypertarget{class_game_object}{}\section{Game\+Object Class Reference}
+\label{class_game_object}\index{Game\+Object@{Game\+Object}}
+Inheritance diagram for Game\+Object\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_game_object}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Status} \{ \\*
+{\bfseries A\+B\+LE} = 0, 
+{\bfseries I\+M\+M\+O\+R\+T\+AL} = 1, 
+{\bfseries S\+N\+A\+RE} = 2, 
+{\bfseries I\+M\+P\+O\+T\+E\+NT} = 4, 
+\\*
+{\bfseries S\+T\+A\+SE} = 7
+ \}\hypertarget{class_game_object_aca8b21ad833fdc21a40d48dbc80d178c}{}\label{class_game_object_aca8b21ad833fdc21a40d48dbc80d178c}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Game\+Object} (Ogre\+::\+Vector3 position=Ogre\+::\+Vector3\+::\+Z\+E\+RO, std\+::string name=\char`\"{}\char`\"{})\hypertarget{class_game_object_a09134330750f20921d72bb6d8cfcc241}{}\label{class_game_object_a09134330750f20921d72bb6d8cfcc241}
+
+\item 
+virtual bool \hyperlink{class_game_object_afd3df8ce4e4c1ea079816e4377b1a52a}{is\+Impotent} () const 
+\begin{DoxyCompactList}\small\item\em true if the object is Impotent \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_game_object_a29cd81ee9c54c56d5a251d63e3f8a1f7}{is\+Snared} () const 
+\begin{DoxyCompactList}\small\item\em true if the object is Snared \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_game_object_a1e28bfe5d5643b72597d979bc7404e53}{is\+Immortal} () const 
+\begin{DoxyCompactList}\small\item\em true if the object is Immortal \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_game_object_a7388f9c01ffd7239f2e844174a00cc84}{is\+In\+Stase} () const 
+\begin{DoxyCompactList}\small\item\em true if the object is in stase \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_game_object_aa477bba2bc2d8ed47a0f271ebf2f0059}{set\+Status} (const int flag=A\+B\+LE)\hypertarget{class_game_object_aa477bba2bc2d8ed47a0f271ebf2f0059}{}\label{class_game_object_aa477bba2bc2d8ed47a0f271ebf2f0059}
+
+\begin{DoxyCompactList}\small\item\em set the status of the object  flag \+: the flags needed to set the status, by exemple, if you want, this object totally disabled you can set flag to I\+M\+M\+O\+R\+T\+AL $\vert$ S\+N\+A\+RE $\vert$ I\+M\+P\+O\+T\+E\+NT (S\+T\+A\+SE does the same thing) this object totally able set flag to nothing (A\+B\+LE function too) \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_game_object_aa899aff160cc171e64b5dd2303f61e36}{set\+Orientation} (const Ogre\+::\+Degree \&angle)
+\begin{DoxyCompactList}\small\item\em turn the orientation of the object \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_game_object_a479654b0ea6a1684c5cbce4fe428a01f}{set\+Position} (Ogre\+::\+Vector3 const \&new\+Pos)
+\begin{DoxyCompactList}\small\item\em move the object to the location in param \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_game_object_a833fa8ddc445b89a53e40758657401d1}{move} (Ogre\+::\+Vector3 const \&direction)
+\begin{DoxyCompactList}\small\item\em move the object in the direction given \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_game_object_a581ad28a8c957c57adbf24752d9378a4}{deal\+Hit\+Box\+Damages} (\hyperlink{class_game_object}{Game\+Object} $\ast$other) const 
+\begin{DoxyCompactList}\small\item\em deal damages caused by a direct hit into the object \end{DoxyCompactList}\item 
+virtual Ogre\+::\+Vector3 \hyperlink{class_game_object_a5f3e43daa1e8940e416ea8090184e0f4}{get\+Position} () const 
+\begin{DoxyCompactList}\small\item\em the position of the object \end{DoxyCompactList}\item 
+virtual Ogre\+::\+Vector3 \hyperlink{class_game_object_ade59f3f24a242181ca8d1d157cf25252}{get\+Orientation} () const 
+\begin{DoxyCompactList}\small\item\em the direction currently face by the object \end{DoxyCompactList}\item 
+virtual std\+::string \hyperlink{class_game_object_a56931178619b28a3e29a18dc631dee4d}{get\+Name} () const 
+\begin{DoxyCompactList}\small\item\em the name of this \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Ogre\+::\+Vector3 {\bfseries position\+\_\+}\hypertarget{class_game_object_a1020c8f5b5f8c21591b690cf0ea84264}{}\label{class_game_object_a1020c8f5b5f8c21591b690cf0ea84264}
+
+\item 
+Ogre\+::\+Vector3 {\bfseries orientation\+\_\+}\hypertarget{class_game_object_a3804e93a70bf5947887ba9f9299e5340}{}\label{class_game_object_a3804e93a70bf5947887ba9f9299e5340}
+
+\item 
+bool {\bfseries immortal\+\_\+}\hypertarget{class_game_object_a2aaf8d5bc2c975e4e297132f1ba870d4}{}\label{class_game_object_a2aaf8d5bc2c975e4e297132f1ba870d4}
+
+\item 
+bool {\bfseries snare\+\_\+}\hypertarget{class_game_object_a5f1c185207397c601d725e8ccf194e6c}{}\label{class_game_object_a5f1c185207397c601d725e8ccf194e6c}
+
+\item 
+bool {\bfseries impotent\+\_\+}\hypertarget{class_game_object_aea4e9ba29966fc894bff2ec8c2c61658}{}\label{class_game_object_aea4e9ba29966fc894bff2ec8c2c61658}
+
+\item 
+std\+::string {\bfseries name\+\_\+}\hypertarget{class_game_object_acbe2795b868c172a56fad8b401e36d7f}{}\label{class_game_object_acbe2795b868c172a56fad8b401e36d7f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\index{Game\+Object@{Game\+Object}!deal\+Hit\+Box\+Damages@{deal\+Hit\+Box\+Damages}}
+\index{deal\+Hit\+Box\+Damages@{deal\+Hit\+Box\+Damages}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{deal\+Hit\+Box\+Damages(\+Game\+Object $\ast$other) const }{dealHitBoxDamages(GameObject *other) const }}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+Object\+::deal\+Hit\+Box\+Damages (
+\begin{DoxyParamCaption}
+\item[{{\bf Game\+Object} $\ast$}]{other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_a581ad28a8c957c57adbf24752d9378a4}{}\label{class_game_object_a581ad28a8c957c57adbf24752d9378a4}
+
+
+deal damages caused by a direct hit into the object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & \+: the object in wich you collide \\
+\hline
+\end{DoxyParams}
+\index{Game\+Object@{Game\+Object}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{get\+Name() const }{getName() const }}]{\setlength{\rightskip}{0pt plus 5cm}string Game\+Object\+::get\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_a56931178619b28a3e29a18dc631dee4d}{}\label{class_game_object_a56931178619b28a3e29a18dc631dee4d}
+
+
+the name of this 
+
+\begin{DoxyReturn}{Returns}
+\+: the name 
+\end{DoxyReturn}
+\index{Game\+Object@{Game\+Object}!get\+Orientation@{get\+Orientation}}
+\index{get\+Orientation@{get\+Orientation}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{get\+Orientation() const }{getOrientation() const }}]{\setlength{\rightskip}{0pt plus 5cm}Vector3 Game\+Object\+::get\+Orientation (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_ade59f3f24a242181ca8d1d157cf25252}{}\label{class_game_object_ade59f3f24a242181ca8d1d157cf25252}
+
+
+the direction currently face by the object 
+
+\begin{DoxyReturn}{Returns}
+\+: the orientation 
+\end{DoxyReturn}
+\index{Game\+Object@{Game\+Object}!get\+Position@{get\+Position}}
+\index{get\+Position@{get\+Position}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{get\+Position() const }{getPosition() const }}]{\setlength{\rightskip}{0pt plus 5cm}Vector3 Game\+Object\+::get\+Position (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_a5f3e43daa1e8940e416ea8090184e0f4}{}\label{class_game_object_a5f3e43daa1e8940e416ea8090184e0f4}
+
+
+the position of the object 
+
+\begin{DoxyReturn}{Returns}
+\+: the position 
+\end{DoxyReturn}
+\index{Game\+Object@{Game\+Object}!is\+Immortal@{is\+Immortal}}
+\index{is\+Immortal@{is\+Immortal}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{is\+Immortal() const }{isImmortal() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Game\+Object\+::is\+Immortal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_a1e28bfe5d5643b72597d979bc7404e53}{}\label{class_game_object_a1e28bfe5d5643b72597d979bc7404e53}
+
+
+true if the object is Immortal 
+
+\begin{DoxyReturn}{Returns}
+the state of the status immortal 
+\end{DoxyReturn}
+\index{Game\+Object@{Game\+Object}!is\+Impotent@{is\+Impotent}}
+\index{is\+Impotent@{is\+Impotent}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{is\+Impotent() const }{isImpotent() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Game\+Object\+::is\+Impotent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_afd3df8ce4e4c1ea079816e4377b1a52a}{}\label{class_game_object_afd3df8ce4e4c1ea079816e4377b1a52a}
+
+
+true if the object is Impotent 
+
+\begin{DoxyReturn}{Returns}
+the state of the status Impotent 
+\end{DoxyReturn}
+\index{Game\+Object@{Game\+Object}!is\+In\+Stase@{is\+In\+Stase}}
+\index{is\+In\+Stase@{is\+In\+Stase}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{is\+In\+Stase() const }{isInStase() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Game\+Object\+::is\+In\+Stase (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_a7388f9c01ffd7239f2e844174a00cc84}{}\label{class_game_object_a7388f9c01ffd7239f2e844174a00cc84}
+
+
+true if the object is in stase 
+
+\begin{DoxyReturn}{Returns}
+true if all the three flags are true 
+\end{DoxyReturn}
+\index{Game\+Object@{Game\+Object}!is\+Snared@{is\+Snared}}
+\index{is\+Snared@{is\+Snared}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{is\+Snared() const }{isSnared() const }}]{\setlength{\rightskip}{0pt plus 5cm}bool Game\+Object\+::is\+Snared (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_a29cd81ee9c54c56d5a251d63e3f8a1f7}{}\label{class_game_object_a29cd81ee9c54c56d5a251d63e3f8a1f7}
+
+
+true if the object is Snared 
+
+\begin{DoxyReturn}{Returns}
+the state of the status snared 
+\end{DoxyReturn}
+\index{Game\+Object@{Game\+Object}!move@{move}}
+\index{move@{move}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{move(\+Ogre\+::\+Vector3 const \&direction)}{move(Ogre::Vector3 const &direction)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Game\+Object\+::move (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Vector3 const \&}]{direction}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_a833fa8ddc445b89a53e40758657401d1}{}\label{class_game_object_a833fa8ddc445b89a53e40758657401d1}
+
+
+move the object in the direction given 
+
+
+\begin{DoxyParams}{Parameters}
+{\em direction} & \+: the translation vector \\
+\hline
+\end{DoxyParams}
+\index{Game\+Object@{Game\+Object}!set\+Orientation@{set\+Orientation}}
+\index{set\+Orientation@{set\+Orientation}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{set\+Orientation(const Ogre\+::\+Degree \&angle)}{setOrientation(const Ogre::Degree &angle)}}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+Object\+::set\+Orientation (
+\begin{DoxyParamCaption}
+\item[{const Ogre\+::\+Degree \&}]{angle}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_aa899aff160cc171e64b5dd2303f61e36}{}\label{class_game_object_aa899aff160cc171e64b5dd2303f61e36}
+
+
+turn the orientation of the object 
+
+
+\begin{DoxyParams}{Parameters}
+{\em the} & angle in degrees between the X-\/axis of the object, and the X-\/axis of the scene \\
+\hline
+\end{DoxyParams}
+\index{Game\+Object@{Game\+Object}!set\+Position@{set\+Position}}
+\index{set\+Position@{set\+Position}!Game\+Object@{Game\+Object}}
+\subsubsection[{\texorpdfstring{set\+Position(\+Ogre\+::\+Vector3 const \&new\+Pos)}{setPosition(Ogre::Vector3 const &newPos)}}]{\setlength{\rightskip}{0pt plus 5cm}void Game\+Object\+::set\+Position (
+\begin{DoxyParamCaption}
+\item[{Ogre\+::\+Vector3 const \&}]{new\+Pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_game_object_a479654b0ea6a1684c5cbce4fe428a01f}{}\label{class_game_object_a479654b0ea6a1684c5cbce4fe428a01f}
+
+
+move the object to the location in param 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+Pos} & \+: the new location \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Ogre1\+Test/Game\+Object.\+h\item 
+Ogre1\+Test/Game\+Object.\+cpp\end{DoxyCompactItemize}
