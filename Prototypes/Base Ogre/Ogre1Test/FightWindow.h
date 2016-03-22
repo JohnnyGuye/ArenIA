@@ -65,6 +65,7 @@ protected:
 	protected:
 		Ogre::SceneManager* sceneMgr_;
 		Ogre::Entity* entity_;
+		Ogre::Degree orientation_;
 		Ogre::SceneNode* node_;
 		GameObject* object_;
 		Ogre::AnimationState* animState_;

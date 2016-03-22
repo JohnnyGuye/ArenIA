@@ -54,9 +54,9 @@ public:
 	**	@return : the position **/
 	virtual Ogre::Vector3	getPosition() const;
 
-	/** @brief the direction currently face by the object
-	**	@return : the orientation **/
-	virtual Ogre::Vector3	getOrientation() const;
+	/** @brief the angle between the Z axis of the map and the one of the object
+	**	@return the angle in degrees **/
+	virtual Ogre::Degree	getOrientation() const;
 
 	/** @brief the name of this
 	**	@return : the name **/
@@ -65,7 +65,8 @@ public:
 //Atributes
 protected :
 	Ogre::Vector3 position_;
-	Ogre::Vector3 orientation_;
+
+	Ogre::Degree angle_;
 
 	bool	immortal_,
 			snare_,

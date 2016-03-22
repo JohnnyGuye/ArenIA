@@ -6,11 +6,10 @@ using namespace Ogre;
 GameObject::GameObject(Ogre::Vector3 position, std::string name)
 	: name_(name), 
 	position_(position),
-	orientation_(Vector3::UNIT_X)
+	angle_(0)
 {
 	setStatus();
 }
-
 
 GameObject::~GameObject(void)
 {
@@ -50,7 +49,7 @@ void GameObject::setPosition(Ogre::Vector3 const& newPos)
 
 void GameObject::setOrientation(const Degree& angle)
 {
-	orientation_;
+	angle_ = angle;
 }
 
 bool GameObject::move(Ogre::Vector3 const& direction)
@@ -71,9 +70,9 @@ Vector3 GameObject::getPosition() const
 	return position_;
 }
 
-Vector3 GameObject::getOrientation() const
+Degree GameObject::getOrientation() const
 {
-	return orientation_;
+	return angle_;
 }
 
 string GameObject::getName() const

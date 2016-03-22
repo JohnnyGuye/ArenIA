@@ -56,7 +56,8 @@ void FightWindow::Sun::update()
 FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
 	const Ogre::Vector3& position, const int& scale, GameObject* object)
 	:	sceneMgr_(sceneMgr),
-	object_(object)
+	object_(object),
+	orientation_(0)
 {
 	entity_ = sceneMgr_->createEntity(mesh); 
 
@@ -78,6 +79,13 @@ FightWindow::GameEntity::~GameEntity()
 void FightWindow::GameEntity::update(const FrameEvent& evt)
 {
 	node_->setPosition(object_->getPosition());
+
+	if(object_->getOrientation() != orientation_)
+	{
+		node_->roll(object_->getOrientation() - orientation_);
+		orientation_ = object_->getOrientation();
+	}
+
 	animState_->addTime(evt.timeSinceLastFrame);
 }
 
@@ -89,8 +97,8 @@ FightWindow::RobotEntity::RobotEntity(Ogre::SceneManager* sceneMgr, const string
 	const Ogre::Vector3& position, const int& scale, Robot* robot)
 	:	GameEntity(sceneMgr, mesh, position, scale, robot)
 {
-	//robot->turnDirection(Degree(90));
-	node_->roll(Degree(robot->getWheelAngle()));
+	robot->setOrientation(Degree(75));
+	node_->roll(Degree(robot->getOrientation()));
 }
 
 FightWindow::RobotEntity::~RobotEntity()

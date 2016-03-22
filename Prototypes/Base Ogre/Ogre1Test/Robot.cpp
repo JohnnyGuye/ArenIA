@@ -23,6 +23,7 @@ Robot::Robot()
 	GameObject(),
 	action_(IDLE),
 	iaFilename_("EMPTY"),
+	orientation_(Vector3::UNIT_X),
 	turretOrientation_(Vector3::UNIT_X)
 {
 	setStatus();
@@ -71,7 +72,7 @@ bool Robot::turnTurret (Ogre::Degree angle)
 bool Robot::turnDirection (Ogre::Degree angle)
 {
     //conversion for the quaternion's constructor (Degrees are more intuitive to use)
-    Radian rotation(angle);
+	GameObject::setOrientation(angle);
     Quaternion newDirection(angle, FORWARD_DEFAULT);
     orientation_ = (newDirection * orientation_).normalise();
 	action_ = action_ | TURNING_WHEELS;
