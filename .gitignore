@@ -1,11 +1,13 @@
 /Prototypes/Base Ogre/datafiles/*
-*.obj
-*.obj
 *.lastbuildstate
 Prototypes/Base Ogre/Base Ogre.suo
 Prototypes/Base Ogre/Ogre1Test/Release/Ogre1Test.log
 *.log
-*.log
+*.tlog
 Prototypes/Base Ogre/Ogre1Test/Release/Base Ogre.lastbuildstate
 *.obj
 *.pdb
+*.exe
+*.pdb
+*.suo
+*.cfg
