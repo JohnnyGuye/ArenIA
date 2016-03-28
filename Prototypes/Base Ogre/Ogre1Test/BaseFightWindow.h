@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
@@ -17,7 +15,6 @@
 #  include <OIS/OISKeyboard.h>
 #  include <OIS/OISMouse.h>
 
-#  include <OGRE/SdkTrays.h>
 #  include <OGRE/SdkCameraMan.h>
 #else
 #  include <OISEvents.h>
@@ -25,7 +22,6 @@
 #  include <OISKeyboard.h>
 #  include <OISMouse.h>
 
-#  include <SdkTrays.h>
 #  include <SdkCameraMan.h>
 #endif
 
@@ -50,7 +46,7 @@
 #  include "OgreStaticPluginLoader.h"
 #endif
 
-class BaseFightWindow : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
+class BaseFightWindow : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener
 {
 public:
 	BaseFightWindow(void);
@@ -92,15 +88,9 @@ protected:
 	Ogre::String			resourcesCfg_;
 	Ogre::String			pluginsCfg_;
 
-	// Les cadres de debugs sont affichés par Overlays
-
-    Ogre::OverlaySystem*        overlaySystem_;	// TODO -> Go CEGUI as fast as possible
-
     // OgreBites
-    OgreBites::InputContext     inputContext_;
-    OgreBites::SdkTrayManager*	trayMgr_;
     OgreBites::SdkCameraMan*    cameraMan_;     	// Basic camera controller
-    OgreBites::ParamsPanel*     detailsPanel_;   	// Sample details panel
+    
     bool                        cursorWasVisible_;	// Was cursor visible before dialog appeared?
     bool                        shutDown_;
 

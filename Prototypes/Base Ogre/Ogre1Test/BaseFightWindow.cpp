@@ -8,15 +8,12 @@ BaseFightWindow::BaseFightWindow(void)
     window_(0),
     resourcesCfg_(Ogre::StringUtil::BLANK),
     pluginsCfg_(Ogre::StringUtil::BLANK),
-    trayMgr_(0),
     cameraMan_(0),
-    detailsPanel_(0),
     cursorWasVisible_(false),
     shutDown_(false),
     inputManager_(0),
     mouse_(0),
-    keyboard_(0),
-    overlaySystem_(0)
+    keyboard_(0)
 {
 
 	#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
@@ -26,12 +23,9 @@ BaseFightWindow::BaseFightWindow(void)
 	#endif
 }
 
-
 BaseFightWindow::~BaseFightWindow(void)
 {
-	if (trayMgr_) delete trayMgr_;
     if (cameraMan_) delete cameraMan_;
-    if (overlaySystem_) delete overlaySystem_;
 
     // Remove ourself as a Window listener
     Ogre::WindowEventUtilities::removeWindowEventListener(window_, this);
@@ -43,13 +37,12 @@ void BaseFightWindow::createScene(void)
 {	
 }
 
-
 bool BaseFightWindow::configure(void)
 {
 
-	// One fore restore setting, the other for setting them
-	//if(root_->restoreConfig())
-	if(root_->showConfigDialog())
+	// One to restore setting, the other for setting them
+	if(root_->restoreConfig())
+	//if(root_->showConfigDialog())
 	{
 		window_ = root_->initialise(true, "ArenIA : Fight");
 		return true;
@@ -63,10 +56,7 @@ bool BaseFightWindow::configure(void)
 void BaseFightWindow::chooseSceneManager(void)
 {
 	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
-	overlaySystem_ = new Ogre::OverlaySystem();	// TODO stop overlays !
-	sceneMgr_->addRenderQueueListener(overlaySystem_);
 }
-
 
 void BaseFightWindow::createCamera(void)
 {
@@ -103,32 +93,6 @@ void BaseFightWindow::createFrameListener(void)
 
     // Register as a Window listener
     Ogre::WindowEventUtilities::addWindowEventListener(window_, this);
-
-	inputContext_.mKeyboard = keyboard_;
-    inputContext_.mMouse = mouse_;
-    trayMgr_ = new OgreBites::SdkTrayManager("InterfaceName", window_, inputContext_, this);
-    trayMgr_->showFrameStats(OgreBites::TL_BOTTOMLEFT);
-    //trayMgr_->showLogo(OgreBites::TL_BOTTOMRIGHT);
-    trayMgr_->hideCursor();
-
-    // Create a params panel for displaying sample details
-    Ogre::StringVector items;
-    items.push_back("cam.pX");
-    items.push_back("cam.pY");
-    items.push_back("cam.pZ");
-    items.push_back("");
-    items.push_back("cam.oW");
-    items.push_back("cam.oX");
-    items.push_back("cam.oY");
-    items.push_back("cam.oZ");
-    items.push_back("");
-    items.push_back("Filtering");
-    items.push_back("Poly Mode");
-
-    detailsPanel_ = trayMgr_->createParamsPanel(OgreBites::TL_NONE, "DetailsPanel", 200, items);
-    detailsPanel_->setParamValue(9, "Bilinear");
-    detailsPanel_->setParamValue(10, "Solid");
-    detailsPanel_->hide();
 
     root_->addFrameListener(this);
 }
@@ -246,7 +210,7 @@ bool BaseFightWindow::setup(void)
     createFrameListener();
 
     return true;
-};
+}
 //---------------------------------------------------------------------------
 bool BaseFightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
@@ -260,54 +224,21 @@ bool BaseFightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
     keyboard_->capture();
     mouse_->capture();
 
-    trayMgr_->frameRenderingQueued(evt);
-
-    if (!trayMgr_->isDialogVisible())
-    {
-        cameraMan_->frameRenderingQueued(evt);   // If dialog isn't up, then update the camera
-        if (detailsPanel_->isVisible())          // If details panel is visible, then update its contents
-        {
-            detailsPanel_->setParamValue(0, Ogre::StringConverter::toString(camera_->getDerivedPosition().x));
-            detailsPanel_->setParamValue(1, Ogre::StringConverter::toString(camera_->getDerivedPosition().y));
-            detailsPanel_->setParamValue(2, Ogre::StringConverter::toString(camera_->getDerivedPosition().z));
-            detailsPanel_->setParamValue(4, Ogre::StringConverter::toString(camera_->getDerivedOrientation().w));
-            detailsPanel_->setParamValue(5, Ogre::StringConverter::toString(camera_->getDerivedOrientation().x));
-            detailsPanel_->setParamValue(6, Ogre::StringConverter::toString(camera_->getDerivedOrientation().y));
-            detailsPanel_->setParamValue(7, Ogre::StringConverter::toString(camera_->getDerivedOrientation().z));
-        }
-    }
+    cameraMan_->frameRenderingQueued(evt);   // If dialog isn't up, then update the camera
+  
 
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseFightWindow::keyPressed( const OIS::KeyEvent &arg )
 {
-    if (trayMgr_->isDialogVisible()) return true;   // don't process any more keys if dialog is up
-
-    if (arg.key == OIS::KC_F)   // toggle visibility of advanced frame stats
-    {
-        trayMgr_->toggleAdvancedFrameStats();
-    }
-    else if (arg.key == OIS::KC_G)   // toggle visibility of even rarer debugging details
-    {
-        if (detailsPanel_->getTrayLocation() == OgreBites::TL_NONE)
-        {
-            trayMgr_->moveWidgetToTray(detailsPanel_, OgreBites::TL_TOPRIGHT, 0);
-            detailsPanel_->show();
-        }
-        else
-        {
-            trayMgr_->removeWidgetFromTray(detailsPanel_);
-            detailsPanel_->hide();
-        }
-    }
-    else if (arg.key == OIS::KC_T)   // cycle polygon rendering mode
+    if (arg.key == OIS::KC_T)   // cycle polygon rendering mode
     {
         Ogre::String newVal;
         Ogre::TextureFilterOptions tfo;
         unsigned int aniso;
-
-        switch (detailsPanel_->getParamValue(9).asUTF8()[0])
+		static char filtre;
+        switch (filtre)
         {
         case 'B':
             newVal = "Trilinear";
@@ -329,10 +260,10 @@ bool BaseFightWindow::keyPressed( const OIS::KeyEvent &arg )
             tfo = Ogre::TFO_BILINEAR;
             aniso = 1;
         }
+		filtre = newVal.at(0);
 
         Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
         Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
-        detailsPanel_->setParamValue(9, newVal);
     }
     else if (arg.key == OIS::KC_R)   // cycle polygon rendering mode
     {
@@ -355,7 +286,6 @@ bool BaseFightWindow::keyPressed( const OIS::KeyEvent &arg )
         }
 
         camera_->setPolygonMode(pm);
-        detailsPanel_->setParamValue(10, newVal);
     }
     else if(arg.key == OIS::KC_F5)   // refresh all textures
     {
@@ -383,21 +313,18 @@ bool BaseFightWindow::keyReleased(const OIS::KeyEvent &arg)
 //---------------------------------------------------------------------------
 bool BaseFightWindow::mouseMoved(const OIS::MouseEvent &arg)
 {
-    if (trayMgr_->injectMouseMove(arg)) return true;
     cameraMan_->injectMouseMove(arg);
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseFightWindow::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-    if (trayMgr_->injectMouseDown(arg, id)) return true;
     cameraMan_->injectMouseDown(arg, id);
     return true;
 }
 //---------------------------------------------------------------------------
 bool BaseFightWindow::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-    if (trayMgr_->injectMouseUp(arg, id)) return true;
     cameraMan_->injectMouseUp(arg, id);
     return true;
 }

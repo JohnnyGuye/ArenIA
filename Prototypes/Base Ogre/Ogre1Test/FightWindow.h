@@ -24,7 +24,14 @@
 #include "FightManager.h"
 #include "Robot.h"
 
+#include <CEGUI/CEGUI.h>
+#include <CEGUI/RendererModules/Ogre/Renderer.h>
+
 #include <vector>
+
+//---------------------------------------------------------------------------
+
+CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
 
 //---------------------------------------------------------------------------
 
@@ -35,12 +42,23 @@ public:
     virtual ~FightWindow(void);
 
 protected:
+	virtual void setupResources(void);
     virtual void createScene(void);
 	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const int& scale);
 	virtual void createRobot(const std::string& mesg, const Ogre::Vector3& position, const int& scale, Robot* robot);
 	virtual void createCamera(void);
 	virtual void createViewports(void);
+	virtual void createFrameListener(void);
+	virtual void loadResources(void);
+
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+	/** Events **/
+	virtual bool keyPressed(const OIS::KeyEvent &arg);
+	virtual bool keyReleased(const OIS::KeyEvent &arg);
+	virtual bool mouseMoved(const OIS::MouseEvent &arg);
+    virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+    virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
 	class Sun
 	{
@@ -83,19 +101,22 @@ protected:
 protected:
 
 	/** The logic of the game **/
-	FightManager* fightManager_;
+	FightManager*				fightManager_;
 
 	/** The entities corresponding to the scenery **/
-	std::vector<Ogre::Entity*> DecorEntities_;
+	std::vector<Ogre::Entity*>	DecorEntities_;
 
 	/** The sun **/
-	Sun* theSun_;
+	Sun*						theSun_;
 
 	/** The robots to carry **/
-	std::list<RobotEntity> robotsEntities_;
+	std::list<RobotEntity>		robotsEntities_;
 
 	/** The other objects to carry **/
-	std::list<GameEntity> objectEntities_;
+	std::list<GameEntity>		objectEntities_;
+
+	/** The CEGUI renderer **/
+	CEGUI::OgreRenderer*		renderer_;
 };
 
 //---------------------------------------------------------------------------

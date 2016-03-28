@@ -38,16 +38,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\boost\;$(IncludePath)</IncludePath>
+    <IncludePath>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\boost\;$(CEGUI_HOME)\cegui\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);$(CEGUI_HOME)\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\boost\;$(IncludePath)</IncludePath>
+    <IncludePath>$(OGRE_HOME)\include;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\include\OGRE\Overlay;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\boost\;$(CEGUI_HOME)\cegui\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(OGRE_HOME)\boost\lib;$(OGRE_HOME)\lib\$(Configuration);$(CEGUI_HOME)\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -56,7 +56,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;CEGUIBase-0_d.lib;CEGUIOgreRenderer-0_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,7 +70,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;CEGUIBase-0.lib;CEGUIOgreRenderer-0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

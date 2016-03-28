@@ -124,6 +124,30 @@ FightWindow::~FightWindow(void)
 	if(theSun_)	delete theSun_;
 }
 
+void FightWindow::setupResources(void)
+{
+	BaseFightWindow::setupResources();
+}
+
+void FightWindow::loadResources(void)
+{
+	
+	BaseFightWindow::loadResources();
+
+	//CEGUI
+	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing CEGUI ***");
+	renderer_ = &CEGUI::OgreRenderer::bootstrapSystem();
+
+	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+
+	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+}
+
 void FightWindow::createEntity(const string& mesh, const Vector3& position, const int& scale)
 {
 	//Add some configuration
@@ -139,6 +163,7 @@ void FightWindow::createRobot(const string& mesh, const Vector3& position, const
 
 void FightWindow::createScene(void)
 {
+
 	//======== ABOUT LIGHT =========
 	// -- The sun -- //
 	theSun_ = new Sun(this);
@@ -205,7 +230,7 @@ void FightWindow::createCamera()
 
 }
 
-void FightWindow::createViewports()
+void FightWindow::createViewports(void)
 {
 	Ogre::Viewport* vp = window_->addViewport(camera_);
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
@@ -213,6 +238,34 @@ void FightWindow::createViewports()
 	camera_->setAspectRatio(
 		  Ogre::Real(vp->getActualWidth()) /
 		  Ogre::Real(vp->getActualHeight()));
+}
+
+void FightWindow::createFrameListener(void)
+{
+	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+    OIS::ParamList pl;
+    size_t windowHnd = 0;
+    std::ostringstream windowHndStr;
+ 
+    window_->getCustomAttribute("WINDOW", &windowHnd);
+    windowHndStr << windowHnd;
+    pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+ 
+    inputManager_ = OIS::InputManager::createInputSystem( pl );
+ 
+    keyboard_ = static_cast<OIS::Keyboard*>(inputManager_->createInputObject( OIS::OISKeyboard, true ));
+    mouse_ = static_cast<OIS::Mouse*>(inputManager_->createInputObject( OIS::OISMouse, true ));
+ 
+    mouse_->setEventCallback(this);
+    keyboard_->setEventCallback(this);
+ 
+    //Set initial mouse clipping size
+    windowResized(window_);
+ 
+    //Register as a Window listener
+    Ogre::WindowEventUtilities::addWindowEventListener(window_, this);
+
+    root_->addFrameListener(this);
 }
 
 /* Render loop */
@@ -229,6 +282,16 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
     keyboard_->capture();
     mouse_->capture();
 
+	//Need to inject timestamps to CEGUI System.
+	try{
+    CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
+	}catch(CEGUI::Exception e){
+		MessageBox(NULL, e.getMessage().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		 exit(1);
+
+	}
+	
+	/*
     trayMgr_->frameRenderingQueued(evt);
 
     if (!trayMgr_->isDialogVisible())
@@ -245,6 +308,8 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
             detailsPanel_->setParamValue(7, Ogre::StringConverter::toString(camera_->getDerivedOrientation().z));
         }
     }
+	*/
+
 
 	/* Update correctly the fightManager CLEMENT, I NEED YOU*/
 	fightManager_->update();
@@ -263,4 +328,58 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	}
 
     return true;
+}
+
+bool FightWindow::keyPressed(const OIS::KeyEvent &arg)
+{
+	CEGUI::GUIContext& context = CEGUI::System::getSingleton().getDefaultGUIContext();
+	context.injectKeyDown((CEGUI::Key::Scan)arg.key);
+	context.injectChar((CEGUI::Key::Scan)arg.text);
+	return true;
+}
+
+bool FightWindow::keyReleased(const OIS::KeyEvent &arg)
+{
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp((CEGUI::Key::Scan)arg.key);
+	return true;
+}
+
+bool FightWindow::mouseMoved(const OIS::MouseEvent &arg)
+{
+	CEGUI::GUIContext &sys = CEGUI::System::getSingleton().getDefaultGUIContext();
+	sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+	// Scroll wheel.
+	if (arg.state.Z.rel)
+		sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
+	return true;
+}
+
+bool FightWindow::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+{
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));
+	return true;
+}
+
+bool FightWindow::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+{
+	CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
+	return true;
+}
+
+CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
+{
+    switch (buttonID)
+    {
+    case OIS::MB_Left:
+        return CEGUI::LeftButton;
+ 
+    case OIS::MB_Right:
+        return CEGUI::RightButton;
+ 
+    case OIS::MB_Middle:
+        return CEGUI::MiddleButton;
+ 
+    default:
+        return CEGUI::LeftButton;
+    }
 }
