@@ -198,7 +198,7 @@ bool BaseFightWindow::setup(void)
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
-	&CEGUI::OgreRenderer::bootstrapSystem();
+	
     // Create any resource listeners (for loading screens)
     createResourceListener();
     // Load resources

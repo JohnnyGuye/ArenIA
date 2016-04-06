@@ -136,6 +136,9 @@ void FightWindow::loadResources(void)
 	BaseFightWindow::loadResources();
 	//CEGUI
 	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing CEGUI ***");
+	//Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing CEGUI ***");
+	//renderer_ = &CEGUI::OgreRenderer::bootstrapSystem();
+	//Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing CEGUI ***");
 
 	Ogre::LogManager::getSingletonPtr()->logMessage("Holding resources ");
 	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
@@ -145,8 +148,8 @@ void FightWindow::loadResources(void)
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
 	CEGUI::ScriptModule::setDefaultResourceGroup("Lua_scripts");
 
-	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
-	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+	//CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+	//CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 }
 
 void FightWindow::createEntity(const string& mesh, const Vector3& position, const int& scale)
@@ -258,7 +261,6 @@ void FightWindow::createFrameListener(void)
     mouse_ = static_cast<OIS::Mouse*>(inputManager_->createInputObject( OIS::OISMouse, true ));
  
 	//
-
     mouse_->setEventCallback(this);
     keyboard_->setEventCallback(this);
  
@@ -287,32 +289,13 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 	//Need to inject timestamps to CEGUI System.
 	try{
-    CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
+		CEGUI::System::getSingleton().getDefaultGUIContext().injectTimePulse(evt.timeSinceLastFrame);
+		CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 	}catch(CEGUI::Exception e){
-		MessageBox(NULL, e.getMessage().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		MessageBox(NULL, e.getMessage().c_str(), "An exception has occurred !", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		 exit(1);
 
 	}
-	
-	/*
-    trayMgr_->frameRenderingQueued(evt);
-
-    if (!trayMgr_->isDialogVisible())
-    {
-        cameraMan_->frameRenderingQueued(evt);   // If dialog isn't up, then update the camera
-        if (detailsPanel_->isVisible())          // If details panel is visible, then update its contents
-        {
-            detailsPanel_->setParamValue(0, Ogre::StringConverter::toString(camera_->getDerivedPosition().x));
-            detailsPanel_->setParamValue(1, Ogre::StringConverter::toString(camera_->getDerivedPosition().y));
-            detailsPanel_->setParamValue(2, Ogre::StringConverter::toString(camera_->getDerivedPosition().z));
-            detailsPanel_->setParamValue(4, Ogre::StringConverter::toString(camera_->getDerivedOrientation().w));
-            detailsPanel_->setParamValue(5, Ogre::StringConverter::toString(camera_->getDerivedOrientation().x));
-            detailsPanel_->setParamValue(6, Ogre::StringConverter::toString(camera_->getDerivedOrientation().y));
-            detailsPanel_->setParamValue(7, Ogre::StringConverter::toString(camera_->getDerivedOrientation().z));
-        }
-    }
-	*/
-
 
 	/* Update correctly the fightManager CLEMENT, I NEED YOU*/
 	fightManager_->update();
