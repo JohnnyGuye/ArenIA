@@ -12,7 +12,7 @@ FightWindow::Sun::Sun(FightWindow* fw = nullptr)
 {
 	//Entity and position
 	double initX = -fw_->fightManager_->getRemainingTime() / 2;
-	Vector3 initPos = Vector3(initX, 1000, 500);
+	Vector3 initPos = Vector3(Real(initX), 1000, 500);
 	sun_ = sceneMgr_->createEntity("sphere.mesh");
 	sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos)->attachObject(sun_);
 
@@ -63,7 +63,8 @@ FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const string& 
 
 	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode();
 	node_->setPosition(position);
-	node_->setScale(scale, scale, scale);
+	Real scaleR = Real(scale);
+	node_->setScale(scaleR, scaleR, scaleR);
 	node_->attachObject(entity_);
 	node_->pitch(Degree(-90));
 
@@ -133,16 +134,16 @@ void FightWindow::loadResources(void)
 {
 	
 	BaseFightWindow::loadResources();
-
 	//CEGUI
 	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing CEGUI ***");
-	renderer_ = &CEGUI::OgreRenderer::bootstrapSystem();
 
+	Ogre::LogManager::getSingletonPtr()->logMessage("Holding resources ");
 	CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
 	CEGUI::Font::setDefaultResourceGroup("Fonts");
 	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+	CEGUI::ScriptModule::setDefaultResourceGroup("Lua_scripts");
 
 	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
@@ -171,9 +172,9 @@ void FightWindow::createScene(void)
 
 	//======ABOUT THE CAMERA=======
 	camera_->setPosition(
-		fightManager_->getTerrain()->getWidth() * 50.0, 
+		Real(fightManager_->getTerrain()->getWidth() * 50.0), 
 		300.0, 
-		fightManager_->getTerrain()->getWidth() * 50.0
+		Real(fightManager_->getTerrain()->getWidth() * 50.0)
 		);
 	//=======ONE ROBOT FOR THE TEST======
 	//createEntity("RobotLaveLinge.mesh", Vector3(550,0,250), 40);
@@ -256,6 +257,8 @@ void FightWindow::createFrameListener(void)
     keyboard_ = static_cast<OIS::Keyboard*>(inputManager_->createInputObject( OIS::OISKeyboard, true ));
     mouse_ = static_cast<OIS::Mouse*>(inputManager_->createInputObject( OIS::OISMouse, true ));
  
+	//
+
     mouse_->setEventCallback(this);
     keyboard_->setEventCallback(this);
  
@@ -347,7 +350,7 @@ bool FightWindow::keyReleased(const OIS::KeyEvent &arg)
 bool FightWindow::mouseMoved(const OIS::MouseEvent &arg)
 {
 	CEGUI::GUIContext &sys = CEGUI::System::getSingleton().getDefaultGUIContext();
-	sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+	sys.injectMouseMove((float)arg.state.X.rel, (float)arg.state.Y.rel);
 	// Scroll wheel.
 	if (arg.state.Z.rel)
 		sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);

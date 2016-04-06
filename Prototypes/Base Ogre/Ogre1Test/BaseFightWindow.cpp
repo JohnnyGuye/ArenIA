@@ -41,8 +41,8 @@ bool BaseFightWindow::configure(void)
 {
 
 	// One to restore setting, the other for setting them
-	if(root_->restoreConfig())
-	//if(root_->showConfigDialog())
+	//if(root_->restoreConfig())
+	if(root_->showConfigDialog())
 	{
 		window_ = root_->initialise(true, "ArenIA : Fight");
 		return true;
@@ -198,7 +198,7 @@ bool BaseFightWindow::setup(void)
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
-
+	&CEGUI::OgreRenderer::bootstrapSystem();
     // Create any resource listeners (for loading screens)
     createResourceListener();
     // Load resources
