@@ -40,6 +40,15 @@
     <Filter Include="Fichiers sources\Util">
       <UniqueIdentifier>{5a819d62-516a-44ed-8c8c-92a4e13d49f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Hitbox">
+      <UniqueIdentifier>{af3800f2-bf35-470c-b68e-feacea616632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Ability">
+      <UniqueIdentifier>{c0d1f3c0-a0fd-4c57-853b-c88e71926a94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Ability">
+      <UniqueIdentifier>{699ed6ef-460d-4930-a7b0-f485b5e356a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,8 +90,17 @@
     <ClCompile Include="EndOfDayVictory.cpp">
       <Filter>Fichiers sources\Victory</Filter>
     </ClCompile>
+    <ClCompile Include="Ability.cpp">
+      <Filter>Fichiers sources\Ability</Filter>
+    </ClCompile>
+    <ClCompile Include="AbilityMissile.cpp">
+      <Filter>Fichiers sources\Ability</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Fichiers sources\Objects</Filter>
+    </ClCompile>
     <ClCompile Include="Robot.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,8 +167,26 @@
     <ClInclude Include="EndOfDayVictory.h">
       <Filter>Fichiers d%27en-tête\Victory</Filter>
     </ClInclude>
+    <ClInclude Include="HitboxSphere.h">
+      <Filter>Fichiers d%27en-tête\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="Hitbox.h">
+      <Filter>Fichiers d%27en-tête\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="HitboxVoid.h">
+      <Filter>Fichiers d%27en-tête\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="Ability.h">
+      <Filter>Fichiers d%27en-tête\Ability</Filter>
+    </ClInclude>
+    <ClInclude Include="AbilityMissile.h">
+      <Filter>Fichiers d%27en-tête\Ability</Filter>
+    </ClInclude>
     <ClInclude Include="Robot.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>Fichiers d%27en-tête\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Ogre.h>
-#include <OgreAxisAlignedBox.h>
+#include "Hitbox.h"
 
 class GameObject
 {

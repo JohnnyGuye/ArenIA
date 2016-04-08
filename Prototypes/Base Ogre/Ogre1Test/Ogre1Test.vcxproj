@@ -74,12 +74,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ability.cpp" />
+    <ClCompile Include="AbilityMissile.cpp" />
     <ClCompile Include="EndOfDayVictory.cpp" />
     <ClCompile Include="ExceptionArenIA.cpp" />
     <ClCompile Include="FightManager.cpp" />
     <ClCompile Include="BaseFightWindow.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="SceneryObject.cpp" />
     <ClCompile Include="Stats.cpp" />
@@ -90,6 +93,8 @@
     <ClCompile Include="VictoryHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ability.h" />
+    <ClInclude Include="AbilityMissile.h" />
     <ClInclude Include="EndOfDayVictory.h" />
     <ClInclude Include="ExceptionArenIA.h" />
     <ClInclude Include="FightManager.h" />
@@ -100,6 +105,10 @@
     <ClInclude Include="GameTimeDuration.h" />
     <ClInclude Include="GameTimeMoment.h" />
     <ClInclude Include="Gauge.h" />
+    <ClInclude Include="Hitbox.h" />
+    <ClInclude Include="HitboxSphere.h" />
+    <ClInclude Include="HitboxVoid.h" />
+    <ClInclude Include="Missile.h" />
     <ClInclude Include="ReachPointEvent.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="RobotKillEvent.h" />

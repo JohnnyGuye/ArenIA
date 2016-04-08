@@ -4,7 +4,7 @@
 TeamKillVictory::TeamKillVictory(void)
 	: VictoryHandler()
 {
-	eventsToHandle_.insert(GameEvent::EventType::TEAM_KILL);
+	eventsToHandle_.insert(GameEvent::TEAM_KILL);
 	createFlag("teamkilled");
 }
 
@@ -17,7 +17,7 @@ void TeamKillVictory::updateFlags()
 	GameEvent* ge = events_.back();
 	switch(ge->getEventType())
 	{
-	case GameEvent::EventType::TEAM_KILL:
+	case GameEvent::TEAM_KILL:
 		{
 			TeamKillEvent* tke = (TeamKillEvent*)ge;
 			if(tke->getTeamId() == teamID_)

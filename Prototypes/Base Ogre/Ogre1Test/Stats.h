@@ -16,7 +16,6 @@ class Stats
 public:
 
 //------------------------------------------------- Operators overload
-    Stats & operator = ( const Stats & otherStats );
     Stats & operator+=(Stats & otherStats);
     Stats & operator-=(Stats & otherStats);
     friend std::ostream & operator<<(std::ostream & os, const Stats& stats);

@@ -17,7 +17,7 @@ void TargetVictory::updateFlags(void)
 	GameEvent* ge = events_.back();
 	switch(ge->getEventType())
 	{
-	case GameEvent::EventType::ROBOT_KILL:
+	case GameEvent::ROBOT_KILL:
 		{
 			RobotKillEvent* rke = (RobotKillEvent*)ge;
 			if(rke->getVictimId() == targetID_)

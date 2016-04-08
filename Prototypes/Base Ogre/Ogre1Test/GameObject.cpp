@@ -15,6 +15,8 @@ GameObject::~GameObject(void)
 {
 }
 
+//Getters on state
+
 bool GameObject::isImpotent() const
 {
 	return impotent_;
@@ -34,6 +36,25 @@ bool GameObject::isInStase() const
 {
 	return (impotent_ && snare_ && immortal_);
 }
+
+//Getters
+
+Vector3 GameObject::getPosition() const
+{
+	return position_;
+}
+
+Degree GameObject::getOrientation() const
+{
+	return angle_;
+}
+
+string GameObject::getName() const
+{
+	return name_;
+}
+
+//Setters
 
 void GameObject::setStatus(const int flag)
 {
@@ -63,19 +84,4 @@ bool GameObject::move(Ogre::Vector3 const& direction)
 void GameObject::dealHitBoxDamages(GameObject* other) const
 {
 
-}
-
-Vector3 GameObject::getPosition() const
-{
-	return position_;
-}
-
-Degree GameObject::getOrientation() const
-{
-	return angle_;
-}
-
-string GameObject::getName() const
-{
-	return name_;
 }
