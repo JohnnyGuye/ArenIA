@@ -1,5 +1,6 @@
 #include "BaseFightWindow.h"
 
+using namespace Ogre;
 
 BaseFightWindow::BaseFightWindow(void)
 	: root_(0),
@@ -32,6 +33,7 @@ BaseFightWindow::~BaseFightWindow(void)
 	if (trayMgr_) delete trayMgr_;
     if (cameraMan_) delete cameraMan_;
     if (overlaySystem_) delete overlaySystem_;
+	if(math_)	delete math_;
 
     // Remove ourself as a Window listener
     Ogre::WindowEventUtilities::removeWindowEventListener(window_, this);
@@ -223,6 +225,8 @@ bool BaseFightWindow::setup(void)
 {
     root_ = new Ogre::Root(pluginsCfg_);
 
+	//Initialize angles translations
+	math_ = new Math(4096);
     setupResources();
 
     bool carryOn = configure();

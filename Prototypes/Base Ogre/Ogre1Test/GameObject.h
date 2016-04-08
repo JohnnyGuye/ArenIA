@@ -58,19 +58,29 @@ public:
 	**	@return the angle in degrees **/
 	virtual Ogre::Degree	getOrientation() const;
 
+	/** @brief the direction the object is looking at
+	** @return a vector pointing in the direction **/
+	virtual Ogre::Vector3	getOrientationVect() const;
+
 	/** @brief the name of this
 	**	@return : the name **/
 	virtual std::string		getName() const;
 	
 //Atributes
 protected :
+	/* About position **/
 	Ogre::Vector3 position_;
 
+	/* ABout rotation **/
 	Ogre::Degree angle_;
+	Ogre::Vector3 orientation_;
 
+	/* About states **/
 	bool	immortal_,
 			snare_,
 			impotent_;
+
+	/* About properties **/
 	std::string name_;
 
 //Constantes

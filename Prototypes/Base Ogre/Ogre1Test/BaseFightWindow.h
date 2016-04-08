@@ -91,6 +91,7 @@ protected:
 	Ogre::RenderWindow*		window_;
 	Ogre::String			resourcesCfg_;
 	Ogre::String			pluginsCfg_;
+	Ogre::Math*				math_;
 
 	// Les cadres de debugs sont affichés par Overlays
 
