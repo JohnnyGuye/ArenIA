@@ -81,6 +81,8 @@
     <ClCompile Include="FightManager.cpp" />
     <ClCompile Include="BaseFightWindow.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Robot.cpp" />
@@ -108,6 +110,7 @@
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="HitboxSphere.h" />
     <ClInclude Include="HitboxVoid.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="ReachPointEvent.h" />
     <ClInclude Include="Robot.h" />

@@ -12,9 +12,11 @@
 #include <string>
 #include <vector>
 #include <string>
+
 #include "GameObject.h"
 #include "Stats.h"
-//#include "Ability.h"
+#include "Ability.h"
+#include "Terrain.h"
 
 //for the rotations
 #define FORWARD_DEFAULT Ogre::Vector3::NEGATIVE_UNIT_Z
@@ -44,11 +46,17 @@ public:
 		GREEN = 128
     };
 
+	enum Type {
+		LAVE_LINGE
+	};
+
 //public methods
 public:
 
-	/** **/
-    Robot(Ogre::Vector3 position = Ogre::Vector3::ZERO, std::string name = "");
+	/** @brief Create a new robot 
+	*	@param position the initial position of the robot
+	*	@param the name of the robot **/
+    Robot(Ogre::Vector3 position = Ogre::Vector3::ZERO, std::string name = "", Team team = NONE);
 
     /** **/
     virtual ~Robot();
@@ -86,12 +94,12 @@ public:
     bool removeAbility(int idxAbility);
 	**/
 
-	/** **/
-    virtual Ogre::Vector3 getTurretOrientation() const;
+	/** @brief a not really significant vector **/
+    virtual Ogre::Vector3 getTurretOrientationVect() const;
 
 	/** @brief The angle between the X-axis of the wheels, and the X-axis of the turret 
 	*	@return this angle in degrees **/
-	virtual Ogre::Degree getTurretAngle() const;
+	virtual Ogre::Degree getTurretOrientation() const;
 
     /** **/
     virtual double getSpeed() const;

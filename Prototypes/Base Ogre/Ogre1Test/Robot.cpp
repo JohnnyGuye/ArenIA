@@ -1,13 +1,5 @@
 #include "Robot.h"
 
-#include <Ogre.h>
-#include <string>
-#include <vector>
-
-#include "GameObject.h"
-#include "Stats.h"
-#include "Ability.h"
-
 using namespace Ogre;
 using namespace std;
 
@@ -16,11 +8,11 @@ using namespace std;
 */
 
 
-Robot::Robot(Vector3 position, string name)
+Robot::Robot(Vector3 position, string name, Robot::Team team)
 	: GameObject(position, name),
-    team_(NONE),
-	stats_(),
-	additionalStats_(),
+    team_(team),
+	stats_(Gauge(), Gauge(), 60, 500, 0, 4.0),
+	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
 	action_(IDLE),
 	iaFilename_("EMPTY")
 {
@@ -39,7 +31,8 @@ bool Robot::resetAction()
 
 void Robot::update()
 {
-
+	resetAction();
+	turnDirection(Degree(1));
 }
 
 bool Robot::fire()
@@ -51,6 +44,8 @@ bool Robot::fire()
 
 bool Robot::move()
 {
+	if( (action_ & MOVING) == MOVING)	return false;
+	if( isSnared() )		return false;
     double speed = getSpeed();
     GameObject::move(Real(speed) * orientation_);
     action_ = (State)(action_ | MOVING);
@@ -60,14 +55,14 @@ bool Robot::move()
 bool Robot::turnTurret (const Degree& angle)
 {
 	if(isSnared())	return false;
-	setTurretOrientation(angle);
+	setTurretOrientation(angle_ + angle);
     return true;
 }
 
 bool Robot::turnDirection (const Degree& angle)
 {
 	if (isSnared())	return false;
-    setOrientation(angle);
+    setOrientation(angle_ + angle);
 	return true;
 }
 
@@ -106,12 +101,12 @@ bool removeAbility(int idxAbility){
 Basic Getters
 */
 
-Degree Robot::getTurretAngle() const
+Degree Robot::getTurretOrientation() const
 {
 	return Degree(turretOrientation_.angleBetween(orientation_));
 }
 
-Vector3 Robot::getTurretOrientation() const
+Vector3 Robot::getTurretOrientationVect() const
 {
     return turretOrientation_;
 }

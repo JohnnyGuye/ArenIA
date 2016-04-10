@@ -36,6 +36,7 @@ class Terrain
 	// -- CONSTANTES
 public:
 	static const int CELL_SIZE = 100;
+	static const double I_CELL_SIZE;
 	// -- Member classes
 protected:
 
@@ -83,15 +84,30 @@ public:
 	*	@return : height **/
 	unsigned int getHeight() const;
 
-	/** @brief return the element in the cell (x,y)
+	/** @brief get the name of the map
+	*	@return a string of the map name **/
+	std::string getName() const;
+
+	/** @brief get the dimension of the terrain
+	*	@return a Vector2 with the dimensions */
+	Ogre::Vector2 getDimension() const;
+
+	/** @brief get the element in the cell (x,y)
 	**  @return : the Object in the cell, null if no Object there **/
 	GameObject* getObjectInCell(int const& x, int const& y) const;
+
+	/** @brief get the starting position in the map 
+	*	@return a list of vectors with the centr positions **/
+	std::list<Ogre::Vector3> getStarts() const;
+
+	static int posToCell (const Ogre::Real& val);
+	static Ogre::Real cellToPos(const int& val);
+
 	
 protected:
 	void	LoadFromFile();
 	void	InterpreterDOM(const DOMObject& domo);
 	void	createObjectInCell (const int& x, const int& y, const std::string& num = "0");
-	int		posToCell (const Ogre::Real& val) const;
 
 protected:
 	/// The name of the sourcefile
@@ -100,8 +116,8 @@ protected:
 	/// The object grille representing the terrain
 	GameObject*** grille_;
 	
-	///A list of vector2 for each position possible for a start
-	std::list<Ogre::Vector2> starts_;
+	///A list of vector3 for each position possible for a start
+	std::list<Ogre::Vector3> starts_;
 
 	//ObjectDataBase objectDataBase_;
 

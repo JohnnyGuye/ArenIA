@@ -23,6 +23,7 @@
 #include "BaseFightWindow.h"
 #include "FightManager.h"
 #include "Robot.h"
+#include "Log.h"
 
 #include <vector>
 
@@ -30,18 +31,9 @@
 
 class FightWindow : public BaseFightWindow
 {
-public:
-    FightWindow(void);
-    virtual ~FightWindow(void);
-
+//------------------------------------- Inner classes
 protected:
-    virtual void createScene(void);
-	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const int& scale);
-	virtual void createRobot(const std::string& mesg, const Ogre::Vector3& position, const int& scale, Robot* robot);
-	virtual void createCamera(void);
-	virtual void createViewports(void);
-	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-
+	
 	class Sun
 	{
 	public:
@@ -51,9 +43,14 @@ protected:
 		void update();
 	protected:
 		FightWindow* fw_;
+		Ogre::SceneNode* node_;
 		Ogre::SceneManager* sceneMgr_;
 		Ogre::Entity* sun_;
 		Ogre::Light* light_;
+		Ogre::Light* ambient_;
+
+		static const int ORBIT = 100 * Terrain::CELL_SIZE;
+		Ogre::Vector2 offset_;
 	};
 
 	class GameEntity
@@ -77,25 +74,41 @@ protected:
 		RobotEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale, Robot* robot);
 		virtual~RobotEntity();
 		virtual void update(const	Ogre::FrameEvent& evt);
+		inline virtual std::string stateToString(const Robot::State& state) const;
 	protected:
 	};
 
+// ------------------------------------- FightWindow
+public:
+    FightWindow(void);
+    virtual ~FightWindow(void);
+
+protected:
+    virtual void createScene(void);
+	virtual void createFrameListener(void);
+	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const int& scale = 1);
+	virtual void createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team = Robot::NONE, const Ogre::Vector3& position = Ogre::Vector3::ZERO, const int& scale = 1);
+	virtual void createRobots(void);
+	virtual void createCamera(void);
+	virtual void createViewports(void);
+	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+	// Handler sur le clavier/souris
+	virtual bool keyPressed(const OIS::KeyEvent &arg);
+
 protected:
 
-	/** The logic of the game **/
-	FightManager* fightManager_;
+	
+	FightManager*		fightManager_;	// The logic of the game 
 
-	/** The entities corresponding to the scenery **/
-	std::vector<Ogre::Entity*> DecorEntities_;
+	std::vector<Ogre::Entity*>	DecorEntities_; // The entities corresponding to the scenery 
+	std::list<RobotEntity>		robotsEntities_; // The robots to carry 
+	std::list<GameEntity>		objectEntities_;	// The other objects to carry
+	Sun*						theSun_;// The sun
 
-	/** The sun **/
-	Sun* theSun_;
-
-	/** The robots to carry **/
-	std::list<RobotEntity> robotsEntities_;
-
-	/** The other objects to carry **/
-	std::list<GameEntity> objectEntities_;
+	OgreBites::ParamsPanel*		fightPanel_;
+	double			displaySpeed_;
+	Ogre::Real		lag_;
 };
 
 //---------------------------------------------------------------------------

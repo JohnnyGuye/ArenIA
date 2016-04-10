@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreLogManager.h>
@@ -50,7 +48,7 @@
 #  include "OgreStaticPluginLoader.h"
 #endif
 
-class BaseFightWindow : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
+class BaseFightWindow : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, public OgreBites::SdkTrayListener
 {
 public:
 	BaseFightWindow(void);

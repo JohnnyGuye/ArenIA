@@ -39,7 +39,7 @@ public:
 
 	/* Inheritance */
 	inline virtual int getDuration(){	return duration_;	}
-	inline virtual int getDurationMilisecond(){	return duration_ * ROUND_IN_MS;	}
+	inline virtual int getDurationMilisecond(){	return duration_ * GameTimeMoment::ROUND_IN_MS;	}
 
 	// Self operators
 	inline virtual GameTimeDuration& operator+=(const GameTimeDuration& gtd)
@@ -126,10 +126,6 @@ public:
 	{
 		return (duration_ == 0);
 	}
-
-public:
-	static const int SEC_IN_ROUNDS = GameTimeMoment::SEC_IN_ROUNDS;
-	static const int ROUND_IN_MS = GameTimeMoment::ROUND_IN_MS;
 	
 protected:
 	int duration_;

@@ -1,7 +1,13 @@
 #include "Terrain.h"
 
+#include "Log.h"
+
 using namespace std;
 using namespace Ogre;
+
+//============= CONSTANTS ====================
+
+const double Terrain::I_CELL_SIZE = 1 / CELL_SIZE;
 
 // ============ DOMObject METHODS ============
 
@@ -53,7 +59,11 @@ Vector2 Terrain::DOMObject::getDimension() const
 // ============= TERRAIN METHODS =============
 
 Terrain::Terrain(const string& sourceFile)
-	: sourceFile_(sourceFile), width_(1), height_(1)
+	: sourceFile_(sourceFile), 
+	width_(0), 
+	height_(0),
+	grille_(nullptr),
+	starts_()
 {
 	try{
 		LoadFromFile();
@@ -62,12 +72,29 @@ Terrain::Terrain(const string& sourceFile)
 	{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 		MessageBox(NULL, e.getDescription().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		ArenIA::Log::getInstance()->write(e.getDescription());
 #else
             std::cerr << "An exception has occurred: " <<
                 e.getDescription().c_str() << std::endl;
 #endif
 	}
 }
+
+Terrain::~Terrain(void)
+{
+
+	for(int i = 0; i < width_;i++)
+	{	
+		for(int j = 0; j < height_; j++)
+		{
+			delete grille_[i][j];
+		}
+		delete grille_[i];
+	}
+	delete grille_;
+}
+
+//--------------------------------------------Private
 
 void Terrain::LoadFromFile()
 {
@@ -135,7 +162,21 @@ void Terrain::LoadFromFile()
 					}
 					else if(sRead == "data")
 					{
-						//Create the grille, considering the grille is empty
+						if(grille_ != nullptr)//Don't be a fool, only one layer per map
+						{
+							std::stringstream ss;
+							ss << "WARNING !!! Two layers or more created on the map " << sourceFile_;
+							ArenIA::Log::getInstance()->write(ss.str());
+							for(int i = 0; i < width_;i++)
+							{	
+								for(int j = 0; j < height_; j++)
+								{
+									delete grille_[i][j];
+								}
+								delete grille_[i];
+							}
+							delete grille_;
+						}
 						grille_ = new GameObject**[width_];
 						for(int i = 0; i < width_; i++){	grille_[i] = new GameObject*[height_];	}
 
@@ -228,10 +269,13 @@ void Terrain::LoadFromFile()
 	}
 }
 
-//TODO
 void Terrain::InterpreterDOM(const DOMObject& domo)
 {
-
+	if(domo.getType() == "Start")
+	{
+		Vector2 pos = domo.getPosition();
+		starts_.push_back(Vector3(pos.y, 0, pos.x));
+	}
 }
 
 void Terrain::createObjectInCell(const int& x, const int& y, const string& nums)
@@ -239,14 +283,10 @@ void Terrain::createObjectInCell(const int& x, const int& y, const string& nums)
 	if(nums == "0" || nums == "256")
 		grille_[x][y] = nullptr;
 	else
-		grille_[x][y] = new SceneryObject(Ogre::Vector3(Real(100.0 * x), 0, Real(100.0 * y)), nums);
+		grille_[x][y] = new SceneryObject(Vector3(Real(100.0 * y), 0, Real(100.0 * x)), nums);
 }
 
-int Terrain::posToCell(const Ogre::Real& p) const
-{
-	return (int)(p / (double)CELL_SIZE);
-}
-
+//---------------------------------------------Public
 bool Terrain::getCollision(GameObject* other)
 {
 	Vector3 pos = other->getPosition();
@@ -274,16 +314,28 @@ unsigned int Terrain::getHeight() const
 	return height_;
 }
 
-Terrain::~Terrain(void)
+string Terrain::getName() const
 {
+	return sourceFile_;
+}
 
-	for(int i = 0; i < width_;i++)
-	{	
-		for(int j = 0; j < height_; j++)
-		{
-			delete grille_[i][j];
-		}
-		delete grille_[i];
-	}
-	delete grille_;
+Vector2 Terrain::getDimension() const
+{
+	return Vector2(Real(width_) * CELL_SIZE, Real(height_) * CELL_SIZE);
+}
+
+std::list<Ogre::Vector3> Terrain::getStarts() const
+{
+	return starts_;
+}
+
+//--------------------------------------------Static
+int Terrain::posToCell(const Ogre::Real& p)
+{
+	return (int)(p * I_CELL_SIZE);
+}
+
+Real Terrain::cellToPos(const int& val)
+{
+	return Real(((double)val + 0.5f) * CELL_SIZE);
 }

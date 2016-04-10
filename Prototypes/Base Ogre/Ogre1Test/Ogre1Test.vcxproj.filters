@@ -102,6 +102,12 @@
     <ClCompile Include="Robot.cpp">
       <Filter>Fichiers sources\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Terrain.h">
@@ -187,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="Missile.h">
       <Filter>Fichiers d%27en-tête\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

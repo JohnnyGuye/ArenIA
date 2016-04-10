@@ -81,7 +81,7 @@ public:
 	inline double getNotFilledAbsolute() const {	return max_-current_;	}
 
 	/** @return the filled percent of the gauge **/
-	inline double getPercent() const {	return current_ / (double)(max_-min_);	}
+	inline double getRatio() const {	return current_ / (double)(max_-min_);	}
 
     /**
 	* Modifier getter

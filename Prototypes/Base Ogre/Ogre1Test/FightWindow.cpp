@@ -8,18 +8,26 @@ using namespace std;
 // ----------------------------------------------
 
 FightWindow::Sun::Sun(FightWindow* fw = nullptr)
-	: fw_(fw), sceneMgr_(fw->sceneMgr_)
+	: fw_(fw), sceneMgr_(fw->sceneMgr_),
+	offset_(fw_->fightManager_->getTerrain()->getDimension())
 {
 	//Entity and position
-	double initX = -fw_->fightManager_->getRemainingTime() / 2;
-	Vector3 initPos = Vector3(initX, 1000, 500);
+	Vector3 initPos = Vector3(ORBIT, 0, 500);
 	sun_ = sceneMgr_->createEntity("sphere.mesh");
-	sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos)->attachObject(sun_);
+	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos);
+	node_->attachObject(sun_);
 
 	//Ambient light
 	sceneMgr_->setAmbientLight(Ogre::ColourValue(0.9f, 0.85f, 0.85f));
 	sceneMgr_->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_MODULATIVE);
 
+	//Ambient bis
+	ambient_ = sceneMgr_->createLight("Ambient");
+	ambient_->setDiffuseColour(0.2f, 0.2f, 0.4f);
+	ambient_->setSpecularColour(0.4f, 0.3f, 0.4f);
+	ambient_->setType(Light::LT_DIRECTIONAL);
+	ambient_->setDirection(Vector3(1, -5, -1));
+	
 	//SpotLight
 	light_ = sceneMgr_->createLight("SunLight");
 	light_->setDiffuseColour(1.0, 1.0, 0.8f);
@@ -33,20 +41,21 @@ FightWindow::Sun::Sun(FightWindow* fw = nullptr)
 
 FightWindow::Sun::~Sun()
 {
+	node_->detachObject(sun_);
 }
 
 void FightWindow::Sun::update()
 {
-	Ogre::Node*node = sun_->getParentNode();
-	if(fw_->fightManager_->getActualTime() < fw_->fightManager_->getRemainingTime())
-	{
-		node->translate(1,1,0);
-	}
-	else
-	{
-		node->translate(1,-1,0);
-	}
-	light_->setPosition(node->getPosition());
+	double dayRatio = fw_->fightManager_->getDayRatio();
+	Real cos = Math::Cos(dayRatio * Math::PI);
+	Real sin = Math::Sin(dayRatio * Math::PI);
+	node_->setPosition( cos * ORBIT + offset_.y, sin* ORBIT, offset_.x); 
+	light_->setPosition(node_->getPosition());
+	Real r(abs(dayRatio * 2 - 1) * 0.4 + 0.6);
+	Real v(0.6f);
+	Real b(abs(dayRatio * 2 - 1) * (-0.5) + 1.5);
+	ambient_->setDiffuseColour(r * 0.4, v * 0.4, b * 0.4);
+	light_->setDiffuseColour(r, v, b);
 }
 
 // ----------------------------------------------
@@ -67,7 +76,7 @@ FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const string& 
 	node_->attachObject(entity_);
 	node_->pitch(Degree(-90));
 
-	animState_ = entity_->getAnimationState("Forward");
+	animState_ = entity_->getAnimationState("IDLE");
 	animState_->setLoop(true);
 	animState_->setEnabled(true);
 }
@@ -97,7 +106,7 @@ FightWindow::RobotEntity::RobotEntity(Ogre::SceneManager* sceneMgr, const string
 	const Ogre::Vector3& position, const int& scale, Robot* robot)
 	:	GameEntity(sceneMgr, mesh, position, scale, robot)
 {
-	robot->setOrientation(Degree(75));
+	robot->setOrientation(Degree(0));
 	node_->roll(Degree(robot->getOrientation()));
 }
 
@@ -107,7 +116,20 @@ FightWindow::RobotEntity::~RobotEntity()
 
 void FightWindow::RobotEntity::update(const FrameEvent& evt)
 {
+	Robot* robot = (Robot*)object_;
+	animState_ = entity_->getAnimationState(stateToString(robot->getState()));
 	GameEntity::update(evt);
+}
+
+string FightWindow::RobotEntity::stateToString(const Robot::State& state) const
+{
+	switch(state){
+	case Robot::SHOOTING:
+		return "SHOOTING";
+	case Robot::IDLE:
+	default:
+		return "IDLE";
+	}
 }
 
 // ----------------------------------------------
@@ -115,6 +137,10 @@ void FightWindow::RobotEntity::update(const FrameEvent& evt)
 // ----------------------------------------------
 
 FightWindow::FightWindow(void)
+	: lag_(0),
+	fightPanel_(0),
+	displaySpeed_(1),
+	theSun_(nullptr)
 {
 	fightManager_ = new FightManager("essai2.txt");
 }
@@ -122,6 +148,7 @@ FightWindow::FightWindow(void)
 FightWindow::~FightWindow(void)
 {
 	if(theSun_)	delete theSun_;
+	if(fightManager_) delete fightManager_;
 }
 
 void FightWindow::createEntity(const string& mesh, const Vector3& position, const int& scale)
@@ -130,11 +157,39 @@ void FightWindow::createEntity(const string& mesh, const Vector3& position, cons
 	objectEntities_.push_back(GameEntity(sceneMgr_, mesh, position, scale));
 }
 
-void FightWindow::createRobot(const string& mesh, const Vector3& position, const int& scale, Robot* robot)
+void FightWindow::createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team, const Ogre::Vector3& position, const int& scale)
 {
-	//Add some configuration
-	robot->setPosition(position);
+	string mesh;
+	switch(type){
+	case Robot::LAVE_LINGE:
+		mesh = "RobotLaveLinge.mesh";
+	default:
+		mesh = "RobotLaveLinge.mesh";
+
+	}
+	Robot* robot = new Robot(position, name, team);
 	robotsEntities_.push_back(RobotEntity(sceneMgr_, mesh, position, scale, robot));
+	fightManager_->addRobot(robot);
+}
+
+void FightWindow::createRobots(void)
+{
+	std::list<Robot*> robots = fightManager_->getRobots();
+
+	for(std::list<Robot*>::iterator it = robots.begin(); it != robots.end() ; it++ )
+	{
+		int scale;
+		string mesh;
+		Robot::Type type = Robot::LAVE_LINGE;
+		switch(type)
+		{
+		case Robot::LAVE_LINGE:
+		default:
+			scale = 10;
+			mesh = "RobotLaveLinge.mesh";
+		}
+		robotsEntities_.push_back(RobotEntity(sceneMgr_, mesh, (*it)->getPosition(), scale, (*it)));
+	}
 }
 
 void FightWindow::createScene(void)
@@ -142,7 +197,7 @@ void FightWindow::createScene(void)
 	//======== ABOUT LIGHT =========
 	// -- The sun -- //
 	theSun_ = new Sun(this);
-	sceneMgr_->setSkyBox(true, "Examples/SpaceSkyBox");
+	//sceneMgr_->setSkyBox(true, "Examples/SpaceSkyBox");
 
 	//======ABOUT THE CAMERA=======
 	camera_->setPosition(
@@ -151,24 +206,24 @@ void FightWindow::createScene(void)
 		fightManager_->getTerrain()->getWidth() * 50.0
 		);
 	//=======ONE ROBOT FOR THE TEST======
-	//createEntity("RobotLaveLinge.mesh", Vector3(550,0,250), 40);
-	createRobot("RobotLaveLinge.mesh", Vector3(650,0,350), 50, new Robot());
+	createRobot("Robot-001", Robot::LAVE_LINGE , Robot::NONE, Vector3(750,10,450), 10);
+	//createRobots();
 
 	//========THE GROUND=========
-	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	Ogre::Plane plane(Ogre::Vector3::NEGATIVE_UNIT_Y, 0);
 	
 	Ogre::MeshManager::getSingleton().createPlane(
 	  "ground",
 	  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 	  plane, 
-	  4000, 4000, 40, 40, 
+	  4000, 4000, 20, 20, 
 	  true, 
 	  1, 5, 5, 
-	  Ogre::Vector3::UNIT_Z);
+	  Ogre::Vector3::UNIT_X);
 
 	Ogre::Entity* groundEntity = sceneMgr_->createEntity("ground");
 	sceneMgr_->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);
-	groundEntity->setCastShadows(false);
+	//groundEntity->setCastShadows(false);
 	groundEntity->setMaterialName("Examples/Rockwall");
 
 	//========CREATE ENTITIES FROM TERRAIN===========
@@ -215,7 +270,51 @@ void FightWindow::createViewports()
 		  Ogre::Real(vp->getActualHeight()));
 }
 
-/* Render loop */
+void FightWindow::createFrameListener(void)
+{
+	LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+	OIS::ParamList pl;
+	size_t windowHnd = 0;
+	ostringstream windowHndStr;
+	
+	window_->getCustomAttribute("WINDOW", &windowHnd);
+	windowHndStr << windowHnd;
+	pl.insert(make_pair("WINDOW", windowHndStr.str()));
+
+	inputManager_ = OIS::InputManager::createInputSystem(pl);
+
+	keyboard_ = static_cast<OIS::Keyboard*>(inputManager_->createInputObject(OIS::OISKeyboard, true));
+    mouse_ = static_cast<OIS::Mouse*>(inputManager_->createInputObject(OIS::OISMouse, true));
+
+	mouse_->setEventCallback(this);
+	keyboard_->setEventCallback(this);
+
+	 // Register as a Window listener
+    Ogre::WindowEventUtilities::addWindowEventListener(window_, this);
+
+	inputContext_.mKeyboard = keyboard_;
+    inputContext_.mMouse = mouse_;
+    trayMgr_ = new OgreBites::SdkTrayManager("InterfaceName", window_, inputContext_, this);
+    trayMgr_->showFrameStats(OgreBites::TL_BOTTOMLEFT);
+
+	trayMgr_->hideCursor();
+
+	StringVector items;
+	items.push_back("Map");
+	items.push_back("Robots");
+	items.push_back("Speed");
+	items.push_back("");
+	items.push_back("Filtering");
+	items.push_back("Poly Mode");
+
+	fightPanel_ = trayMgr_->createParamsPanel(OgreBites::TL_NONE, "Fight !", 200, items);
+	fightPanel_->setParamValue(4, "Bilinear");
+    fightPanel_->setParamValue(5, "Solid");
+
+	root_->addFrameListener(this);
+}
+
+/* GAME LOOP MODAFUCKERS */
 bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	//Not really the game
@@ -229,27 +328,28 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
     keyboard_->capture();
     mouse_->capture();
 
+	/* OVERLAY */
     trayMgr_->frameRenderingQueued(evt);
 
     if (!trayMgr_->isDialogVisible())
     {
         cameraMan_->frameRenderingQueued(evt);   // If dialog isn't up, then update the camera
-        if (detailsPanel_->isVisible())          // If details panel is visible, then update its contents
+        if (fightPanel_->isVisible())          // If details panel is visible, then update its contents
         {
-            detailsPanel_->setParamValue(0, Ogre::StringConverter::toString(camera_->getDerivedPosition().x));
-            detailsPanel_->setParamValue(1, Ogre::StringConverter::toString(camera_->getDerivedPosition().y));
-            detailsPanel_->setParamValue(2, Ogre::StringConverter::toString(camera_->getDerivedPosition().z));
-            detailsPanel_->setParamValue(4, Ogre::StringConverter::toString(camera_->getDerivedOrientation().w));
-            detailsPanel_->setParamValue(5, Ogre::StringConverter::toString(camera_->getDerivedOrientation().x));
-            detailsPanel_->setParamValue(6, Ogre::StringConverter::toString(camera_->getDerivedOrientation().y));
-            detailsPanel_->setParamValue(7, Ogre::StringConverter::toString(camera_->getDerivedOrientation().z));
+			fightPanel_->setParamValue(0, fightManager_->getTerrain()->getName());
+			fightPanel_->setParamValue(1, StringConverter::toString(robotsEntities_.size()));
+			fightPanel_->setParamValue(2, StringConverter::toString(displaySpeed_));
         }
     }
 
-	/* Update correctly the fightManager CLEMENT, I NEED YOU*/
-	fightManager_->update();
+	/* LOGIC */
+	for(lag_ += (evt.timeSinceLastFrame * 1000 * 1000 * displaySpeed_) ; lag_ >= (GameTime::ROUND_IN_MS) ; lag_ -= (GameTime::ROUND_IN_MS))
+	{
+		fightManager_->update();
+	}
+	
 
-	/* Update rendering */
+	/* RENDERING */
 	theSun_->update();
 
 	for(std::list<GameEntity>::iterator ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
@@ -262,5 +362,107 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		(*re).update(evt);
 	}
 
+    return true;
+}
+
+bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
+{
+	if (trayMgr_->isDialogVisible()) return true;   // don't process any more keys if dialog is up
+
+    if (arg.key == OIS::KC_F)   // toggle visibility of advanced frame stats
+    {
+        trayMgr_->toggleAdvancedFrameStats();
+    }
+    else if (arg.key == OIS::KC_G)   // toggle visibility of even rarer debugging details
+    {
+        if (fightPanel_->getTrayLocation() == OgreBites::TL_NONE)
+        {
+            trayMgr_->moveWidgetToTray(fightPanel_, OgreBites::TL_TOPLEFT, 0);
+            fightPanel_->show();
+        }
+        else
+        {
+            trayMgr_->removeWidgetFromTray(fightPanel_);
+            fightPanel_->hide();
+        }
+    }
+    else if (arg.key == OIS::KC_T)   // cycle polygon rendering mode
+    {
+        Ogre::String newVal;
+        Ogre::TextureFilterOptions tfo;
+        unsigned int aniso;
+
+        switch (fightPanel_->getParamValue(4).asUTF8()[0])
+        {
+        case 'B':
+            newVal = "Trilinear";
+            tfo = Ogre::TFO_TRILINEAR;
+            aniso = 1;
+            break;
+        case 'T':
+            newVal = "Anisotropic";
+            tfo = Ogre::TFO_ANISOTROPIC;
+            aniso = 8;
+            break;
+        case 'A':
+            newVal = "None";
+            tfo = Ogre::TFO_NONE;
+            aniso = 1;
+            break;
+        default:
+            newVal = "Bilinear";
+            tfo = Ogre::TFO_BILINEAR;
+            aniso = 1;
+        }
+
+        Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
+        Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
+        fightPanel_->setParamValue(5, newVal);
+    }
+    else if (arg.key == OIS::KC_R)   // cycle polygon rendering mode
+    {
+        Ogre::String newVal;
+        Ogre::PolygonMode pm;
+
+        switch (camera_->getPolygonMode())
+        {
+        case Ogre::PM_SOLID:
+            newVal = "Wireframe";
+            pm = Ogre::PM_WIREFRAME;
+            break;
+        case Ogre::PM_WIREFRAME:
+            newVal = "Points";
+            pm = Ogre::PM_POINTS;
+            break;
+        default:
+            newVal = "Solid";
+            pm = Ogre::PM_SOLID;
+        }
+
+        camera_->setPolygonMode(pm);
+        fightPanel_->setParamValue(5, newVal);
+    }
+	else if(arg.key == OIS::KC_SUBTRACT)
+	{
+		if(displaySpeed_ > 0.25) displaySpeed_ *= 0.5;
+	}
+	else if(arg.key == OIS::KC_ADD)
+	{
+		if(displaySpeed_ < 8) displaySpeed_ *= 2;
+	}
+    else if(arg.key == OIS::KC_F5)   // refresh all textures
+    {
+        Ogre::TextureManager::getSingleton().reloadAll();
+    }
+    else if (arg.key == OIS::KC_SYSRQ)   // take a screenshot
+    {
+        window_->writeContentsToTimestampedFile("screenshot", ".jpg");
+    }
+    else if (arg.key == OIS::KC_ESCAPE)
+    {
+        shutDown_ = true;
+    }
+
+    cameraMan_->injectKeyDown(arg);
     return true;
 }

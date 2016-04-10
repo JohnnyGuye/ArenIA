@@ -6,6 +6,12 @@ FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	: day_(60 * 60, 0, 0.0, 1.0), roundAfterSD_(0), victoryHandler_(vo)
 {
 	loadTerrain(mapFileName);
+	
+	list<Ogre::Vector3> starts = getTerrain()->getStarts();
+	for(std::list<Ogre::Vector3>::iterator it = starts.begin(); it != starts.end() ; it++ )
+	{
+		addRobot(new Robot(*it, "Robot-001", Robot::NONE));
+	}
 }
 
 FightManager::~FightManager(void)
@@ -93,7 +99,17 @@ double FightManager::getRemainingTime() const
 	return day_.getNotFilledAbsolute();
 }
 
+double FightManager::getDayRatio() const
+{
+	return day_.getRatio();
+}
+
 Terrain* FightManager::getTerrain() const
 {
 	return terrain_;
+}
+
+std::list<Robot*> FightManager::getRobots() const
+{
+	return robots_;
 }

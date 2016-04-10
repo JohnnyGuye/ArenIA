@@ -91,7 +91,7 @@ public:
 
 public:
 	static const int SEC_IN_ROUNDS = 60;
-	static const int ROUND_IN_MS = 1667;
+	static const int ROUND_IN_MS = 16667;
 
 protected:
 	int moment_;
