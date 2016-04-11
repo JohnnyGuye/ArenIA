@@ -32,6 +32,9 @@ private:
 	lua_State *luaState;
 	static void LineHookFunc(lua_State *L, lua_Debug *ar);
 	lua_State* CreateBasicLua();
+
+	static int lua_CustomPrint(lua_State* L);
+	
 };
 
 

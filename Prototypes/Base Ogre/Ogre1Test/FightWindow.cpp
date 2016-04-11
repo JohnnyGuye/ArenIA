@@ -142,6 +142,7 @@ FightWindow::FightWindow(void)
 	displaySpeed_(1),
 	theSun_(nullptr)
 {
+	AllocConsole();
 	fightManager_ = new FightManager("essai2.txt");
 }
 

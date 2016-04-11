@@ -17,6 +17,12 @@ private:
 
 	static int lua_Robot_move(lua_State *L);
 	static int lua_Robot_fire(lua_State *L);
+	static int lua_Robot_turnRobot(lua_State *L);
+	static int lua_Robot_turnTurret(lua_State *L);
+
+	static int lua_Robot_getTurretAngle(lua_State *L);
+	static int lua_Robot_getRobotAngle(lua_State *L);
+
 	static int lua_Robot_debugTurn(lua_State *L);
 };
 

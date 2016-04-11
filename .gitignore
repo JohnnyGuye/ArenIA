@@ -15,8 +15,8 @@ Release/
 *.suo
 *.cfg
 *.ilk
-*.vcxproj
-*.vcproj
+#*.vcxproj
+#*.vcproj
 *.idb
 *.ipch
 *.sdf

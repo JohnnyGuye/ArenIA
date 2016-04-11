@@ -27,6 +27,17 @@ lua_State* LuaHandler::CreateBasicLua()
         lua_pushcfunction(L, luaopen_math);
         lua_pushstring(L, LUA_LOADLIBNAME);
         lua_call(L, 1, 0);
+
+		// Customize the print function :
+		static const struct luaL_Reg printlib [] = {
+				  {"print", LuaHandler::lua_CustomPrint},
+				  {NULL, NULL} /* end of array */
+				};
+
+		lua_getglobal(L, "_G");
+		luaL_register(L, NULL, printlib);
+		lua_pop(L, 1);
+
     }
     return L;
 }
@@ -74,4 +85,21 @@ LuaHandler::LuaHandler()
 LuaHandler::~LuaHandler()
 {
 	lua_close(luaState);
+}
+
+int LuaHandler::lua_CustomPrint(lua_State* L) {
+    int nargs = lua_gettop(L);
+
+    for (int i=1; i <= nargs; i++) {
+        if (lua_isstring(L, i)) {
+            const char* string = lua_tostring(L, i);
+			std::cout << string << std::endl;
+		}
+        else {
+        /* Do something with non-strings if you like */
+        }
+    }
+	std::cout << "Yay" << std::endl;
+	std::cout.flush();
+    return 0;
 }
