@@ -53,7 +53,7 @@ public:
 //public methods
 public:
 
-	/** @brief Create a new robot 
+	/** @brief Create a new robot
 	*	@param position the initial position of the robot
 	*	@param the name of the robot **/
     Robot(Ogre::Vector3 position = Ogre::Vector3::ZERO, std::string name = "", Team team = NONE);
@@ -78,26 +78,38 @@ public:
 
     /** @brief Turn the robots direction (independant of the speed for nom)**/
     virtual bool turnDirection(const Ogre::Degree& angle);
-		
+
 	virtual void setTurretOrientation(const Ogre::Degree& angle = Ogre::Degree(0));
 
     /** @brief Use the idxth Ability
         @param idxAbility : The index of the Ability to use
-        @return
-            
-    bool useAbility(int idxAbility);
-    /** 
-    vector<Ability*> getKnownCompetences(Robot robot);
-    /**
-    bool addAbility(& Ability);
-    /** 
-    bool removeAbility(int idxAbility);
-	**/
+        @return True if the robot has an ability of that index
+    **/
+    bool useAbility(unsigned int idxAbility);
+
+    /** @brief Returns the abilities known by a targeted Robot
+        @param robot : the targeted robot
+        @return The Competences possessed by the robot
+    **/
+    std::vector<Ability*> getKnownCompetences(Robot & robot);
+
+    /** @brief Adds an ability
+        @param anAbility : the Ability to add to the robot
+        @return The index at which the ability the ability is inserted
+    **/
+    int addAbility(Ability & anAbility);
+
+    /** @brief Remove the idxth ability
+        @param idxAbility : the index of the ability to remove
+        @return True if the ability was succesfully removed, False otherwise
+    **/
+    bool removeAbility(unsigned int idxAbility);
+
 
 	/** @brief a not really significant vector **/
     virtual Ogre::Vector3 getTurretOrientationVect() const;
 
-	/** @brief The angle between the X-axis of the wheels, and the X-axis of the turret 
+	/** @brief The angle between the X-axis of the wheels, and the X-axis of the turret
 	*	@return this angle in degrees **/
 	virtual Ogre::Degree getTurretOrientation() const;
 
@@ -107,10 +119,12 @@ public:
     /** **/
     virtual Team getTeam() const;
 
-	/** @brief The way to know the current state of robot 
+	/** @brief The way to know the current state of robot
 	*	@return the state **/
 	virtual State getState() const;
-     
+
+	/** **/
+	std::vector<Ability* > getAbilities() const;
 
 //attributes
 protected:
@@ -125,7 +139,7 @@ protected:
     Stats additionalStats_;
 
     /** The Robot's abilities **/
-    //vector<Ability*> abilities_;
+    std::vector<Ability*> abilities_;
 
     /** Current actions done by the robot**/
     State action_;
@@ -136,6 +150,6 @@ protected:
     /**Turret Orientation**/
     Ogre::Vector3 turretOrientation_;
 	Ogre::Degree turretAngle_;
-		
+
 };
 
