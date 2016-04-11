@@ -1,13 +1,13 @@
 /Prototypes/Base Ogre/datafiles/*
 Prototypes/Base Ogre/Base Ogre.suo
 Prototypes/Base Ogre/Ogre1Test/Release/
-\Prototypes\Base Ogre\Ogre1Test\Release
 \Prototypes\Base Ogre\Ogre1Test\Debug
 Debug\
 Release\
 !*.vcxproj
 !*.vcproj
 !*.cfg
+*.dll
 *.lastbuildstate
 *.log
 *.tlog
@@ -16,6 +16,5 @@ Release\
 *.exe
 *.pdb
 *.suo
-*.cfg
 *.ilk
 *.idb
