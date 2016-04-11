@@ -49,6 +49,12 @@
     <Filter Include="Fichiers sources\Ability">
       <UniqueIdentifier>{699ed6ef-460d-4930-a7b0-f485b5e356a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Lua">
+      <UniqueIdentifier>{6ada5e9d-83cf-4583-8056-d7cd77ba5916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Lua">
+      <UniqueIdentifier>{07a5cc90-110b-4bff-beae-e308d221dab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -107,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="GameTime.cpp">
       <Filter>Fichiers sources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="RobotLuaBinding.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaHandler.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +208,12 @@
     </ClInclude>
     <ClInclude Include="Log.h">
       <Filter>Fichiers d%27en-tête\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotLuaBinding.h">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaHandler.h">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
