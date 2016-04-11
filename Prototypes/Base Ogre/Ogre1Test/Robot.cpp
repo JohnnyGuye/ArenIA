@@ -37,7 +37,7 @@ void Robot::update()
 
 bool Robot::fire()
 {
-    //Something happens here to make the actual shooting
+    turret_->Cast();
     action_ = (State)(action_ | SHOOTING);
     return true;
 }
@@ -100,6 +100,10 @@ int Robot::addAbility(Ability & anAbility){
     return abilities_.size() - 1;//returns the index of the Ability inserted
 }
 
+void Robot::setTurretAbility(Ability & anAbility){
+	turret_ = &anAbility;
+}
+
 bool Robot::removeAbility(unsigned int idxAbility){
     if(idxAbility >= 0 && idxAbility < abilities_.size() )
     {
@@ -144,4 +148,9 @@ Robot::State Robot::getState() const
 std::vector<Ability*> Robot::getAbilities() const
 {
 	return abilities_;
+}
+
+Ability* Robot::getTurretAbility() const
+{
+	return turret_;
 }

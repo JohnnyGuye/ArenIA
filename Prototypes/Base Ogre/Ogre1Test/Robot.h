@@ -103,6 +103,9 @@ public:
         @param idxAbility : the index of the ability to remove
         @return True if the ability was succesfully removed, False otherwise
     **/
+
+	void setTurretAbility(Ability & anAbility);
+
     bool removeAbility(unsigned int idxAbility);
 
 
@@ -126,6 +129,9 @@ public:
 	/** **/
 	std::vector<Ability* > getAbilities() const;
 
+	/** **/
+	Ability* Robot::getTurretAbility() const;
+
 //attributes
 protected:
 
@@ -140,6 +146,9 @@ protected:
 
     /** The Robot's abilities **/
     std::vector<Ability*> abilities_;
+
+    /** The turret -> the Robot's default ability **/
+    Ability* turret_;
 
     /** Current actions done by the robot**/
     State action_;
