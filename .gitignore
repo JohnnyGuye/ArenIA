@@ -3,6 +3,9 @@ Prototypes/Base Ogre/Base Ogre.suo
 Prototypes/Base Ogre/Ogre1Test/Release/
 \Prototypes\Base Ogre\Ogre1Test\Release
 \Prototypes\Base Ogre\Ogre1Test\Debug
+Debug\
+Release\
+!*.cfg
 *.lastbuildstate
 *.log
 *.tlog
@@ -13,6 +16,4 @@ Prototypes/Base Ogre/Ogre1Test/Release/
 *.suo
 *.cfg
 *.ilk
-*.vcxproj
-*.vcproj
 *.idb
