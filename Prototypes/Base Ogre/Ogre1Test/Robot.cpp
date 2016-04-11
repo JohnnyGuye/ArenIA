@@ -26,7 +26,7 @@ Robot::~Robot()
 bool Robot::resetAction()
 {
     action_ = Robot::IDLE;
-    return true; 
+    return true;
 }
 
 void Robot::update()
@@ -37,7 +37,7 @@ void Robot::update()
 
 bool Robot::fire()
 {
-    //Something happens here to make the actual shooting
+    turret_->Cast();
     action_ = (State)(action_ | SHOOTING);
     return true;
 }
@@ -78,25 +78,44 @@ void Robot::setTurretOrientation(const Degree& angle)
 /*
 Ability-based Methods
 */
-/*
-bool useAbility(int idxAbility){
-    //Something like return abilities_[idxAbility].run()
-    return false //no actual effects for now
+
+bool Robot::useAbility(unsigned int idxAbility){
+    if(idxAbility >= 0 && idxAbility < abilities_.size() )
+    {
+        abilities_[idxAbility]->Cast();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-vector<Ability*> getKnownCompetences(Robot & robot){
+std::vector<Ability*> Robot::getKnownCompetences(Robot & robot){
     return robot.abilities_;
 }
 
-int addAbility(Ability* anAbility){
-    abilities_.push_back(anAbility);
-    return abilities_.size() - 1;//returns the index of the Ability insert
+int Robot::addAbility(Ability & anAbility){
+    abilities_.push_back(&anAbility);
+    return abilities_.size() - 1;//returns the index of the Ability inserted
 }
 
-bool removeAbility(int idxAbility){
-    abilities_.pop(idxAbility);
+void Robot::setTurretAbility(Ability & anAbility){
+	turret_ = &anAbility;
 }
-*/
+
+bool Robot::removeAbility(unsigned int idxAbility){
+    if(idxAbility >= 0 && idxAbility < abilities_.size() )
+    {
+		abilities_.erase(abilities_.begin() + idxAbility );
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 /*
 Basic Getters
 */
@@ -124,4 +143,14 @@ Robot::Team Robot::getTeam() const
 Robot::State Robot::getState() const
 {
 	return action_;
+}
+
+std::vector<Ability*> Robot::getAbilities() const
+{
+	return abilities_;
+}
+
+Ability* Robot::getTurretAbility() const
+{
+	return turret_;
 }
