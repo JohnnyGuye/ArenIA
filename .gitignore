@@ -5,6 +5,8 @@ Prototypes/Base Ogre/Ogre1Test/Release/
 \Prototypes\Base Ogre\Ogre1Test\Debug
 Debug\
 Release\
+!*.vcxproj
+!*.vcproj
 !*.cfg
 *.lastbuildstate
 *.log
