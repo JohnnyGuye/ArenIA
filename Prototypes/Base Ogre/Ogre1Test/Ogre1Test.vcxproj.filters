@@ -114,10 +114,10 @@
     <ClCompile Include="GameTime.cpp">
       <Filter>Fichiers sources\Util</Filter>
     </ClCompile>
-    <ClCompile Include="RobotLuaBinding.cpp">
+    <ClCompile Include="LuaHandler.cpp">
       <Filter>Fichiers sources\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="LuaHandler.cpp">
+    <ClCompile Include="RobotLuaBinding.cpp">
       <Filter>Fichiers sources\Lua</Filter>
     </ClCompile>
   </ItemGroup>
@@ -209,10 +209,10 @@
     <ClInclude Include="Log.h">
       <Filter>Fichiers d%27en-tête\Util</Filter>
     </ClInclude>
-    <ClInclude Include="RobotLuaBinding.h">
+    <ClInclude Include="LuaHandler.h">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="LuaHandler.h">
+    <ClInclude Include="RobotLuaBinding.h">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
   </ItemGroup>
