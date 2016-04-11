@@ -56,7 +56,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;lua5.1.5-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,11 +83,9 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Log.cpp" />
-    <ClCompile Include="LuaHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Robot.cpp" />
-    <ClCompile Include="RobotLuaBinding.cpp" />
     <ClCompile Include="SceneryObject.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="TargetVictory.cpp" />
@@ -113,12 +111,10 @@
     <ClInclude Include="HitboxSphere.h" />
     <ClInclude Include="HitboxVoid.h" />
     <ClInclude Include="Log.h" />
-    <ClInclude Include="LuaHandler.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="ReachPointEvent.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="RobotKillEvent.h" />
-    <ClInclude Include="RobotLuaBinding.h" />
     <ClInclude Include="SceneryObject.h" />
     <ClInclude Include="StartSDEvent.h" />
     <ClInclude Include="Stats.h" />

@@ -1,4 +1,5 @@
 #include "FightManager.h"
+#include "Log.h"
 
 using namespace std;
 
@@ -10,6 +11,7 @@ FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	list<Ogre::Vector3> starts = getTerrain()->getStarts();
 	for(std::list<Ogre::Vector3>::iterator it = starts.begin(); it != starts.end() ; it++ )
 	{
+		ArenIA::Log::getInstance()->write("Robot created !");
 		addRobot(new Robot(*it, "Robot-001", Robot::NONE));
 	}
 }
