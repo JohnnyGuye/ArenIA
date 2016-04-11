@@ -12,7 +12,10 @@ const double Terrain::I_CELL_SIZE = 1 / CELL_SIZE;
 // ============ DOMObject METHODS ============
 
 Terrain::DOMObject::DOMObject(void)
-	: name_(""), type_(""), pos_(Vector2::ZERO), dim_(Vector2::ZERO)
+	: name_(""), 
+	type_(""), 
+	pos_(Vector2::ZERO), 
+	dim_(Vector2::ZERO)
 {
 }
 
@@ -105,11 +108,11 @@ void Terrain::LoadFromFile()
 		OBJECTS
 		};
 
+	ArenIA::Log::getInstance()->write("Parsing the map");
+
 	std::string path = "../Media/maps/";
 	std::ifstream mapFile(path + sourceFile_, ios::in);
 	std::string sRead;
-
-	//std::ofstream testFile(path + "log_" + sourceFile_, ios::in);//test
 
 	if(mapFile)
 	{
@@ -180,7 +183,7 @@ void Terrain::LoadFromFile()
 						grille_ = new GameObject**[width_];
 						for(int i = 0; i < width_; i++){	grille_[i] = new GameObject*[height_];	}
 
-						for(int i = 0; i < width_;i++)
+						for(int i = 0; i < width_-1;i++)
 						{
 							for(int j = 0; j < height_; j++)
 							{
@@ -188,6 +191,13 @@ void Terrain::LoadFromFile()
 								createObjectInCell(i, j, sRead);
 							}
 						}
+						for(int j = 0; j < height_ -1; j++)
+						{
+							getline(mapFile, sRead, ',');
+							createObjectInCell(width_ - 1, j, sRead);
+						}
+						getline(mapFile, sRead);
+						createObjectInCell(width_ - 1, height_ -1, sRead);
 					}
 					else
 					{
@@ -196,58 +206,50 @@ void Terrain::LoadFromFile()
 					break;
 				case OBJECTS:
 					{
-						getline(mainFlux, sRead);
-
 						DOMObject domo = DOMObject();
-						std::stringstream liness;
 						string value;
-						
-						liness << sRead;
 						
 						//Get the name of the object
 						if(sRead != "")
 						{
+							std::stringstream liness(sRead);
 							getline(liness, sRead, ' ');
 							getline(liness, value);
 							domo.setAttr(sRead, value);
-							
 						}
-						liness.flush();
-						
-						getline(mainFlux, sRead);//Read an entire line
-						while(!sRead.empty() && !mainFlux.eof())
+
+						getline(mapFile, sRead);
+						while(!sRead.empty() && !mapFile.eof())
 						{
-							
-							//testFile << sRead << "°";
-							liness << sRead;
+
+							std::stringstream liness(sRead);
+
 							getline(liness, sRead, '=');//Separate it 
 							
 							//sRead: the attribute, value: the value
-
 							if(sRead == "type")
 							{
-								getline(mainFlux, sRead);
-								domo.setAttr("type", sRead);
+								getline(liness, value);
+								domo.setAttr(sRead, value);
 							}
 							else if(sRead == "location")
 							{
-								getline(mainFlux, sRead, ',');
-								domo.setAttr("X", sRead);
-								getline(mainFlux, sRead, ',');
-								domo.setAttr("Y", sRead);
-								getline(mainFlux, sRead, ',');
-								domo.setAttr("width", sRead);
-								getline(mainFlux, sRead);
-								domo.setAttr("height", sRead);
+								getline(liness, value, ',');
+								domo.setAttr("X", value);
+								getline(liness, value, ',');
+								domo.setAttr("Y", value);
+								getline(liness, value, ',');
+								domo.setAttr("width", value);
+								getline(liness, value, ',');
+								domo.setAttr("height", value);
 							}
 							else
 							{
 								getline(liness, value);
 								domo.setAttr(sRead, value);
 							}
-
 							liness.flush();
-							getline(mainFlux, sRead);
+							getline(mapFile, sRead);
 						}
 						
 						InterpreterDOM(domo);
@@ -261,7 +263,6 @@ void Terrain::LoadFromFile()
 			}
 		}
 		mapFile.close();
-		//testFile.close();
 	}
 	else
 	{
@@ -271,10 +272,13 @@ void Terrain::LoadFromFile()
 
 void Terrain::InterpreterDOM(const DOMObject& domo)
 {
+	std::stringstream ss;
+	ss << "Domo: " << domo.getName() << " " << domo.getType() << " " << domo.getPosition() << " " << domo.getDimension();
+	ArenIA::Log::getInstance()->write(ss.str());
 	if(domo.getType() == "Start")
 	{
 		Vector2 pos = domo.getPosition();
-		starts_.push_back(Vector3(pos.y, 0, pos.x));
+		starts_.push_back(Vector3(cellToPos((int)pos.x), 0, cellToPos((int)pos.y)));
 	}
 }
 

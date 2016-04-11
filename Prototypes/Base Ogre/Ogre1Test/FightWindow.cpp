@@ -206,8 +206,8 @@ void FightWindow::createScene(void)
 		fightManager_->getTerrain()->getWidth() * 50.0
 		);
 	//=======ONE ROBOT FOR THE TEST======
-	createRobot("Robot-001", Robot::LAVE_LINGE , Robot::NONE, Vector3(750,10,450), 10);
-	//createRobots();
+	//createRobot("Robot-001", Robot::LAVE_LINGE , Robot::NONE, Vector3(750,10,450), 10);
+	createRobots();
 
 	//========THE GROUND=========
 	Ogre::Plane plane(Ogre::Vector3::NEGATIVE_UNIT_Y, 0);
