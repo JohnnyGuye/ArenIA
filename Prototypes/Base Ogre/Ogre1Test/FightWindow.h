@@ -46,8 +46,6 @@ protected:
 		Ogre::SceneNode* node_;
 		Ogre::SceneManager* sceneMgr_;
 		Ogre::Light* light_;
-		Ogre::Light* ambient_;
-		Ogre::Light* groundLight_;
 
 		static const int ORBIT = 100 * Terrain::CELL_SIZE;
 		Ogre::Vector2 offset_;
