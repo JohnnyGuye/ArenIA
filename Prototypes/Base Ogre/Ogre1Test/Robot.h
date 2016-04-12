@@ -64,7 +64,11 @@ public:
     /** @brief  Reset the action state of the Robot to IDLE**/
     virtual bool Robot::resetAction();
 
+	/** @brief Update the robot using the lua file **/
 	virtual void update();
+
+	/** @brief applyChanges caused by the update on the robot **/
+	virtual void applyUpdate(bool wallCollide = false);
 
     /** @brief  Called to make the Robot fire his turret
         @return True after a complete execution**/
@@ -157,8 +161,10 @@ protected:
     std::string iaFilename_;
 
     /**Turret Orientation**/
-    Ogre::Vector3 turretOrientation_;
-	Ogre::Degree turretAngle_;
+    Ogre::Vector3	turretOrientation_;
+	Ogre::Degree	turretAngle_;
+
+	Ogre::Vector3	nextPosition_;
 
 };
 
