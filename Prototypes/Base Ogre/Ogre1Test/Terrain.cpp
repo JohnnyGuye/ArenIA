@@ -7,7 +7,7 @@ using namespace Ogre;
 
 //============= CONSTANTS ====================
 
-const double Terrain::I_CELL_SIZE = 1 / CELL_SIZE;
+const double Terrain::I_CELL_SIZE = 1 / (double)CELL_SIZE;
 
 // ============ DOMObject METHODS ============
 
@@ -170,9 +170,9 @@ void Terrain::LoadFromFile()
 							std::stringstream ss;
 							ss << "WARNING !!! Two layers or more created on the map " << sourceFile_;
 							ArenIA::Log::getInstance()->write(ss.str());
-							for(int i = 0; i < width_;i++)
+							for(int i = 0; i < height_;i++)
 							{	
-								for(int j = 0; j < height_; j++)
+								for(int j = 0; j < width_; j++)
 								{
 									delete grille_[i][j];
 								}
@@ -181,23 +181,23 @@ void Terrain::LoadFromFile()
 							delete grille_;
 						}
 						grille_ = new GameObject**[width_];
-						for(int i = 0; i < width_; i++){	grille_[i] = new GameObject*[height_];	}
+						for(int i = 0; i < height_; i++){	grille_[i] = new GameObject*[width_];	}
 
-						for(int i = 0; i < width_-1;i++)
+						for(int i = 0; i < height_-1;i++)
 						{
-							for(int j = 0; j < height_; j++)
+							for(int j = 0; j < width_; j++)
 							{
 								getline(mapFile, sRead, ',');
 								createObjectInCell(i, j, sRead);
 							}
 						}
-						for(int j = 0; j < height_ -1; j++)
+						for(int j = 0; j < width_ -1; j++)
 						{
 							getline(mapFile, sRead, ',');
-							createObjectInCell(width_ - 1, j, sRead);
+							createObjectInCell(height_ - 1, j, sRead);
 						}
 						getline(mapFile, sRead);
-						createObjectInCell(width_ - 1, height_ -1, sRead);
+						createObjectInCell(height_ - 1, width_ -1, sRead);
 					}
 					else
 					{
@@ -294,11 +294,17 @@ void Terrain::createObjectInCell(const int& x, const int& y, const string& nums)
 bool Terrain::getCollision(GameObject* other)
 {
 	Vector3 pos = other->getPosition();
-	if(grille_[posToCell(pos.x)][posToCell(pos.y)] == nullptr) return false;
+	if(grille_[posToCell(pos.z)][posToCell(pos.x)] == nullptr) return false;
 	return true;
 }
 
-bool Terrain::IsAWall(const int& x, const int& y)
+Vector3 Terrain::resolveCollision(GameObject* object) const
+{
+	Vector3 pos = object->getPosition();
+	return pos;
+}
+
+bool Terrain::IsAWall(const int& x, const int& y) const
 {
 	return (((SceneryObject*)grille_[x][y])->getType() == "0");
 }
@@ -341,5 +347,5 @@ int Terrain::posToCell(const Ogre::Real& p)
 
 Real Terrain::cellToPos(const int& val)
 {
-	return Real(((double)val + 0.5f) * CELL_SIZE);
+	return Real(((float)val + 0.5f) * CELL_SIZE);
 }

@@ -45,9 +45,7 @@ protected:
 		FightWindow* fw_;
 		Ogre::SceneNode* node_;
 		Ogre::SceneManager* sceneMgr_;
-		Ogre::Entity* sun_;
 		Ogre::Light* light_;
-		Ogre::Light* ambient_;
 
 		static const int ORBIT = 100 * Terrain::CELL_SIZE;
 		Ogre::Vector2 offset_;

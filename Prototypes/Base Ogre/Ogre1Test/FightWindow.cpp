@@ -13,35 +13,24 @@ FightWindow::Sun::Sun(FightWindow* fw = nullptr)
 {
 	//Entity and position
 	Vector3 initPos = Vector3(ORBIT, 0, 500);
-	sun_ = sceneMgr_->createEntity("sphere.mesh");
 	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos);
-	node_->attachObject(sun_);
 
 	//Ambient light
-	sceneMgr_->setAmbientLight(Ogre::ColourValue(0.9f, 0.85f, 0.85f));
-	sceneMgr_->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_MODULATIVE);
-
-	//Ambient bis
-	ambient_ = sceneMgr_->createLight("Ambient");
-	ambient_->setDiffuseColour(0.2f, 0.2f, 0.4f);
-	ambient_->setSpecularColour(0.4f, 0.3f, 0.4f);
-	ambient_->setType(Light::LT_DIRECTIONAL);
-	ambient_->setDirection(Vector3(1, -5, -1));
+	sceneMgr_->setAmbientLight(Ogre::ColourValue(0.4f, 0.4f, 0.4f));
+	sceneMgr_->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 	
 	//SpotLight
 	light_ = sceneMgr_->createLight("SunLight");
-	light_->setDiffuseColour(1.0, 1.0, 0.8f);
-	light_->setSpecularColour(1.0, 1.0, 0.8f);
+	light_->setDiffuseColour(0.95f, 0.85f, 0.95f);
+	light_->setSpecularColour(0.7f, 0.65f, 0.7f);
 
-	light_->setType(Light::LT_SPOTLIGHT);
+	light_->setType(Light::LT_POINT);
 	light_->setDirection(Vector3::ZERO);
 	light_->setPosition(initPos);
-	light_->setSpotlightRange(Degree(45), Degree(50));	
 }
 
 FightWindow::Sun::~Sun()
 {
-	node_->detachObject(sun_);
 }
 
 void FightWindow::Sun::update()
@@ -54,8 +43,8 @@ void FightWindow::Sun::update()
 	Real r(abs(dayRatio * 2 - 1) * 0.4 + 0.6);
 	Real v(0.6f);
 	Real b(abs(dayRatio * 2 - 1) * (-0.5) + 1.5);
-	ambient_->setDiffuseColour(r * 0.4, v * 0.4, b * 0.4);
-	light_->setDiffuseColour(r, v, b);
+	Real s(abs(dayRatio * 2 - 1) * (-.3) + 1.3);
+	light_->setDiffuseColour(r * s, v * s, b * s);
 }
 
 // ----------------------------------------------
@@ -142,7 +131,7 @@ FightWindow::FightWindow(void)
 	displaySpeed_(1),
 	theSun_(nullptr)
 {
-	fightManager_ = new FightManager("essai2.txt");
+	fightManager_ = new FightManager("big_map_test.txt");
 }
 
 FightWindow::~FightWindow(void)
@@ -202,27 +191,31 @@ void FightWindow::createScene(void)
 	//======ABOUT THE CAMERA=======
 	camera_->setPosition(
 		fightManager_->getTerrain()->getWidth() * 50.0, 
-		300.0, 
-		fightManager_->getTerrain()->getWidth() * 50.0
+		500.0, 
+		fightManager_->getTerrain()->getHeight() * 50.0
 		);
 	//=======ONE ROBOT FOR THE TEST======
 	//createRobot("Robot-001", Robot::LAVE_LINGE , Robot::NONE, Vector3(750,10,450), 10);
 	createRobots();
 
 	//========THE GROUND=========
-	Ogre::Plane plane(Ogre::Vector3::NEGATIVE_UNIT_Y, 0);
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
 	
 	Ogre::MeshManager::getSingleton().createPlane(
 	  "ground",
 	  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 	  plane, 
-	  4000, 4000, 20, 20, 
+	  fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE, fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE, 20, 20, 
 	  true, 
-	  1, 5, 5, 
+	  1, 5.0f, 5.0f, 
 	  Ogre::Vector3::UNIT_X);
 
+	Vector3 offset(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE * 0.5, 
+		0, 
+		fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE * 0.5);
+
 	Ogre::Entity* groundEntity = sceneMgr_->createEntity("ground");
-	sceneMgr_->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);
+	sceneMgr_->getRootSceneNode()->createChildSceneNode(offset)->attachObject(groundEntity);
 	//groundEntity->setCastShadows(false);
 	groundEntity->setMaterialName("Examples/Rockwall");
 

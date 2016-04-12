@@ -1,37 +1,36 @@
 #pragma once
-#include "hitbox.h"
-#include <OgreSphere.h>
+#include "Hitbox.h"
 
 class HitboxSphere :
 	public Hitbox
 {
 public:
 
-	HitboxSphere(void)
-		: Hitbox(SPHERE)
+	inline HitboxSphere(Ogre::Vector3* position, Ogre::Vector3 offset = Ogre::Vector3::ZERO)
+		: Hitbox(SPHERE, position, offset)
 	{
 	}
 
-	virtual ~HitboxSphere(void)
+	inline virtual ~HitboxSphere(void)
 	{
 	}
 
-	virtual Ogre::Sphere getSphere() const
-	{
-		return sphere_;
-	}
+	inline virtual Ogre::Real getRadius()	{	return radius_;	}
 
-	virtual bool intersect(Hitbox* hitbox) const
+	inline virtual bool intersect(Hitbox* hitbox) const
 	{
 		switch(hitbox->boxType_)
 		{
 		case SPHERE:
 			HitboxSphere * sphere = (HitboxSphere*)hitbox;
-			sphere_.intersects(sphere->getSphere());
+			Ogre::Real rad2(radius_ + sphere->radius_);
+			return (sphere->position_->squaredDistance(*position_) < (rad2 * rad2) ? true : false);
+		default:
+			return false;
 		}
 	}
 
 protected:
-	Ogre::Sphere sphere_;
+	Ogre::Real		radius_;
 };
 

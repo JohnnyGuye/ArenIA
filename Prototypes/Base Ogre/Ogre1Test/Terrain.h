@@ -28,6 +28,7 @@
 
 #include "GameObject.h"
 #include "SceneryObject.h"
+#include "Robot.h"
 #include "ExceptionArenIA.h"
 
 class Terrain
@@ -72,9 +73,13 @@ public:
 	*	@return : true if other and a wall are coliding **/
 	bool getCollision(GameObject* other);
 
+	/** @brief Solve a collision with walls
+	*	@return the position where should be the object **/
+	Ogre::Vector3 resolveCollision(GameObject* other) const;
+
 	/** @brief verify if there is a wall in this cell
 	*	@return : true if there is a wall there **/
-	bool IsAWall(const int& x, const int& y);
+	bool IsAWall(const int& x, const int& y) const;
 
 	/** @brief give width of the terrain
 	*	@return : width **/

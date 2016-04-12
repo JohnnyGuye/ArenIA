@@ -10,6 +10,7 @@ using namespace std;
 
 Robot::Robot(Vector3 position, string name, Robot::Team team)
 	: GameObject(position, name),
+	nextPosition_(position),
     team_(team),
 	stats_(Gauge(), Gauge(), 60, 500, 0, 4.0),
 	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
@@ -32,7 +33,12 @@ bool Robot::resetAction()
 void Robot::update()
 {
 	resetAction();
-	turnDirection(Degree(1));
+	move();
+}
+
+void Robot::applyUpdate(bool wallCollide)
+{
+	if(!wallCollide)	position_ = nextPosition_;
 }
 
 bool Robot::fire()
@@ -47,7 +53,7 @@ bool Robot::move()
 	if( (action_ & MOVING) == MOVING)	return false;
 	if( isSnared() )		return false;
     double speed = getSpeed();
-    GameObject::move(Real(speed) * orientation_);
+    nextPosition_ = position_ + (Real(speed) * orientation_);
     action_ = (State)(action_ | MOVING);
     return true;
 }
@@ -105,7 +111,7 @@ void Robot::setTurretAbility(Ability & anAbility){
 }
 
 bool Robot::removeAbility(unsigned int idxAbility){
-    if(idxAbility >= 0 && idxAbility < abilities_.size() )
+    if(idxAbility < abilities_.size() )
     {
 		abilities_.erase(abilities_.begin() + idxAbility );
         return true;
