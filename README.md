@@ -100,25 +100,24 @@ CEGUIOgreRenderer.lib
 - Maps  
 On peut utiliser Tiled pour créer des maps, il suffit ensuite de les ajouter dans le dossier maps pour qu'elle soit chargeables
 http://www.mapeditor.org/
-Bien entendi il n'y a pas corrélation directe entre la map de tiled et la map réelle. Mais sur la map tiled, une case vide est une case sans mur dans le jeu, toutes les autres sont des murs. Au fur et à mesure j'ajouterai la création de triggers d'events quand on aura suffisamment avancé le reste.
+Les murs en 2D ont une corrélation directe avec l'affichage 3D.
+Objets :  
+- Start : créer un robot dans la case
 
 # Répartition des tâches
 
-- Logique du jeu : Johnny  
-- GameLoop : Clément  
+- Moteur de jeu : Johnny  
+- Lua Binding : Clément  
 - Son : Clément/Johnny  
 - Robot : Alp/Simon  
 - GFX-Interface : Johnny/Samory  
 - Utilitaires : Alltogether  
 
-#TODO-LIST
-
--  GIMME A FUCKIN' ROBOT SIMON
 
 #Préceptes et guide de style
-- Dans les fichiers tout est en anglais ! Les petites private jokes ont le droit d'être en FR  
+- Dans les fichiers tout est en anglais ! 
 - Les méthodes commencent par une minuscule  
-- Les attributs termines par un '_' ou commencent par un 'm'. En tout cas, on change pas de style dans une classe ou ses filles et on laisse bien les attributs plus visibles que les autres  
+- Les attributs terminent par un '_' ou commencent par un 'm'. En tout cas, on change pas de style dans une classe ou ses filles et on laisse bien les attributs plus visibles que les autres  
 - Pas de classes moitié inline moitié .cpp. Soit on fait tout en inline (exemple GameTimeDuration et GameTimeMoment) soit on fait tout dans un .cpp. Mais on ne mélange pas (lisibilité et puissance du code)  
 - Ajouter dans l'en-tête son nom pour les plus gros participants à chaque fichiers. Ca sera plus simple pour déboguer ou discuter d'une faute de conception.  
 - Insultez mon anglais, je ne vous en voudrait pas mais dites moi quand vous corrigez comme ça j'aprends !  
