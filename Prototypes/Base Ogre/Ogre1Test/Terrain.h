@@ -71,7 +71,7 @@ public:
 
 	/** @brief verify collision between object and wall
 	*	@return : true if other and a wall are coliding **/
-	bool getCollision(GameObject* other);
+	bool getCollision(GameObject* other, bool future = false) const;
 
 	/** @brief Solve a collision with walls
 	*	@return the position where should be the object **/

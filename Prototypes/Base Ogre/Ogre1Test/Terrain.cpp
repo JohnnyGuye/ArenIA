@@ -174,7 +174,7 @@ void Terrain::LoadFromFile()
 							{	
 								for(int j = 0; j < width_; j++)
 								{
-									delete grille_[i][j];
+									if(grille_[i][j])	delete grille_[i][j];
 								}
 								delete grille_[i];
 							}
@@ -287,13 +287,16 @@ void Terrain::createObjectInCell(const int& x, const int& y, const string& nums)
 	if(nums == "0" || nums == "256")
 		grille_[x][y] = nullptr;
 	else
-		grille_[x][y] = new SceneryObject(Vector3(Real(100.0 * y), 0, Real(100.0 * x)), nums);
+		grille_[x][y] = new SceneryObject(Vector3(Real(CELL_SIZE * y), 0, Real(CELL_SIZE* x)), stoi(nums));
 }
 
 //---------------------------------------------Public
-bool Terrain::getCollision(GameObject* other)
+bool Terrain::getCollision(GameObject* other, bool future) const
 {
-	Vector3 pos = other->getPosition();
+	Vector3 pos;
+	if(future)	pos = ((Robot*)other)->getNextPosition();
+	else		pos = other->getPosition();
+
 	if(grille_[posToCell(pos.z)][posToCell(pos.x)] == nullptr) return false;
 	return true;
 }
@@ -306,7 +309,7 @@ Vector3 Terrain::resolveCollision(GameObject* object) const
 
 bool Terrain::IsAWall(const int& x, const int& y) const
 {
-	return (((SceneryObject*)grille_[x][y])->getType() == "0");
+	return (((SceneryObject*)grille_[x][y]) != nullptr);
 }
 
 GameObject* Terrain::getObjectInCell(const int& x, const int& y) const

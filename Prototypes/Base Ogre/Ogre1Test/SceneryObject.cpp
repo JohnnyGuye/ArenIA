@@ -2,14 +2,14 @@
 
 using namespace std;
 
-SceneryObject::SceneryObject(Ogre::Vector3 position, std::string name)
+SceneryObject::SceneryObject(Ogre::Vector3 position, const int& num)
 	: 
-	GameObject(position, name), 
-	cellType(name)
+	GameObject(position, "Wall"), 
+	cellType(num)
 {
 }
 
-string SceneryObject::getType() const
+int SceneryObject::getType() const
 {
 	return cellType;
 }

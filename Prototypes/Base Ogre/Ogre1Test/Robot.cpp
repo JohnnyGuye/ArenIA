@@ -30,9 +30,15 @@ bool Robot::resetAction()
     return true;
 }
 
+Vector3 Robot::getNextPosition() const
+{
+	return nextPosition_;
+}
+
 void Robot::update()
 {
 	resetAction();
+	turnDirection(Degree(.5));
 	move();
 }
 

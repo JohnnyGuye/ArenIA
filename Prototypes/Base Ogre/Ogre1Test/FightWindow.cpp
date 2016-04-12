@@ -216,8 +216,8 @@ void FightWindow::createScene(void)
 
 	Ogre::Entity* groundEntity = sceneMgr_->createEntity("ground");
 	sceneMgr_->getRootSceneNode()->createChildSceneNode(offset)->attachObject(groundEntity);
-	//groundEntity->setCastShadows(false);
-	groundEntity->setMaterialName("Examples/Rockwall");
+	groundEntity->setCastShadows(false);
+	groundEntity->setMaterialName("ArenIA/Ground");
 
 	//========CREATE ENTITIES FROM TERRAIN===========
 
@@ -231,11 +231,47 @@ void FightWindow::createScene(void)
 			GameObject* go = fightManager_->getTerrain()->getObjectInCell(i, j);
 			if(go != nullptr)
 			{
-				Ogre::Entity* decorEntity;
-				Ogre::SceneNode* node;
-				decorEntity = sceneMgr_->createEntity("cube.mesh");
-				node = sceneMgr_->getRootSceneNode()->createChildSceneNode(go->getPosition() + Ogre::Vector3(50,50,50));
+				SceneryObject* so = (SceneryObject*)go;
+				Entity*		decorEntity;
+				SceneNode*	node;
+				Real		s(50);
+				Vector3		offset(Terrain::CELL_SIZE * 0.5, 0, Terrain::CELL_SIZE * 0.5);
+				std::string mesh;
+
+				switch(so->getType())
+				{
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 17:
+				case 19:
+				case 20:
+				case 21:
+				case 22:
+				case 33:
+				case 34:
+				case 35:
+				case 36:
+				case 37:
+				case 38:
+					mesh = "Wall_basic.mesh";
+					break;
+				case 18:
+					mesh = "Obstacle_basic.mesh";
+					break;
+				default:
+					s = 1;
+					mesh = "cube.mesh";
+				}
+				decorEntity = sceneMgr_->createEntity(mesh);
+					
+				node = sceneMgr_->getRootSceneNode()->createChildSceneNode(so->getPosition() + offset);
 				node->attachObject(decorEntity);
+				node->scale(s,s,s);
+				node->pitch(Degree(-90));
 				DecorEntities_.push_back(decorEntity);
 			}
 		}

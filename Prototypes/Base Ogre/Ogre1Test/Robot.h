@@ -85,6 +85,8 @@ public:
 
 	virtual void setTurretOrientation(const Ogre::Degree& angle = Ogre::Degree(0));
 
+	virtual Ogre::Vector3 getNextPosition() const;
+
     /** @brief Use the idxth Ability
         @param idxAbility : The index of the Ability to use
         @return True if the robot has an ability of that index

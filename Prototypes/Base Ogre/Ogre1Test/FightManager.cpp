@@ -76,7 +76,7 @@ void FightManager::update()
 
 	for(list<Robot*>::iterator it = robots_.begin() ; it != robots_.end() ; it++)
 	{
-		(*it)->applyUpdate(terrain_->getCollision(*it));
+		(*it)->applyUpdate(terrain_->getCollision(*it, true));
 	}
 
 	//updating the day
