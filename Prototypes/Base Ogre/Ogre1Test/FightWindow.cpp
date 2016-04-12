@@ -143,6 +143,8 @@ FightWindow::FightWindow(void)
 	theSun_(nullptr)
 {
 	AllocConsole();
+	freopen("CONOUT$", "w", stdout);
+
 	fightManager_ = new FightManager("essai2.txt");
 }
 

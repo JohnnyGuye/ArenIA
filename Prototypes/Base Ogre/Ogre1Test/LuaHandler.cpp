@@ -2,15 +2,19 @@
 #include "RobotLuaBinding.h"
 #include "Log.h"
 
+bool LuaHandler::tooManyLines = false;
 // Permet de compter le nombre d'instructions exécutées par le script lua
 void LuaHandler::LineHookFunc(lua_State *L, lua_Debug *ar)
 {
     if(ar->event == LUA_HOOKCOUNT)
     {
-      static int i = 0;
+      static long int i = 0;
       i ++;
-      if (i>1500)
+      if (i>MAX_COUNT/COUNT_STEP)
+	  {
+		tooManyLines = true;
         luaL_error(L, "Too Many Lines Error");
+	  }
     }
             
 }
@@ -59,14 +63,26 @@ LuaHandler::ExecutionStatus LuaHandler::LoadFile(const char* filename)
 
 LuaHandler::ExecutionStatus LuaHandler::Execute()
 {
-    lua_getglobal(luaState, "main");
-    if (lua_pcall(luaState,0,0,0) != 0)
+	if ( ! invalid)
 	{
-		ArenIA::Log::getInstance()->write("ERREUR : Execution LUA échouée :");
-		ArenIA::Log::getInstance()->write(lua_tostring(luaState, -1));
-		return ES_ERROR;
+		tooManyLines = false;
+		lua_getglobal(luaState, "main");
+		if (lua_pcall(luaState,0,0,0) != 0)
+		{
+			//ArenIA::Log::getInstance()->write("ERREUR : Execution LUA échouée :");
+			//ArenIA::Log::getInstance()->write(lua_tostring(luaState, -1));
+			std::cout << "ERREUR : Execution LUA échouée : " << lua_tostring(luaState, -1) << std::endl;
+			invalid = true;
+			if (tooManyLines)
+			{
+				
+				return TOO_MANY_LINES;
+			}
+			return ES_ERROR;
+		}
+		return OK;
 	}
-	return OK;
+	return TOO_MANY_LINES;
 }
 
 void LuaHandler::RegisterFunction(lua_CFunction function, char* nom)
@@ -76,9 +92,10 @@ void LuaHandler::RegisterFunction(lua_CFunction function, char* nom)
 
 
 LuaHandler::LuaHandler()
+	: invalid(false)
 {
 	luaState = CreateBasicLua();
-	lua_sethook(luaState, &LuaHandler::LineHookFunc, LUA_MASKCOUNT, 15);
+	lua_sethook(luaState, &LuaHandler::LineHookFunc, LUA_MASKCOUNT, COUNT_STEP);
 	RobotLuaBinding::bindFunctions(this);
 }
 
@@ -99,7 +116,7 @@ int LuaHandler::lua_CustomPrint(lua_State* L) {
         /* Do something with non-strings if you like */
         }
     }
-	std::cout << "Yay" << std::endl;
+	//std::cout << "Yay" << std::endl;
 	std::cout.flush();
     return 0;
 }

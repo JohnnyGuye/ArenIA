@@ -38,6 +38,7 @@ void Robot::update()
 	//turnDirection(Degree(1));
 	RobotLuaBinding::setRobot(this);
 	luaCode->Execute();
+	//std::cout << "Lol" << std::endl;
 }
 
 bool Robot::fire()
