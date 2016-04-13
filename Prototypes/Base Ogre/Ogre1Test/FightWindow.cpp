@@ -1,5 +1,7 @@
 #include "FightWindow.h"
 
+#include <cstdlib>
+
 using namespace Ogre;
 using namespace std;
 
@@ -131,6 +133,7 @@ FightWindow::FightWindow(void)
 	displaySpeed_(1),
 	theSun_(nullptr)
 {
+	srand(7);
 	fightManager_ = new FightManager("big_map_test.txt");
 }
 
@@ -205,7 +208,7 @@ void FightWindow::createScene(void)
 	  "ground",
 	  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 	  plane, 
-	  fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE, fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE, 20, 20, 
+	  fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE, fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE, 10, 10, 
 	  true, 
 	  1, 5.0f, 5.0f, 
 	  Ogre::Vector3::UNIT_X);
@@ -336,7 +339,7 @@ void FightWindow::createFrameListener(void)
 	items.push_back("Filtering");
 	items.push_back("Poly Mode");
 
-	fightPanel_ = trayMgr_->createParamsPanel(OgreBites::TL_NONE, "Fight !", 200, items);
+	fightPanel_ = trayMgr_->createParamsPanel(OgreBites::TL_TOPLEFT, "Fight !", 400, items);
 	fightPanel_->setParamValue(4, "Bilinear");
     fightPanel_->setParamValue(5, "Solid");
 
@@ -459,10 +462,7 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
             newVal = "Wireframe";
             pm = Ogre::PM_WIREFRAME;
             break;
-        case Ogre::PM_WIREFRAME:
-            newVal = "Points";
-            pm = Ogre::PM_POINTS;
-            break;
+		case Ogre::PM_WIREFRAME:
         default:
             newVal = "Solid";
             pm = Ogre::PM_SOLID;

@@ -40,6 +40,13 @@ public:
 	
 	inline virtual EventType		getEventType() const {	return REACHED_POINT;	}
 
+	inline friend std::ostream& operator<<( std::ostream &lhs, const ReachPointEvent& rhs)
+	{
+		lhs << rhs.getTime().getRound() << " - ";
+		lhs << "Point reached - " << rhs.position_ << " - " << rhs.robotID_;
+		return lhs;
+	}
+
 protected:
 	int robotID_;
 	Ogre::Vector3 position_;

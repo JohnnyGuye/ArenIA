@@ -61,6 +61,13 @@ public:
 		return timer_;
 	}
 
+	inline friend std::ostream& operator<<( std::ostream &lhs, const GameEvent& rhs)
+	{
+		lhs << rhs.getTime().getRound() << " - ";
+		lhs << "Standard";
+		return lhs;
+	}
+
 protected:
 
 	/** A timer on the beginning of the action and its duration **/

@@ -38,7 +38,7 @@ Vector3 Robot::getNextPosition() const
 void Robot::update()
 {
 	resetAction();
-	turnDirection(Degree(.5));
+	turnDirection(Degree(rand() / (double)RAND_MAX * 20 - 10));
 	move();
 }
 

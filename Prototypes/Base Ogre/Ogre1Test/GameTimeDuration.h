@@ -38,8 +38,8 @@ public:
 	}
 
 	/* Inheritance */
-	inline virtual int getDuration(){	return duration_;	}
-	inline virtual int getDurationMilisecond(){	return duration_ * GameTimeMoment::ROUND_IN_MS;	}
+	inline virtual int getDuration() const {	return duration_;	}
+	inline virtual int getDurationMilisecond() const {	return duration_ * GameTimeMoment::ROUND_IN_MS;	}
 
 	// Self operators
 	inline virtual GameTimeDuration& operator+=(const GameTimeDuration& gtd)

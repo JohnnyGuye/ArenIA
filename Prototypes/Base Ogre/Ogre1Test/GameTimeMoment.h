@@ -20,8 +20,8 @@ public:
 	{
 	}
 
-	inline virtual int getRound(){	return moment_;	}
-	inline virtual int getTimeMilisecond(){	return moment_ * ROUND_IN_MS;	}
+	inline virtual int getRound() const{	return moment_;	}
+	inline virtual int getTimeMilisecond() const {	return moment_ * ROUND_IN_MS;	}
 
 	// Self operator
 	inline virtual GameTimeMoment&	operator+=(const int& num)

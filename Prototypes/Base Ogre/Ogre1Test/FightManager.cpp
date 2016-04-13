@@ -56,6 +56,20 @@ GameTime FightManager::getTime() const
 
 void FightManager::addEvent(GameEvent* ge)
 {
+	std::stringstream ss;
+	switch(ge->getEventType())
+	{
+	case GameEvent::START_SD:
+		{
+		StartSDEvent* cge = (StartSDEvent*)ge;
+		ss << *cge;
+		break;
+		}
+	default:
+		ss << *ge;
+	}
+	
+	ArenIA::Log::getInstance()->write(ss.str());
 	events_.push_back(ge);
 	victoryHandler_->handleEvent(ge);
 }

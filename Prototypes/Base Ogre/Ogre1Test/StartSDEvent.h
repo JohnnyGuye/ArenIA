@@ -13,5 +13,12 @@ public:
 	virtual ~StartSDEvent(void){}
 	
 	inline virtual EventType		getEventType() const {	return START_SD;	}
+
+	inline friend std::ostream& operator<<( std::ostream &lhs, const StartSDEvent& rhs)
+	{
+		lhs << rhs.getTime().getRound() << " - ";
+		lhs << "Sudden Death";
+		return lhs;
+	}
 };
 
