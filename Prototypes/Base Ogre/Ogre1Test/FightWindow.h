@@ -24,6 +24,7 @@
 #include "FightManager.h"
 #include "Robot.h"
 #include "Log.h"
+#include "GUIConsole.h"
 
 #include <vector>
 
@@ -87,8 +88,8 @@ protected:
 	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const int& scale = 1);
 	virtual void createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team = Robot::NONE, const Ogre::Vector3& position = Ogre::Vector3::ZERO, const int& scale = 1);
 	virtual void createRobots(void);
-	virtual void createCamera(void);
-	virtual void createViewports(void);
+	virtual void createViews(void);
+	virtual bool FightWindow::setup(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 	// Handler sur le clavier/souris
@@ -96,7 +97,11 @@ protected:
 
 protected:
 
-	
+	enum RenderState {
+		CONSOLE_ON,
+		GAME
+	};
+
 	FightManager*		fightManager_;	// The logic of the game 
 
 	std::vector<Ogre::Entity*>	DecorEntities_; // The entities corresponding to the scenery 
@@ -104,9 +109,13 @@ protected:
 	std::list<GameEntity>		objectEntities_;	// The other objects to carry
 	Sun*						theSun_;// The sun
 
+	RenderState		state_;
 	OgreBites::ParamsPanel*		fightPanel_;
+	GUIConsole*		console_;
 	double			displaySpeed_;
 	Ogre::Real		lag_;
+
+	
 };
 
 //---------------------------------------------------------------------------

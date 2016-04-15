@@ -1,5 +1,6 @@
 #include "FightWindow.h"
 
+
 #include <cstdlib>
 
 using namespace Ogre;
@@ -131,17 +132,46 @@ FightWindow::FightWindow(void)
 	: lag_(0),
 	fightPanel_(0),
 	displaySpeed_(1),
-	theSun_(nullptr)
+	theSun_(nullptr),
+	fightManager_(nullptr),
+	state_(GAME)
 {
-	srand(7);
-	fightManager_ = new FightManager("big_map_test.txt");
 }
 
 FightWindow::~FightWindow(void)
 {
 	if(theSun_)	delete theSun_;
 	if(fightManager_) delete fightManager_;
+	if(console_) delete console_;
 }
+
+
+bool FightWindow::setup(void)
+{
+    root_ = new Ogre::Root(pluginsCfg_);
+	fightManager_ = new FightManager("big_map_test.txt");
+
+	//Initialize angles translations
+	math_ = new Math(4096);
+    setupResources();
+
+    bool carryOn = configure();
+    if (!carryOn) return false;
+
+    chooseSceneManager();
+    createViews();
+
+    // Set default mipmap level (NB some APIs ignore this)
+    Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
+	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
+
+    // Create the scene
+    createScene();
+
+    createFrameListener();
+
+    return true;
+};
 
 void FightWindow::createEntity(const string& mesh, const Vector3& position, const int& scale)
 {
@@ -182,6 +212,26 @@ void FightWindow::createRobots(void)
 		}
 		robotsEntities_.push_back(RobotEntity(sceneMgr_, mesh, (*it)->getPosition(), scale, (*it)));
 	}
+}
+
+void FightWindow::createViews()
+{
+	//Cameras
+	camera_ = sceneMgr_->createCamera("PlayerCam");
+	camera_->setPosition(Ogre::Vector3(0, 300, 500));
+	camera_->lookAt(Ogre::Vector3(0, 0, 0));
+
+	camera_->setNearClipDistance(5);
+	cameraMan_ = new OgreBites::SdkCameraMan(camera_);
+
+	//Viewportes
+	Ogre::Viewport* vp = window_->addViewport(camera_);
+	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+	console_ = new GUIConsole(vp);
+
+	camera_->setAspectRatio(
+		  Ogre::Real(vp->getActualWidth()) /
+		  Ogre::Real(vp->getActualHeight()));
 }
 
 void FightWindow::createScene(void)
@@ -281,27 +331,6 @@ void FightWindow::createScene(void)
 	}
 }
 
-void FightWindow::createCamera()
-{
-	camera_ = sceneMgr_->createCamera("PlayerCam");
-	camera_->setPosition(Ogre::Vector3(0, 300, 500));
-	camera_->lookAt(Ogre::Vector3(0, 0, 0));
-
-	camera_->setNearClipDistance(5);
-	cameraMan_ = new OgreBites::SdkCameraMan(camera_);
-
-}
-
-void FightWindow::createViewports()
-{
-	Ogre::Viewport* vp = window_->addViewport(camera_);
-	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
-
-	camera_->setAspectRatio(
-		  Ogre::Real(vp->getActualWidth()) /
-		  Ogre::Real(vp->getActualHeight()));
-}
-
 void FightWindow::createFrameListener(void)
 {
 	LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
@@ -394,6 +423,8 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		(*re).update(evt);
 	}
 
+	console_->frameStarted(evt);
+
     return true;
 }
 
@@ -401,97 +432,113 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 {
 	if (trayMgr_->isDialogVisible()) return true;   // don't process any more keys if dialog is up
 
-    if (arg.key == OIS::KC_F)   // toggle visibility of advanced frame stats
-    {
-        trayMgr_->toggleAdvancedFrameStats();
-    }
-    else if (arg.key == OIS::KC_G)   // toggle visibility of even rarer debugging details
-    {
-        if (fightPanel_->getTrayLocation() == OgreBites::TL_NONE)
-        {
-            trayMgr_->moveWidgetToTray(fightPanel_, OgreBites::TL_TOPLEFT, 0);
-            fightPanel_->show();
-        }
-        else
-        {
-            trayMgr_->removeWidgetFromTray(fightPanel_);
-            fightPanel_->hide();
-        }
-    }
-    else if (arg.key == OIS::KC_T)   // cycle polygon rendering mode
-    {
-        Ogre::String newVal;
-        Ogre::TextureFilterOptions tfo;
-        unsigned int aniso;
-
-        switch (fightPanel_->getParamValue(4).asUTF8()[0])
-        {
-        case 'B':
-            newVal = "Trilinear";
-            tfo = Ogre::TFO_TRILINEAR;
-            aniso = 1;
-            break;
-        case 'T':
-            newVal = "Anisotropic";
-            tfo = Ogre::TFO_ANISOTROPIC;
-            aniso = 8;
-            break;
-        case 'A':
-            newVal = "None";
-            tfo = Ogre::TFO_NONE;
-            aniso = 1;
-            break;
-        default:
-            newVal = "Bilinear";
-            tfo = Ogre::TFO_BILINEAR;
-            aniso = 1;
-        }
-
-        Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
-        Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
-        fightPanel_->setParamValue(5, newVal);
-    }
-    else if (arg.key == OIS::KC_R)   // cycle polygon rendering mode
-    {
-        Ogre::String newVal;
-        Ogre::PolygonMode pm;
-
-        switch (camera_->getPolygonMode())
-        {
-        case Ogre::PM_SOLID:
-            newVal = "Wireframe";
-            pm = Ogre::PM_WIREFRAME;
-            break;
-		case Ogre::PM_WIREFRAME:
-        default:
-            newVal = "Solid";
-            pm = Ogre::PM_SOLID;
-        }
-
-        camera_->setPolygonMode(pm);
-        fightPanel_->setParamValue(5, newVal);
-    }
-	else if(arg.key == OIS::KC_SUBTRACT)
+	switch(state_)
 	{
-		if(displaySpeed_ > 0.25) displaySpeed_ *= 0.5;
+	case GAME:
+		switch(arg.key)
+		{
+		case OIS::KC_F:
+			trayMgr_->toggleAdvancedFrameStats();
+			break;
+		case OIS::KC_G:
+			if (fightPanel_->getTrayLocation() == OgreBites::TL_NONE)
+			{
+				trayMgr_->moveWidgetToTray(fightPanel_, OgreBites::TL_TOPLEFT, 0);
+				fightPanel_->show();
+			}
+			else
+			{
+				trayMgr_->removeWidgetFromTray(fightPanel_);
+				fightPanel_->hide();
+			}
+			break;
+		case OIS::KC_T:
+			{
+				Ogre::String newVal;
+				Ogre::TextureFilterOptions tfo;
+				unsigned int aniso;
+
+				switch (fightPanel_->getParamValue(4).asUTF8()[0])
+				{
+				case 'B':
+					newVal = "Trilinear";
+					tfo = Ogre::TFO_TRILINEAR;
+					aniso = 1;
+					break;
+				case 'T':
+					newVal = "Anisotropic";
+					tfo = Ogre::TFO_ANISOTROPIC;
+					aniso = 8;
+					break;
+				case 'A':
+					newVal = "None";
+					tfo = Ogre::TFO_NONE;
+					aniso = 1;
+					break;
+				default:
+					newVal = "Bilinear";
+					tfo = Ogre::TFO_BILINEAR;
+					aniso = 1;
+				}
+				Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
+				Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
+				fightPanel_->setParamValue(5, newVal);
+			}
+		case OIS::KC_R:
+			{
+				Ogre::String newVal;
+				Ogre::PolygonMode pm;
+
+				switch (camera_->getPolygonMode())
+				{
+				case Ogre::PM_SOLID:
+					newVal = "Wireframe";
+					pm = Ogre::PM_WIREFRAME;
+					break;
+				case Ogre::PM_WIREFRAME:
+				default:
+					newVal = "Solid";
+					pm = Ogre::PM_SOLID;
+				}
+
+				camera_->setPolygonMode(pm);
+				fightPanel_->setParamValue(5, newVal);
+			}
+		case OIS::KC_SUBTRACT:
+			if(displaySpeed_ > 0.25) displaySpeed_ *= 0.5;
+			break;
+		case OIS::KC_ADD:
+			if(displaySpeed_ < 16) displaySpeed_ *= 0.5;
+			break;
+		case OIS::KC_SYSRQ:
+			window_->writeContentsToTimestampedFile("screenshot", ".jpg");
+			break;
+		}
+		cameraMan_->injectKeyDown(arg);
+	case CONSOLE_ON:
+		console_->onKeyPressed(arg);
+		break;
+
 	}
-	else if(arg.key == OIS::KC_ADD)
-	{
-		if(displaySpeed_ < 8) displaySpeed_ *= 2;
-	}
-    else if(arg.key == OIS::KC_F5)   // refresh all textures
-    {
-        Ogre::TextureManager::getSingleton().reloadAll();
-    }
-    else if (arg.key == OIS::KC_SYSRQ)   // take a screenshot
-    {
-        window_->writeContentsToTimestampedFile("screenshot", ".jpg");
-    }
-    else if (arg.key == OIS::KC_ESCAPE)
+    if (arg.key == OIS::KC_ESCAPE)
     {
         shutDown_ = true;
     }
+	else if (arg.key == OIS::KC_F1)
+	{
+		if(console_->isVisible())
+		{
+			console_->setVisible(false);
+			state_ = GAME;
+		}
+		else
+		{
+			console_->setVisible(true);
+			state_ = CONSOLE_ON;
+		}
+	}
 
-    cameraMan_->injectKeyDown(arg);
+	
+    
     return true;
 }
