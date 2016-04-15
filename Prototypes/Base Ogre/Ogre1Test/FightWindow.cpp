@@ -239,7 +239,7 @@ void FightWindow::createScene(void)
 	//======== ABOUT LIGHT =========
 	// -- The sun -- //
 	theSun_ = new Sun(this);
-	//sceneMgr_->setSkyBox(true, "Examples/SpaceSkyBox");
+	sceneMgr_->setSkyBox(true, "ArenIA/SkyBox");
 
 	//======ABOUT THE CAMERA=======
 	camera_->setPosition(
