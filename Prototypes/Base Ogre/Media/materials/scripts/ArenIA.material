@@ -23,8 +23,8 @@ material ArenIA/SkyBox
 
 			texture_unit
 			{
-				cubic_texture SkyBox.tga separateUV
-				tex_address_mode clamp
+				texture SkyBox.tga
+				scroll_anim 0.03 0 
 			}
 		}
 	}

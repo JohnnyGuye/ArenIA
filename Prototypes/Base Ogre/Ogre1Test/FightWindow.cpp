@@ -239,8 +239,8 @@ void FightWindow::createScene(void)
 	//======== ABOUT LIGHT =========
 	// -- The sun -- //
 	theSun_ = new Sun(this);
-	sceneMgr_->setSkyBox(true, "ArenIA/SkyBox");
-
+	//sceneMgr_->setSkyBox(true, "Examples/SpaceSkyBox");
+	sceneMgr_->setSkyDome(true, "ArenIA/SkyBox", 10, 5, 3000);
 	//======ABOUT THE CAMERA=======
 	camera_->setPosition(
 		fightManager_->getTerrain()->getWidth() * 50.0, 
@@ -482,8 +482,9 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 				}
 				Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(tfo);
 				Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(aniso);
-				fightPanel_->setParamValue(5, newVal);
+				fightPanel_->setParamValue(4, newVal);
 			}
+			break;
 		case OIS::KC_R:
 			{
 				Ogre::String newVal;
@@ -504,11 +505,12 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 				camera_->setPolygonMode(pm);
 				fightPanel_->setParamValue(5, newVal);
 			}
+			break;
 		case OIS::KC_SUBTRACT:
 			if(displaySpeed_ > 0.25) displaySpeed_ *= 0.5;
 			break;
 		case OIS::KC_ADD:
-			if(displaySpeed_ < 16) displaySpeed_ *= 0.5;
+			if(displaySpeed_ < 16) displaySpeed_ *= 2;
 			break;
 		case OIS::KC_SYSRQ:
 			window_->writeContentsToTimestampedFile("screenshot", ".jpg");
