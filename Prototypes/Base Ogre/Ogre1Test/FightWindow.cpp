@@ -240,7 +240,8 @@ void FightWindow::createScene(void)
 	// -- The sun -- //
 	theSun_ = new Sun(this);
 	//sceneMgr_->setSkyBox(true, "Examples/SpaceSkyBox");
-	sceneMgr_->setSkyDome(true, "ArenIA/SkyBox", 10, 5, 3000);
+	sceneMgr_->setSkyBox(true, "ArenIA/SkyBox");
+
 	//======ABOUT THE CAMERA=======
 	camera_->setPosition(
 		fightManager_->getTerrain()->getWidth() * 50.0, 
