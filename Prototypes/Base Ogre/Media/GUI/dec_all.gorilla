@@ -1,0 +1,9 @@
+[Texture]
+file dec_all.png
+whitepixel 798 1
+
+[Sprites]
+dec_1 0 0 200 200
+dec_2 200 0 200 200
+dec_3 400 0 200 200
+dec_start 0 200 800 200

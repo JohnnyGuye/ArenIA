@@ -221,5 +221,8 @@
     <ClInclude Include="Gorilla.h">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="GUIDecompte.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

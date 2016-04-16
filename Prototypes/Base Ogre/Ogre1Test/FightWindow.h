@@ -25,6 +25,7 @@
 #include "Robot.h"
 #include "Log.h"
 #include "GUIConsole.h"
+#include "GUIDecompte.h"
 
 #include <vector>
 
@@ -99,7 +100,8 @@ protected:
 
 	enum RenderState {
 		CONSOLE_ON,
-		GAME
+		GAME,
+		COUNTDOWN
 	};
 
 	FightManager*		fightManager_;	// The logic of the game 
@@ -110,8 +112,10 @@ protected:
 	Sun*						theSun_;// The sun
 
 	RenderState		state_;
+	bool			pause_;
 	OgreBites::ParamsPanel*		fightPanel_;
 	GUIConsole*		console_;
+	GUIDecompte*	decompte_;
 	double			displaySpeed_;
 	Ogre::Real		lag_;
 
