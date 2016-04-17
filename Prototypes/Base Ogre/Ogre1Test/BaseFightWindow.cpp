@@ -191,6 +191,7 @@ void BaseFightWindow::loadResources(void)
 {
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
+
 //---------------------------------------------------------------------------
 void BaseFightWindow::go(void)
 {

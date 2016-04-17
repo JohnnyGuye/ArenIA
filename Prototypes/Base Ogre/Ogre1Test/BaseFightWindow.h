@@ -66,8 +66,8 @@ protected:
 	virtual void createScene(void);
 	virtual void destroyScene(void);
 	virtual void setupResources(void);
-	virtual void createResourceListener(void);
 	virtual void loadResources(void);
+	virtual void createResourceListener(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 

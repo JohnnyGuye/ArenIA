@@ -6,130 +6,27 @@
 using namespace Ogre;
 using namespace std;
 
-// ----------------------------------------------
-// ---------------- THE SUN ---------------------
-// ----------------------------------------------
-
-FightWindow::Sun::Sun(FightWindow* fw = nullptr)
-	: fw_(fw), sceneMgr_(fw->sceneMgr_),
-	offset_(fw_->fightManager_->getTerrain()->getDimension())
-{
-	//Entity and position
-	Vector3 initPos = Vector3(ORBIT, 0, 500);
-	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos);
-
-	//Ambient light
-	sceneMgr_->setAmbientLight(Ogre::ColourValue(0.4f, 0.4f, 0.4f));
-	sceneMgr_->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
-	
-	//SpotLight
-	light_ = sceneMgr_->createLight("SunLight");
-	light_->setDiffuseColour(0.95f, 0.85f, 0.95f);
-	light_->setSpecularColour(0.7f, 0.65f, 0.7f);
-
-	light_->setType(Light::LT_POINT);
-	light_->setDirection(Vector3::ZERO);
-	light_->setPosition(initPos);
-}
-
-FightWindow::Sun::~Sun()
-{
-}
-
-void FightWindow::Sun::update()
-{
-	double dayRatio = fw_->fightManager_->getDayRatio();
-	Real cos = Math::Cos(dayRatio * Math::PI);
-	Real sin = Math::Sin(dayRatio * Math::PI);
-	node_->setPosition( cos * ORBIT + offset_.y, sin* ORBIT, offset_.x); 
-	light_->setPosition(node_->getPosition());
-	Real r(abs(dayRatio * 2 - 1) * 0.4 + 0.6);
-	Real v(0.6f);
-	Real b(abs(dayRatio * 2 - 1) * (-0.5) + 1.5);
-	Real s(abs(dayRatio * 2 - 1) * (-.3) + 1.3);
-	light_->setDiffuseColour(r * s, v * s, b * s);
-}
-
-// ----------------------------------------------
-// --------------- GAME ENTITY ------------------
-// ----------------------------------------------
-
-FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
-	const Ogre::Vector3& position, const int& scale, GameObject* object)
-	:	sceneMgr_(sceneMgr),
-	object_(object),
-	orientation_(0)
-{
-	entity_ = sceneMgr_->createEntity(mesh); 
-
-	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode();
-	node_->setPosition(position);
-	node_->setScale(scale, scale, scale);
-	node_->attachObject(entity_);
-	node_->pitch(Degree(-90));
-
-	animState_ = entity_->getAnimationState("IDLE");
-	animState_->setLoop(true);
-	animState_->setEnabled(true);
-}
-
-FightWindow::GameEntity::~GameEntity()
-{
-}
-
-void FightWindow::GameEntity::update(const FrameEvent& evt)
-{
-	node_->setPosition(object_->getPosition());
-
-	if(object_->getOrientation() != orientation_)
-	{
-		node_->roll(object_->getOrientation() - orientation_);
-		orientation_ = object_->getOrientation();
-	}
-
-	animState_->addTime(evt.timeSinceLastFrame);
-}
-
-// ----------------------------------------------
-// --------------- ROBOT ENTITY -----------------
-// ----------------------------------------------
-
-FightWindow::RobotEntity::RobotEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
-	const Ogre::Vector3& position, const int& scale, Robot* robot)
-	:	GameEntity(sceneMgr, mesh, position, scale, robot)
-{
-	robot->setOrientation(Degree(0));
-	node_->roll(Degree(robot->getOrientation()));
-}
-
-FightWindow::RobotEntity::~RobotEntity()
-{
-}
-
-void FightWindow::RobotEntity::update(const FrameEvent& evt)
-{
-	Robot* robot = (Robot*)object_;
-	animState_ = entity_->getAnimationState(stateToString(robot->getState()));
-	GameEntity::update(evt);
-}
-
-string FightWindow::RobotEntity::stateToString(const Robot::State& state) const
-{
-	switch(state){
-	case Robot::SHOOTING:
-		return "SHOOTING";
-	case Robot::IDLE:
-	default:
-		return "IDLE";
-	}
-}
-
 // ------------------------------------------------------------
 // ------------ THE FIGHT WINDOW ------------------------------
 // ------------------------------------------------------------
 
 FightWindow::FightWindow(void)
-	: lag_(0),
+	:  root_(0),
+    camera_(0),
+    sceneMgr_(0),
+    window_(0),
+    resourcesCfg_(Ogre::StringUtil::BLANK),
+    pluginsCfg_(Ogre::StringUtil::BLANK),
+    trayMgr_(0),
+    cameraMan_(0),
+    detailsPanel_(0),
+    cursorWasVisible_(false),
+    shutDown_(false),
+    inputManager_(0),
+    mouse_(0),
+    keyboard_(0),
+    overlaySystem_(0),
+	lag_(0),
 	fightPanel_(0),
 	displaySpeed_(1),
 	theSun_(nullptr),
@@ -145,12 +42,45 @@ FightWindow::FightWindow(void)
 
 FightWindow::~FightWindow(void)
 {
+	for(SceneMap::iterator it = sceneMap_.begin(); it != sceneMap_.end() ; it++)
+	{
+		if(it->second)	delete it->second;
+	}
+
 	if(theSun_)	delete theSun_;
 	if(fightManager_) delete fightManager_;
 	if(console_) delete console_;
 	if(decompte_) delete decompte_;
 }
 
+void FightWindow::go(void)
+{
+#ifdef _DEBUG
+#ifndef OGRE_STATIC_LIB
+    resourcesCfg_ = m_ResourcePath + "resources_d.cfg";
+    pluginsCfg_ = m_ResourcePath + "plugins_d.cfg";
+#else
+    resourcesCfg_ = "resources_d.cfg";
+    pluginsCfg_ = "plugins_d.cfg";
+#endif
+#else
+#ifndef OGRE_STATIC_LIB
+    resourcesCfg_ = m_ResourcePath + "resources.cfg";
+    pluginsCfg_ = m_ResourcePath + "plugins.cfg";
+#else
+    mResourcesCfg = "resources.cfg";
+    mPluginsCfg = "plugins.cfg";
+#endif
+#endif
+
+    if (!setup())
+        return;
+
+    root_->startRendering();
+
+    // Clean up
+    destroyScene();
+}
 
 bool FightWindow::setup(void)
 {
@@ -158,13 +88,21 @@ bool FightWindow::setup(void)
 	fightManager_ = new FightManager("big_map_test.txt");
 
 	//Initialize angles translations
-	math_ = new Math(4096);
+	LogManager::getSingletonPtr()->logMessage("*** Initializing resource path ***");
     setupResources();
 
-    bool carryOn = configure();
-    if (!carryOn) return false;
+	LogManager::getSingletonPtr()->logMessage("*** Window ***");
+	if (!root_->showConfigDialog())	return false;
 
-    chooseSceneManager();
+	window_ = root_->initialise(true, "ArenIA");
+
+	sceneMap_.insert(ScenePair("Fight", new FightScene()));
+
+    sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
+	overlaySystem_ = new Ogre::OverlaySystem();	// TODO stop overlays !
+	sceneMgr_->addRenderQueueListener(overlaySystem_);
+
+	LogManager::getSingletonPtr()->logMessage("*** Camera and viewport ***");
     createViews();
 
     // Set default mipmap level (NB some APIs ignore this)
@@ -172,12 +110,17 @@ bool FightWindow::setup(void)
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
     // Create the scene
+	LogManager::getSingletonPtr()->logMessage("*** Create scene ***");
     createScene();
 
     createFrameListener();
 
     return true;
 };
+
+void FightWindow::destroyScene(void)
+{
+}
 
 void FightWindow::createEntity(const string& mesh, const Vector3& position, const int& scale)
 {
@@ -226,19 +169,56 @@ void FightWindow::createViews()
 	camera_ = sceneMgr_->createCamera("PlayerCam");
 	camera_->setPosition(Ogre::Vector3(0, 300, 500));
 	camera_->lookAt(Ogre::Vector3(0, 0, 0));
-
 	camera_->setNearClipDistance(5);
 	cameraMan_ = new OgreBites::SdkCameraMan(camera_);
 
-	//Viewportes
+	//Viewports
 	Ogre::Viewport* vp = window_->addViewport(camera_);
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+
+	silverback_ = new Gorilla::Silverback();
+	silverback_->loadAtlas("dec_all");
 	console_ = new GUIConsole(vp);
-	decompte_ = new GUIDecompte(vp);
+	decompte_ = new GUIDecompte(vp, "dec_all");
 
 	camera_->setAspectRatio(
 		  Ogre::Real(vp->getActualWidth()) /
 		  Ogre::Real(vp->getActualHeight()));
+}
+
+void FightWindow::setupResources(void)
+{
+
+    // Load resource paths from config file
+    Ogre::ConfigFile cf;
+    cf.load(resourcesCfg_);
+
+    // Go through all sections & settings in the file
+    Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
+
+    Ogre::String secName, typeName, archName;
+    while (seci.hasMoreElements())
+    {
+        secName = seci.peekNextKey();
+        Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
+        Ogre::ConfigFile::SettingsMultiMap::iterator i;
+        for (i = settings->begin(); i != settings->end(); ++i)
+        {
+            typeName = i->first;
+            archName = i->second;
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+            // OS X does not set the working directory relative to the app.
+            // In order to make things portable on OS X we need to provide
+            // the loading with it's own bundle path location.
+            if (!Ogre::StringUtil::startsWith(archName, "/", false)) // only adjust relative directories
+                archName = Ogre::String(Ogre::macBundlePath() + "/" + archName);
+#endif
+
+            Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+                archName, typeName, secName);
+        }
+    }
 }
 
 void FightWindow::createScene(void)
@@ -382,6 +362,7 @@ void FightWindow::createFrameListener(void)
 	root_->addFrameListener(this);
 }
 
+
 /* GAME LOOP MODAFUCKERS */
 bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
@@ -410,6 +391,7 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
+	
 	if(state_ == COUNTDOWN)	
 	{	
 		if(!decompte_->frameRenderingQueue(evt))
@@ -418,6 +400,7 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 			state_ = GAME;	
 		}
 	}
+	
 
 	if(!pause_)
 	{
@@ -441,11 +424,12 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 			(*re).update(evt);
 		}
 	}
+
 	console_->frameStarted(evt);
 
     return true;
 }
-
+//------------------------------------------------------------------------------------------
 bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 {
 	if (trayMgr_->isDialogVisible()) return true;   // don't process any more keys if dialog is up
@@ -549,6 +533,7 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
     }
 	else if (arg.key == OIS::KC_F1)
 	{
+		
 		if(console_->isVisible())
 		{
 			console_->setVisible(false);
@@ -559,9 +544,191 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 			console_->setVisible(true);
 			state_ = CONSOLE_ON;
 		}
+		
+	}
+ 
+    return true;
+}
+
+//---------------------------------------------------------------------------
+bool FightWindow::keyReleased(const OIS::KeyEvent &arg)
+{
+    cameraMan_->injectKeyUp(arg);
+    return true;
+}
+//---------------------------------------------------------------------------
+bool FightWindow::mouseMoved(const OIS::MouseEvent &arg)
+{
+    if (trayMgr_->injectMouseMove(arg)) return true;
+	switch(state_)
+	{
+	case CONSOLE_ON:
+		break;
+	case GAME:
+	default:
+		cameraMan_->injectMouseMove(arg);
+		break;
+	}
+    return true;
+}
+//---------------------------------------------------------------------------
+bool FightWindow::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+{
+    if (trayMgr_->injectMouseDown(arg, id)) return true;
+    cameraMan_->injectMouseDown(arg, id);
+    return true;
+}
+//---------------------------------------------------------------------------
+bool FightWindow::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+{
+    if (trayMgr_->injectMouseUp(arg, id)) return true;
+    cameraMan_->injectMouseUp(arg, id);
+    return true;
+}
+//---------------------------------------------------------------------------
+// Adjust mouse clipping area
+void FightWindow::windowResized(Ogre::RenderWindow* rw)
+{
+    unsigned int width, height, depth;
+    int left, top;
+    rw->getMetrics(width, height, depth, left, top);
+
+    const OIS::MouseState &ms = mouse_->getMouseState();
+    ms.width = width;
+    ms.height = height;
+}
+//---------------------------------------------------------------------------
+// Unattach OIS before window shutdown (very important under Linux)
+void FightWindow::windowClosed(Ogre::RenderWindow* rw)
+{
+    // Only close for window that created OIS (the main window in these demos)
+    if(rw == window_)
+    {
+        if(inputManager_)
+        {
+            inputManager_->destroyInputObject(mouse_);
+            inputManager_->destroyInputObject(keyboard_);
+
+            OIS::InputManager::destroyInputSystem(inputManager_);
+            inputManager_ = 0;
+        }
+    }
+}
+
+// ----------------------------------------------
+// ---------------- THE SUN ---------------------
+// ----------------------------------------------
+
+FightWindow::Sun::Sun(FightWindow* fw = nullptr)
+	: fw_(fw), sceneMgr_(fw->sceneMgr_),
+	offset_(fw_->fightManager_->getTerrain()->getDimension())
+{
+	//Entity and position
+	Vector3 initPos = Vector3(ORBIT, 0, 500);
+	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos);
+
+	//Ambient light
+	sceneMgr_->setAmbientLight(Ogre::ColourValue(0.4f, 0.4f, 0.4f));
+	sceneMgr_->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+	
+	//SpotLight
+	light_ = sceneMgr_->createLight("SunLight");
+	light_->setDiffuseColour(0.95f, 0.85f, 0.95f);
+	light_->setSpecularColour(0.7f, 0.65f, 0.7f);
+
+	light_->setType(Light::LT_POINT);
+	light_->setDirection(Vector3::ZERO);
+	light_->setPosition(initPos);
+}
+
+FightWindow::Sun::~Sun()
+{
+}
+
+void FightWindow::Sun::update()
+{
+	double dayRatio = fw_->fightManager_->getDayRatio();
+	Real cos = Math::Cos(dayRatio * Math::PI);
+	Real sin = Math::Sin(dayRatio * Math::PI);
+	node_->setPosition( cos * ORBIT + offset_.y, sin* ORBIT, offset_.x); 
+	light_->setPosition(node_->getPosition());
+	Real r(abs(dayRatio * 2 - 1) * 0.4 + 0.6);
+	Real v(0.6f);
+	Real b(abs(dayRatio * 2 - 1) * (-0.5) + 1.5);
+	Real s(abs(dayRatio * 2 - 1) * (-.3) + 1.3);
+	light_->setDiffuseColour(r * s, v * s, b * s);
+}
+
+// ----------------------------------------------
+// --------------- GAME ENTITY ------------------
+// ----------------------------------------------
+
+FightWindow::GameEntity::GameEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
+	const Ogre::Vector3& position, const int& scale, GameObject* object)
+	:	sceneMgr_(sceneMgr),
+	object_(object),
+	orientation_(0)
+{
+	entity_ = sceneMgr_->createEntity(mesh); 
+
+	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode();
+	node_->setPosition(position);
+	node_->setScale(scale, scale, scale);
+	node_->attachObject(entity_);
+	node_->pitch(Degree(-90));
+
+	animState_ = entity_->getAnimationState("IDLE");
+	animState_->setLoop(true);
+	animState_->setEnabled(true);
+}
+
+FightWindow::GameEntity::~GameEntity()
+{
+}
+
+void FightWindow::GameEntity::update(const FrameEvent& evt)
+{
+	node_->setPosition(object_->getPosition());
+
+	if(object_->getOrientation() != orientation_)
+	{
+		node_->roll(object_->getOrientation() - orientation_);
+		orientation_ = object_->getOrientation();
 	}
 
-	
-    
-    return true;
+	animState_->addTime(evt.timeSinceLastFrame);
+}
+
+// ----------------------------------------------
+// --------------- ROBOT ENTITY -----------------
+// ----------------------------------------------
+
+FightWindow::RobotEntity::RobotEntity(Ogre::SceneManager* sceneMgr, const string& mesh,
+	const Ogre::Vector3& position, const int& scale, Robot* robot)
+	:	GameEntity(sceneMgr, mesh, position, scale, robot)
+{
+	robot->setOrientation(Degree(0));
+	node_->roll(Degree(robot->getOrientation()));
+}
+
+FightWindow::RobotEntity::~RobotEntity()
+{
+}
+
+void FightWindow::RobotEntity::update(const FrameEvent& evt)
+{
+	Robot* robot = (Robot*)object_;
+	animState_ = entity_->getAnimationState(stateToString(robot->getState()));
+	GameEntity::update(evt);
+}
+
+string FightWindow::RobotEntity::stateToString(const Robot::State& state) const
+{
+	switch(state){
+	case Robot::SHOOTING:
+		return "SHOOTING";
+	case Robot::IDLE:
+	default:
+		return "IDLE";
+	}
 }

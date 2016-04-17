@@ -132,6 +132,15 @@
     <ClCompile Include="LuaHandler.cpp">
       <Filter>Fichiers sources\Lua</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="FightScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIElement.cpp">
+      <Filter>Fichiers sources\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Terrain.h">
@@ -233,14 +242,26 @@
     <ClInclude Include="Gorilla.h">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="GUIDecompte.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="RobotLuaBinding.h">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaHandler.h">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="FightScene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIElement.h">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIDecompte.h">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIShowLogo.h">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
