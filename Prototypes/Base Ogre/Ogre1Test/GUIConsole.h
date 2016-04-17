@@ -11,7 +11,7 @@ public:
 
 	GUIConsole(Ogre::Viewport* vP)
 	{
-		mGorilla = new Gorilla::Silverback();
+		mGorilla = Gorilla::Silverback::getSingletonPtr();
 		mGorilla->loadAtlas("dejavu");
 		mScreen = mGorilla->createScreen(vP, "dejavu");
    

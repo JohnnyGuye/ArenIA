@@ -139,6 +139,8 @@ FightWindow::FightWindow(void)
 	console_(nullptr),
 	decompte_(nullptr)
 {
+	AllocConsole();
+	freopen("CONOUT$", "w", stdout);
 }
 
 FightWindow::~FightWindow(void)
@@ -146,7 +148,7 @@ FightWindow::~FightWindow(void)
 	if(theSun_)	delete theSun_;
 	if(fightManager_) delete fightManager_;
 	if(console_) delete console_;
-	//if(decompte_) delete decompte_;
+	if(decompte_) delete decompte_;
 }
 
 

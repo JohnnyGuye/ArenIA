@@ -55,6 +55,12 @@
     <Filter Include="Fichiers sources\GUI">
       <UniqueIdentifier>{b1e8ceb8-ba2e-44ce-b8f7-89b4f33f46e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers sources\Lua">
+      <UniqueIdentifier>{cda71c39-c9ce-4954-be61-8c972cbbf2fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Lua">
+      <UniqueIdentifier>{54f4a14d-2c21-4781-bf73-cd13b03ceb81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -119,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="OgreConsoleForGorilla.cpp">
       <Filter>Fichiers sources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RobotLuaBinding.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="LuaHandler.cpp">
+      <Filter>Fichiers sources\Lua</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="GUIDecompte.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="RobotLuaBinding.h">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaHandler.h">
+      <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -55,7 +55,6 @@ public:
 
 	virtual ~GUIDecompte(void)
 	{
-		delete mSilverback;
 	}
 
 protected:

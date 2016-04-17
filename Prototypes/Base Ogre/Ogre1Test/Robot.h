@@ -8,15 +8,13 @@
 * @summary :  Header file of the Robot Class, a Robot is the main fighting entity.
 */
 
-#include <Ogre.h>
-#include <string>
-#include <vector>
-#include <string>
+
 
 #include "GameObject.h"
 #include "Stats.h"
 #include "Ability.h"
 #include "Terrain.h"
+#include "LuaHandler.h"
 
 //for the rotations
 #define FORWARD_DEFAULT Ogre::Vector3::NEGATIVE_UNIT_Z
@@ -53,7 +51,7 @@ public:
 //public methods
 public:
 
-	/** @brief Create a new robot
+	/** @brief Create a new robot 
 	*	@param position the initial position of the robot
 	*	@param the name of the robot **/
     Robot(Ogre::Vector3 position = Ogre::Vector3::ZERO, std::string name = "", Team team = NONE);
@@ -161,12 +159,12 @@ protected:
 
     /** The IA's filename **/
     std::string iaFilename_;
+	LuaHandler*		luaCode;
 
     /**Turret Orientation**/
     Ogre::Vector3	turretOrientation_;
 	Ogre::Degree	turretAngle_;
 
 	Ogre::Vector3	nextPosition_;
-
 };
 
