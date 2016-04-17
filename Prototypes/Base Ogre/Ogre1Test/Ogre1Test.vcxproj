@@ -56,7 +56,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain_d.lib;OIS_d.lib;OgreOverlay_d.lib;lua5.1.5-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,7 +70,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;lua5.1.5-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -84,10 +84,12 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Gorilla.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="LuaHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="OgreConsoleForGorilla.cpp" />
     <ClCompile Include="Robot.cpp" />
+    <ClCompile Include="RobotLuaBinding.cpp" />
     <ClCompile Include="SceneryObject.cpp" />
     <ClCompile Include="Stats.cpp" />
     <ClCompile Include="TargetVictory.cpp" />
@@ -111,16 +113,19 @@
     <ClInclude Include="Gauge.h" />
     <ClInclude Include="Gorilla.h" />
     <ClInclude Include="GUIConsole.h" />
+    <ClInclude Include="GUIDecompte.h" />
     <ClInclude Include="GUIEvent.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="HitboxSphere.h" />
     <ClInclude Include="HitboxVoid.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="LuaHandler.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="OgreConsoleForGorilla.h" />
     <ClInclude Include="ReachPointEvent.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="RobotKillEvent.h" />
+    <ClInclude Include="RobotLuaBinding.h" />
     <ClInclude Include="SceneryObject.h" />
     <ClInclude Include="StartSDEvent.h" />
     <ClInclude Include="Stats.h" />

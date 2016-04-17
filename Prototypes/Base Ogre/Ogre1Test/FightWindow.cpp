@@ -124,9 +124,9 @@ string FightWindow::RobotEntity::stateToString(const Robot::State& state) const
 	}
 }
 
-// ----------------------------------------------
-// ------------ THE FIGHT WINDOW ----------------
-// ----------------------------------------------
+// ------------------------------------------------------------
+// ------------ THE FIGHT WINDOW ------------------------------
+// ------------------------------------------------------------
 
 FightWindow::FightWindow(void)
 	: lag_(0),
@@ -134,8 +134,13 @@ FightWindow::FightWindow(void)
 	displaySpeed_(1),
 	theSun_(nullptr),
 	fightManager_(nullptr),
-	state_(GAME)
+	state_(COUNTDOWN),
+	pause_(true),
+	console_(nullptr),
+	decompte_(nullptr)
 {
+	AllocConsole();
+	freopen("CONOUT$", "w", stdout);
 }
 
 FightWindow::~FightWindow(void)
@@ -143,6 +148,7 @@ FightWindow::~FightWindow(void)
 	if(theSun_)	delete theSun_;
 	if(fightManager_) delete fightManager_;
 	if(console_) delete console_;
+	if(decompte_) delete decompte_;
 }
 
 
@@ -228,6 +234,7 @@ void FightWindow::createViews()
 	Ogre::Viewport* vp = window_->addViewport(camera_);
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
 	console_ = new GUIConsole(vp);
+	decompte_ = new GUIDecompte(vp);
 
 	camera_->setAspectRatio(
 		  Ogre::Real(vp->getActualWidth()) /
@@ -240,7 +247,7 @@ void FightWindow::createScene(void)
 	// -- The sun -- //
 	theSun_ = new Sun(this);
 	//sceneMgr_->setSkyBox(true, "Examples/SpaceSkyBox");
-	sceneMgr_->setSkyBox(true, "ArenIA/SkyBox");
+	//sceneMgr_->setSkyBox(true, "Arenia/Skybox", 3000.f, false);
 
 	//======ABOUT THE CAMERA=======
 	camera_->setPosition(
@@ -248,8 +255,7 @@ void FightWindow::createScene(void)
 		500.0, 
 		fightManager_->getTerrain()->getHeight() * 50.0
 		);
-	//=======ONE ROBOT FOR THE TEST======
-	//createRobot("Robot-001", Robot::LAVE_LINGE , Robot::NONE, Vector3(750,10,450), 10);
+	
 	createRobots();
 
 	//========THE GROUND=========
@@ -404,26 +410,37 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
         }
     }
 
-	/* LOGIC */
-	for(lag_ += (evt.timeSinceLastFrame * 1000 * 1000 * displaySpeed_) ; lag_ >= (GameTime::ROUND_IN_MS) ; lag_ -= (GameTime::ROUND_IN_MS))
-	{
-		fightManager_->update();
+	if(state_ == COUNTDOWN)	
+	{	
+		if(!decompte_->frameRenderingQueue(evt))
+		{
+			pause_ = false;
+			state_ = GAME;	
+		}
 	}
+
+	if(!pause_)
+	{
+		/* LOGIC */
+		for(lag_ += (evt.timeSinceLastFrame * 1000 * 1000 * displaySpeed_) ; lag_ >= (GameTime::ROUND_IN_MS) ; lag_ -= (GameTime::ROUND_IN_MS))
+		{
+			fightManager_->update();
+		}
 	
 
-	/* RENDERING */
-	theSun_->update();
+		/* RENDERING */
+		theSun_->update();
 
-	for(std::list<GameEntity>::iterator ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
-	{
-		(*ge).update(evt);
+		for(std::list<GameEntity>::iterator ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
+		{
+			(*ge).update(evt);
+		}
+
+		for(std::list<RobotEntity>::iterator re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
+		{
+			(*re).update(evt);
+		}
 	}
-
-	for(std::list<RobotEntity>::iterator re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
-	{
-		(*re).update(evt);
-	}
-
 	console_->frameStarted(evt);
 
     return true;
@@ -453,7 +470,7 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 				fightPanel_->hide();
 			}
 			break;
-		case OIS::KC_T:
+		case OIS::KC_F2:
 			{
 				Ogre::String newVal;
 				Ogre::TextureFilterOptions tfo;
@@ -486,7 +503,7 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 				fightPanel_->setParamValue(4, newVal);
 			}
 			break;
-		case OIS::KC_R:
+		case OIS::KC_F3:
 			{
 				Ogre::String newVal;
 				Ogre::PolygonMode pm;
@@ -515,6 +532,9 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 			break;
 		case OIS::KC_SYSRQ:
 			window_->writeContentsToTimestampedFile("screenshot", ".jpg");
+			break;
+		case OIS::KC_PAUSE:
+			pause_ = !pause_;
 			break;
 		}
 		cameraMan_->injectKeyDown(arg);

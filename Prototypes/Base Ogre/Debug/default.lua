@@ -1,0 +1,3 @@
+function main()
+	debugTurn();
+end

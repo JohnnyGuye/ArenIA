@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include "RobotLuaBinding.h"
 
 using namespace Ogre;
 using namespace std;
@@ -18,6 +19,8 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	iaFilename_("EMPTY")
 {
 	setTurretOrientation();
+	luaCode = new LuaHandler();
+	luaCode->LoadFile("default.lua");
 }
 
 Robot::~Robot()
@@ -27,7 +30,7 @@ Robot::~Robot()
 bool Robot::resetAction()
 {
     action_ = Robot::IDLE;
-    return true;
+    return true; 
 }
 
 Vector3 Robot::getNextPosition() const
@@ -38,8 +41,8 @@ Vector3 Robot::getNextPosition() const
 void Robot::update()
 {
 	resetAction();
-	turnDirection(Degree(rand() / (double)RAND_MAX * 20 - 10));
-	move();
+	RobotLuaBinding::setRobot(this);
+	luaCode->Execute();
 }
 
 void Robot::applyUpdate(bool wallCollide)
@@ -49,7 +52,7 @@ void Robot::applyUpdate(bool wallCollide)
 
 bool Robot::fire()
 {
-    turret_->Cast();
+	turret_->Cast();
     action_ = (State)(action_ | SHOOTING);
     return true;
 }
@@ -97,10 +100,7 @@ bool Robot::useAbility(unsigned int idxAbility){
         abilities_[idxAbility]->Cast();
         return true;
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 std::vector<Ability*> Robot::getKnownCompetences(Robot & robot){
