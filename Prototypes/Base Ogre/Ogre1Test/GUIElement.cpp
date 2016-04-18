@@ -1,11 +1,13 @@
 #include "GUIElement.h"
 #include "ExceptionArenIA.h"
+#include <OGRE\OgreLogManager.h>
 
 GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
 	: root_(this),
 	parent_(this),
 	screen_(nullptr)
 {
+	
 	if(!Gorilla::Silverback::getSingletonPtr())
 		silverback_ = new Gorilla::Silverback();
 	else
@@ -13,7 +15,11 @@ GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
 
 	try
 	{
-		if(atlas != "")	screen_ = silverback_->createScreen(vp, atlas);
+		if(atlas != "")
+		{
+			silverback_->loadAtlas(atlas);
+			screen_ = silverback_->createScreen(vp, atlas);
+		}
 	}
 	catch(const std::exception e)
 	{

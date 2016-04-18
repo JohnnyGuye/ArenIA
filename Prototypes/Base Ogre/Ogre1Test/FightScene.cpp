@@ -1,16 +1,483 @@
 #include "FightScene.h"
 
+using namespace std;
+using namespace Ogre;
 
-FightScene::FightScene(void)
+FightScene::FightScene(Ogre::RenderWindow* window, Ogre::Root* root)
+	: Scene(window, root),
+	fightManager_(nullptr),
+	theSun_(nullptr),
+	state_(COUNTDOWN),
+	pause_(true),
+	console_(nullptr),
+	decompte_(nullptr),
+	lag_(0),
+	displaySpeed_(1)
 {
+	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
+	silverback_ = Gorilla::Silverback::getSingletonPtr();
 }
 
 
 FightScene::~FightScene(void)
 {
+	if(fightManager_) delete fightManager_;
+	if(theSun_)	delete theSun_;
 }
 
-bool FightScene::setup(Ogre::Root* root)
+bool FightScene::loadResources(void)
 {
+	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
 	return true;
+}
+
+bool FightScene::initFightManager(const std::string& map)
+{
+	if(fightManager_)	return false;
+	fightManager_ = new FightManager(map);
+	return true;
+}
+
+bool FightScene::launch(void)
+{
+	LogManager::getSingletonPtr()->logMessage("*** Cameras ***");
+	//Cameras
+	camera_ = sceneMgr_->createCamera("PlayerCam");
+	camera_->setPosition(Ogre::Vector3(0, 300, 500));
+	camera_->lookAt(Ogre::Vector3(0, 0, 0));
+	camera_->setNearClipDistance(5);
+	cameraMan_ = new OgreBites::SdkCameraMan(camera_);
+
+	LogManager::getSingletonPtr()->logMessage("*** Viewports ***");
+	//Viewports
+	Ogre::Viewport* vp = window_->addViewport(camera_);
+	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+
+	decompte_ = new GUIDecompte(vp, "dec_all");
+	console_ = new GUIConsole(vp);
+
+	camera_->setAspectRatio(
+		  Ogre::Real(vp->getActualWidth()) /
+		  Ogre::Real(vp->getActualHeight()));
+
+	createScene();
+	return true;
+}
+
+void FightScene::createScene(void)
+{
+	//======== ABOUT LIGHT =========
+	// -- The sun -- //
+	theSun_ = new Sun(this);
+	//sceneMgr_->setSkyBox(true, "Examples/SpaceSkyBox");
+	//sceneMgr_->setSkyBox(true, "Arenia/Skybox", 3000.f, false);
+
+	//======ABOUT THE CAMERA=======
+	camera_->setPosition(
+		fightManager_->getTerrain()->getWidth() * 50.0, 
+		500.0, 
+		fightManager_->getTerrain()->getHeight() * 50.0
+		);
+	
+	createRobots();
+
+	//========THE GROUND=========
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	
+	Ogre::MeshManager::getSingleton().createPlane(
+	  "ground",
+	  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+	  plane, 
+	  fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE, fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE, 10, 10, 
+	  true, 
+	  1, 5.0f, 5.0f, 
+	  Ogre::Vector3::UNIT_X);
+
+	Vector3 offset(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE * 0.5, 
+		0, 
+		fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE * 0.5);
+
+	Ogre::Entity* groundEntity = sceneMgr_->createEntity("ground");
+	sceneMgr_->getRootSceneNode()->createChildSceneNode(offset)->attachObject(groundEntity);
+	groundEntity->setCastShadows(false);
+	groundEntity->setMaterialName("ArenIA/Ground");
+
+	//========CREATE ENTITIES FROM TERRAIN===========
+
+	unsigned int width = fightManager_->getTerrain()->getWidth();
+	unsigned int height = fightManager_->getTerrain()->getHeight();
+
+	for(unsigned int i = 0; i < width; i++)
+	{
+		for(unsigned int j = 0; j < height; j++)
+		{
+			GameObject* go = fightManager_->getTerrain()->getObjectInCell(i, j);
+			if(go != nullptr)
+			{
+				SceneryObject* so = (SceneryObject*)go;
+				Entity*		decorEntity;
+				SceneNode*	node;
+				Real		s(50);
+				Degree		yaw(Real(0));
+				Vector3		offset(Terrain::CELL_SIZE * 0.5, 0, Terrain::CELL_SIZE * 0.5);
+				std::string mesh;
+
+				switch(so->getType())
+				{	
+				case 1:
+					yaw += Degree(90);
+				case 3:
+					yaw += Degree(90);
+				case 35:
+					yaw += Degree(90);
+				case 33:
+					yaw += Degree(90);
+					mesh = "Wall_corner.mesh";
+					break;
+				case 17:
+				case 19:
+					yaw += Degree(90);
+				case 2:
+				case 4:
+				case 5:
+				case 6:
+				case 20:
+				case 21:
+				case 22:
+				case 34:
+				case 36:
+				case 37:
+				case 38:
+					mesh = "Wall_basic.mesh";
+					offset.y = Terrain::CELL_SIZE * 0.5;
+					break;
+				case 18:
+					mesh = "Obstacle_basic.mesh";
+					break;
+				default:
+					s = 1;
+					mesh = "cube.mesh";
+				}
+				decorEntity = sceneMgr_->createEntity(mesh);
+					
+				node = sceneMgr_->getRootSceneNode()->createChildSceneNode(so->getPosition() + offset);
+				node->attachObject(decorEntity);
+				node->scale(s,s,s);
+				node->pitch(Degree(-90));
+				node->roll(yaw);
+				DecorEntities_.push_back(decorEntity);
+			}
+		}
+	}
+}
+
+bool FightScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
+{
+	if(state_ == COUNTDOWN)	
+	{	
+		if(!decompte_->frameRenderingQueue(evt))
+		{
+			pause_ = false;
+			state_ = GAME;	
+		}
+	}
+	
+
+	if(!pause_)
+	{
+		/* LOGIC */
+		for(lag_ += (evt.timeSinceLastFrame * 1000 * 1000 * displaySpeed_) ; lag_ >= (GameTime::ROUND_IN_MS) ; lag_ -= (GameTime::ROUND_IN_MS))
+		{
+			fightManager_->update();
+		}
+	
+
+		/* RENDERING */
+		theSun_->update();
+
+		for(std::list<GameEntity>::iterator ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
+		{
+			(*ge).update(evt);
+		}
+
+		for(std::list<RobotEntity>::iterator re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
+		{
+			(*re).update(evt);
+		}
+	}
+
+	console_->frameStarted(evt);
+	return true;
+}
+
+//------------------------------------------------------------------------------------------
+bool FightScene::keyPressed( const OIS::KeyEvent& arg)
+{
+	switch(state_)
+	{
+	case GAME:
+		cameraMan_->injectKeyDown(arg);
+		switch(arg.key)
+		{
+		case OIS::KC_F2:
+			{
+				Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_BILINEAR);
+				Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(1);
+			}
+			break;
+		case OIS::KC_F3:
+			{
+				Ogre::String newVal;
+				Ogre::PolygonMode pm;
+
+				switch (camera_->getPolygonMode())
+				{
+				case Ogre::PM_SOLID:
+					newVal = "Wireframe";
+					pm = Ogre::PM_WIREFRAME;
+					break;
+				case Ogre::PM_WIREFRAME:
+				default:
+					newVal = "Solid";
+					pm = Ogre::PM_SOLID;
+				}
+
+				camera_->setPolygonMode(pm);
+			}
+			break;
+		case OIS::KC_SUBTRACT:
+			if(displaySpeed_ > 0.25) displaySpeed_ *= 0.5;
+			break;
+		case OIS::KC_ADD:
+			if(displaySpeed_ < 16) displaySpeed_ *= 2;
+			break;
+		case OIS::KC_SYSRQ:
+			window_->writeContentsToTimestampedFile("screenshot", ".jpg");
+			break;
+		case OIS::KC_PAUSE:
+			pause_ = !pause_;
+			break;
+		}
+	case CONSOLE_ON:
+		console_->onKeyPressed(arg);
+		break;
+
+	}
+    if (arg.key == OIS::KC_ESCAPE)
+    {
+        return false;
+    }
+	else if (arg.key == OIS::KC_F1)
+	{
+		
+		if(console_->isVisible())
+		{
+			console_->setVisible(false);
+			state_ = GAME;
+		}
+		else
+		{
+			console_->setVisible(true);
+			state_ = CONSOLE_ON;
+		}
+		
+	}
+ 
+    return true;
+}
+
+//---------------------------------------------------------------------------
+bool FightScene::keyReleased(const OIS::KeyEvent &arg)
+{
+    cameraMan_->injectKeyUp(arg);
+    return true;
+}
+//---------------------------------------------------------------------------
+bool FightScene::mouseMoved(const OIS::MouseEvent &arg)
+{
+	switch(state_)
+	{
+	case CONSOLE_ON:
+		break;
+	case GAME:
+	default:
+		cameraMan_->injectMouseMove(arg);
+		break;
+	}
+    return true;
+}
+//---------------------------------------------------------------------------
+bool FightScene::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+{
+    cameraMan_->injectMouseDown(arg, id);
+    return true;
+}
+//---------------------------------------------------------------------------
+bool FightScene::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+{
+    cameraMan_->injectMouseUp(arg, id);
+    return true;
+}
+// ----------------------------------------------
+// ---------------- THE SUN ---------------------
+// ----------------------------------------------
+
+FightScene::Sun::Sun(FightScene* fs = nullptr)
+	: fs_(fs), sceneMgr_(fs->sceneMgr_),
+	offset_(fs_->fightManager_->getTerrain()->getDimension())
+{
+	//Entity and position
+	Vector3 initPos = Vector3(Real(ORBIT), 0.f, 500.f);
+	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos);
+
+	//Ambient light
+	sceneMgr_->setAmbientLight(Ogre::ColourValue(0.4f, 0.4f, 0.4f));
+	sceneMgr_->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+	
+	//SpotLight
+	light_ = sceneMgr_->createLight("SunLight");
+	light_->setDiffuseColour(0.95f, 0.85f, 0.95f);
+	light_->setSpecularColour(0.7f, 0.65f, 0.7f);
+
+	light_->setType(Light::LT_POINT);
+	light_->setDirection(Vector3::ZERO);
+	light_->setPosition(initPos);
+}
+
+FightScene::Sun::~Sun()
+{
+}
+
+void FightScene::Sun::update()
+{
+	Real dayRatio(fs_->fightManager_->getDayRatio());
+	Real cos = Math::Cos(Math::PI * dayRatio);
+	Real sin = Math::Sin(Math::PI * dayRatio);
+	node_->setPosition( cos * ORBIT + offset_.y, sin* ORBIT, offset_.x); 
+	light_->setPosition(node_->getPosition());
+	Real r(abs(2.f * dayRatio - 1.f) * .4f + .6f);
+	Real v(0.6f);
+	Real b(abs(2.f * dayRatio - 1.f) * (-.5f) + 1.5f);
+	Real s(abs(2.f * dayRatio - 1.f) * (-.3f) + 1.3f);
+	light_->setDiffuseColour(r * s, v * s, b * s);
+}
+
+// ----------------------------------------------
+// --------------- GAME ENTITY ------------------
+// ----------------------------------------------
+
+FightScene::GameEntity::GameEntity(FightScene* fs, const string& mesh,
+	const Ogre::Vector3& position, const int& scale, GameObject* object)
+	:	fs_(fs),
+	object_(object),
+	orientation_(0)
+{
+	entity_ = fs->sceneMgr_->createEntity(mesh); 
+
+	node_ = fs->sceneMgr_->getRootSceneNode()->createChildSceneNode();
+	node_->setPosition(position);
+	node_->setScale(scale, scale, scale);
+	node_->attachObject(entity_);
+	node_->pitch(Degree(-90));
+
+	animState_ = entity_->getAnimationState("IDLE");
+	animState_->setLoop(true);
+	animState_->setEnabled(true);
+}
+
+FightScene::GameEntity::~GameEntity()
+{
+}
+
+void FightScene::GameEntity::update(const FrameEvent& evt)
+{
+	node_->setPosition(object_->getPosition());
+
+	if(object_->getOrientation() != orientation_)
+	{
+		node_->roll(object_->getOrientation() - orientation_);
+		orientation_ = object_->getOrientation();
+	}
+
+	animState_->addTime(evt.timeSinceLastFrame);
+}
+
+// ----------------------------------------------
+// --------------- ROBOT ENTITY -----------------
+// ----------------------------------------------
+
+FightScene::RobotEntity::RobotEntity(FightScene* fs, const string& mesh,
+	const Ogre::Vector3& position, const int& scale, Robot* robot)
+	:	GameEntity(fs, mesh, position, scale, robot)
+{
+	
+	robot->setOrientation(Degree(0));
+	node_->roll(Degree(robot->getOrientation()));
+}
+
+FightScene::RobotEntity::~RobotEntity()
+{
+}
+
+void FightScene::RobotEntity::update(const FrameEvent& evt)
+{
+	Robot* robot = (Robot*)object_;
+	animState_ = entity_->getAnimationState(stateToString(robot->getState()));
+	GameEntity::update(evt);
+}
+
+string FightScene::RobotEntity::stateToString(const Robot::State& state) const
+{
+	switch(state){
+	case Robot::SHOOTING:
+		return "SHOOTING";
+	case Robot::IDLE:
+	default:
+		return "IDLE";
+	}
+}
+
+// ----------------------------------------------
+// --------------- CREATIONS --------------------
+// ----------------------------------------------
+
+void FightScene::createEntity(const string& mesh, const Vector3& position, const int& scale)
+{
+	//Add some configuration
+	objectEntities_.push_back(GameEntity(this, mesh, position, scale));
+}
+
+void FightScene::createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team, const Ogre::Vector3& position, const int& scale)
+{
+	string mesh;
+	switch(type){
+	case Robot::LAVE_LINGE:
+		mesh = "RobotLaveLinge.mesh";
+	default:
+		mesh = "RobotLaveLinge.mesh";
+
+	}
+	Robot* robot = new Robot(position, name, team);
+	robotsEntities_.push_back(RobotEntity(this, mesh, position, scale, robot));
+	fightManager_->addRobot(robot);
+}
+
+void FightScene::createRobots(void)
+{
+	std::list<Robot*> robots = fightManager_->getRobots();
+
+	for(std::list<Robot*>::iterator it = robots.begin(); it != robots.end() ; it++ )
+	{
+		int scale;
+		string mesh;
+		Robot::Type type = Robot::LAVE_LINGE;
+		switch(type)
+		{
+		case Robot::LAVE_LINGE:
+		default:
+			scale = 10;
+			mesh = "RobotLaveLinge.mesh";
+		}
+		robotsEntities_.push_back(RobotEntity(this, mesh, (*it)->getPosition(), scale, (*it)));
+	}
 }

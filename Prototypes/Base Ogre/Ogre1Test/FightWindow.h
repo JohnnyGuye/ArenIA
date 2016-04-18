@@ -94,48 +94,6 @@ protected:
 		COUNTDOWN
 	};
 	
-	class Sun
-	{
-	public:
-		/** Create a sun, be sure note te create two or more Suns, it will cause problems **/
-		Sun(FightWindow* fw);
-		virtual~Sun();
-		void update();
-	protected:
-		FightWindow* fw_;
-		Ogre::SceneNode* node_;
-		Ogre::SceneManager* sceneMgr_;
-		Ogre::Light* light_;
-
-		static const int ORBIT = 100 * Terrain::CELL_SIZE;
-		Ogre::Vector2 offset_;
-	};
-
-	class GameEntity
-	{
-	public:
-		GameEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale, GameObject * object = nullptr);
-		virtual~GameEntity();
-		virtual void update(const Ogre::FrameEvent& evt);
-	protected:
-		Ogre::SceneManager* sceneMgr_;
-		Ogre::Entity* entity_;
-		Ogre::Degree orientation_;
-		Ogre::SceneNode* node_;
-		GameObject* object_;
-		Ogre::AnimationState* animState_;
-	};
-
-	class RobotEntity : GameEntity
-	{
-	public:
-		RobotEntity(Ogre::SceneManager* sceneMgr, const std::string& mesh, const Ogre::Vector3& position, const int& scale, Robot* robot);
-		virtual~RobotEntity();
-		virtual void update(const	Ogre::FrameEvent& evt);
-		inline virtual std::string stateToString(const Robot::State& state) const;
-	protected:
-	};
-
 // ------------------------------------- FightWindow
 public:
     FightWindow(void);
@@ -144,10 +102,6 @@ public:
 	virtual void go(void);
 
 protected:
-
-	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const int& scale = 1);
-	virtual void createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team = Robot::NONE, const Ogre::Vector3& position = Ogre::Vector3::ZERO, const int& scale = 1);
-	virtual void createRobots(void);
 
 	virtual bool setup(void);
     virtual void createScene(void);
@@ -172,8 +126,6 @@ protected:
 
 	//------------------------------------------Ogre base
 	Ogre::Root*				root_;
-	Ogre::Camera*			camera_;
-	Ogre::SceneManager*		sceneMgr_;
 	Ogre::RenderWindow*		window_;
 	Ogre::String			resourcesCfg_;
 	Ogre::String			pluginsCfg_;
@@ -181,13 +133,9 @@ protected:
 
 	// Les cadres de debugs sont affichés par Overlays
 
-    Ogre::OverlaySystem*        overlaySystem_;	// TODO -> Go CEGUI as fast as possible
 	Gorilla::Silverback*		silverback_;
     // OgreBites
     OgreBites::InputContext     inputContext_;
-    OgreBites::SdkTrayManager*	trayMgr_;
-    OgreBites::SdkCameraMan*    cameraMan_;     	// Basic camera controller
-    OgreBites::ParamsPanel*     detailsPanel_;   	// Sample details panel
     bool                        cursorWasVisible_;	// Was cursor visible before dialog appeared?
     bool                        shutDown_;
 
@@ -206,23 +154,8 @@ protected:
 	//----------------------------------------Game engine
 	typedef std::map<std::string, Scene*>	SceneMap;
 	typedef std::pair<std::string, Scene*>		ScenePair;
-	SceneMap			sceneMap_;	
-	FightManager*		fightManager_;	// The logic of the game 
-
-	std::vector<Ogre::Entity*>	DecorEntities_; // The entities corresponding to the scenery 
-	std::list<RobotEntity>		robotsEntities_; // The robots to carry 
-	std::list<GameEntity>		objectEntities_;	// The other objects to carry
-	Sun*						theSun_;// The sun
-
-	RenderState		state_;
-	bool			pause_;
-	OgreBites::ParamsPanel*		fightPanel_;
-	GUIConsole*		console_;
-	GUIDecompte*	decompte_;
-	double			displaySpeed_;
-	Ogre::Real		lag_;
-
-	
+	SceneMap			sceneMap_;
+	Scene*				activScene_;
 };
 
 //---------------------------------------------------------------------------

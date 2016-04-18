@@ -1,25 +1,22 @@
 #pragma once
 
 #include <OGRE\Ogre.h>
-#include "Gorilla.h"
+#include "GUIElement.h"
 
 class GUIShowLogo
+	: public GUIElement
 {
 public:
 
-	GUIShowLogo(Ogre::Viewport* vp)
-		: timer_(0),
+	GUIShowLogo(Ogre::Viewport* vp, const Ogre::String &atlas)
+		: GUIElement(vp, atlas),
+		timer_(0),
 		asChanged_(false),
 		idx_(0)
 	{
-		silverback_ = Gorilla::Silverback::getSingletonPtr();
-		silverback_->loadAtlas("dec_all");
-		
-		screen_ = silverback_->createScreen(vp, "dec_all");
-
 		Ogre::Real		width = vp->getWidth(),
 			height = vp->getHeight();
-		layerImg_ = screen_->createLayer(1);
+		layerImg_ = screen_->createLayer(0);
 		rect_ = layerImg_->createRectangle(0, 0, width, height);
 		logos_.push_back("logo_ArenIA");
 	}
@@ -67,10 +64,7 @@ protected:
 
 	std::vector<std::string> logos_;
 
-	Gorilla::Silverback*	silverback_;
-	Gorilla::Screen*		screen_;
 	Gorilla::Layer*			layerImg_;
-	Gorilla::Layer*			layerDark_;
 	Gorilla::Rectangle*		rect_;
 
 	Ogre::Real	timer_;
