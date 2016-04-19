@@ -10,6 +10,7 @@
 
 
 #include "GameEvent.h"
+#include "RobotKillEvent.h"
 #include "GameObject.h"
 #include "Stats.h"
 #include "Ability.h"
