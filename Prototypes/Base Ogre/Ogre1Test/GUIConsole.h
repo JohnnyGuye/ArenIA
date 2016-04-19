@@ -11,11 +11,11 @@ public:
 
 	GUIConsole(Ogre::Viewport* vP)
 	{
-		mGorilla = Gorilla::Silverback::getSingletonPtr();
-		mGorilla->loadAtlas("dejavu");
-		mScreen = mGorilla->createScreen(vP, "dejavu");
+		silverback_ = Gorilla::Silverback::getSingletonPtr();
+		silverback_->loadAtlas("dejavu");
+		mScreen = silverback_->createScreen(vP, "dejavu");
    
-		mFPSLayer = mScreen->createLayer(14);
+		mFPSLayer = mScreen->createLayer(0);
 		mFPS = mFPSLayer->createCaption(14, 10,10, Ogre::StringUtil::BLANK);
 
 		mConsole = new OgreConsole();
@@ -40,12 +40,12 @@ public:
 
 	virtual ~GUIConsole(void)
 	{
-		delete mGorilla;
+		silverback_->destroyScreen(mScreen);
 	}
 
 protected:
 
-	Gorilla::Silverback*    mGorilla;
+	Gorilla::Silverback*    silverback_;
 	Gorilla::Screen*        mScreen;
 	OgreConsole*            mConsole;
 	

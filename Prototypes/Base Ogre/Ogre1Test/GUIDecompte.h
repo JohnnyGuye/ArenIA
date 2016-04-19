@@ -1,32 +1,32 @@
 #pragma once
 
-#include <OGRE/Ogre.h>
-
-#include "Gorilla.h"
+#include "GUIElement.h"
 
 class GUIDecompte
+	: public GUIElement
 {
 public:
 
-	inline GUIDecompte(Ogre::Viewport* vP)
-		: timer_(0)
+	inline GUIDecompte(Ogre::Viewport* vp, const Ogre::String &atlas)
+		: GUIElement(vp, atlas),
+		timer_(0)
 	{
-		mSilverback = Gorilla::Silverback::getSingletonPtr();
-		mSilverback->loadAtlas("dec_all");
-		mScreen = mSilverback->createScreen(vP, "dec_all");
-		Ogre::Real vpW = mScreen->getWidth(), vpH = mScreen->getHeight();
+		Ogre::Real vpW = screen_->getWidth(), 
+			vpH = screen_->getHeight();
 
-		mLayer = mScreen->createLayer(0);
-		rect = mLayer->createRectangle(0,0, vpW / 8, vpW / 8);
+		layer_ = screen_->createLayer(0);
+		rect = layer_->createRectangle(0,0, vpW / 4, vpH / 4);
 
-		rect->position(-1000, -1000);
+		rect->position(-vpW, -vpH);
+
 	}
 
 	inline virtual bool frameRenderingQueue(const Ogre::FrameEvent& evt)
 	{
 		timer_ += evt.timeSinceLastFrame;
 
-		Ogre::Real vpW = mScreen->getWidth(), vpH = mScreen->getHeight();
+		Ogre::Real vpW = screen_->getWidth(), 
+			vpH = screen_->getHeight();
 			if(timer_ < 1)
 			{
 				rect->background_image("dec_3");
@@ -44,9 +44,10 @@ public:
 				rect->background_image("dec_start");
 			}
 
-			rect->position(vpW * 7 / 16, vpH * 7 / 16);
+			rect->position(vpW * 3 / 8, vpH * 3 / 8);
 			if(timer_ > 4)
 			{
+				layer_->setAlphaModifier(0);
 				rect->no_background();
 				return false;
 			}
@@ -58,11 +59,10 @@ public:
 	}
 
 protected:
-	Ogre::Real			timer_;
-	Gorilla::Silverback*    mSilverback;
-	Gorilla::Screen*        mScreen;
-	Gorilla::Layer*         mLayer;
+	Ogre::Real				timer_;
+
+	Gorilla::Layer*         layer_;
 	Gorilla::Rectangle*     rect;
-	Gorilla::MarkupText*     markup;
+	Gorilla::MarkupText*    markup;
 };
 

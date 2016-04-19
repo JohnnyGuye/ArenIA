@@ -61,6 +61,12 @@
     <Filter Include="Fichiers d%27en-tête\Lua">
       <UniqueIdentifier>{54f4a14d-2c21-4781-bf73-cd13b03ceb81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Scenes">
+      <UniqueIdentifier>{7f172c24-086b-4b31-aaff-882f6150f4e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Scenes">
+      <UniqueIdentifier>{44511ee5-4db2-4d54-8b94-2da1a612c010}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -92,9 +98,6 @@
     </ClCompile>
     <ClCompile Include="Stats.cpp">
       <Filter>Fichiers sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseFightWindow.cpp">
-      <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="FightWindow.cpp">
       <Filter>Fichiers sources</Filter>
@@ -131,6 +134,21 @@
     </ClCompile>
     <ClCompile Include="LuaHandler.cpp">
       <Filter>Fichiers sources\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIElement.cpp">
+      <Filter>Fichiers sources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="FightScene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="LogoScene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIShowLogo.cpp">
+      <Filter>Fichiers sources\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,9 +200,6 @@
     <ClInclude Include="Gauge.h">
       <Filter>Fichiers d%27en-tête\Util</Filter>
     </ClInclude>
-    <ClInclude Include="BaseFightWindow.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="FightWindow.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -233,14 +248,29 @@
     <ClInclude Include="Gorilla.h">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="GUIDecompte.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="RobotLuaBinding.h">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
     <ClInclude Include="LuaHandler.h">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIElement.h">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIDecompte.h">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIShowLogo.h">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="FightScene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="LogoScene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
