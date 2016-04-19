@@ -145,7 +145,7 @@ Vector3 Robot::getTurretOrientationVect() const
 
 double Robot::getSpeed() const
 {
-    return stats_.getSpeed() + additionalStats_.getSpeed();
+    return stats_.speed_ + additionalStats_.speed_;
 }
 
 Robot::Team Robot::getTeam() const
@@ -168,28 +168,28 @@ Ability* Robot::getTurretAbility() const
 	return turret_;
 }
 
-/* State altering method */
+/* Stats altering method */
 GameEvent Robot::takeDamage(double damage)
 //Algorithm : the damage is first taken in the additional health gauge
 //The Robot dies if the base gauge is depleted
 {
     //Step 1 : Apply the damage
-    if( additionalStats_.getHp() >= damage )
+    if( additionalStats_.hp_.getFilledAbsolute() >= damage )
     {
-        additionalStats_.setHp( additionalStats_.getHp() - damage );
+        additionalStats_.hp_.setCurrent( additionalStats_.hp_.getCurrent() - damage );
     }
-    else if ( additionalStats_.getHp() > additionalStats_.getMinHp() )
+    else if ( additionalStats_.hp_.getFilledAbsolute() > 0 )
     {
-        double damageBaseGauge = damage - additionalStats_.getHp();
-        additionalStats_.setHp( additionalStats_.getHp() - damage );
-        stats_.setHp( stats_.getHp() - damageBaseGauge )
+        double damageBaseGauge = damage - hp_.getFilledAbsolute();
+        additionalStats_.hp_.setCurrent( additionalStats_.hp_.getCurrent() - damage );
+        stats_.hp_.setCurrent( stats_.hp_.getCurrent() - damageBaseGauge )
     }
     else
     {
-        stats_.setHp( stats_.getHp() - damage )
+        stats_.setCurrent( stats_.hp_.getCurrent() - damage )
     }
     //Step 2 : Check for the robot death
-    if ( stats_.getHp() == stats_.getMinHp() )
+    if ( stats_.hp_.getFilledAbsolute() == 0 )
     {
         RobotKillEvent killEvent(this.id , -1, GameTime() );
         return killEvent;
