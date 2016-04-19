@@ -6,11 +6,12 @@ Scene::Scene(Ogre::RenderWindow* window, Ogre::Root* root)
 	root_(root),
 	sceneMgr_(nullptr)
 {
+	silverback_ = Gorilla::Silverback::getSingletonPtr();
 }
 
 Scene::~Scene(void)
 {
-	if(sceneMgr_)	root_->destroySceneManager(sceneMgr_);
+	//if(sceneMgr_)	root_->destroySceneManager(sceneMgr_);
 }
 
 Ogre::SceneManager* Scene::getSceneManager(void) const

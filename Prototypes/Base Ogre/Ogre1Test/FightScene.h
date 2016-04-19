@@ -72,6 +72,8 @@ public:
 
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
+	virtual Scenes nextScene() const;
+
 	virtual bool keyPressed(const OIS::KeyEvent &arg);
 	virtual bool keyReleased(const OIS::KeyEvent &arg);
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
@@ -97,7 +99,6 @@ protected:
 	Ogre::Camera*	camera_;
 	OgreBites::SdkCameraMan*		cameraMan_;
 
-	Gorilla::Silverback*	silverback_;
 	GUIConsole*		console_;
 	GUIDecompte*	decompte_;
 	double			displaySpeed_;

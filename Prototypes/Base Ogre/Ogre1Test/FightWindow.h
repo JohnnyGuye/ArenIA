@@ -104,12 +104,11 @@ public:
 protected:
 
 	virtual bool setup(void);
-    virtual void createScene(void);
 	virtual void createFrameListener(void);
-	virtual void createViews(void);
 	virtual void setupResources(void);
-	virtual void destroyScene(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+	virtual void changeScene();
 
 	// Handler sur le clavier/souris
 	virtual bool keyPressed(const OIS::KeyEvent &arg);
@@ -117,6 +116,9 @@ protected:
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
     virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+	static bool isShift();
+	static bool isAlt();
+	static bool isCtrl();
 
 	 // Adjust mouse clipping area
     virtual void windowResized(Ogre::RenderWindow* rw);
@@ -143,6 +145,12 @@ protected:
     OIS::InputManager*          inputManager_;
     OIS::Mouse*                 mouse_;
     OIS::Keyboard*              keyboard_;
+
+	static bool					alt_;
+	static bool					lctrl_;
+	static bool					rctrl_;
+	static bool					lshift_;
+	static bool					rshift_;
 
     // Added for Mac compatibility
     Ogre::String                 m_ResourcePath;	//Est-ce qu'on le garde vraiment ? Je suis raciste

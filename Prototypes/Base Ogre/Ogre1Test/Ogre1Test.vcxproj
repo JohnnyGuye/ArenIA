@@ -79,13 +79,14 @@
     <ClCompile Include="EndOfDayVictory.cpp" />
     <ClCompile Include="ExceptionArenIA.cpp" />
     <ClCompile Include="FightManager.cpp" />
-    <ClCompile Include="BaseFightWindow.cpp" />
     <ClCompile Include="FightScene.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Gorilla.cpp" />
     <ClCompile Include="GUIElement.cpp" />
+    <ClCompile Include="GUIShowLogo.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="LogoScene.cpp" />
     <ClCompile Include="LuaHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Missile.cpp" />
@@ -107,7 +108,6 @@
     <ClInclude Include="EndOfDayVictory.h" />
     <ClInclude Include="ExceptionArenIA.h" />
     <ClInclude Include="FightManager.h" />
-    <ClInclude Include="BaseFightWindow.h" />
     <ClInclude Include="FightScene.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameObject.h" />
@@ -125,6 +125,7 @@
     <ClInclude Include="HitboxSphere.h" />
     <ClInclude Include="HitboxVoid.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="LogoScene.h" />
     <ClInclude Include="LuaHandler.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="OgreConsoleForGorilla.h" />

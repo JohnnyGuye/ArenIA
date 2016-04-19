@@ -2,8 +2,6 @@
 
 #include "GUIElement.h"
 
-#include "Gorilla.h"
-
 class GUIDecompte
 	: public GUIElement
 {
@@ -49,6 +47,7 @@ public:
 			rect->position(vpW * 3 / 8, vpH * 3 / 8);
 			if(timer_ > 4)
 			{
+				layer_->setAlphaModifier(0);
 				rect->no_background();
 				return false;
 			}

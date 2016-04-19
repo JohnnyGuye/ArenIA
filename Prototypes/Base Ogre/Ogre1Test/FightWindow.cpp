@@ -2,6 +2,8 @@
 
 
 #include <cstdlib>
+#include "FightScene.h"
+#include "LogoScene.h"
 
 using namespace Ogre;
 using namespace std;
@@ -9,6 +11,11 @@ using namespace std;
 // ------------------------------------------------------------
 // ------------ THE FIGHT WINDOW ------------------------------
 // ------------------------------------------------------------
+bool FightWindow::alt_(false);
+bool FightWindow::lctrl_(false);
+bool FightWindow::rctrl_(false);
+bool FightWindow::lshift_(false);
+bool FightWindow::rshift_(false);
 
 FightWindow::FightWindow(void)
 	:  root_(0),
@@ -33,7 +40,7 @@ FightWindow::~FightWindow(void)
 		if(it->second)	delete it->second;
 	}
 }
-
+//---------------------------------------------------------------------------
 void FightWindow::go(void)
 {
 #ifdef _DEBUG
@@ -58,11 +65,8 @@ void FightWindow::go(void)
         return;
 
     root_->startRendering();
-
-    // Clean up
-    destroyScene();
 }
-
+//---------------------------------------------------------------------------
 bool FightWindow::setup(void)
 {
     root_ = new Ogre::Root(pluginsCfg_);
@@ -76,6 +80,7 @@ bool FightWindow::setup(void)
 
 	window_ = root_->initialise(true, "ArenIA");
 
+	sceneMap_.insert(ScenePair("Logos", new LogoScene(window_, root_)));
 	sceneMap_.insert(ScenePair("Fight", new FightScene(window_, root_)));
 
     // Set default mipmap level (NB some APIs ignore this)
@@ -87,21 +92,14 @@ bool FightWindow::setup(void)
 	
 	FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");
 	fightScene->initFightManager("big_map_test.txt");
+	
 	activScene_->launch();
 
     createFrameListener();
 
     return true;
 };
-
-void FightWindow::destroyScene(void)
-{
-}
-
-void FightWindow::createViews()
-{
-}
-
+//---------------------------------------------------------------------------
 void FightWindow::setupResources(void)
 {
 
@@ -136,11 +134,7 @@ void FightWindow::setupResources(void)
         }
     }
 }
-
-void FightWindow::createScene(void)
-{
-}
-
+//---------------------------------------------------------------------------
 void FightWindow::createFrameListener(void)
 {
 	LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
@@ -168,7 +162,26 @@ void FightWindow::createFrameListener(void)
 
 	root_->addFrameListener(this);
 }
-
+//---------------------------------------------------------------------------
+void FightWindow::changeScene()
+{
+	Scene::Scenes nextScene = activScene_->nextScene();
+	switch(nextScene)
+	{
+	case Scene::EXIT:
+		shutDown_ = true;
+	case Scene::FIGHT:
+	default:
+		activScene_ = sceneMap_.at("Fight");
+		break;
+	}
+	if(!shutDown_)
+	{
+		activScene_->loadResources();
+		activScene_->launch();
+	}
+}
+//---------------------------------------------------------------------------
 bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	//Not really the game
@@ -182,13 +195,30 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
     keyboard_->capture();
     mouse_->capture();
 
-	activScene_->frameRenderingQueued(evt);
+	if(!activScene_->frameRenderingQueued(evt))
+	{
+		std::cout << "STOP RENDERING ME !" << std::endl;
+		changeScene();
+	}
 
     return true;
 }
-//------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 {
+	switch(arg.key)
+	{
+	case OIS::KC_LSHIFT:	lshift_ = true; break;
+	case OIS::KC_RSHIFT:	rshift_ = true; break;
+	case OIS::KC_LCONTROL:	lctrl_ = true;	break;
+	case OIS::KC_RCONTROL:	rctrl_ = true;	break;
+	case OIS::KC_LMENU:		alt_ = true;	break;
+	case OIS::KC_F12:
+		shutDown_ = isAlt();	
+		break;
+	default:
+		break;
+	}
 	if(!activScene_->keyPressed(arg))
 		shutDown_ = true;
     return true;
@@ -196,6 +226,19 @@ bool FightWindow::keyPressed( const OIS::KeyEvent& arg)
 //---------------------------------------------------------------------------
 bool FightWindow::keyReleased(const OIS::KeyEvent &arg)
 {
+	switch(arg.key)
+	{
+	case OIS::KC_LSHIFT:	lshift_ = false; break;
+	case OIS::KC_RSHIFT:	rshift_ = false; break;
+	case OIS::KC_LCONTROL:	lctrl_ = false;	break;
+	case OIS::KC_RCONTROL:	rctrl_ = false;	break;
+	case OIS::KC_LMENU:		alt_ = false;	break;
+	case OIS::KC_F12:
+		shutDown_ = isAlt();	
+		break;
+	default:
+		break;
+	}
     activScene_->keyReleased(arg);
     return true;
 }
@@ -217,6 +260,10 @@ bool FightWindow::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID i
     activScene_->mouseReleased(arg, id);
     return true;
 }
+//---------------------------------------------------------------------------
+bool FightWindow::isShift()	{	return (lshift_ | rshift_);	}
+bool FightWindow::isAlt()	{	return alt_;	}
+bool FightWindow::isCtrl()	{	return (lctrl_ | rctrl_);	}
 //---------------------------------------------------------------------------
 // Adjust mouse clipping area
 void FightWindow::windowResized(Ogre::RenderWindow* rw)

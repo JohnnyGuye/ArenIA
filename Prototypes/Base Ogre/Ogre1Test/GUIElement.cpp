@@ -2,6 +2,8 @@
 #include "ExceptionArenIA.h"
 #include <OGRE\OgreLogManager.h>
 
+#pragma warning(disable : 4355)
+
 GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
 	: root_(this),
 	parent_(this),
@@ -64,7 +66,7 @@ GUIElement* GUIElement::addChild(GUIElement* elmnt)
 	return elmnt;
 }
 
-bool GUIElement::frameRenderingQueue(const Ogre::FrameEvent& evt)
+bool GUIElement::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	return true;
 }

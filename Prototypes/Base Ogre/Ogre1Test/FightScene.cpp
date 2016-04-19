@@ -11,30 +11,42 @@ FightScene::FightScene(Ogre::RenderWindow* window, Ogre::Root* root)
 	pause_(true),
 	console_(nullptr),
 	decompte_(nullptr),
+	cameraMan_(nullptr),
 	lag_(0),
 	displaySpeed_(1)
 {
 	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
-	silverback_ = Gorilla::Silverback::getSingletonPtr();
 }
 
 
 FightScene::~FightScene(void)
 {
 	if(fightManager_) delete fightManager_;
-	if(theSun_)	delete theSun_;
-}
-
-bool FightScene::loadResources(void)
-{
-	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
-	return true;
+	if(theSun_)		delete theSun_;
+	if(console_)	delete console_;
+	if(decompte_)	delete decompte_;
+	for(unsigned int i = 0; i < DecorEntities_.size(); i++)
+	{
+		delete DecorEntities_[i];
+	}
+	if(cameraMan_)	delete cameraMan_;
 }
 
 bool FightScene::initFightManager(const std::string& map)
 {
 	if(fightManager_)	return false;
 	fightManager_ = new FightManager(map);
+	return true;
+}
+
+Scene::Scenes FightScene::nextScene() const
+{
+	return EXIT;
+}
+
+bool FightScene::loadResources(void)
+{
+	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
 	return true;
 }
 
@@ -47,10 +59,20 @@ bool FightScene::launch(void)
 	camera_->lookAt(Ogre::Vector3(0, 0, 0));
 	camera_->setNearClipDistance(5);
 	cameraMan_ = new OgreBites::SdkCameraMan(camera_);
+	cameraMan_->setTopSpeed(Real(2000));
 
 	LogManager::getSingletonPtr()->logMessage("*** Viewports ***");
 	//Viewports
-	Ogre::Viewport* vp = window_->addViewport(camera_);
+	Ogre::Viewport* vp;
+	try
+	{
+		vp = window_->getViewportByZOrder(0);
+		window_->removeViewport(0);
+	}
+	catch(Ogre::Exception e)
+	{
+	}
+	vp = window_->addViewport(camera_);
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
 
 	decompte_ = new GUIDecompte(vp, "dec_all");
@@ -173,6 +195,7 @@ void FightScene::createScene(void)
 
 bool FightScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+	cameraMan_->frameRenderingQueued(evt);
 	if(state_ == COUNTDOWN)	
 	{	
 		if(!decompte_->frameRenderingQueue(evt))
@@ -191,7 +214,6 @@ bool FightScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 			fightManager_->update();
 		}
 	
-
 		/* RENDERING */
 		theSun_->update();
 
@@ -269,16 +291,18 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
     }
 	else if (arg.key == OIS::KC_F1)
 	{
-		
-		if(console_->isVisible())
+		if(state_ != COUNTDOWN)
 		{
-			console_->setVisible(false);
-			state_ = GAME;
-		}
-		else
-		{
-			console_->setVisible(true);
-			state_ = CONSOLE_ON;
+			if(console_->isVisible())
+			{
+				console_->setVisible(false);
+				state_ = GAME;
+			}
+			else
+			{
+				console_->setVisible(true);
+				state_ = CONSOLE_ON;
+			}
 		}
 		
 	}

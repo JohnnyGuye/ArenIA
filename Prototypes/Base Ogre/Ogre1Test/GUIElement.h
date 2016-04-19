@@ -22,7 +22,7 @@ public:
 	/// Update the graphics of the GUIElement
 	/// @param evt used for time between frames
 	/// @return true if updated
-	virtual bool frameRenderingQueue(const Ogre::FrameEvent& evt);
+	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 protected:
 	GUIElement*					root_;

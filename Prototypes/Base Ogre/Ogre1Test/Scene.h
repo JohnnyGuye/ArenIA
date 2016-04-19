@@ -4,16 +4,24 @@
 #include <OIS\OISEvents.h>
 #include <OIS\OISKeyboard.h>
 #include <OIS\OISMouse.h>
+#include "Gorilla.h"
 
 class Scene
 {
 public:
+
+	enum Scenes {
+		LOGO,
+		FIGHT,
+		EXIT
+	};
 	Scene(Ogre::RenderWindow* window, Ogre::Root* root);
 	virtual ~Scene(void);
 
 	virtual bool loadResources(void) = 0;
 	virtual bool launch(void) = 0;
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
+	virtual Scenes nextScene() const = 0;
 
 	virtual bool keyPressed(const OIS::KeyEvent &arg) = 0;
 	virtual bool keyReleased(const OIS::KeyEvent &arg) = 0;
@@ -24,10 +32,9 @@ public:
 	Ogre::SceneManager*		getSceneManager(void) const;
 
 protected:
-	virtual void createScene() = 0;
-protected:
 	Ogre::RenderWindow*		window_;
 	Ogre::Root*				root_;
-	Ogre::SceneManager*		sceneMgr_;		
+	Ogre::SceneManager*		sceneMgr_;
+	Gorilla::Silverback*	silverback_;
 };
 
