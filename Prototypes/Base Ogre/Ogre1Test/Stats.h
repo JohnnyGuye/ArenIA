@@ -41,7 +41,7 @@ public:
 	* @param resistance wished resistance
 	* @param speed wished speed
 	*/
-    Stats (Gauge energy = Gauge(), Gauge hp = Gauge(), double visionAngle = 60, 
+    Stats (Gauge energy = Gauge(), Gauge hp = Gauge(), double visionAngle = 60,
 			int range = 300, int resistance = 0, double speed = 1.0);
 
 
@@ -71,6 +71,13 @@ public:
 	*/
 	int getMaxEnergy() const;
 
+	/**
+	* Minimum energy getter
+	* Returns the minimum energy of the robot
+	* @return energy_.min
+	*/
+	int getMinEnergy() const;
+
 	 /**
 	* Energy modifier getter
 	* Returns the current energy modifier of the robot
@@ -94,6 +101,12 @@ public:
 	*/
 	int getMaxHp() const;
 
+    /**
+	* Minimum health points getter
+	* Returns the minimum health points of the robot
+	* @return hp_.min
+	*/
+	int getMinHp() const;
 
 	/**
 	* Health points modifier getter
@@ -225,7 +238,7 @@ protected:
 public:
 
 	static const Stats STAT_ZERO;
-	//Gauge energy = Gauge(), Gauge hp = Gauge(), double visionAngle = 60, 
+	//Gauge energy = Gauge(), Gauge hp = Gauge(), double visionAngle = 60,
 	//		int range = 300, int resistance = 0, double speed = 1.0
 
 //----------------------------------------------------------------- PROTECTED

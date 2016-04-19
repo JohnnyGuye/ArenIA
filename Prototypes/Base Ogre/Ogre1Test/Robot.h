@@ -9,7 +9,7 @@
 */
 
 
-
+#include "GameEvent.h"
 #include "GameObject.h"
 #include "Stats.h"
 #include "Ability.h"
@@ -51,7 +51,7 @@ public:
 //public methods
 public:
 
-	/** @brief Create a new robot 
+	/** @brief Create a new robot
 	*	@param position the initial position of the robot
 	*	@param the name of the robot **/
     Robot(Ogre::Vector3 position = Ogre::Vector3::ZERO, std::string name = "", Team team = NONE);
@@ -61,6 +61,11 @@ public:
 
     /** @brief  Reset the action state of the Robot to IDLE**/
     virtual bool Robot::resetAction();
+
+    /** @brief Damages the Robot
+        @param damage : the damages the robot took. Always higher than 0
+        @return ROBOT_KILL if the damage killed the robot, STANDARD_EVENT otherwise**/
+    virtual GameEvent takeDamage(double damage);
 
 	/** @brief Update the robot using the lua file **/
 	virtual void update();
@@ -138,7 +143,9 @@ public:
 
 //attributes
 protected:
-
+    /**The robot Id, generated for now by a static count**/
+    static int robot_count=0;
+    int id;
     /** The teams to which the Robot Belongs **/
     Team team_;
 

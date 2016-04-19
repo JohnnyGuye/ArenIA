@@ -81,7 +81,7 @@ Stats & Stats::operator-=(Stats & otherStats)
 
 //-------------------------------------------- Constructors - destructor
 Stats::Stats ( const Stats & otherStats )
-	: 
+	:
 	energy_(otherStats.energy_),
 	hp_(otherStats.hp_),
 	visionAngle_(otherStats.visionAngle_),
@@ -131,6 +131,16 @@ int Stats::getMaxEnergy() const
 int Stats::getMaxHp() const
 {
 	return hp_.getMax();
+}
+
+int Stats::getMinEnergy() const
+{
+    return energy_.getMin();
+}
+
+int Stats::getMinHp() const
+{
+    return hp_.getMin();
 }
 
 int Stats::getMaxVisionAngle() const

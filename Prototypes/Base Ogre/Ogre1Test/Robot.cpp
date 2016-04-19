@@ -17,6 +17,7 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
 	action_(IDLE),
 	iaFilename_("EMPTY")
+	id = robot_count++;
 {
 	setTurretOrientation();
 	luaCode = new LuaHandler();
@@ -30,7 +31,7 @@ Robot::~Robot()
 bool Robot::resetAction()
 {
     action_ = Robot::IDLE;
-    return true; 
+    return true;
 }
 
 Vector3 Robot::getNextPosition() const
@@ -165,4 +166,38 @@ std::vector<Ability*> Robot::getAbilities() const
 Ability* Robot::getTurretAbility() const
 {
 	return turret_;
+}
+
+/* State altering method */
+GameEvent Robot::takeDamage(double damage)
+//Algorithm : the damage is first taken in the additional health gauge
+//The Robot dies if the base gauge is depleted
+{
+    //Step 1 : Apply the damage
+    if( additionalStats_.getHp() >= damage )
+    {
+        additionalStats_.setHp( additionalStats_.getHp() - damage );
+    }
+    else if ( additionalStats_.getHp() > additionalStats_.getMinHp() )
+    {
+        double damageBaseGauge = damage - additionalStats_.getHp();
+        additionalStats_.setHp( additionalStats_.getHp() - damage );
+        stats_.setHp( stats_.getHp() - damageBaseGauge )
+    }
+    else
+    {
+        stats_.setHp( stats_.getHp() - damage )
+    }
+    //Step 2 : Check for the robot death
+    if ( stats_.getHp() == stats_.getMinHp() )
+    {
+        RobotKillEvent killEvent(this.id , -1, GameTime() );
+        return killEvent;
+    }
+    else//could end up as a ROBOT_HIT event
+    {
+        GameEvent g;
+        return g;
+    }
+
 }
