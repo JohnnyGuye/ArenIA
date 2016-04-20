@@ -27,14 +27,14 @@ bool GameObject::isSnared() const
 	return snare_;
 }
 
-bool GameObject::isImmortal() const
+bool GameObject::isInvincible() const
 {
-	return immortal_;
+	return invincible_;
 }
 
 bool GameObject::isInStase() const
 {
-	return (impotent_ && snare_ && immortal_);
+	return (impotent_ && snare_ && invincible_);
 }
 
 //Getters
@@ -64,7 +64,7 @@ string GameObject::getName() const
 void GameObject::setStatus(const int flag)
 {
 	snare_		= ((flag & SNARE) == 1);
-	immortal_	= ((flag & IMMORTAL) == 1);
+	invincible_	= ((flag & INVINCIBLE) == 1);
 	impotent_	= ((flag & IMPOTENT) == 1);
 }
 

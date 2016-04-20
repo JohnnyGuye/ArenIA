@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameTime.h"
+#include <ostream>
 
 /*
 * This source file is a part of the 
@@ -61,7 +62,7 @@ public:
 		return timer_;
 	}
 
-	inline friend std::ostream& operator<<( std::ostream &lhs, const GameEvent& rhs)
+	inline friend std::ostream& operator<<( std::ostream& lhs, const GameEvent& rhs)
 	{
 		lhs << rhs.getTime().getRound() << " - ";
 		lhs << "Standard";

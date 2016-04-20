@@ -1,0 +1,109 @@
+#include "HUD.h"
+
+using namespace Gorilla;
+using namespace Ogre;
+
+HUD::HUD(Viewport* vp, FightManager* fm)
+	: GUIElement(vp, "HUD"),
+	fightManager_(fm)
+{
+	Ogre::Real width = screen_->getWidth(),
+		height = screen_->getHeight();
+
+	layerHUD_ = screen_->createLayer(10);
+	layerIco_ = screen_->createLayer(9);
+	layerInf_ = screen_->createLayer(11);
+	layerHUD_->show();
+	layerIco_->show();
+	layerInf_->show();
+}
+
+HUD::~HUD(void)
+{
+	for(unsigned int i = 0; i < infRobots_.size() ; i++)
+	{
+		delete infRobots_[i];
+	}
+}
+
+void HUD::init(void)
+{
+	float hudScale = 0.070f;
+	Vector2 hudPosition(0.005f, 0.03f);
+	float dist = 0.010f;
+	Vector2 hudRatio (2.855f, 1);
+	Vector2 icoPosition(0.005f, 0.03f);
+	Vector2 namePos(0.100f, 0.03f);
+	Vector2 infPos(0.080f, 0.060f);
+
+	Ogre::Real width = screen_->getWidth(),
+		height = screen_->getHeight();
+
+	std::list<Robot*> robots = fightManager_->getRobots();
+
+	int i = 0;
+	for(std::list<Robot*>::iterator it = robots.begin(); it!= robots.end(); it++)
+	{
+		Robot* robot = (*it);
+		RobotInf* ri = new RobotInf();
+		ri->robot_ = robot;
+
+		ri->bloc_ = layerHUD_->createRectangle(hudPosition * width, hudRatio * width * hudScale);
+		ri->bloc_->background_image("robothud");
+		ri->bloc_->top(ri->bloc_->top() + i * (hudScale + dist) * width);
+
+		ri->ico_ = layerIco_->createRectangle(icoPosition * width, Vector2(1,1) * width * hudScale);
+		ri->ico_->background_image("ico_lavelinge");
+
+		ri->ico_->top(ri->ico_->top() + i * (hudScale + dist) * width);
+
+		ri->name_ = layerInf_->createCaption(14, 
+			namePos.x * width, 
+			(namePos.y + i * (hudScale + dist)) * width, 
+			robot->getName());
+
+		std::stringstream so;
+		std::stringstream ss;
+		ss << robot->getSpeed();
+		ri->speed_ = layerInf_->createCaption(9, 
+			infPos.x * width, 
+			(infPos.y + i * (hudScale + dist)) * width, 
+			ss.str());
+
+		so << robot->getOrientation().valueDegrees() << "'";
+		ri->orientation_ = layerInf_->createCaption(9, 
+			infPos.x * width, 
+			(infPos.y + dist + i * (hudScale + dist)) * width, 
+			so.str());
+
+		infRobots_.push_back(ri);
+		i++;
+	}
+
+	
+}
+
+bool HUD::frameRenderingQueued(FrameEvent const& evt)
+{
+	for(std::vector<RobotInf*>::iterator it = infRobots_.begin(); it != infRobots_.end();it++)
+	{
+		std::stringstream so;
+		std::stringstream ss;
+		so << (*it)->robot_->getOrientation().valueDegrees() << "'";
+		(*it)->orientation_->text(so.str());
+
+		ss.flush();
+		ss << (*it)->robot_->getSpeed();
+		(*it)->speed_->text(ss.str());
+	}
+	return true;
+}
+
+HUD::RobotInf::RobotInf(void)
+	: bloc_(nullptr)
+{
+}
+
+HUD::RobotInf::~RobotInf(void)
+{
+}

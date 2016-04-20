@@ -12,34 +12,23 @@
 using namespace std;
 
 //----------------------------------------------------------------- PUBLIC
+const Stats Stats::STAT_ZERO(Gauge(), Gauge(), 60.f, 300, 0, 1.0f);
 
 //------------------------------------------------- Operators overload
 Stats & Stats::operator+=(Stats & otherStats)
 {
+	energy+=otherStats.energy;
+	energy.setModifier(energy.getModifier() + otherStats.energy.getModifier());
 
-	double newEnergy = this->getEnergy() + otherStats.getEnergy();
-	this->setEnergy( newEnergy );
+	hp+=otherStats.hp;
+	hp.setModifier(hp.getModifier() + otherStats.hp.getModifier());
 
-	double newEnergyModifier = this->getEnergyModifier() + otherStats.getEnergyModifier();
-	this->setEnergyModifier( newEnergyModifier );
+	visionAngle.setCurrent(visionAngle.getCurrent() + otherStats.visionAngle.getCurrent());
+	visionAngle.setModifier(visionAngle.getModifier() + otherStats.visionAngle.getModifier());
 
-	double newHp = this->getHp() + otherStats.getHp();
-	this->setHp( newHp);
-
-	double newHpModifier = this->getHpModifier() + otherStats.getHpModifier();
-	this->setEnergyModifier( newHpModifier );
-
-	double newVisionAngle = this->getVisionAngle() + otherStats.getVisionAngle();
-	this->setVisionAngle( newVisionAngle );
-
-	double newVisionAngleModifier = this->getVisionAngleModifier() + otherStats.getVisionAngleModifier();
-	this->setEnergyModifier( newVisionAngleModifier );
-
-	this->setRange( this->getRange() + otherStats.getRange() );
-
-	this->setResistance( this->getResistance() + otherStats.getResistance() );
-
-	this->setSpeed( this->getSpeed() + otherStats.getSpeed() );
+	range+=otherStats.range;
+	speed+=otherStats.speed;
+	resistance+=otherStats.resistance;
 
 	return *this;
 
@@ -48,32 +37,18 @@ Stats & Stats::operator+=(Stats & otherStats)
 
 Stats & Stats::operator-=(Stats & otherStats)
 {
-	double newEnergy = this->getEnergy() - otherStats.getEnergy();
-	this->setEnergy( newEnergy );
+	energy -= otherStats.energy;
+	energy.setModifier(energy.getModifier() - otherStats.energy.getModifier());
 
-	double newEnergyModifier = this->getEnergyModifier() - otherStats.getEnergyModifier();
-	this->setEnergyModifier( newEnergyModifier );
+	hp -= otherStats.hp;
+	hp.setModifier(hp.getModifier() - otherStats.hp.getModifier());
 
+	visionAngle.setCurrent(visionAngle.getCurrent() - otherStats.visionAngle.getCurrent());
+	visionAngle.setModifier(visionAngle.getModifier() - otherStats.visionAngle.getModifier());
 
-	double newHp = this->getHp() - otherStats.getHp();
-	this->setHp( newHp);
-
-	double newHpModifier = this->getHpModifier() - otherStats.getHpModifier();
-	this->setEnergyModifier( newHpModifier );
-
-
-	double newVisionAngle = this->getVisionAngle() - otherStats.getVisionAngle();
-	this->setVisionAngle( newVisionAngle );
-
-	double newVisionAngleModifier = this->getVisionAngleModifier() - otherStats.getVisionAngleModifier();
-	this->setEnergyModifier( newVisionAngleModifier );
-
-
-	this->setRange( this->getRange() - otherStats.getRange() );
-
-	this->setResistance( this->getResistance() - otherStats.getResistance() );
-
-	this->setSpeed( this->getSpeed() - otherStats.getSpeed() );
+	range -= otherStats.range;
+	speed -= otherStats.speed;
+	resistance -= otherStats.resistance;
 
 	return *this;
 
@@ -82,22 +57,22 @@ Stats & Stats::operator-=(Stats & otherStats)
 //-------------------------------------------- Constructors - destructor
 Stats::Stats ( const Stats & otherStats )
 	:
-	energy_(otherStats.energy_),
-	hp_(otherStats.hp_),
-	visionAngle_(otherStats.visionAngle_),
-	range_(otherStats.range_),
-	resistance_(otherStats.resistance_),
-	speed_(otherStats.speed_)
+	energy(otherStats.energy),
+	hp(otherStats.hp),
+	visionAngle(otherStats.visionAngle),
+	range(otherStats.range),
+	resistance(otherStats.resistance),
+	speed(otherStats.speed)
 	{
 	}
 
 
-Stats::Stats ( Gauge energy, Gauge hp, double visionAngle, int range, int resistance, double speed)
-	: energy_(energy),
-	hp_(hp),
-	visionAngle_(360,0,visionAngle),
-	resistance_(resistance),
-	speed_(speed)
+Stats::Stats ( Gauge energy, Gauge hp, float visionAngle, int range, int resistance, float speed)
+	: energy(energy),
+	hp(hp),
+	visionAngle(360,0,visionAngle),
+	resistance(resistance),
+	speed(speed)
 {
 }
 
@@ -105,136 +80,17 @@ Stats::~Stats ()
 {
 }
 
-//------------------------------------------------- Public methods
-
-//--------------------------------------GETTERS
-double Stats::getEnergy() const
-{
-	return energy_.getCurrent();
-}
-
-double Stats::getHp() const
-{
-	return hp_.getCurrent();
-}
-
-double Stats::getVisionAngle() const
-{
-	return visionAngle_.getCurrent();
-}
-
-int Stats::getMaxEnergy() const
-{
-	return energy_.getMax();
-}
-
-int Stats::getMaxHp() const
-{
-	return hp_.getMax();
-}
-
-int Stats::getMinEnergy() const
-{
-    return energy_.getMin();
-}
-
-int Stats::getMinHp() const
-{
-    return hp_.getMin();
-}
-
-int Stats::getMaxVisionAngle() const
-{
-	return visionAngle_.getMax();
-}
-
-double Stats::getEnergyModifier() const
-{
-	return energy_.getModifier();
-}
-
-double Stats::getHpModifier() const
-{
-	return hp_.getModifier();
-}
-
-double Stats::getVisionAngleModifier() const
-{
-	return visionAngle_.getModifier();
-}
-
-double Stats::getSpeed() const
-{
-	return speed_;
-}
-
-int Stats::getResistance() const
-{
-	return resistance_;
-}
-
-int Stats::getRange() const
-{
-	return range_;
-}
-
-//--------------------------------------SETTERS
-
-void Stats::setEnergy( double value )
-{
-	energy_.setCurrent( value );
-}
-
-void Stats::setEnergyModifier ( double value )
-{
-	energy_.setModifier( value );
-}
-
-void Stats::setHp( double value)
-{
-	hp_.setCurrent( value );
-}
-
-void Stats::setHpModifier ( double value )
-{
-	hp_.setModifier( value );
-}
-
-void Stats::setVisionAngle( double value )
-{
-	visionAngle_.setCurrent( value );
-}
-
-void Stats::setVisionAngleModifier ( double value )
-{
-	visionAngle_.setModifier( value );
-}
-
-void Stats::setSpeed( double value )
-{
-	speed_ = value;
-}
-
-void Stats::setResistance( int value)
-{
-	resistance_ = value;
-}
-
-void Stats::setRange( int value )
-{
-	range_ = value;
-}
-
 void Stats::display(ostream &flux) const
 {
 	flux << "Stats: " << endl
-		<< "Energy: " << getEnergy() << "/" << getMaxEnergy() << endl
-		<< "HP: " << getHp() << "/" << getMaxHp() << endl
-		<< "Vision angle: " << getMaxEnergy() << "/" << getMaxVisionAngle() << endl
-		<< "Range: " << getRange() << endl
-		<< "Speed: " << getSpeed() << endl
-		<< "Resistance: " << getResistance() << endl;
+		<< "Energy: " << energy.getCurrent() << "/" << energy.getMax() << endl
+		<< "HP: " << hp.getCurrent() << "/" << hp.getMax() << endl
+		<< "Vision angle: " << visionAngle.getCurrent() << "/" << visionAngle.getMax() << endl
+		<< "Range: " << range << endl
+		<< "Speed: " << speed << endl
+		<< "Resistance: " << resistance << endl;
 }
+
 ostream& operator<<(ostream& os, const Stats& stats)
 {
 	stats.display(os);

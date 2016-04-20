@@ -18,9 +18,9 @@ public:
 	** @return the state of the status snared **/
 	virtual bool isSnared() const;
 
-	/** @brief true if the object is Immortal
-	**	@return the state of the status immortal **/
-	virtual bool isImmortal() const;
+	/** @brief true if the object is Invincible
+	**	@return the state of the status invincible **/
+	virtual bool isInvincible() const;
 
 	/** @brief true if the object is in stase
 	** @return true if all the three flags are true **/
@@ -28,7 +28,7 @@ public:
 
 	/** @brief set the status of the object
 	**	@pram flag : the flags needed to set the status, by exemple, if you want,
-	**	this object totally disabled you can set flag to IMMORTAL | SNARE | IMPOTENT (STASE does the same thing)
+	**	this object totally disabled you can set flag to INVINCIBLE | SNARE | IMPOTENT (STASE does the same thing)
 	**	this object totally able set flag to nothing (ABLE function too)
 	**/
 	virtual void setStatus	(const int flag = ABLE);
@@ -76,7 +76,7 @@ protected :
 	Ogre::Vector3 orientation_;
 
 	/* About states **/
-	bool	immortal_,
+	bool	invincible_,
 			snare_,
 			impotent_;
 
@@ -87,7 +87,7 @@ protected :
 public :
 	enum Status{
 			ABLE = 0,
-			IMMORTAL = 1,
+			INVINCIBLE = 1,
 			SNARE = 2,
 			IMPOTENT = 4,
 			STASE = 7

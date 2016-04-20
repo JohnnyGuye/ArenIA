@@ -82,9 +82,11 @@
     <ClCompile Include="FightScene.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="Gorilla.cpp" />
     <ClCompile Include="GUIElement.cpp" />
     <ClCompile Include="GUIShowLogo.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="LogoScene.cpp" />
     <ClCompile Include="LuaHandler.cpp" />
@@ -124,6 +126,7 @@
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="HitboxSphere.h" />
     <ClInclude Include="HitboxVoid.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="LogoScene.h" />
     <ClInclude Include="LuaHandler.h" />

@@ -31,7 +31,7 @@ public:
 	* @param current Current value of the gauge
 	* @param modifier Modifier of the gauge
    	*/
-    Gauge ( int borne1 = 100, int borne2 = 0, double current = 100, double modifier =  0.0)
+    Gauge ( int borne1 = 100, int borne2 = 0, float current = 100, float modifier =  0.0)
 		: modifier_(modifier)
 	{
 		max_ = (borne1 >= borne2 ? borne1 : borne2);
@@ -47,6 +47,8 @@ public:
 	{
 	}
 
+	Gauge& operator+=(Gauge const& rhs);
+	Gauge& operator-=(Gauge const& rhs);
 //------------------------------------------------- Public methods
 
 	inline bool IsFull() const{	return (int)current_ == max_;	}
@@ -72,69 +74,60 @@ public:
 	* Returns the current value value the gauge
 	* @return current_ of the gauge
 	*/
-	inline double getCurrent() const {	return current_;	}
+	inline float getCurrent() const {	return current_;	}
 
 	/** @return the the filled portion of the gauge **/
-	inline double getFilledAbsolute() const {	return current_-min_;	}
+	inline float getFilledAbsolute() const {	return current_-min_;	}
 
 	/** @return the notfilled portion of the gauge **/
-	inline double getNotFilledAbsolute() const {	return max_-current_;	}
+	inline float getNotFilledAbsolute() const {	return max_-current_;	}
 
 	/** @return the filled percent of the gauge **/
-	inline double getRatio() const {	return current_ / (double)(max_-min_);	}
+	inline float getRatio() const {	return current_ / (float)(max_-min_);	}
 
     /**
 	* Modifier getter
 	* Returns the modifier the gauge
 	* @return modifier_ of the gauge
 	*/
-	inline double getModifier() const {	return modifier_;	}
+	inline float getModifier() const {	return modifier_;	}
 
 
 
 //--------------------------------------SETTERS
 
-    /**
-	* Current setter
-	* Sets current_ to value
-	* @param value The value that you want current to become
-	*/
-    inline void setCurrent( double value )
+	///Current setter
+	///Sets current_ to value
+	///@param value The value that you want current to become
+    inline void setCurrent( float value )
 	{
-		if(value > max_)		current_ = max_;
-		else if(value < min_)	current_ = min_;
+		if(value > max_)		current_ = (float)max_;
+		else if(value < min_)	current_ = (float)min_;
 		else					current_ = value;
 	}
 
-    /**
-	* Modifier setter
-	* Sets modifier_ to value
-	* @param value The value that you want modifier_ to become
-	*/
-    inline void setModifier( double value = 0.0)
+    
+	///Modifier setter
+	///Sets modifier_ to value
+	///@param value The value that you want modifier_ to become
+    inline void setModifier( float value = 0.0)
 	{
 		modifier_ = value;
 	}
 
-    /**
-	* Fills the gauge (sets current_ to max_)
-	*/
+    ///Fills the gauge (sets current_ to max_)
     inline void fill()
 	{
-		current_ = max_;
+		current_ = (float)max_;
 	}
 
-    /**
-	* Empties the gauge (sets current_ to min_)
-	*/
+    ///Empties the gauge (sets current_ to min_)
 	inline void empty()
 	{
-		current_ = min_;
+		current_ = (float)min_;
 	}
 
-	/**
-	 * Updates the current value of the gauge.
-	 */
+	///Updates the current value of the gauge.
     inline void update()
 	{
 		setCurrent(current_ + modifier_);
@@ -146,11 +139,12 @@ protected:
 //------------------------------------------------------- Protected attributes
     int max_;	///< Maximum value of the gauge
     int min_;	///< Minimum value of the gauge
-    double current_;	///< Current value of the gauge
-    double modifier_;	///< Modifier of the current gauge : value of the evolution
+    float current_;	///< Current value of the gauge
+    float modifier_;	///< Modifier of the current gauge : value of the evolution
     					///< of current_ at the beginning of a round
-
-
 };
+
+Gauge operator+(Gauge const& lhs, Gauge const& rhs);
+Gauge operator-(Gauge const& lhs, Gauge const& rhs);
 
 

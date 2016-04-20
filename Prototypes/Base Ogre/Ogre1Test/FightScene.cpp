@@ -11,6 +11,7 @@ FightScene::FightScene(Ogre::RenderWindow* window, Ogre::Root* root)
 	pause_(true),
 	console_(nullptr),
 	decompte_(nullptr),
+	hud_(nullptr),
 	cameraMan_(nullptr),
 	lag_(0),
 	displaySpeed_(1)
@@ -25,6 +26,7 @@ FightScene::~FightScene(void)
 	if(theSun_)		delete theSun_;
 	if(console_)	delete console_;
 	if(decompte_)	delete decompte_;
+	if(hud_)		delete hud_;
 	for(unsigned int i = 0; i < DecorEntities_.size(); i++)
 	{
 		delete DecorEntities_[i];
@@ -77,6 +79,8 @@ bool FightScene::launch(void)
 
 	decompte_ = new GUIDecompte(vp, "dec_all");
 	console_ = new GUIConsole(vp);
+	hud_ = new HUD(vp, fightManager_);
+	hud_->init();
 
 	camera_->setAspectRatio(
 		  Ogre::Real(vp->getActualWidth()) /
@@ -96,9 +100,9 @@ void FightScene::createScene(void)
 
 	//======ABOUT THE CAMERA=======
 	camera_->setPosition(
-		fightManager_->getTerrain()->getWidth() * 50.0, 
-		500.0, 
-		fightManager_->getTerrain()->getHeight() * 50.0
+		fightManager_->getTerrain()->getWidth() * 50.0f, 
+		500.0f, 
+		fightManager_->getTerrain()->getHeight() * 50.0f
 		);
 	
 	createRobots();
@@ -115,9 +119,9 @@ void FightScene::createScene(void)
 	  1, 5.0f, 5.0f, 
 	  Ogre::Vector3::UNIT_X);
 
-	Vector3 offset(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE * 0.5, 
+	Vector3 offset(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE * 0.5f, 
 		0, 
-		fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE * 0.5);
+		fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE * 0.5f);
 
 	Ogre::Entity* groundEntity = sceneMgr_->createEntity("ground");
 	sceneMgr_->getRootSceneNode()->createChildSceneNode(offset)->attachObject(groundEntity);
@@ -226,6 +230,7 @@ bool FightScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		{
 			(*re).update(evt);
 		}
+		hud_->frameRenderingQueued(evt);
 	}
 
 	console_->frameStarted(evt);

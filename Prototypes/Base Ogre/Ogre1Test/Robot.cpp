@@ -7,8 +7,10 @@ using namespace std;
 /*
  action_ modifying methods
 */
+//-------------------------------------------------CONSTANTES
+int Robot::robot_count = 1;
 
-
+//----------------------------------------------------METHODS
 Robot::Robot(Vector3 position, string name, Robot::Team team)
 	: GameObject(position, name),
 	nextPosition_(position),
@@ -16,8 +18,8 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	stats_(Gauge(), Gauge(), 60, 500, 0, 4.0),
 	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
 	action_(IDLE),
-	iaFilename_("EMPTY")
-	id = robot_count++;
+	iaFilename_("EMPTY"),
+	id_(robot_count++)
 {
 	setTurretOrientation();
 	luaCode = new LuaHandler();
@@ -145,7 +147,7 @@ Vector3 Robot::getTurretOrientationVect() const
 
 double Robot::getSpeed() const
 {
-    return stats_.speed_ + additionalStats_.speed_;
+    return stats_.speed + additionalStats_.speed;
 }
 
 Robot::Team Robot::getTeam() const
@@ -169,35 +171,34 @@ Ability* Robot::getTurretAbility() const
 }
 
 /* Stats altering method */
-GameEvent Robot::takeDamage(double damage)
+bool Robot::takeDamage(float damage)
 //Algorithm : the damage is first taken in the additional health gauge
 //The Robot dies if the base gauge is depleted
 {
+	if(isInvincible())	return false;
     //Step 1 : Apply the damage
-    if( additionalStats_.hp_.getFilledAbsolute() >= damage )
+    if( additionalStats_.hp.getFilledAbsolute() >= damage )
     {
-        additionalStats_.hp_.setCurrent( additionalStats_.hp_.getCurrent() - damage );
+        additionalStats_.hp.setCurrent( additionalStats_.hp.getCurrent() - damage );
     }
-    else if ( additionalStats_.hp_.getFilledAbsolute() > 0 )
+    else if ( additionalStats_.hp.getFilledAbsolute() > 0 )
     {
-        double damageBaseGauge = damage - hp_.getFilledAbsolute();
-        additionalStats_.hp_.setCurrent( additionalStats_.hp_.getCurrent() - damage );
-        stats_.hp_.setCurrent( stats_.hp_.getCurrent() - damageBaseGauge )
+        float damageBaseGauge = damage - additionalStats_.hp.getFilledAbsolute();
+        additionalStats_.hp.setCurrent( additionalStats_.hp.getCurrent() - damage );
+        stats_.hp.setCurrent( stats_.hp.getCurrent() - damageBaseGauge );
     }
     else
     {
-        stats_.setCurrent( stats_.hp_.getCurrent() - damage )
+        stats_.hp.setCurrent( stats_.hp.getCurrent() - damage );
     }
     //Step 2 : Check for the robot death
-    if ( stats_.hp_.getFilledAbsolute() == 0 )
+    if ( stats_.hp.getFilledAbsolute() == 0 )
     {
-        RobotKillEvent killEvent(this.id , -1, GameTime() );
-        return killEvent;
+        return true;
     }
     else//could end up as a ROBOT_HIT event
     {
-        GameEvent g;
-        return g;
+        return false;
     }
 
 }

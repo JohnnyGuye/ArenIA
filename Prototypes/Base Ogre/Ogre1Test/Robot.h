@@ -66,7 +66,7 @@ public:
     /** @brief Damages the Robot
         @param damage : the damages the robot took. Always higher than 0
         @return ROBOT_KILL if the damage killed the robot, STANDARD_EVENT otherwise**/
-    virtual GameEvent takeDamage(double damage);
+    virtual bool takeDamage(float damage);
 
 	/** @brief Update the robot using the lua file **/
 	virtual void update();
@@ -145,8 +145,9 @@ public:
 //attributes
 protected:
     /**The robot Id, generated for now by a static count**/
-    static int robot_count=0;
-    int id;
+    static int robot_count;
+
+    int id_;
     /** The teams to which the Robot Belongs **/
     Team team_;
 

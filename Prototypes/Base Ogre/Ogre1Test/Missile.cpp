@@ -56,7 +56,7 @@ void Missile::setHitbox(Hitbox* hitbox)
  
 bool Missile::move()
 {
-    double speed = stats_.getSpeed();
+    double speed = stats_.speed;
     //GameObject::move(speed * missileDirection_);
     return true;
 }

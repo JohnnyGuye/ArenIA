@@ -5,7 +5,7 @@
 #include "FightManager.h"
 #include "GUIConsole.h"
 #include "GUIDecompte.h"
-#include <SdkTrays.h>
+#include "HUD.h"
 #include <SdkCameraMan.h>
 
 class FightScene :
@@ -101,7 +101,8 @@ protected:
 
 	GUIConsole*		console_;
 	GUIDecompte*	decompte_;
-	double			displaySpeed_;
+	HUD*			hud_;
+	float			displaySpeed_;
 	Ogre::Real		lag_;
 };
 
