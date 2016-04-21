@@ -1,0 +1,7 @@
+[Texture]
+file logo_atlas.png
+whitepixel 1022 1
+
+[Sprites]
+ogre 0 0 720 330
+arenia 0 330 338 338

@@ -108,7 +108,7 @@ protected:
 	virtual void setupResources(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-	virtual void changeScene();
+	virtual bool changeScene();
 
 	// Handler sur le clavier/souris
 	virtual bool keyPressed(const OIS::KeyEvent &arg);

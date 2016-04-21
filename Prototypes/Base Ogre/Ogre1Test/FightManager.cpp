@@ -110,17 +110,17 @@ void FightManager::reset()
 	day_.empty();
 }
 
-double FightManager::getActualTime() const
+float FightManager::getActualTime() const
 {
 	return day_.getFilledAbsolute();
 }
 
-double FightManager::getRemainingTime() const
+float FightManager::getRemainingTime() const
 {
 	return day_.getNotFilledAbsolute();
 }
 
-double FightManager::getDayRatio() const
+float FightManager::getDayRatio() const
 {
 	return day_.getRatio();
 }

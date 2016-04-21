@@ -575,3 +575,7 @@ mousepointer 54 464 15 22
 ogrehead 0 464 48 48
 robothud 0 275 297 104
 ico_lavelinge 77 419 92 92
+ico_tondeuse 171 419 92 92
+gauge_blue 307 273 20 144
+gauge_red 327 273 20 144
+gauges_sepia 351 273 40 144

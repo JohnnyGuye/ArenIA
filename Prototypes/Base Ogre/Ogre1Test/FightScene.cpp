@@ -3,7 +3,7 @@
 using namespace std;
 using namespace Ogre;
 
-FightScene::FightScene(Ogre::RenderWindow* window, Ogre::Root* root)
+FightScene::FightScene(RenderWindow* window, Root* root)
 	: Scene(window, root),
 	fightManager_(nullptr),
 	theSun_(nullptr),
@@ -16,17 +16,17 @@ FightScene::FightScene(Ogre::RenderWindow* window, Ogre::Root* root)
 	lag_(0),
 	displaySpeed_(1)
 {
-	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 }
 
 
 FightScene::~FightScene(void)
 {
+	if(hud_)		delete hud_;
 	if(fightManager_) delete fightManager_;
 	if(theSun_)		delete theSun_;
 	if(console_)	delete console_;
 	if(decompte_)	delete decompte_;
-	if(hud_)		delete hud_;
+	
 	for(unsigned int i = 0; i < DecorEntities_.size(); i++)
 	{
 		delete DecorEntities_[i];
@@ -46,36 +46,37 @@ Scene::Scenes FightScene::nextScene() const
 	return EXIT;
 }
 
-bool FightScene::loadResources(void)
+void FightScene::_loadResources(void)
 {
-	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
-	return true;
+	ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
 }
 
 bool FightScene::launch(void)
 {
+	sceneMgr_ = root_->createSceneManager(ST_GENERIC);
 	LogManager::getSingletonPtr()->logMessage("*** Cameras ***");
 	//Cameras
 	camera_ = sceneMgr_->createCamera("PlayerCam");
-	camera_->setPosition(Ogre::Vector3(0, 300, 500));
-	camera_->lookAt(Ogre::Vector3(0, 0, 0));
+	camera_->setPosition(Vector3(0, 300, 500));
+	camera_->lookAt(Vector3(0, 0, 0));
 	camera_->setNearClipDistance(5);
 	cameraMan_ = new OgreBites::SdkCameraMan(camera_);
 	cameraMan_->setTopSpeed(Real(2000));
 
 	LogManager::getSingletonPtr()->logMessage("*** Viewports ***");
 	//Viewports
-	Ogre::Viewport* vp;
+	Viewport* vp;
 	try
 	{
 		vp = window_->getViewportByZOrder(0);
-		window_->removeViewport(0);
+		vp->setCamera(camera_);
 	}
-	catch(Ogre::Exception e)
+	catch(Exception e)
 	{
+		vp = window_->addViewport(camera_);
 	}
-	vp = window_->addViewport(camera_);
-	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
+	
+	vp->setBackgroundColour(ColourValue(0, 0, 0));
 
 	decompte_ = new GUIDecompte(vp, "dec_all");
 	console_ = new GUIConsole(vp);
@@ -83,8 +84,8 @@ bool FightScene::launch(void)
 	hud_->init();
 
 	camera_->setAspectRatio(
-		  Ogre::Real(vp->getActualWidth()) /
-		  Ogre::Real(vp->getActualHeight()));
+		  Real(vp->getActualWidth()) /
+		  Real(vp->getActualHeight()));
 
 	createScene();
 	return true;
@@ -108,22 +109,22 @@ void FightScene::createScene(void)
 	createRobots();
 
 	//========THE GROUND=========
-	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
+	Plane plane(Vector3::UNIT_Y, 0);
 	
-	Ogre::MeshManager::getSingleton().createPlane(
+	MeshManager::getSingleton().createPlane(
 	  "ground",
-	  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+	  ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 	  plane, 
 	  fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE, fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE, 10, 10, 
 	  true, 
 	  1, 5.0f, 5.0f, 
-	  Ogre::Vector3::UNIT_X);
+	  Vector3::UNIT_X);
 
 	Vector3 offset(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE * 0.5f, 
 		0, 
 		fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE * 0.5f);
 
-	Ogre::Entity* groundEntity = sceneMgr_->createEntity("ground");
+	Entity* groundEntity = sceneMgr_->createEntity("ground");
 	sceneMgr_->getRootSceneNode()->createChildSceneNode(offset)->attachObject(groundEntity);
 	groundEntity->setCastShadows(false);
 	groundEntity->setMaterialName("ArenIA/Ground");
@@ -197,7 +198,7 @@ void FightScene::createScene(void)
 	}
 }
 
-bool FightScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
+bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 {
 	cameraMan_->frameRenderingQueued(evt);
 	if(state_ == COUNTDOWN)	
@@ -220,16 +221,18 @@ bool FightScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	
 		/* RENDERING */
 		theSun_->update();
-
-		for(std::list<GameEntity>::iterator ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
+		
+		for(auto ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
 		{
 			(*ge).update(evt);
 		}
+		
 
-		for(std::list<RobotEntity>::iterator re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
+		for(auto re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
 		{
 			(*re).update(evt);
 		}
+
 		hud_->frameRenderingQueued(evt);
 	}
 
@@ -248,25 +251,25 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 		{
 		case OIS::KC_F2:
 			{
-				Ogre::MaterialManager::getSingleton().setDefaultTextureFiltering(Ogre::TFO_BILINEAR);
-				Ogre::MaterialManager::getSingleton().setDefaultAnisotropy(1);
+				MaterialManager::getSingleton().setDefaultTextureFiltering(TFO_BILINEAR);
+				MaterialManager::getSingleton().setDefaultAnisotropy(1);
 			}
 			break;
 		case OIS::KC_F3:
 			{
-				Ogre::String newVal;
-				Ogre::PolygonMode pm;
+				String newVal;
+				PolygonMode pm;
 
 				switch (camera_->getPolygonMode())
 				{
-				case Ogre::PM_SOLID:
+				case PM_SOLID:
 					newVal = "Wireframe";
-					pm = Ogre::PM_WIREFRAME;
+					pm = PM_WIREFRAME;
 					break;
-				case Ogre::PM_WIREFRAME:
+				case PM_WIREFRAME:
 				default:
 					newVal = "Solid";
-					pm = Ogre::PM_SOLID;
+					pm = PM_SOLID;
 				}
 
 				camera_->setPolygonMode(pm);
@@ -360,8 +363,8 @@ FightScene::Sun::Sun(FightScene* fs = nullptr)
 	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos);
 
 	//Ambient light
-	sceneMgr_->setAmbientLight(Ogre::ColourValue(0.4f, 0.4f, 0.4f));
-	sceneMgr_->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+	sceneMgr_->setAmbientLight(ColourValue(0.4f, 0.4f, 0.4f));
+	sceneMgr_->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
 	
 	//SpotLight
 	light_ = sceneMgr_->createLight("SunLight");
@@ -396,7 +399,7 @@ void FightScene::Sun::update()
 // ----------------------------------------------
 
 FightScene::GameEntity::GameEntity(FightScene* fs, const string& mesh,
-	const Ogre::Vector3& position, const int& scale, GameObject* object)
+	const Vector3& position, const Real& scale, GameObject* object)
 	:	fs_(fs),
 	object_(object),
 	orientation_(0)
@@ -436,7 +439,7 @@ void FightScene::GameEntity::update(const FrameEvent& evt)
 // ----------------------------------------------
 
 FightScene::RobotEntity::RobotEntity(FightScene* fs, const string& mesh,
-	const Ogre::Vector3& position, const int& scale, Robot* robot)
+	const Vector3& position, const Real& scale, Robot* robot)
 	:	GameEntity(fs, mesh, position, scale, robot)
 {
 	
@@ -470,13 +473,13 @@ string FightScene::RobotEntity::stateToString(const Robot::State& state) const
 // --------------- CREATIONS --------------------
 // ----------------------------------------------
 
-void FightScene::createEntity(const string& mesh, const Vector3& position, const int& scale)
+void FightScene::createEntity(const string& mesh, const Vector3& position, const Real& scale)
 {
 	//Add some configuration
 	objectEntities_.push_back(GameEntity(this, mesh, position, scale));
 }
 
-void FightScene::createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team, const Ogre::Vector3& position, const int& scale)
+void FightScene::createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team, const Vector3& position, const Real& scale)
 {
 	string mesh;
 	switch(type){
@@ -499,9 +502,13 @@ void FightScene::createRobots(void)
 	{
 		int scale;
 		string mesh;
-		Robot::Type type = Robot::LAVE_LINGE;
+		Robot::Type type = Robot::TONDEUSE;
 		switch(type)
 		{
+		case Robot::TONDEUSE:
+			scale = 40;
+			mesh = "RobotTondeuse.mesh";
+			break;
 		case Robot::LAVE_LINGE:
 		default:
 			scale = 10;

@@ -39,6 +39,7 @@ FightWindow::~FightWindow(void)
 	{
 		if(it->second)	delete it->second;
 	}
+	if(root_)	delete root_;
 }
 //---------------------------------------------------------------------------
 void FightWindow::go(void)
@@ -79,15 +80,16 @@ bool FightWindow::setup(void)
 	if (!root_->showConfigDialog())	return false;
 
 	window_ = root_->initialise(true, "ArenIA");
-
-	sceneMap_.insert(ScenePair("Logos", new LogoScene(window_, root_)));
-	sceneMap_.insert(ScenePair("Fight", new FightScene(window_, root_)));
+	
+	//Creation of the scenes
+	sceneMap_.insert(ScenePair("Logos", new LogoScene(window_, root_)));	//Logos at beginning
+	sceneMap_.insert(ScenePair("Fight", new FightScene(window_, root_)));	//Real game
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Popular");
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Essential");
-	activScene_ = sceneMap_.at("Fight");
+	activScene_ = sceneMap_.at("Logos");
 	activScene_->loadResources();
 	
 	FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");
@@ -163,23 +165,24 @@ void FightWindow::createFrameListener(void)
 	root_->addFrameListener(this);
 }
 //---------------------------------------------------------------------------
-void FightWindow::changeScene()
+bool FightWindow::changeScene()
 {
 	Scene::Scenes nextScene = activScene_->nextScene();
+	activScene_->destroyScene();
 	switch(nextScene)
 	{
 	case Scene::EXIT:
 		shutDown_ = true;
+		return false;
 	case Scene::FIGHT:
 	default:
 		activScene_ = sceneMap_.at("Fight");
 		break;
 	}
-	if(!shutDown_)
-	{
-		activScene_->loadResources();
-		activScene_->launch();
-	}
+
+	activScene_->loadResources();
+	activScene_->launch();
+	return true;
 }
 //---------------------------------------------------------------------------
 bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
@@ -197,8 +200,7 @@ bool FightWindow::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 	if(!activScene_->frameRenderingQueued(evt))
 	{
-		std::cout << "STOP RENDERING ME !" << std::endl;
-		changeScene();
+		return changeScene();
 	}
 
     return true;

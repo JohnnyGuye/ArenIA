@@ -2,12 +2,13 @@
 
 #include "GUIShowLogo.h"
 
+using namespace Ogre;
+
 
 LogoScene::LogoScene(Ogre::RenderWindow* window, Ogre::Root* root)
 	: Scene(window, root),
 	showLogos_(nullptr)
 {
-	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 }
 
 
@@ -21,13 +22,13 @@ Scene::Scenes LogoScene::nextScene() const
 	return FIGHT;
 }
 
-bool LogoScene::loadResources(void)
+void LogoScene::_loadResources(void)
 {
-	return true;
 }
 
 bool LogoScene::launch(void)
 {
+	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 	//Cameras
 	camera_ = sceneMgr_->createCamera("PlayerCam");
 	camera_->setPosition(Ogre::Vector3(0, 300, 500));
@@ -35,10 +36,19 @@ bool LogoScene::launch(void)
 	camera_->setNearClipDistance(5);
 
 	//Viewports
-	Ogre::Viewport* vp = window_->addViewport(camera_);
+	Viewport* vp;
+	try
+	{
+		vp = window_->getViewportByZOrder(0);
+		vp->setCamera(camera_);
+	}
+	catch(Exception e)
+	{
+		vp = window_->addViewport(camera_);
+	}
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
 
-	showLogos_ = new GUIShowLogo(vp, "dec_all");
+	showLogos_ = new GUIShowLogo(vp);
 
 	camera_->setAspectRatio(
 		  Ogre::Real(vp->getActualWidth()) /

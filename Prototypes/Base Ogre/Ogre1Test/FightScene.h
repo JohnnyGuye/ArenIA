@@ -39,7 +39,7 @@ protected:
 	class GameEntity
 	{
 	public:
-		GameEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const int& scale, GameObject * object = nullptr);
+		GameEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale, GameObject * object = nullptr);
 		virtual~GameEntity();
 		virtual void update(const Ogre::FrameEvent& evt);
 	protected:
@@ -55,7 +55,7 @@ protected:
 		GameEntity
 	{
 	public:
-		RobotEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const int& scale, Robot* robot);
+		RobotEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale, Robot* robot);
 		virtual~RobotEntity();
 		virtual void update(const	Ogre::FrameEvent& evt);
 		inline virtual std::string stateToString(const Robot::State& state) const;
@@ -66,7 +66,6 @@ public:
 	FightScene(Ogre::RenderWindow* window, Ogre::Root* root);
 	virtual ~FightScene(void);
 
-	virtual bool loadResources(void);
 	virtual bool launch(void);
 	virtual bool initFightManager(const std::string& map);
 
@@ -81,8 +80,10 @@ public:
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
 protected:
-	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const int& scale = 1);
-	virtual void createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team = Robot::NONE, const Ogre::Vector3& position = Ogre::Vector3::ZERO, const int& scale = 1);
+	virtual void _loadResources(void);
+
+	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale = 1);
+	virtual void createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team = Robot::NONE, const Ogre::Vector3& position = Ogre::Vector3::ZERO, const Ogre::Real& scale = 1);
 	virtual void createRobots(void);
 	virtual void createScene(void);
 

@@ -10,7 +10,6 @@ public:
 	LogoScene(Ogre::RenderWindow* window, Ogre::Root* root);
 	virtual ~LogoScene(void);
 
-	virtual bool loadResources(void);
 	virtual bool launch(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
@@ -21,7 +20,10 @@ public:
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
     virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+
 protected:
+	virtual void _loadResources(void);
+
 	GUIShowLogo*		showLogos_;
 	Ogre::Camera*		camera_;
 };

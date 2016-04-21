@@ -1,0 +1,121 @@
+
+material _missing_material_
+{
+    receive_shadows off
+    technique
+    {
+        pass
+        {
+            ambient 0.1 0.1 0.1 1.0
+            diffuse 0.8 0.0 0.0 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.3 0.3 0.3 1.0
+        }
+    }
+}
+
+// RobotTondeuse_Tete genrated by blender2ogre 0.6.0
+
+material RobotTondeuse_Tete 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass RobotTondeuse_Tete
+        {
+            ambient 0.4019777774810791 1.0 0.4549015164375305 1.0
+            diffuse 0.3215822267768118 0.800000011920929 0.3639212185728731 1.0
+            specular 0.08823531866073608 0.08823531866073608 0.08823531866073608 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}
+// RobotTondeuse_Canon genrated by blender2ogre 0.6.0
+
+material RobotTondeuse_Canon 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass RobotTondeuse_Canon
+        {
+            ambient 0.054968539625406265 0.054968539625406265 0.054968539625406265 1.0
+            diffuse 0.04397483235560107 0.04397483235560107 0.04397483235560107 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}
+// RobotTondeuse_Corps genrated by blender2ogre 0.6.0
+
+material RobotTondeuse_Corps 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass RobotTondeuse_Corps
+        {
+            ambient 0.16528227925300598 0.16528227925300598 0.16528227925300598 1.0
+            diffuse 0.16528227925300598 0.16528227925300598 0.16528227925300598 1.0
+            specular 0.007352948188781738 0.007352948188781738 0.007352948188781738 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}

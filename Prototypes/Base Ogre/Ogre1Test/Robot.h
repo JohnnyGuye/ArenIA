@@ -46,7 +46,8 @@ public:
     };
 
 	enum Type {
-		LAVE_LINGE
+		LAVE_LINGE,
+		TONDEUSE
 	};
 
 //public methods

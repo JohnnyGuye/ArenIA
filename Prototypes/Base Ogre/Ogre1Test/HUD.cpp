@@ -5,14 +5,15 @@ using namespace Ogre;
 
 HUD::HUD(Viewport* vp, FightManager* fm)
 	: GUIElement(vp, "HUD"),
-	fightManager_(fm)
+	fightManager_(fm),
+	width_(screen_->getWidth()),
+	height_(screen_->getHeight()),
+	hudScale(0.070f)
 {
-	Ogre::Real width = screen_->getWidth(),
-		height = screen_->getHeight();
-
 	layerHUD_ = screen_->createLayer(10);
 	layerIco_ = screen_->createLayer(9);
 	layerInf_ = screen_->createLayer(11);
+	layerTop_ = screen_->createLayer(12);
 	layerHUD_->show();
 	layerIco_->show();
 	layerInf_->show();
@@ -28,16 +29,14 @@ HUD::~HUD(void)
 
 void HUD::init(void)
 {
-	float hudScale = 0.070f;
 	Vector2 hudPosition(0.005f, 0.03f);
 	float dist = 0.010f;
 	Vector2 hudRatio (2.855f, 1);
 	Vector2 icoPosition(0.005f, 0.03f);
 	Vector2 namePos(0.100f, 0.03f);
 	Vector2 infPos(0.080f, 0.060f);
-
-	Ogre::Real width = screen_->getWidth(),
-		height = screen_->getHeight();
+	Vector2 gaugePos(0.175, 0.03f);
+	Vector2 gaugeRatio(0.25f, 1);
 
 	std::list<Robot*> robots = fightManager_->getRobots();
 
@@ -48,34 +47,43 @@ void HUD::init(void)
 		RobotInf* ri = new RobotInf();
 		ri->robot_ = robot;
 
-		ri->bloc_ = layerHUD_->createRectangle(hudPosition * width, hudRatio * width * hudScale);
+		//Setting background robotinformation
+		ri->bloc_ = layerHUD_->createRectangle(hudPosition * width_, hudRatio * width_ * hudScale);
 		ri->bloc_->background_image("robothud");
-		ri->bloc_->top(ri->bloc_->top() + i * (hudScale + dist) * width);
+		ri->bloc_->top(ri->bloc_->top() + i * (hudScale + dist) * width_);
 
-		ri->ico_ = layerIco_->createRectangle(icoPosition * width, Vector2(1,1) * width * hudScale);
-		ri->ico_->background_image("ico_lavelinge");
+		//Setting icone for a robot
+		ri->ico_ = layerIco_->createRectangle(icoPosition * width_, Vector2(1,1) * width_ * hudScale);
+		ri->ico_->background_image("ico_tondeuse");
+		ri->ico_->top(ri->ico_->top() + i * (hudScale + dist) * width_);
 
-		ri->ico_->top(ri->ico_->top() + i * (hudScale + dist) * width);
-
+		//Setting the name
 		ri->name_ = layerInf_->createCaption(14, 
-			namePos.x * width, 
-			(namePos.y + i * (hudScale + dist)) * width, 
+			namePos.x * width_, 
+			(namePos.y + i * (hudScale + dist)) * width_, 
 			robot->getName());
 
+		//Setting the speed
 		std::stringstream so;
 		std::stringstream ss;
 		ss << robot->getSpeed();
 		ri->speed_ = layerInf_->createCaption(9, 
-			infPos.x * width, 
-			(infPos.y + i * (hudScale + dist)) * width, 
+			infPos.x * width_, 
+			(infPos.y + i * (hudScale + dist)) * width_, 
 			ss.str());
 
+		//Setting the orientation
 		so << robot->getOrientation().valueDegrees() << "'";
 		ri->orientation_ = layerInf_->createCaption(9, 
-			infPos.x * width, 
-			(infPos.y + dist + i * (hudScale + dist)) * width, 
+			infPos.x * width_, 
+			(infPos.y + dist + i * (hudScale + dist)) * width_, 
 			so.str());
 
+		//Setting life/energy
+		ri->gauge_ = layerTop_->createRectangle(gaugePos.x * width_, 
+			(gaugePos.y + i * (hudScale + dist)) * width_,
+			gaugeRatio.x * hudScale * width_, gaugeRatio.y * hudScale * width_);
+		ri->gauge_->background_image("gauges_sepia");
 		infRobots_.push_back(ri);
 		i++;
 	}

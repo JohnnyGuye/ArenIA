@@ -67,13 +67,13 @@ public:
 	virtual void update();
 
 	/** @brief return the number of rounds since the beginning **/
-	inline virtual double getActualTime() const;
+	inline virtual float getActualTime() const;
 
 	/** @brief return the number of rounds before the end of a day **/
-	inline virtual double getRemainingTime() const;
+	inline virtual float getRemainingTime() const;
 
 	/** @brief return the progress of the day. 0 when just began, 1 at the end **/
-	inline virtual double getDayRatio() const;
+	inline virtual float getDayRatio() const;
 
 	/** @brief return the list of robots **/
 	inline virtual std::list<Robot*>	getRobots() const;
