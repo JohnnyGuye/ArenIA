@@ -1,3 +1,4 @@
 function main()
-	debugTurn();
+	move();
+	turnRobot(1);
 end

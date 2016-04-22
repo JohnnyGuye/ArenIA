@@ -3,11 +3,11 @@
 using namespace std;
 using namespace Ogre;
 
-FightScene::FightScene(RenderWindow* window, Root* root)
-	: Scene(window, root),
+FightScene::FightScene(void)
+	: Scene(),
 	fightManager_(nullptr),
-	theSun_(nullptr),
 	state_(COUNTDOWN),
+	theSun_(nullptr),
 	pause_(true),
 	console_(nullptr),
 	decompte_(nullptr),
@@ -16,44 +16,53 @@ FightScene::FightScene(RenderWindow* window, Root* root)
 	lag_(0),
 	displaySpeed_(1)
 {
+	sceneMgr_ = root_->createSceneManager(ST_GENERIC);
 }
-
-
+//---------------------------------------------------------------------------
 FightScene::~FightScene(void)
 {
+}
+//---------------------------------------------------------------------------
+void FightScene::destroyScene(void)
+{
+	//delete logic first
+	if(fightManager_) delete fightManager_;	
+
+	//destroy GUI
 	if(hud_)		delete hud_;
-	if(fightManager_) delete fightManager_;
-	if(theSun_)		delete theSun_;
 	if(console_)	delete console_;
 	if(decompte_)	delete decompte_;
-	
+
+	//destroy entities
+	if(theSun_)		delete theSun_;
 	for(unsigned int i = 0; i < DecorEntities_.size(); i++)
 	{
 		delete DecorEntities_[i];
 	}
+	sceneMgr_->clearScene();
+	sceneMgr_->destroyCamera(camera_);
 	if(cameraMan_)	delete cameraMan_;
 }
-
+//---------------------------------------------------------------------------
 bool FightScene::initFightManager(const std::string& map)
 {
 	if(fightManager_)	return false;
 	fightManager_ = new FightManager(map);
 	return true;
 }
-
+//---------------------------------------------------------------------------
 Scene::Scenes FightScene::nextScene() const
 {
 	return EXIT;
 }
-
+//---------------------------------------------------------------------------
 void FightScene::_loadResources(void)
 {
 	ResourceGroupManager::getSingleton().initialiseResourceGroup("Game");
 }
-
+//---------------------------------------------------------------------------
 bool FightScene::launch(void)
 {
-	sceneMgr_ = root_->createSceneManager(ST_GENERIC);
 	LogManager::getSingletonPtr()->logMessage("*** Cameras ***");
 	//Cameras
 	camera_ = sceneMgr_->createCamera("PlayerCam");
@@ -79,18 +88,18 @@ bool FightScene::launch(void)
 	vp->setBackgroundColour(ColourValue(0, 0, 0));
 
 	decompte_ = new GUIDecompte(vp, "dec_all");
-	console_ = new GUIConsole(vp);
 	hud_ = new HUD(vp, fightManager_);
+	console_ = new GUIConsole(vp);
 	hud_->init();
 
 	camera_->setAspectRatio(
 		  Real(vp->getActualWidth()) /
-		  Real(vp->getActualHeight()));
+		  Real(vp->getActualHeight()) * 0.7);
 
 	createScene();
 	return true;
 }
-
+//---------------------------------------------------------------------------
 void FightScene::createScene(void)
 {
 	//======== ABOUT LIGHT =========
@@ -176,7 +185,7 @@ void FightScene::createScene(void)
 				case 37:
 				case 38:
 					mesh = "Wall_basic.mesh";
-					offset.y = Terrain::CELL_SIZE * 0.5;
+					offset.y = Terrain::CELL_SIZE * 0.4;	//Caprice, i just want different height of walls
 					break;
 				case 18:
 					mesh = "Obstacle_basic.mesh";
@@ -197,9 +206,14 @@ void FightScene::createScene(void)
 		}
 	}
 }
-
+//---------------------------------------------------------------------------
 bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 {
+	if(evt.timeSinceLastFrame > 0.25)
+	{
+		root_->clearEventTimes();
+		return true;
+	}
 	cameraMan_->frameRenderingQueued(evt);
 	if(state_ == COUNTDOWN)	
 	{	
@@ -210,11 +224,12 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 		}
 	}
 	
-
 	if(!pause_)
 	{
 		/* LOGIC */
-		for(lag_ += (evt.timeSinceLastFrame * 1000 * 1000 * displaySpeed_) ; lag_ >= (GameTime::ROUND_IN_MS) ; lag_ -= (GameTime::ROUND_IN_MS))
+		for(lag_ += (evt.timeSinceLastFrame * 1000 * 1000 * displaySpeed_) ; 
+			lag_ >= (GameTime::ROUND_IN_MS) ; 
+			lag_ -= (GameTime::ROUND_IN_MS))
 		{
 			fightManager_->update();
 		}
@@ -233,14 +248,14 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 			(*re).update(evt);
 		}
 
+		console_->frameStarted(evt);
 		hud_->frameRenderingQueued(evt);
 	}
 
-	console_->frameStarted(evt);
+	
 	return true;
 }
-
-//------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 {
 	switch(state_)
@@ -317,7 +332,6 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
  
     return true;
 }
-
 //---------------------------------------------------------------------------
 bool FightScene::keyReleased(const OIS::KeyEvent &arg)
 {
@@ -354,8 +368,9 @@ bool FightScene::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id
 // ---------------- THE SUN ---------------------
 // ----------------------------------------------
 
-FightScene::Sun::Sun(FightScene* fs = nullptr)
-	: fs_(fs), sceneMgr_(fs->sceneMgr_),
+FightScene::Sun::Sun(FightScene* fs)
+	: fs_(fs), 
+	sceneMgr_(fs->sceneMgr_),
 	offset_(fs_->fightManager_->getTerrain()->getDimension())
 {
 	//Entity and position
@@ -500,13 +515,13 @@ void FightScene::createRobots(void)
 
 	for(std::list<Robot*>::iterator it = robots.begin(); it != robots.end() ; it++ )
 	{
-		int scale;
+		Real scale;
 		string mesh;
 		Robot::Type type = Robot::TONDEUSE;
 		switch(type)
 		{
 		case Robot::TONDEUSE:
-			scale = 40;
+			scale = 20;
 			mesh = "RobotTondeuse.mesh";
 			break;
 		case Robot::LAVE_LINGE:

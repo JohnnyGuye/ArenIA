@@ -1,11 +1,12 @@
 #include "Scene.h"
 
-Scene::Scene(Ogre::RenderWindow* window, Ogre::Root* root)
-	: window_(window),
-	root_(root),
+Scene::Scene(void)
+	: root_(Ogre::Root::getSingletonPtr()),
 	sceneMgr_(nullptr),
-	resourcesState_(NOT_LOADED)
+	resourcesState_(NOT_LOADED),
+	stop_(false)
 {
+	window_ = root_->getAutoCreatedWindow();
 	silverback_ = Gorilla::Silverback::getSingletonPtr();
 }
 
@@ -17,10 +18,6 @@ void Scene::loadResources(void)
 }
 
 Scene::~Scene(void)
-{
-}
-
-void Scene::destroyScene(void)
 {
 }
 

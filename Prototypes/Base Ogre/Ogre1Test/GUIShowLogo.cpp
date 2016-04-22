@@ -63,5 +63,4 @@ bool GUIShowLogo::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 GUIShowLogo::~GUIShowLogo(void)
 {
-	silverback_->destroyScreen(screen_);
 }

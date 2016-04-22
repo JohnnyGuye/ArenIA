@@ -82,8 +82,8 @@ bool FightWindow::setup(void)
 	window_ = root_->initialise(true, "ArenIA");
 	
 	//Creation of the scenes
-	sceneMap_.insert(ScenePair("Logos", new LogoScene(window_, root_)));	//Logos at beginning
-	sceneMap_.insert(ScenePair("Fight", new FightScene(window_, root_)));	//Real game
+	sceneMap_.insert(ScenePair("Logos", new LogoScene()));	//Logos at beginning
+	sceneMap_.insert(ScenePair("Fight", new FightScene()));	//Real game
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
@@ -235,9 +235,6 @@ bool FightWindow::keyReleased(const OIS::KeyEvent &arg)
 	case OIS::KC_LCONTROL:	lctrl_ = false;	break;
 	case OIS::KC_RCONTROL:	rctrl_ = false;	break;
 	case OIS::KC_LMENU:		alt_ = false;	break;
-	case OIS::KC_F12:
-		shutDown_ = isAlt();	
-		break;
 	default:
 		break;
 	}

@@ -7,13 +7,15 @@ class LogoScene :
 	public Scene
 {
 public:
-	LogoScene(Ogre::RenderWindow* window, Ogre::Root* root);
+	LogoScene(void);
 	virtual ~LogoScene(void);
 
 	virtual bool launch(void);
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 	virtual Scenes nextScene() const;
+
+	virtual void destroyScene(void);
 
 	virtual bool keyPressed(const OIS::KeyEvent &arg);
 	virtual bool keyReleased(const OIS::KeyEvent &arg);

@@ -35,7 +35,7 @@ void HUD::init(void)
 	Vector2 icoPosition(0.005f, 0.03f);
 	Vector2 namePos(0.100f, 0.03f);
 	Vector2 infPos(0.080f, 0.060f);
-	Vector2 gaugePos(0.175, 0.03f);
+	Vector2 gaugePos(0.175f, 0.03f);
 	Vector2 gaugeRatio(0.25f, 1);
 
 	std::list<Robot*> robots = fightManager_->getRobots();

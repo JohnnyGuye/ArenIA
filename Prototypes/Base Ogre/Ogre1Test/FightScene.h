@@ -63,7 +63,7 @@ protected:
 	};
 
 public:
-	FightScene(Ogre::RenderWindow* window, Ogre::Root* root);
+	FightScene(void);
 	virtual ~FightScene(void);
 
 	virtual bool launch(void);
@@ -71,7 +71,9 @@ public:
 
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-	virtual Scenes nextScene() const;
+	virtual Scenes nextScene(void) const;
+
+	virtual void destroyScene(void);
 
 	virtual bool keyPressed(const OIS::KeyEvent &arg);
 	virtual bool keyReleased(const OIS::KeyEvent &arg);

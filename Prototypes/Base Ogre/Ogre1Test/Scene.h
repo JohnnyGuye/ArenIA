@@ -52,16 +52,36 @@ public:
 		LOADED
 	};
 
-	Scene(Ogre::RenderWindow* window, Ogre::Root* root);
+	/// Create a new scene
+	/// A scene is a full
+	Scene(void);
 	virtual ~Scene(void);
 
+	/// @brief Load the resources needed for the scene in an other thread
 	/// Do not override it !
-	virtual void loadResources(void);
-	virtual bool launch(void) = 0;
-	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
-	virtual Scenes nextScene() const = 0;
-	virtual void destroyScene();
+	/// But you have to override the one with the underscore
+	virtual void loadResources(void);//c++11 final
 
+	/// Initialize the scene, will cause problems if called before loadResources
+	/// @return true if launched, false if failed
+	virtual bool launch(void) = 0;
+
+	/// Render a frame of the scene
+	/// @param evt, a frameEvent for time elapsed 
+	/// @return true if rendering needs to carry on, false if next frame is for an other scene
+	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt) = 0;
+
+	/// The nextScene this scene wants after her.
+	/// @return The next scene to be loaded, 
+	/// or the call to EXIT wich means it is the end of the app
+	virtual Scenes nextScene() const = 0;
+
+	/// Cleanup the scene before the next relaunch. But since the scene 
+	/// has not been fully deleted, you can keep some informations and the resources.
+	virtual void destroyScene() = 0;
+
+
+//-------------------------------------------------------------------Handlers
 	/// Things to do when a key is pressed
 	/// @param arg the key pressed
 	/// @return i don't get it atm
@@ -94,6 +114,8 @@ protected:
 	/// And thus, in order to provide a secure use of thread
 	virtual void _loadResources(void) = 0;
 
+	/// Getter on the scene manager used to render the scene
+	/// @return a ptr on the SceneManager of this scene
 	Ogre::SceneManager*		getSceneManager(void) const;
 
 protected:
@@ -102,5 +124,7 @@ protected:
 	Ogre::Root*				root_;
 	Ogre::SceneManager*		sceneMgr_;
 	Gorilla::Silverback*	silverback_;
+
+	bool					stop_;
 };
 

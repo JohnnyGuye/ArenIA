@@ -5,16 +5,22 @@
 using namespace Ogre;
 
 
-LogoScene::LogoScene(Ogre::RenderWindow* window, Ogre::Root* root)
-	: Scene(window, root),
+LogoScene::LogoScene(void)
+	: Scene(),
 	showLogos_(nullptr)
 {
+	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 }
-
 
 LogoScene::~LogoScene(void)
 {
+}
+
+void LogoScene::destroyScene(void)
+{
 	if(showLogos_)	delete showLogos_;
+	sceneMgr_->clearScene();
+	sceneMgr_->destroyCamera(camera_);
 }
 
 Scene::Scenes LogoScene::nextScene() const
@@ -28,7 +34,6 @@ void LogoScene::_loadResources(void)
 
 bool LogoScene::launch(void)
 {
-	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 	//Cameras
 	camera_ = sceneMgr_->createCamera("PlayerCam");
 	camera_->setPosition(Ogre::Vector3(0, 300, 500));
@@ -59,7 +64,16 @@ bool LogoScene::launch(void)
 
 bool LogoScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-	return showLogos_->frameRenderingQueued(evt);
+	if(evt.timeSinceLastFrame > 0.5)
+	{
+		root_->clearEventTimes();
+		return true;
+	}
+	if( stop_ )		
+		return false;
+	if( !showLogos_->frameRenderingQueued(evt))	
+		return false;
+	return true;
 }
 
 //------------------------------------------------------------------------------------------
@@ -67,10 +81,10 @@ bool LogoScene::keyPressed( const OIS::KeyEvent& arg)
 {
     return true;
 }
-
 //---------------------------------------------------------------------------
 bool LogoScene::keyReleased(const OIS::KeyEvent &arg)
 {
+	stop_ = true;
     return true;
 }
 //---------------------------------------------------------------------------

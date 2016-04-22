@@ -1,25 +1,20 @@
 #pragma once
 
-#include "Gorilla.h"
+#include "GUIElement.h"
 #include <OGRE\Ogre.h>
 #include <OIS\OIS.h>
 #include "OgreConsoleForGorilla.h"
 
 class GUIConsole
+	: GUIElement
 {
 public:
 
 	GUIConsole(Ogre::Viewport* vP)
+		: GUIElement(vP, "dejavu")
 	{
-		silverback_ = Gorilla::Silverback::getSingletonPtr();
-		silverback_->loadAtlas("dejavu");
-		mScreen = silverback_->createScreen(vP, "dejavu");
-   
-		mFPSLayer = mScreen->createLayer(0);
-		mFPS = mFPSLayer->createCaption(14, 10,10, Ogre::StringUtil::BLANK);
-
 		mConsole = new OgreConsole();
-		mConsole->init(mScreen);
+		mConsole->init(screen_);
 		mConsole->setVisible(false);
 	}
 
@@ -40,13 +35,10 @@ public:
 
 	virtual ~GUIConsole(void)
 	{
-		silverback_->destroyScreen(mScreen);
 	}
 
 protected:
 
-	Gorilla::Silverback*    silverback_;
-	Gorilla::Screen*        mScreen;
 	OgreConsole*            mConsole;
 	
 	Gorilla::Layer*         mFPSLayer;

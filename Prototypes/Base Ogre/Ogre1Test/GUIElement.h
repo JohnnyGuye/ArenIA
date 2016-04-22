@@ -27,7 +27,7 @@ public:
 protected:
 	GUIElement*					root_;
 	GUIElement*					parent_;
-	std::vector<GUIElement*>	childs_;
+	std::list<GUIElement*>		childs_;
 
 	Gorilla::Silverback*		silverback_;
 	Gorilla::Screen*			screen_;

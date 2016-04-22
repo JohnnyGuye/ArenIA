@@ -42,11 +42,10 @@ void OgreConsole::init(Gorilla::Screen* screen)
     shutdown();
    
    Ogre::Root::getSingletonPtr()->addFrameListener(this);
-   Ogre::LogManager::getSingleton().getDefaultLog()->addListener(this);
    
    // Create gorilla things here.
    mScreen = screen;
-   mLayer = mScreen->createLayer(15);
+   mLayer = mScreen->createLayer(14);
    mGlyphData = mLayer->_getGlyphData(CONSOLE_FONT_INDEX); // Font.CONSOLE_FONT_INDEX
 
    mConsoleText = mLayer->createMarkupText(CONSOLE_FONT_INDEX,  10,10, Ogre::StringUtil::BLANK);
