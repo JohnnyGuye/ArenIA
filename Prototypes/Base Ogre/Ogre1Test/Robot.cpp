@@ -4,6 +4,7 @@
 using namespace Ogre;
 using namespace std;
 
+const string Robot::IA_PATH ("../IAs/");
 /*
  action_ modifying methods
 */
@@ -18,12 +19,14 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	stats_(Gauge(), Gauge(), 60, 500, 0, 4.0),
 	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
 	action_(IDLE),
-	iaFilename_("EMPTY"),
+	iaFilename_("default.lua"),
 	id_(robot_count++)
 {
 	setTurretOrientation();
-	luaCode = new LuaHandler();
-	luaCode->LoadFile("default.lua");
+	luaCode_ = new LuaHandler();
+	std::stringstream ss;
+	ss << IA_PATH << iaFilename_;
+	luaCode_->LoadFile(ss.str().c_str());
 }
 
 Robot::~Robot()
@@ -45,7 +48,7 @@ void Robot::update()
 {
 	resetAction();
 	RobotLuaBinding::setRobot(this);
-	luaCode->Execute();
+	luaCode_->Execute();
 }
 
 void Robot::applyUpdate(bool wallCollide)

@@ -18,7 +18,7 @@ GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
 
 	try
 	{
-		if(atlas != "")
+		if((atlas != "") && (vp!=nullptr))
 		{
 			silverback_->loadAtlas(atlas);
 			screen_ = silverback_->createScreen(vp, atlas);
@@ -59,10 +59,10 @@ GUIElement* GUIElement::addChild(GUIElement* elmnt)
 {
 	elmnt->root_ = this->root_;
 	elmnt->parent_ = this;
-	if(screen_)
+	if(elmnt->screen_)
 	{
-		silverback_->destroyScreen(screen_);;
-		this->root_->screen_;
+		silverback_->destroyScreen(elmnt->screen_);;
+		elmnt->screen_ = this->root_->screen_;
 	}
 	childs_.push_back(elmnt);
 	return elmnt;

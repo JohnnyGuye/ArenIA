@@ -22,7 +22,7 @@
 * For the use : 
 * 1 - Create it -> LogoScene(...);
 * 2 - Load their resources -> loadResources();
-* 3 - Launch the scene -> lunch();
+* 3 - Launch the scene -> launch();
 * 4 - render it -> frameRenderingQueued(...);
 * 4bis - Don't forget to assign keys and mouse handlers
 *  _  _  _

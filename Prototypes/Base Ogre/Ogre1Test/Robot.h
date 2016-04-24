@@ -147,6 +147,7 @@ public:
 protected:
     /**The robot Id, generated for now by a static count**/
     static int robot_count;
+	static const std::string IA_PATH;
 
     int id_;
     /** The teams to which the Robot Belongs **/
@@ -168,8 +169,8 @@ protected:
     State action_;
 
     /** The IA's filename **/
-    std::string iaFilename_;
-	LuaHandler*		luaCode;
+    std::string		iaFilename_;
+	LuaHandler*		luaCode_;
 
     /**Turret Orientation**/
     Ogre::Vector3	turretOrientation_;

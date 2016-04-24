@@ -38,8 +38,8 @@ void HUD::init(void)
 	Vector2 gaugePos(0.175f, 0.03f);
 	Vector2 gaugeRatio(0.25f, 1);
 
+	//---Robots
 	std::list<Robot*> robots = fightManager_->getRobots();
-
 	int i = 0;
 	for(std::list<Robot*>::iterator it = robots.begin(); it!= robots.end(); it++)
 	{
@@ -88,6 +88,8 @@ void HUD::init(void)
 		i++;
 	}
 
+	//---Events
+	
 	
 }
 

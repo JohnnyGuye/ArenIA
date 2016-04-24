@@ -49,8 +49,9 @@ public:
 	}
 	virtual ~GameEvent(void){}
 
-	// Override me !
-	/** @return the eventtype of your event **/
+	/// Return the type of the GameEvent (usefull for casts)
+	/// You absolutely need to override it !
+	/// @return the eventtype of your event
 	inline virtual EventType	getEventType() const
 	{
 		return STANDARD_EVENT;
@@ -71,8 +72,8 @@ public:
 
 protected:
 
-	/** A timer on the beginning of the action and its duration **/
-	GameTime timer_;
+	
+	GameTime timer_;	// A timer on the beginning of the action and its duration
 	
 };
 
