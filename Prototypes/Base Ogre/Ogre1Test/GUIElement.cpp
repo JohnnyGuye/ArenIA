@@ -8,7 +8,7 @@ GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
 	: root_(this),
 	parent_(this),
 	screen_(nullptr),
-	childs_()
+	children_()
 {
 	
 	if(!Gorilla::Silverback::getSingletonPtr())
@@ -39,7 +39,7 @@ GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
 GUIElement::~GUIElement(void)
 {
 	
-	for(std::list<GUIElement*>::iterator it = childs_.begin(); it != childs_.end() ; it++)
+	for(std::list<GUIElement*>::iterator it = children_.begin(); it != children_.end() ; it++)
 	{
 		if( (*it) ) delete (*it);
 	}
@@ -64,7 +64,7 @@ GUIElement* GUIElement::addChild(GUIElement* elmnt)
 		silverback_->destroyScreen(elmnt->screen_);;
 		elmnt->screen_ = this->root_->screen_;
 	}
-	childs_.push_back(elmnt);
+	children_.push_back(elmnt);
 	return elmnt;
 }
 

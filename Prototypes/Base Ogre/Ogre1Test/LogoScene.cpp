@@ -53,6 +53,7 @@ bool LogoScene::launch(void)
 	}
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
 
+	//INSERT GUI
 	showLogos_ = new GUIShowLogo(vp);
 
 	camera_->setAspectRatio(
@@ -69,13 +70,13 @@ bool LogoScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		root_->clearEventTimes();
 		return true;
 	}
+
 	if( stop_ )		
 		return false;
 	if( !showLogos_->frameRenderingQueued(evt))	
 		return false;
 	return true;
 }
-
 //------------------------------------------------------------------------------------------
 bool LogoScene::keyPressed( const OIS::KeyEvent& arg)
 {

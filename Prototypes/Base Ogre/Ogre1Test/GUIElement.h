@@ -67,7 +67,7 @@ public:
 protected:
 	GUIElement*					root_;
 	GUIElement*					parent_;
-	std::list<GUIElement*>		childs_;
+	std::list<GUIElement*>		children_;
 
 	Gorilla::Silverback*		silverback_;
 	Gorilla::Screen*			screen_;
