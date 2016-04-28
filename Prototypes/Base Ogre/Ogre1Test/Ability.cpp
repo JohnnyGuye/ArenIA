@@ -3,7 +3,7 @@
 using namespace std;
 
 Ability::Ability(string name, Gauge CD, Gauge casting, int damage, int range, double speed)
-	: CD_(CD), 
+	: CD_(CD),
 	casting_(casting),
 	damage_(damage),
 	range_(range),
@@ -46,6 +46,11 @@ string Ability::getName() const
     return name_;
 }
 
+Robot* Ability::getCaster() const
+{
+    return caster_;
+}
+
 void Ability::setCD(Gauge CD)
 {
     CD_ = CD;
@@ -74,4 +79,9 @@ void Ability::setSpeed(double speed)
 void Ability::setName(string name)
 {
     name_ = name;
+}
+
+void Ability::setCaster(Robot* r)
+{
+    caster_ = r;
 }

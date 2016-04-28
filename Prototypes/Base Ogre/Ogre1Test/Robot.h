@@ -67,7 +67,7 @@ public:
     /** @brief Damages the Robot
         @param damage : the damages the robot took. Always higher than 0
         @return ROBOT_KILL if the damage killed the robot, STANDARD_EVENT otherwise**/
-    virtual bool takeDamage(float damage);
+    virtual bool takeDamage(float damage, GameObject* source);
 
 	/** @brief Update the robot using the lua file **/
 	virtual void update();
@@ -137,6 +137,12 @@ public:
 	*	@return the state **/
 	virtual State getState() const;
 
+    /** **/
+    void setIaFilename(std::string iaFilename);
+
+	/** **/
+	std::string getIaFilename() const;
+
 	/** **/
 	std::vector<Ability* > getAbilities() const;
 
@@ -145,6 +151,7 @@ public:
 
 //attributes
 protected:
+
     /**The robot Id, generated for now by a static count**/
     static int robot_count;
 	static const std::string IA_PATH;
@@ -177,5 +184,7 @@ protected:
 	Ogre::Degree	turretAngle_;
 
 	Ogre::Vector3	nextPosition_;
+	/**The last thing that damaged the robot**/
+	GameObject* lastDamageSource_;
 };
 

@@ -1,5 +1,5 @@
  #include "AbilityMissile.h"
- 
+
  AbilityMissile::AbilityMissile(Missile* missile)
  {
      missile_ = missile;
@@ -9,20 +9,21 @@
  {
 	 if(missile_) delete missile_;
  }
- 
+
  Missile* AbilityMissile::getMissile() const
  {
      return missile_;
  }
- 
+
  void AbilityMissile::setMissile(Missile* missile)
  {
      missile_ = missile;
  }
- 
- bool AbilityMissile::sendMissile(Ogre::Vector3 turretOrientation)
+
+ Missile* AbilityMissile::sendMissile()
  {
      //missile_->setDirection(turretOrientation);
-     missile_->move();
-     return true;
+     Missile* m = missile_.Clone();
+     m->setOrientation(caster_->getTurretOrientation());
+     return m;
  }
