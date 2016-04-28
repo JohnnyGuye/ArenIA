@@ -178,6 +178,11 @@ std::string Robot::getIaFilename() const
     return iaFilename_;
 }
 
+FightManager* Robot::getFightManager() const
+{
+    return fightManager_;
+}
+
 /* Setters */
 
 void Robot::setIaFilename(std::string iaFilename)
@@ -186,6 +191,10 @@ void Robot::setIaFilename(std::string iaFilename)
     //maybe some lua loading here
 }
 
+void Robot::setFightManager( FightManager* fightManager )
+{
+    fightManager_ = fightManager;
+}
 
 
 /* Stats altering method */

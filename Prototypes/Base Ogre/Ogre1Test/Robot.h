@@ -8,7 +8,7 @@
 * @summary :  Header file of the Robot Class, a Robot is the main fighting entity.
 */
 
-
+#include "FightManager.h"
 #include "GameEvent.h"
 #include "RobotKillEvent.h"
 #include "GameObject.h"
@@ -140,17 +140,29 @@ public:
     /** **/
     void setIaFilename(std::string iaFilename);
 
+    /** **/
+    void setFightManager(FightManager* fightManager);
+
 	/** **/
 	std::string getIaFilename() const;
 
 	/** **/
+	FightManager* getFightManager() const;
+
+	/** **/
 	std::vector<Ability* > getAbilities() const;
+
+    /** **/
+    std::vector<GameObject*> getSeenObjects();//pas const dans le doute, mais devrait le devenir
 
 	/** **/
 	Ability* Robot::getTurretAbility() const;
 
 //attributes
 protected:
+
+    /** **/
+    FightManager* fightManager_;
 
     /**The robot Id, generated for now by a static count**/
     static int robot_count;
