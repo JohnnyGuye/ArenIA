@@ -173,11 +173,36 @@ Ability* Robot::getTurretAbility() const
 	return turret_;
 }
 
+std::string Robot::getIaFilename() const
+{
+    return iaFilename_;
+}
+
+FightManager* Robot::getFightManager() const
+{
+    return fightManager_;
+}
+
+/* Setters */
+
+void Robot::setIaFilename(std::string iaFilename)
+{
+    iaFilename_ = iaFilename;
+    //maybe some lua loading here
+}
+
+void Robot::setFightManager( FightManager* fightManager )
+{
+    fightManager_ = fightManager;
+}
+
+
 /* Stats altering method */
-bool Robot::takeDamage(float damage)
+bool Robot::takeDamage(float damage, GameObject* source)
 //Algorithm : the damage is first taken in the additional health gauge
 //The Robot dies if the base gauge is depleted
 {
+    lastDamageSource_ = source;
 	if(isInvincible())	return false;
     //Step 1 : Apply the damage
     if( additionalStats_.hp.getFilledAbsolute() >= damage )
