@@ -94,7 +94,7 @@ bool FightScene::launch(void)
 
 	camera_->setAspectRatio(
 		  Real(vp->getActualWidth()) /
-		  Real(vp->getActualHeight()) * 0.7);
+		  Real(vp->getActualHeight()));
 
 	createScene();
 	return true;

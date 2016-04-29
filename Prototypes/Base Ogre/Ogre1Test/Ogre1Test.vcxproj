@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClCompile Include="Ability.cpp" />
     <ClCompile Include="AbilityMissile.cpp" />
+    <ClCompile Include="CodeEditScene.cpp" />
     <ClCompile Include="EndOfDayVictory.cpp" />
     <ClCompile Include="ExceptionArenIA.cpp" />
     <ClCompile Include="FightManager.cpp" />
@@ -84,6 +85,7 @@
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="Gorilla.cpp" />
+    <ClCompile Include="GUICode.cpp" />
     <ClCompile Include="GUIElement.cpp" />
     <ClCompile Include="GUIShowLogo.cpp" />
     <ClCompile Include="HUD.cpp" />
@@ -107,6 +109,7 @@
   <ItemGroup>
     <ClInclude Include="Ability.h" />
     <ClInclude Include="AbilityMissile.h" />
+    <ClInclude Include="CodeEditScene.h" />
     <ClInclude Include="EndOfDayVictory.h" />
     <ClInclude Include="ExceptionArenIA.h" />
     <ClInclude Include="FightManager.h" />
@@ -118,6 +121,7 @@
     <ClInclude Include="GameTimeMoment.h" />
     <ClInclude Include="Gauge.h" />
     <ClInclude Include="Gorilla.h" />
+    <ClInclude Include="GUICode.h" />
     <ClInclude Include="GUIConsole.h" />
     <ClInclude Include="GUIDecompte.h" />
     <ClInclude Include="GUIElement.h" />

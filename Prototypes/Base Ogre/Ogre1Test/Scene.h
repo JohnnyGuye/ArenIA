@@ -42,6 +42,7 @@ public:
 
 	enum Scenes {
 		LOGO,
+		CODE,
 		FIGHT,
 		EXIT
 	};
@@ -124,6 +125,7 @@ protected:
 	Ogre::Root*				root_;
 	Ogre::SceneManager*		sceneMgr_;
 	Gorilla::Silverback*	silverback_;
+	Ogre::Camera*			camera_;
 
 	bool					stop_;
 };

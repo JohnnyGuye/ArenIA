@@ -18,7 +18,6 @@ public:
 		rect = layer_->createRectangle(0,0, vpW / 4, vpH / 4);
 
 		rect->position(-vpW, -vpH);
-
 	}
 
 	inline virtual bool frameRenderingQueue(const Ogre::FrameEvent& evt)

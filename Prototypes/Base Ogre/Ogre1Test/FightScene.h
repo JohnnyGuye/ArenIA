@@ -99,7 +99,6 @@ protected:
 
 	RenderState		state_;
 	bool			pause_;
-	Ogre::Camera*	camera_;
 	OgreBites::SdkCameraMan*		cameraMan_;
 
 	GUIConsole*		console_;

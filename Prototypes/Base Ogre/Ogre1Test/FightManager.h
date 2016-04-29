@@ -47,6 +47,7 @@ public:
 	/** @brief add a new robot in the fight 
 	*	@param robot : the new robot **/
 	virtual void addRobot(Robot* robot);
+
 	/** @brief Return the terrain
 	*	@return the terrain **/
 	virtual Terrain* getTerrain() const;
