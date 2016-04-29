@@ -7,9 +7,8 @@ Missile::Missile(const Missile &rhs)
 	: GameObject(rhs),
 	stats_(rhs.stats_),
 	caster_(rhs.caster_),
+	hitbox_(rhs.hitbox_->clone())
 {
-    Hitbox h(*(rhs.hitbox_));
-    hitbox_ = &h;
 }
 
 Missile::Missile(Ogre::Vector3 position, Hitbox* hitbox, GameObject* caster, Stats stats, std::string name)
@@ -20,10 +19,9 @@ Missile::Missile(Ogre::Vector3 position, Hitbox* hitbox, GameObject* caster, Sta
 {
 }
 
-Missile* Missile::Clone()
+Missile* Missile::clone() const
 {
-    Missile* m = new Missile(*this);
-    return m;
+    return new Missile(*this);
 }
 
 Missile::~Missile()

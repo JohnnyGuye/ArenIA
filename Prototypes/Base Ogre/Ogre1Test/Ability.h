@@ -2,11 +2,8 @@
 
 #include <string>
 #include "Gauge.h"
-
-#define DEFAULT_DAMAGE 10
-#define DEFAULT_RANGE 10
-#define DEFAULT_SPEED 20.0
-
+//#include "Robot.h"
+class Robot;
 
 class Ability
 {

@@ -8,7 +8,6 @@
 * @summary :  Header file of the Robot Class, a Robot is the main fighting entity.
 */
 
-#include "FightManager.h"
 #include "GameEvent.h"
 #include "RobotKillEvent.h"
 #include "GameObject.h"
@@ -16,6 +15,8 @@
 #include "Ability.h"
 #include "Terrain.h"
 #include "LuaHandler.h"
+
+class FightManager;
 
 //for the rotations
 #define FORWARD_DEFAULT Ogre::Vector3::NEGATIVE_UNIT_Z

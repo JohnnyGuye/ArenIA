@@ -1,4 +1,5 @@
- #include "AbilityMissile.h"
+#include "AbilityMissile.h"
+#include "Robot.h"
 
  AbilityMissile::AbilityMissile(Missile* missile)
  {
@@ -22,8 +23,7 @@
 
  Missile* AbilityMissile::sendMissile()
  {
-     //missile_->setDirection(turretOrientation);
-     Missile* m = missile_.Clone();
+     Missile* m = missile_->clone();
      m->setOrientation(caster_->getTurretOrientation());
      return m;
  }

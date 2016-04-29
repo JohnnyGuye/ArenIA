@@ -7,7 +7,8 @@
 #include "Ability.h"
 #include "GameObject.h"
 
-class Missile : GameObject
+class Missile : 
+	public GameObject
 {
 public:
 
@@ -29,7 +30,7 @@ public:
 
     /** @brief creates a new missile copying the current instance and returns
     a pointer to it**/
-	Missile* Clone();
+	virtual Missile* clone() const;
 
 	/** Destroy a missile **/
     virtual ~Missile();

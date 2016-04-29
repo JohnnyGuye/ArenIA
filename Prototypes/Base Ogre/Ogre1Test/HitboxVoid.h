@@ -8,9 +8,11 @@ class HitboxVoid :
 public:
 
 	HitboxVoid(void)
-		: Hitbox()
+		: Hitbox(Ogre::Vector3::ZERO)
 	{
 	}
+
+	virtual HitboxVoid* clone() const {	return new HitboxVoid(*this);	}
 
 	virtual ~HitboxVoid(void)
 	{
