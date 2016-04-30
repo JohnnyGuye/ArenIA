@@ -46,6 +46,11 @@ Vector3 Robot::getNextPosition() const
 
 void Robot::update()
 {
+	turret_->Update();
+	for(unsigned int i=0; i < abilities_.size(); i++)
+	{
+		abilities_[i]->Update();
+	}
 	resetAction();
 	RobotLuaBinding::setRobot(this);
 	luaCode_->Execute();

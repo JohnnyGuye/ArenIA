@@ -3,6 +3,7 @@
 #include <OgreVector3.h>
 #include "Missile.h"
 #include "Ability.h"
+#include "FightManager.h"
 
 class AbilityMissile : Ability
 {
@@ -21,6 +22,8 @@ public:
     virtual Missile* getMissile() const;
 
     virtual void setMissile(Missile* missile);
+
+	virtual void Cast();
 
 protected:
 

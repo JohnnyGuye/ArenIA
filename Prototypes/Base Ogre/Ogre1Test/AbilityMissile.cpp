@@ -25,5 +25,15 @@
  {
      Missile* m = missile_->clone();
      m->setOrientation(caster_->getTurretOrientation());
+	 m->setPosition(caster_->getPosition());
      return m;
+ }
+
+void AbilityMissile::Cast()
+ {
+	 if( getCD().getFilledAbsolute() == 0){
+		 caster_->getFightManager()->addMissile( sendMissile() );
+		 getCD().setCurrent((float) getCD().getMax());
+
+	 }
  }

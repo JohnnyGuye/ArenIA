@@ -57,6 +57,8 @@ public:
 
     virtual void Cast() = 0;
 
+	virtual void Update();
+
     //------------------------------------------- PROTECTED
 
 protected:
