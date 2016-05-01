@@ -236,7 +236,14 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 	
 		/* RENDERING */
 		theSun_->update();
-		
+
+		for(Missile * m = fightManager_->renderLastQueuedMissile() ;
+			m != nullptr ; 
+			m = fightManager_->renderLastQueuedMissile())
+		{
+			addMissile(m);
+		}
+
 		for(auto ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
 		{
 			(*ge).update(evt);
@@ -247,6 +254,13 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 		{
 			(*re).update(evt);
 		}
+
+		for(auto me = missileEntities_.begin() ; me != missileEntities_.end() ; me++)
+		{
+			(*me).update(evt);
+		}
+
+		
 
 		console_->frameStarted(evt);
 		hud_->frameRenderingQueued(evt);
@@ -485,6 +499,28 @@ string FightScene::RobotEntity::stateToString(const Robot::State& state) const
 }
 
 // ----------------------------------------------
+// --------------- MISSILE ENTITY ---------------
+// ----------------------------------------------
+
+FightScene::MissileEntity::MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Real& scale, Missile* missile)
+	:	GameEntity(fs, mesh, missile->getPosition(), scale, missile)
+{
+	
+	missile->setOrientation(Degree(0));
+	node_->roll(Degree(missile->getOrientation()));
+}
+
+FightScene::MissileEntity::~MissileEntity()
+{
+}
+
+void FightScene::MissileEntity::update(const FrameEvent& evt)
+{
+	Missile* missile = (Missile*)object_;
+	GameEntity::update(evt);
+}
+
+// ----------------------------------------------
 // --------------- CREATIONS --------------------
 // ----------------------------------------------
 
@@ -507,6 +543,14 @@ void FightScene::createRobot(const std::string& name, const Robot::Type& type, c
 	Robot* robot = new Robot(position, name, team);
 	robotsEntities_.push_back(RobotEntity(this, mesh, position, scale, robot));
 	fightManager_->addRobot(robot);
+}
+
+void FightScene::addMissile(Missile* missile)
+{
+	std::string mesh = "RobotTondeuse_Projectile.mesh";
+	Real scale(80);
+	missileEntities_.push_back(MissileEntity(this, mesh, scale, missile));
+	std::cout << "Missile created" << std::endl;
 }
 
 void FightScene::createRobots(void)

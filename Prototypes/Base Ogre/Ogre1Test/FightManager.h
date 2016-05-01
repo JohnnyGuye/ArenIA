@@ -53,6 +53,10 @@ public:
 	///	@param missile the moving object added
 	virtual void addMissile(Missile* missile);
 
+	/// @brief needs to be called only by the renderer
+	/// @return the first missile none renderer
+	Missile* renderLastQueuedMissile(void);
+
 	/// @brief Return the terrain
 	///	@return the terrain **/
 	virtual Terrain* getTerrain() const;

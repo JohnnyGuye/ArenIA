@@ -26,10 +26,8 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 {
 	setTurretOrientation();
 	luaCode_ = new LuaHandler();
-	std::stringstream ss;
-	ss << IA_PATH << iaFilename_;
-	luaCode_->LoadFile(ss.str().c_str());
-	AbilityMissile* turret = new AbilityMissile(new Missile(Ogre::Vector3::ZERO, new HitboxSphere(position_), this));
+	setIaFilename("default.lua");
+	AbilityMissile* turret = new AbilityMissile(new Missile(Ogre::Vector3::ZERO, nullptr, this));
 	setTurretAbility(turret);
 }
 
@@ -197,7 +195,9 @@ FightManager* Robot::getFightManager() const
 void Robot::setIaFilename(std::string iaFilename)
 {
     iaFilename_ = iaFilename;
-    //maybe some lua loading here
+    std::stringstream ss;
+	ss << IA_PATH << iaFilename_;
+	luaCode_->LoadFile(ss.str().c_str());
 }
 
 void Robot::setFightManager( FightManager* fightManager )

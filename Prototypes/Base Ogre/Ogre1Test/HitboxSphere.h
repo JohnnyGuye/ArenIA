@@ -7,18 +7,24 @@ class HitboxSphere :
 {
 public:
 
-	inline HitboxSphere(Ogre::Vector3 position, const Ogre::Real& rad = 50, Ogre::Vector3 offset = Ogre::Vector3::ZERO)
+	inline HitboxSphere(Ogre::Vector3* position, const Ogre::Real& rad = 50, Ogre::Vector3 offset = Ogre::Vector3::ZERO)
 		: Hitbox(position, offset, SPHERE),
 		radius_(rad)
 	{
 	}
 
 	inline HitboxSphere(const HitboxSphere& rhs)
-		: Hitbox(*(rhs.position_), rhs.offset_, SPHERE),
+		: Hitbox(rhs.position_, rhs.offset_, SPHERE),
 		radius_(rhs.radius_)
 	{
-
 	}
+
+	inline HitboxSphere(const HitboxSphere& rhs, Ogre::Vector3* pos)
+		: Hitbox(pos, rhs.offset_, SPHERE),
+		radius_(rhs.radius_)
+	{
+	}
+
 	inline virtual ~HitboxSphere(void)
 	{
 	}

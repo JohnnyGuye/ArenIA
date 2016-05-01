@@ -55,9 +55,9 @@ protected:
 		GameEntity
 	{
 	public:
-		MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale, Missile* missile);
+		MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Real& scale, Missile* missile);
 		virtual~MissileEntity();
-		virtual void update();
+		virtual void update(const Ogre::FrameEvent& evt);
 	};
 
 	class RobotEntity : 
@@ -96,6 +96,7 @@ protected:
 	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale = 1);
 	virtual void createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team = Robot::NONE, const Ogre::Vector3& position = Ogre::Vector3::ZERO, const Ogre::Real& scale = 1);
 	virtual void createRobots(void);
+	virtual void addMissile( Missile* missile);
 	virtual void createScene(void);
 
 protected:
@@ -104,6 +105,8 @@ protected:
 	std::vector<Ogre::Entity*>	DecorEntities_; // The entities corresponding to the scenery 
 	std::list<RobotEntity>		robotsEntities_; // The robots to carry 
 	std::list<GameEntity>		objectEntities_;	// The other objects to carry
+	std::list<MissileEntity>	missileEntities_;	// the missiles
+
 	Sun*						theSun_;// The sun
 
 	RenderState		state_;

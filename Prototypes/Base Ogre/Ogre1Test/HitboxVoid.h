@@ -8,7 +8,7 @@ class HitboxVoid :
 public:
 
 	HitboxVoid(void)
-		: Hitbox(Ogre::Vector3::ZERO)
+		: Hitbox(nullptr)
 	{
 	}
 

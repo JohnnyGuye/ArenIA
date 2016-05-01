@@ -24,7 +24,7 @@ void destroyList(std::list<T> rhs)
 {
 	while(rhs.size() > 0)
 	{
-		delete *(rhs.begin());
+		delete (rhs.front());
 		rhs.pop_front();
 	}
 }
@@ -55,6 +55,17 @@ void FightManager::addMissile(Missile* missile)
 {
 	missiles_.push_back(missile);
 	missilesBeforeRender_.push_back(missile);
+}
+
+Missile* FightManager::renderLastQueuedMissile(void)
+{
+	Missile* m = nullptr;
+	if( missilesBeforeRender_.size() > 0)
+	{
+		m = missilesBeforeRender_.front();
+		missilesBeforeRender_.pop_front();
+	}
+	return m;
 }
 
 GameTime FightManager::getTime() const

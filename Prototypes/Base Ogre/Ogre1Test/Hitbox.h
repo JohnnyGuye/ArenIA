@@ -15,11 +15,11 @@ public:
 	};
 public:
 
-	inline Hitbox( Ogre::Vector3 position, Ogre::Vector3 offset = Ogre::Vector3::ZERO, BoxType boxType = EMPTY)
+	inline Hitbox( Ogre::Vector3* position, Ogre::Vector3 offset = Ogre::Vector3::ZERO, BoxType boxType = EMPTY)
 		: boxType_(boxType),
 		offset_(offset)
 	{
-		position_ = &position ;
+		position_ = position ;
 	}
 
 	inline virtual ~Hitbox(void){}
