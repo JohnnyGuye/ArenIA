@@ -109,14 +109,14 @@ public:
         @param anAbility : the Ability to add to the robot
         @return The index at which the ability the ability is inserted
     **/
-    int addAbility(Ability & anAbility);
+    int addAbility(Ability * anAbility);
 
     /** @brief Remove the idxth ability
         @param idxAbility : the index of the ability to remove
         @return True if the ability was succesfully removed, False otherwise
     **/
 
-	void setTurretAbility(Ability & anAbility);
+	void setTurretAbility(Ability * anAbility);
 
     bool removeAbility(unsigned int idxAbility);
 

@@ -9,32 +9,33 @@ FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	loadTerrain(mapFileName);
 	
 	list<Ogre::Vector3> starts = getTerrain()->getStarts();
+	int i = 0;
 	for(std::list<Ogre::Vector3>::iterator it = starts.begin(); it != starts.end() ; it++ )
 	{
 		ArenIA::Log::getInstance()->write("Robot created !");
-		addRobot(new Robot(*it, "Robot-001", Robot::NONE));
+		std::stringstream ss;
+		ss << "Robot-" << (i > 9 ? "0" : "00") << i++;
+		addRobot(new Robot(*it, ss.str(), Robot::NONE));
+	}
+}
+
+template <typename T>
+void destroyList(std::list<T> rhs)
+{
+	while(rhs.size() > 0)
+	{
+		delete *(rhs.begin());
+		rhs.pop_front();
 	}
 }
 
 FightManager::~FightManager(void)
 {
-	while(events_.size() > 0)
-	{
-		delete *(events_.begin());
-		events_.pop_front();
-	}
-
-	while(objects_.size() > 0)
-	{
-		delete *(objects_.begin());
-		objects_.pop_front();
-	}
-
-	while(robots_.size() > 0)
-	{
-		delete *(robots_.begin());
-		robots_.pop_front();
-	}
+	destroyList(events_);
+	destroyList(objects_);
+	destroyList(missiles_);
+	destroyList(missilesBeforeRender_);
+	destroyList(robots_);
 
 	if(victoryHandler_)	delete victoryHandler_;
 }
@@ -46,7 +47,14 @@ void FightManager::loadTerrain(const string& fileName)
 
 void FightManager::addRobot(Robot* robot)
 {
+	robot->setFightManager(this);
 	robots_.push_back(robot);
+}
+
+void FightManager::addMissile(Missile* missile)
+{
+	missiles_.push_back(missile);
+	missilesBeforeRender_.push_back(missile);
 }
 
 GameTime FightManager::getTime() const
@@ -91,6 +99,11 @@ void FightManager::update()
 	for(list<Robot*>::iterator it = robots_.begin() ; it != robots_.end() ; it++)
 	{
 		(*it)->applyUpdate(terrain_->getCollision(*it, true));
+	}
+
+	for(auto it = missiles_.begin() ; it != missiles_.end() ; it++)
+	{
+		(*it)->update();
 	}
 
 	//updating the day

@@ -50,8 +50,13 @@ public:
 	Gauge& operator+=(Gauge const& rhs);
 	Gauge& operator-=(Gauge const& rhs);
 //------------------------------------------------- Public methods
+	/// Tells if the Gauge is fullfilled
+	/// @return true if fullfilled
+	inline bool IsFull() const{		return current_ == (double)max_;	}
 
-	inline bool IsFull() const{	return (int)current_ == max_;	}
+	/// Tells if the Gauge is empty
+	/// @return true if empty
+	inline bool IsEmpty() const {	return current_ == (double)min_;	}
 
 //--------------------------------------GETTERS
 

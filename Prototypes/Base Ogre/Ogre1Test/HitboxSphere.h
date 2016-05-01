@@ -1,5 +1,6 @@
 #pragma once
 #include "Hitbox.h"
+#include <OGRE\OgreVector3.h>
 
 class HitboxSphere :
 	public Hitbox
@@ -29,9 +30,12 @@ public:
 		switch(hitbox->boxType_)
 		{
 		case SPHERE:
+			{
 			HitboxSphere * sphere = (HitboxSphere*)hitbox;
-			Ogre::Real rad2(radius_ + sphere->radius_);
-			return (sphere->position_->squaredDistance(*position_) < (rad2 * rad2) ? true : false);
+			Ogre::Real radd;
+			radd = radius_ + sphere->radius_;
+			return (sphere->position_->squaredDistance(*position_) < (radd * radd) ? true : false);
+			}
 		default:
 			return false;
 		}

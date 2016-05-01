@@ -1,5 +1,7 @@
 #include "Robot.h"
 #include "RobotLuaBinding.h"
+#include "AbilityMissile.h"
+#include "HitboxSphere.h"
 
 using namespace Ogre;
 using namespace std;
@@ -27,6 +29,8 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	std::stringstream ss;
 	ss << IA_PATH << iaFilename_;
 	luaCode_->LoadFile(ss.str().c_str());
+	AbilityMissile* turret = new AbilityMissile(new Missile(Ogre::Vector3::ZERO, new HitboxSphere(position_), this));
+	setTurretAbility(turret);
 }
 
 Robot::~Robot()
@@ -118,13 +122,13 @@ std::vector<Ability*> Robot::getKnownCompetences(Robot & robot){
     return robot.abilities_;
 }
 
-int Robot::addAbility(Ability & anAbility){
-    abilities_.push_back(&anAbility);
+int Robot::addAbility(Ability * anAbility){
+    abilities_.push_back(anAbility);
     return abilities_.size() - 1;//returns the index of the Ability inserted
 }
 
-void Robot::setTurretAbility(Ability & anAbility){
-	turret_ = &anAbility;
+void Robot::setTurretAbility(Ability *anAbility){
+	turret_ = anAbility;
 }
 
 bool Robot::removeAbility(unsigned int idxAbility){

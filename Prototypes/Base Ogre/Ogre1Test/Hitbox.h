@@ -31,7 +31,7 @@ public:
 	virtual bool intersect( Hitbox* hitbox) const = 0;
 	inline virtual Hitbox* clone() const = 0;
 
-protected:
+public:
 	BoxType			boxType_;
 	Ogre::Vector3*	position_;
 	Ogre::Vector3	offset_;

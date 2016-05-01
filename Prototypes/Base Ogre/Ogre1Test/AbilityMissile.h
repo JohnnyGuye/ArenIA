@@ -5,7 +5,8 @@
 #include "Ability.h"
 #include "FightManager.h"
 
-class AbilityMissile : Ability
+class AbilityMissile : 
+	public Ability
 {
 public:
 

@@ -30,6 +30,7 @@
 #include "VictoryHandler.h"
 #include "Gauge.h"
 #include "Robot.h"
+#include "Missile.h"
 
 #include <string>
 #include <list>
@@ -40,46 +41,50 @@ public:
 	FightManager(const std::string& mapFileName = "essai1.txt", VictoryHandler* vo = new EndOfDayVictory());
 	virtual ~FightManager(void);
 
-	/** @brief Load a new terrain into the fight manager 
-	**	@param fileName the name of the new map to load **/
+	/// @brief Load a new terrain into the fight manager 
+	///	@param fileName the name of the new map to load 
 	virtual void loadTerrain(const std::string& fileName);
 
-	/** @brief add a new robot in the fight 
-	*	@param robot : the new robot **/
+	/// @brief add a new robot in the fight 
+	///	@param robot : the new robot **/
 	virtual void addRobot(Robot* robot);
 
-	/** @brief Return the terrain
-	*	@return the terrain **/
+	/// @brief add some moving objects wich can collide with walls and robots
+	///	@param missile the moving object added
+	virtual void addMissile(Missile* missile);
+
+	/// @brief Return the terrain
+	///	@return the terrain **/
 	virtual Terrain* getTerrain() const;
 
-	/** @brief give a timestamp on the actual round
-	*	@return the GameTime of the round **/
+	/// @brief give a timestamp on the actual round
+	///	@return the GameTime of the round 
 	virtual GameTime getTime() const;
 
-	/** @brief add en event to the events list 
-	*	@param ge : the event to add **/
+	/// @brief add en event to the events list 
+	///	@param ge : the event to add 
 	virtual void addEvent(GameEvent* ge);
 
-	/** @brief verify if someone won 
-	*	@return true conditions of victory are fullfilled **/
+	/// @brief verify if someone won 
+	///	@return true conditions of victory are fullfilled 
 	virtual bool IsVictory() const;
 
-	/** @brief go to the next round **/
+	/// @brief go to the next round 
 	virtual void update();
 
-	/** @brief return the number of rounds since the beginning **/
+	/// @brief return the number of rounds since the beginning 
 	inline virtual float getActualTime() const;
 
-	/** @brief return the number of rounds before the end of a day **/
+	/// @brief return the number of rounds before the end of a day 
 	inline virtual float getRemainingTime() const;
 
-	/** @brief return the progress of the day. 0 when just began, 1 at the end **/
+	/// @brief return the progress of the day. 0 when just began, 1 at the end 
 	inline virtual float getDayRatio() const;
 
-	/** @brief return the list of robots **/
+	/// @brief return the list of robots
 	inline virtual std::list<Robot*>	getRobots() const;
 
-	/** @brief reset the fight manager to the first state of the match **/
+	/// @brief reset the fight manager to the first state of the match
 	virtual void reset();
 
 protected:
@@ -96,6 +101,10 @@ protected:
 
 	/** A list of the objects which want to be updated **/
 	std::list<GameObject*>	objects_;
+
+	/** A list of the missiles you want to update **/
+	std::list<Missile*>	missiles_;
+	std::list<Missile*>	missilesBeforeRender_;
 
 	/** A chronological list of the events **/
 	std::list<GameEvent*>	events_;

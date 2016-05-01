@@ -51,6 +51,15 @@ protected:
 		Ogre::AnimationState*	animState_;
 	};
 
+	class MissileEntity :
+		GameEntity
+	{
+	public:
+		MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale, Missile* missile);
+		virtual~MissileEntity();
+		virtual void update();
+	};
+
 	class RobotEntity : 
 		GameEntity
 	{

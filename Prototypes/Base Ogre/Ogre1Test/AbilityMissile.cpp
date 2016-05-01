@@ -31,9 +31,8 @@
 
 void AbilityMissile::Cast()
  {
-	 if( getCD().getFilledAbsolute() == 0){
+	 if( getCD().IsEmpty() ){
 		 caster_->getFightManager()->addMissile( sendMissile() );
-		 getCD().setCurrent((float) getCD().getMax());
-
+		 getCD().fill();
 	 }
  }
