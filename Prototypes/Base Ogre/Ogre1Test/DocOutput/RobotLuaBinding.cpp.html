@@ -1,0 +1,144 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Lua API</title>
+
+  <link rel="stylesheet" type="text/css" href="github-markdown.css">
+  	
+  	<link rel="stylesheet" href="github.css">
+	<script src="highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<div class="markdown-body">
+	<h1>ArenIA Lua API</h1>
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#1"><strong>move</strong>():<em>void</em></a></li>
+<li><a href="#2"><strong>fire</strong>():<em>void</em></a></li>
+<li><a href="#3"><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></a></li>
+<li><a href="#4"><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></a></li>
+<li><a href="#5"><strong>getTurretAngle</strong>():<em>double</em></a></li>
+<li><a href="#6"><strong>getRobotAngle</strong>():<em>double</em></a></li>
+</ul>
+
+<hr />
+
+<hr />
+
+<h3><a name="1"></a><strong>move</strong>():<em>void</em></h3>
+
+<h4>Description</h4>
+
+<p>Gives the robot the order to move</p>
+
+<h4>example</h4>
+
+<h5>How to move</h5>
+
+<pre><code class="lua">
+    function main()
+        move()
+        -- Now the robot will move in a straight line
+    end
+</code></pre>
+
+<hr />
+
+<h3><a name="2"></a><strong>fire</strong>():<em>void</em></h3>
+
+<h4>Description</h4>
+
+<p>Gives the robot the order to fire his gun in front of him</p>
+
+<h4>example</h4>
+
+<h5>How to fire</h5>
+
+<pre><code class="lua">
+    function main()
+        fire()
+        -- Now the robot will fire
+    end
+</code></pre>
+
+<hr />
+
+<h3><a name="3"></a><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></h3>
+
+<h4>Description</h4>
+
+<p>Gives the robot the order to turn at a certain angle</p>
+
+<h4>Parameters</h4>
+
+<ul>
+<li><strong>angle</strong>:<em>double</em> The angle in degree that the robot has to turn. A positive angle means he will turn anti-clockwise, and a negative one means he will turn anti-clockwise.</li>
+</ul>
+
+<h4>example</h4>
+
+<h5>How to turn</h5>
+
+<pre><code class="lua">
+    function main()
+        turn(50)
+        -- Now the robot will turn in order to have a angle of 50 degres
+    end
+</code></pre>
+
+<hr />
+
+<h3><a name="4"></a><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></h3>
+
+<h4>Description</h4>
+
+<p>Gives the robot the order to turn his turret at a certain angle</p>
+
+<h4>Parameters</h4>
+
+<ul>
+<li><strong>angle</strong>:<em>double</em> The angle in degree that the turret has to turn. A positive angle means he will turn anti-clockwise, and a negative one means he will turn anti-clockwise.</li>
+</ul>
+
+<hr />
+
+<h3><a name="5"></a><strong>getTurretAngle</strong>():<em>double</em></h3>
+
+<h4>Description</h4>
+
+<p>Gives you the angle that the robot's turret is facing, relative to the (trouver par rapport à quoi on mesure)</p>
+
+<h4>Return</h4>
+
+<ul>
+<li>A double corresponding to the angle that the robot's turret is facing</li>
+</ul>
+
+<hr />
+
+<h3><a name="6"></a><strong>getRobotAngle</strong>():<em>double</em></h3>
+
+<h4>Description</h4>
+
+<p>Gives you the angle that the robot is facing, relative to the (trouver par rapport à quoi on mesure)</p>
+
+<h4>Return</h4>
+
+<ul>
+<li>A double corresponding to the angle that the robot is facing</li>
+</ul>
+
+</div>
+
+</body>
+</html>
