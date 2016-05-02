@@ -86,10 +86,10 @@ void Ability::setCaster(Robot* r)
     caster_ = r;
 }
 
-void Ability::Update()
+void Ability::update()
 {
-	if( getCD().getFilledAbsolute() >= 0)
+	if( CD_.getFilledAbsolute() >= 0)
 	{
-		getCD().setCurrent( getCD( ).getCurrent() - (float) 1 );
+		CD_.setCurrent( CD_.getCurrent() - (float) 1 );
 	}
 }

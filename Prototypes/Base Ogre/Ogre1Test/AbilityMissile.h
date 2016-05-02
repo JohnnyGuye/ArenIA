@@ -24,7 +24,7 @@ public:
 
     virtual void setMissile(Missile* missile);
 
-	virtual void Cast();
+	virtual void cast();
 
 protected:
 
