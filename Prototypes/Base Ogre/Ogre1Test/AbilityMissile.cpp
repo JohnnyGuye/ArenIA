@@ -24,6 +24,9 @@
  Missile* AbilityMissile::sendMissile()
  {
      Missile* m = missile_->clone();
+	 std::cout << "Adresse caster_ " << caster_ << std::endl;
+	 std::cout << "Acces a une composante ROBOT de caster_ " << caster_->getTeam() << std::endl;
+	 std::cout << "Angle caster_ " << caster_->getOrientation() << std :: endl;
      m->setOrientation(caster_->getTurretOrientation());
 	 m->setPosition(caster_->getPosition());
      return m;
