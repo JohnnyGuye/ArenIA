@@ -15,7 +15,6 @@
 #include "Ability.h"
 #include "Terrain.h"
 #include "LuaHandler.h"
-#include "HitboxSphere.h"
 
 class FightManager;
 

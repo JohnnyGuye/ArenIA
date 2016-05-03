@@ -27,8 +27,7 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	setTurretOrientation();
 	luaCode_ = new LuaHandler();
 	setIaFilename("default.lua");
-	HitboxSphere* hitbox = new HitboxSphere(&position);
-	AbilityMissile* turret = new AbilityMissile(new Missile(Ogre::Vector3::ZERO, hitbox, this));
+	AbilityMissile* turret = new AbilityMissile(new Missile(Ogre::Vector3::ZERO, nullptr, this));
 	setTurretAbility(turret);
 }
 
@@ -49,10 +48,10 @@ Vector3 Robot::getNextPosition() const
 
 void Robot::update()
 {
-	turret_->update();
+	turret_->Update();
 	for(unsigned int i=0; i < abilities_.size(); i++)
 	{
-		abilities_[i]->update();
+		abilities_[i]->Update();
 	}
 	resetAction();
 	RobotLuaBinding::setRobot(this);
@@ -66,7 +65,7 @@ void Robot::applyUpdate(bool wallCollide)
 
 bool Robot::fire()
 {
-	turret_->cast();
+	turret_->Cast();
     action_ = (State)(action_ | SHOOTING);
     return true;
 }
@@ -111,7 +110,7 @@ Ability-based Methods
 bool Robot::useAbility(unsigned int idxAbility){
     if(idxAbility >= 0 && idxAbility < abilities_.size() )
     {
-        abilities_[idxAbility]->cast();
+        abilities_[idxAbility]->Cast();
         return true;
     }
     return false;

@@ -34,11 +34,10 @@
      return m;
  }
 
-void AbilityMissile::cast()
+void AbilityMissile::Cast()
  {
-	 if( CD_.getFilledAbsolute() == 0 ){
-		 Missile* m = sendMissile();
-		 caster_->getFightManager()->addMissile( m );
-		 CD_.fill();
+	 if( getCD().IsEmpty() ){
+		 caster_->getFightManager()->addMissile( sendMissile() );
+		 getCD().fill();
 	 }
  }
