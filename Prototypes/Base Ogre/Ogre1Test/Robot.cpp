@@ -148,7 +148,6 @@ Basic Getters
 
 Degree Robot::getTurretOrientation() const
 {
-	std::cout << "acces fonction ok" << std::endl;
 	return Degree(turretOrientation_.angleBetween(orientation_));
 }
 

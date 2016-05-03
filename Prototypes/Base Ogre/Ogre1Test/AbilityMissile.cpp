@@ -23,14 +23,9 @@
 
  Missile* AbilityMissile::sendMissile()
  {
-	 //for some reason, here specifying the class from which the method is taken seems to stop the segfault
-	 //It apparently comes from the fact the GameObject Class is virtual
      Missile* m = missile_->clone();
-	 std::cout << caster_->GameObject::getOrientation() << std::endl;
-	 Ogre::Degree an = caster_->GameObject::getOrientation();
-	 an += caster_->Robot::getTurretOrientation();
-     m->setOrientation(an);
-	 m->setPosition( caster_->GameObject::getPosition() );
+     m->setOrientation(caster_->getTurretOrientation());
+	 m->setPosition(caster_->getPosition());
      return m;
  }
 
