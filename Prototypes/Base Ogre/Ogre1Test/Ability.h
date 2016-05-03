@@ -55,9 +55,9 @@ public:
 
     //-------------------------------------------- Public Methods
 
-    virtual void Cast() = 0;
+    virtual void cast() = 0;
 
-	virtual void Update();
+	virtual void update();
 
     //------------------------------------------- PROTECTED
 
