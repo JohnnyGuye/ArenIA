@@ -1,4 +1,5 @@
 #include "Missile.h"
+#include "HitboxSphere.h"
 
 using namespace Ogre;
 using namespace std;
@@ -11,12 +12,13 @@ Missile::Missile(const Missile &rhs)
 {
 }
 
-Missile::Missile(Ogre::Vector3 position, Hitbox* hitbox, GameObject* caster, Stats stats, std::string name)
+Missile::Missile(Ogre::Vector3 position, const Real& rad, GameObject* caster, Stats stats, std::string name)
 	: GameObject(position, name),
 	stats_(stats),
 	caster_(caster),
-	hitbox_(hitbox)
+	hitbox_(new HitboxSphere(&position_, rad))
 {
+	position_.y += 20;
 }
 
 Missile* Missile::clone() const
@@ -54,15 +56,9 @@ void Missile::setCaster(GameObject* caster)
     caster_ = caster;
 }
 
-void Missile::setHitbox(Hitbox* hitbox)
-{
-    hitbox_ = hitbox;
-}
-
 bool Missile::move()
 {
-    double speed = stats_.speed;
-	GameObject::move(speed * orientation_);
+	GameObject::move(stats_.speed * orientation_);
     return true;
 }
 

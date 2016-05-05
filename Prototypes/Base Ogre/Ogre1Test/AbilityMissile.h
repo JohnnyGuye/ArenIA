@@ -13,7 +13,7 @@ public:
     /**
 	* @brief Create a new ability able to cast missiles
 	**/
-    AbilityMissile(Missile* missile = nullptr);
+    AbilityMissile(Robot* caster);
     //
     virtual ~AbilityMissile();
 
@@ -22,9 +22,9 @@ public:
 
     virtual Missile* getMissile() const;
 
-    virtual void setMissile(Missile* missile);
+    virtual void setMissile(Missile missile);
 
-	virtual void Cast();
+	virtual void cast();
 
 protected:
 

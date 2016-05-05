@@ -41,7 +41,7 @@ protected:
 	public:
 		GameEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale, GameObject * object = nullptr);
 		virtual~GameEntity();
-		virtual void update(const Ogre::FrameEvent& evt);
+		virtual bool update(const Ogre::FrameEvent& evt);
 	protected:
 		FightScene*				fs_;
 		Ogre::Entity*			entity_;
@@ -57,7 +57,7 @@ protected:
 	public:
 		MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Real& scale, Missile* missile);
 		virtual~MissileEntity();
-		virtual void update(const Ogre::FrameEvent& evt);
+		virtual bool update(const Ogre::FrameEvent& evt);
 	};
 
 	class RobotEntity : 
@@ -66,7 +66,7 @@ protected:
 	public:
 		RobotEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale, Robot* robot);
 		virtual~RobotEntity();
-		virtual void update(const	Ogre::FrameEvent& evt);
+		virtual bool update(const	Ogre::FrameEvent& evt);
 		inline virtual std::string stateToString(const Robot::State& state) const;
 	protected:
 	};
