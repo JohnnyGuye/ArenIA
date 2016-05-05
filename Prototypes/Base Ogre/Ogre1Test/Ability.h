@@ -11,7 +11,7 @@ class Ability
 public:
 
     //Main constructor, creates an Ability
-    Ability(std::string name = "Dummy", Gauge CD = Gauge(120), Gauge casting = Gauge(30), int damage = 0, int range = 0, double speed = 0);
+    Ability(Robot* caster, std::string name = "Dummy", Gauge CD = Gauge(120), Gauge casting = Gauge(30), int damage = 0, int range = 0, double speed = 0);
 
     virtual ~Ability();
 

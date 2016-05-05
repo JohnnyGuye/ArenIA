@@ -1,9 +1,10 @@
 #include "AbilityMissile.h"
 #include "Robot.h"
 
- AbilityMissile::AbilityMissile(Missile* missile)
+ AbilityMissile::AbilityMissile(Robot* caster)
+	 : Ability(caster)
  {
-     missile_ = missile;
+     missile_ = new Missile(Ogre::Vector3::ZERO, 50.f, caster);
  }
 
  AbilityMissile::~AbilityMissile()
@@ -16,17 +17,15 @@
      return missile_;
  }
 
- void AbilityMissile::setMissile(Missile* missile)
+ void AbilityMissile::setMissile(Missile missile)
  {
-     missile_ = missile;
+	 if(missile_) delete missile_;
+     missile_ = new Missile(missile);
  }
 
  Missile* AbilityMissile::sendMissile()
  {
      Missile* m = missile_->clone();
-	 std::cout << "Adresse caster_ " << caster_ << std::endl;
-	 std::cout << "Acces a une composante ROBOT de caster_ " << caster_->getTeam() << std::endl;
-	 std::cout << "Angle caster_ " << caster_->getOrientation() << std :: endl;
      m->setOrientation(caster_->getTurretOrientation());
 	 m->setPosition(caster_->getPosition());
      return m;
@@ -34,7 +33,7 @@
 
 void AbilityMissile::cast()
  {
-	 if( CD_.getFilledAbsolute() == 0 ){
+	 if( CD_.IsEmpty() ){
 		 Missile* m = sendMissile();
 		 caster_->getFightManager()->addMissile( m );
 		 CD_.fill();

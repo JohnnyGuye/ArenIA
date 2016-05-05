@@ -112,10 +112,22 @@ void FightManager::update()
 		(*it)->applyUpdate(terrain_->getCollision(*it, true));
 	}
 
-	for(auto it = missiles_.begin() ; it != missiles_.end() ; it++)
+	for(auto it = missiles_.begin() ; it != missiles_.end() ; )
 	{
-		(*it)->update();
+		auto m = *it;
+		m->update();
+		
+		if(terrain_->getCollision(m))
+		{
+			it = missiles_.erase(it);
+			m->kill();
+		}
+		else
+		{
+			it++;
+		}
 	}
+	std::cout << std::endl;
 
 	//updating the day
 	day_.update();

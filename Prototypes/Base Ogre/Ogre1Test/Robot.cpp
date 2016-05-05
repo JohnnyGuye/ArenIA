@@ -27,8 +27,8 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	setTurretOrientation();
 	luaCode_ = new LuaHandler();
 	setIaFilename("default.lua");
-	HitboxSphere* hitbox = new HitboxSphere(&position);
-	AbilityMissile* turret = new AbilityMissile(new Missile(Ogre::Vector3::ZERO, hitbox, this));
+
+	AbilityMissile* turret = new AbilityMissile(this);
 	setTurretAbility(turret);
 }
 

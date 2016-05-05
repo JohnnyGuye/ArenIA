@@ -26,12 +26,17 @@ public:
 	** @return true if all the three flags are true **/
 	virtual bool isInStase() const;
 
-	/** @brief set the status of the object
-	**	@pram flag : the flags needed to set the status, by exemple, if you want,
-	**	this object totally disabled you can set flag to INVINCIBLE | SNARE | IMPOTENT (STASE does the same thing)
-	**	this object totally able set flag to nothing (ABLE function too)
-	**/
+	/// @return true if the object is dead
+	virtual bool isDead() const;
+
+	/// @brief set the status of the object
+	///	@pram flag : the flags needed to set the status, by exemple, if you want,
+	///	this object totally disabled you can set flag to INVINCIBLE | SNARE | IMPOTENT (STASE does the same thing)
+	///	this object totally able set flag to nothing (ABLE function too)
 	virtual void setStatus	(const int flag = ABLE);
+
+	/// @brief kills the gameobject
+	virtual void kill();
 
 	/** @brief turn the orientation of the object
 	*	@param the angle in degrees between the X-axis of the object, and the X-axis of the scene
@@ -78,7 +83,8 @@ protected :
 	/* About states **/
 	bool	invincible_,
 			snare_,
-			impotent_;
+			impotent_,
+			dead_;
 
 	/* About properties **/
 	std::string name_;

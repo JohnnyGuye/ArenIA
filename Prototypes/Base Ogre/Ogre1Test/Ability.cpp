@@ -2,14 +2,16 @@
 
 using namespace std;
 
-Ability::Ability(string name, Gauge CD, Gauge casting, int damage, int range, double speed)
-	: CD_(CD),
+Ability::Ability(Robot* caster, string name, Gauge CD, Gauge casting, int damage, int range, double speed)
+	: caster_(caster),
+	CD_(CD),
 	casting_(casting),
 	damage_(damage),
 	range_(range),
 	speed_(speed),
 	name_(name)
 {
+	CD_.setModifier(-1.f);//-1 for each turn so one second means 60 ticks
 }
 
 Ability::~Ability()
@@ -88,8 +90,5 @@ void Ability::setCaster(Robot* r)
 
 void Ability::update()
 {
-	if( CD_.getFilledAbsolute() >= 0)
-	{
-		CD_.setCurrent( CD_.getCurrent() - (float) 1 );
-	}
+	CD_.update();
 }
