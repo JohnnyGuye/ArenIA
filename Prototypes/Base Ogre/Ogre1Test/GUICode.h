@@ -39,12 +39,12 @@ namespace GUI
 
 	class FlowChartArea
 	{
+	protected:
 		class Bloc;
 		class Start;
 		class End;
 		class Arrow;
-
-	public:
+	
 		/** Low level classes **/
 		class Bloc
 		{
@@ -52,7 +52,7 @@ namespace GUI
 			Bloc(Gorilla::Layer* Layer, Ogre::Vector2 pos, Ogre::Vector2 dim, const Ogre::String& sprite);
 			virtual~Bloc();
 
-			virtual bool attach(Arrow* arrow);
+			virtual bool attach(Arrow* arrow) = 0;
 			virtual bool mouseMoved(const OIS::MouseEvent &arg);
 			virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 			virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
@@ -91,7 +91,10 @@ namespace GUI
 		public: 
 			Start (Gorilla::Layer*, Ogre::Vector2 pos);
 			virtual~Start();
+
+			virtual bool attach(Arrow* arrow);
 		protected:
+			Arrow*		next_;
 		};
 
 		class End
@@ -100,7 +103,10 @@ namespace GUI
 		public: 
 			End (Gorilla::Layer*, Ogre::Vector2 pos);
 			virtual~End();
+
+			virtual bool attach(Arrow* arrow);
 		protected:
+			Arrow*		previous_;
 		};
 		/** High level class **/
 	public:

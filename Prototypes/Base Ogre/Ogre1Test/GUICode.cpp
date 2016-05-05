@@ -139,7 +139,7 @@ bool GUI::FlowChartArea::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButt
 		(*it)->mousePressed(arg, id);
 	}
 	switch(id)
-	case OIS::MouseButtonID::MB_Middle:
+	case OIS::MB_Middle:
 		
 		break;
 	return true;
@@ -209,7 +209,7 @@ bool GUI::FlowChartArea::Bloc::mouseMoved(const OIS::MouseEvent &arg)
 
 bool GUI::FlowChartArea::Bloc::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-	Ogre::Vector2 mousePosition(arg.state.X.abs,arg.state.Y.abs);
+	Ogre::Vector2 mousePosition(Ogre::Real(arg.state.X.abs),Ogre::Real(arg.state.Y.abs));
 	if(hitBox_->intersects(mousePosition))
 	{
 		onHold_ = true;
@@ -238,6 +238,12 @@ GUI::FlowChartArea::Start::~Start()
 {
 }
 
+bool GUI::FlowChartArea::Start::attach(Arrow* arrow)
+{
+	next_ = arrow;
+	return true;
+}
+
 /* Bloc End */
 GUI::FlowChartArea::End::End(Gorilla::Layer* layer, Ogre::Vector2 pos)
 	: Bloc(layer, pos, Ogre::Vector2(60,60), "hexa_violet")
@@ -249,6 +255,12 @@ GUI::FlowChartArea::End::End(Gorilla::Layer* layer, Ogre::Vector2 pos)
 
 GUI::FlowChartArea::End::~End()
 {
+}
+
+bool GUI::FlowChartArea::End::attach(Arrow* arrow)
+{
+	previous_ = arrow;
+	return true;
 }
 
 /*********************************************************
@@ -342,8 +354,8 @@ bool GUICode::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool GUICode::mouseMoved(const OIS::MouseEvent &arg)
 {
-	Ogre::Real x = arg.state.X.abs, 
-		y = arg.state.Y.abs;
+	Ogre::Real x((float)arg.state.X.abs), 
+		y((float)arg.state.Y.abs);
 	mouse_->left(x);
 	mouse_->top(y);
 	flowChartArea_->mouseMoved(arg);
