@@ -90,16 +90,18 @@ bool CodeEditScene::keyReleased(const OIS::KeyEvent &arg)
 //---------------------------------------------------------------------------
 bool CodeEditScene::mouseMoved(const OIS::MouseEvent &arg)
 {
-
+	GUICode_->mouseMoved(arg);
     return true;
 }
 //---------------------------------------------------------------------------
 bool CodeEditScene::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
+	GUICode_->mousePressed(arg, id);
     return true;
 }
 //---------------------------------------------------------------------------
 bool CodeEditScene::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
+	GUICode_->mouseReleased(arg, id);
     return true;
 }

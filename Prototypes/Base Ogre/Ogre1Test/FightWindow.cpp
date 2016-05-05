@@ -165,6 +165,8 @@ void FightWindow::createFrameListener(void)
     inputContext_.mMouse = mouse_;
 
 	root_->addFrameListener(this);
+
+	windowResized(window_);
 }
 //---------------------------------------------------------------------------
 bool FightWindow::changeScene()
