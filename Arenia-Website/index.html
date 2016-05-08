@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Arenia</title>
+	<meta charset="utf-8">
+	<link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet' type='text/css'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
+
+
+  	<style type="text/css">
+
+  	body {
+  		font-size: 24px;
+  		font-family: 'Josefin Slab', serif;
+  	}
+
+  	p {
+  		font-size: 20px;
+  	}
+
+  	.bg-1 {
+  		background-color: #1abc9c;
+  	}
+
+  	.bg-image {
+  		background-image: url("fond1.png");
+  		color: #EEEEEE;
+  		text-shadow: 0 2px 4px #000;
+  		background-size: cover;
+    	background-repeat: no-repeat;
+    	box-shadow: inset 0px 0px 20px 10px rgba(0,0,0,0.6);
+  		background-position: center; 
+  	}
+
+  	.hipster-border:before {
+  		content: "\a0";
+  		display: block;
+  		position:relative;
+  		top: -45px;
+  		padding: 0px 0;
+  		line-height: 3px;
+  		border-top : 3px dashed rgba(0,0,0,0.2);
+  	}
+
+  	/*
+	.hipster-border:after {
+	  		content: "\a0";
+	  		display: block;
+	  		position:relative;
+	  		top: 45px;
+	  		padding: 0px 0;
+	  		line-height: 3px;
+	  		border-top : 3px dashed rgba(0,0,0,0.2);
+	  	}
+  	*/
+  	table {
+	    width:70%; 
+	    margin-left:15%; 
+	    margin-right:15%;
+  	}
+  	td {
+  		padding-left: 5px;
+  		padding-right:5px;
+  		width: 200px;
+  		font-size: 14px;
+  	}
+
+  	.large-padding {
+  		padding-top: 250px;
+  		padding-bottom: 150px;
+  	}
+
+  	.medium-padding {
+  		padding-top: 70px;
+  		padding-bottom: 70px;
+  	}
+
+  	.small-padding {
+  		padding-top: 25px;
+  		padding-bottom: 25px;
+  	}
+
+  	.bg-dark-blue {
+  		background-color: #474e5d;
+  		color: #ffffff; 
+  	}
+
+  	.bg-4 { 
+    	background-color: #2f2f2f;
+    	color: #ffffff;
+	}
+
+	.styled-title {
+		font-variant: small-caps;
+		/*font-family: monospace;*/
+	}
+
+	.container-fluid {
+		/*box-shadow: 0px 2px 5px #000000;*/
+	}
+
+	.box-padding {
+		padding: 50px;
+	}
+
+	.navbar {
+	    padding-top: 15px;
+	    padding-bottom: 15px;
+	    border: 0;
+	    border-radius: 0;
+	    margin-bottom: 0;
+	    font-size: 12px;
+	    letter-spacing: 5px;
+	    box-shadow: 0px 1px 3px #333333;
+	}
+
+	.navbar-nav li a:hover {
+	    color: #1abc9c !important;
+	}
+
+  	</style>
+
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+  	<nav class="navbar navbar-default navbar-fixed-top">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span> 
+	      </button>
+	      <a class="navbar-brand styled-title" href="#">ArenIA</a>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav navbar-right">
+	        <li><a href="#projet">Le Projet</a></li>
+	        <li><a href="#info">Info</a></li>
+	        <li><a href="#apropos">A propos</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+	<div class="container-fluid bg-image text-center large-padding" id="projet">
+		<h1 class="styled-title">ArenIA</h1>
+		<h3>Un projet fil rouge fait par une bande de gens</h3>
+	</div>
+
+	<div class="container-fluid text-center medium-padding hipster-border" id="info">
+		<h3>Un jeu fun et amusant</h3>
+		<div class="row">
+			<div class="col-sm-4">
+				<p>Des combats haletants</p>
+				<img src="placeholder.png" class="img-responsive" style="width:100%">
+			</div>
+
+			<div class="col-sm-4">
+				<p>Un code simple et intuitif</p>
+				<img src="placeholder.png" class="img-responsive" style="width:100%">
+			</div>
+
+			<div class="col-sm-4">
+				<p>Des graphismes en 3D Imax Surround !</p>
+				<img src="placeholder.png" class="img-responsive" style="width:100%">
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="container-fluid bg-dark-blue text-center medium-padding hipster-border" id="apropos">
+	  <h3>A propos</h3>
+	  <div class="row"> 
+	  	<div class="col-sm-8 text-justify box-padding">
+	  		<p>ArenIA est un jeu de combats entre Intelligences Artificielles programmés par les joueurs. Plusieurs robots s'affrontent dans un match à mort sans pitié.</p> 
+
+	  		<p>Les joueurs programment leurs robots à l'aide du langage de programmation LUA.</p>
+	  	</div>
+	  	<div class="col-sm-4 box-padding">
+	  		<img src="placeholder.png" class="img-responsive" style="width:100%">
+	  	</div>
+
+	  </div>
+
+	</div>
+
+
+
+	<footer class="container-fluid bg-4 text-center small-padding">
+	  <p>Un projet fil rouge 3IF INSA</p> 
+	  <table>
+	  	<tr>
+	  		<td class="text-right">
+	  			Quentin "Johnny" Guye
+	  		</td>
+	  		<td class="text-left">
+	  			Clément Espeute
+	  		</td>
+	  	</tr>
+	  	<tr>
+	  		<td class="text-right">
+	  			Samory Ka
+	  		</td>
+	  		<td class="text-left">
+	  			Simon Beletier
+	  		</td>
+	  	</tr>
+	  	<tr>
+	  		<td class="text-right">
+	  			Alpy
+	  		</td>
+	  		<td class="text-left">
+	  			
+	  		</td>
+	  	</tr>
+	  </table>
+
+	  <a href="https://github.com/JohnnyGuye/ArenIA/tree/master"><i class="fa fa-github fa-3x" aria-hidden="true"></i>
+		</a>
+	</footer>
+
+	<script>
+	$(document).ready(function(){
+	  // Add smooth scrolling to all links in navbar + footer link
+	  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+	  // Prevent default anchor click behavior
+	  event.preventDefault();
+
+	  // Store hash
+	  var hash = this.hash;
+
+	  // Using jQuery's animate() method to add smooth page scroll
+	  // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+	  $('html, body').animate({
+	    scrollTop: $(hash).offset().top
+	  }, 900, function(){
+
+	    // Add hash (#) to URL when done scrolling (default click behavior)
+	    window.location.hash = hash;
+	    });
+	  });
+	})
+	</script>
+</body>
+
+</html>
