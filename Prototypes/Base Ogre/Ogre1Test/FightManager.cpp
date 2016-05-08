@@ -170,3 +170,8 @@ std::list<Robot*> FightManager::getRobots() const
 {
 	return robots_;
 }
+
+std::list<Missile*> FightManager::getMissiles() const
+{
+	return missiles_;
+}

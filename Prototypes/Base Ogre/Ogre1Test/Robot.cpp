@@ -240,3 +240,55 @@ bool Robot::takeDamage(float damage, GameObject* source)
     }
 
 }
+
+
+std::list<GameObject*> Robot::getSeenObjects(bool fetchRobots = true, bool fetchMissiles = true) const
+//TODO someday, replace the input by some flags (just not urgent)
+{
+	std::list<GameObject*> seenObjects;
+	if( fetchRobots )
+	{
+		std::list<Robot*> Robots = fightManager_->getRobots();
+		for(int i = 0; i<Robots.size(); i++)
+		{
+			Ogre::Vector3 dist = Robots[i]->getPosition() - position_ ;
+			int range = (stats_.range + additionalStats_.range);
+			if( dist.squaredLength() <= range*range )
+			{
+				//separation for the readability of the conditions
+				Ogre::Real visionAngle( (stats_.visionAngle.getCurrent() + additionalStats_.visionAngle.getCurrent())/2 );
+				if( dist.angleBetween( getTurretOrientationVect() ).valueDegrees() <= visionAngle  )
+				{
+					seenObjects.push_back( Robots[i] );
+				}
+			}
+		}
+
+	}
+
+	if( fetchMissiles )
+	{
+		std::list<Missile*> Missiles = fightManager_->getMissiles();
+		for(int i = 0; i<Missiles.size(); i++)
+		{
+			Ogre::Vector3 dist = Missiles[i]->getPosition() - position_ ;
+			int range = (stats_.range + additionalStats_.range);
+			if( dist.squaredLength() <= range*range )
+			{
+				//separation for the readability of the conditions
+				Ogre::Real visionAngle( (stats_.visionAngle.getCurrent() + additionalStats_.visionAngle.getCurrent())/2 );
+				if( dist.angleBetween( getTurretOrientationVect() ).valueDegrees() <= visionAngle  )
+				{
+					seenObjects.push_back( Missiles[i] );
+				}
+			}
+		}
+
+	}
+
+
+
+
+
+	return seenObjects;
+}
