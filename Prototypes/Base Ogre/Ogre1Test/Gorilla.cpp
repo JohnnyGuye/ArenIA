@@ -1597,8 +1597,8 @@ Polygon::Polygon(Ogre::Real left, Ogre::Real top, Ogre::Real radius, size_t side
   Ogre::Real inc = (2 * Ogre::Math::PI) / Ogre::Real(mSides);
 
   Ogre::Vector2 lastVertex;
-  lastVertex.x = mLeft + (mRadius * cos(theta));
-  lastVertex.y = mTop + (mRadius * sin(theta));
+  lastVertex.x = mLeft + mRadius + (mRadius * cos(theta));
+  lastVertex.y = mTop + mRadius + (mRadius * sin(theta));
   Ogre::Vector2 thisVertex;
   
   if (mBorderWidth != 0)
@@ -1607,17 +1607,17 @@ Polygon::Polygon(Ogre::Real left, Ogre::Real top, Ogre::Real radius, size_t side
    Ogre::Vector2 lastOuterVertex, outerVertex, thisVertex, uv;
    uv = mLayer->_getSolidUV();
     
-   lastOuterVertex.x = mLeft + ((mRadius + mBorderWidth) * cos(theta));
-   lastOuterVertex.y = mTop + ((mRadius + mBorderWidth) * sin(theta));
+   lastOuterVertex.x = mLeft + mRadius + ((mRadius + mBorderWidth) * cos(theta));
+   lastOuterVertex.y = mTop + mRadius + ((mRadius + mBorderWidth) * sin(theta));
    
    
    for (size_t i=0;i < mSides;i++)
    {
     theta += inc;
-    thisVertex.x = mLeft + (mRadius * Ogre::Math::Cos(theta));
-    thisVertex.y = mTop + (mRadius * Ogre::Math::Sin(theta));
-    outerVertex.x = mLeft + ((mRadius + mBorderWidth) * Ogre::Math::Cos(theta));
-    outerVertex.y = mTop + ((mRadius + mBorderWidth) * Ogre::Math::Sin(theta));
+    thisVertex.x = mLeft +mRadius + (mRadius * Ogre::Math::Cos(theta));
+    thisVertex.y = mTop + mRadius + (mRadius * Ogre::Math::Sin(theta));
+    outerVertex.x = mLeft + mRadius + ((mRadius + mBorderWidth) * Ogre::Math::Cos(theta));
+    outerVertex.y = mTop + mRadius + ((mRadius + mBorderWidth) * Ogre::Math::Sin(theta));
     
     PUSH_TRIANGLE(mVertices, temp, lastVertex, outerVertex, lastOuterVertex, uv, mBorderColour);
     PUSH_TRIANGLE(mVertices, temp, lastVertex, thisVertex, outerVertex, uv, mBorderColour);
@@ -1642,18 +1642,18 @@ Polygon::Polygon(Ogre::Real left, Ogre::Real top, Ogre::Real radius, size_t side
       
       centerUV = baseUV / texSize;
       lastUV = baseUV;
-      lastUV.x = baseUV.x + (xRadius * Ogre::Math::Cos(theta));
-      lastUV.y = baseUV.y + (yRadius * Ogre::Math::Sin(theta));
+      lastUV.x = baseUV.x + mRadius + (xRadius * Ogre::Math::Cos(theta));
+      lastUV.y = baseUV.y + mRadius + (yRadius * Ogre::Math::Sin(theta));
       lastUV /= texSize;
       
       for (size_t i=0;i < mSides;i++)
       {
        PUSH_VERTEX(mVertices, temp, mLeft, mTop, centerUV, mBackgroundColour);
        theta += inc;
-       thisVertex.x = mLeft + (mRadius * Ogre::Math::Cos(theta));
-       thisVertex.y = mTop + (mRadius * Ogre::Math::Sin(theta));
-       thisUV.x = baseUV.x + (xRadius * Ogre::Math::Cos(theta));
-       thisUV.y = baseUV.y + (yRadius * Ogre::Math::Sin(theta));
+       thisVertex.x = mLeft + mRadius + (mRadius * Ogre::Math::Cos(theta));
+       thisVertex.y = mTop + mRadius + (mRadius * Ogre::Math::Sin(theta));
+       thisUV.x = baseUV.x + mRadius + (xRadius * Ogre::Math::Cos(theta));
+       thisUV.y = baseUV.y + mRadius + (yRadius * Ogre::Math::Sin(theta));
        thisUV /= texSize;
        PUSH_VERTEX(mVertices, temp, thisVertex.x, thisVertex.y, thisUV, mBackgroundColour);
        PUSH_VERTEX(mVertices, temp, lastVertex.x, lastVertex.y, lastUV, mBackgroundColour);
@@ -1669,8 +1669,8 @@ Polygon::Polygon(Ogre::Real left, Ogre::Real top, Ogre::Real radius, size_t side
       {
        PUSH_VERTEX(mVertices, temp, mLeft, mTop, uv, mBackgroundColour);
        theta += inc;
-       thisVertex.x = mLeft + (mRadius * Ogre::Math::Cos(theta));
-       thisVertex.y = mTop + (mRadius * Ogre::Math::Sin(theta));
+       thisVertex.x = mLeft + mRadius + (mRadius * Ogre::Math::Cos(theta));
+       thisVertex.y = mTop + mRadius + (mRadius * Ogre::Math::Sin(theta));
        PUSH_VERTEX(mVertices, temp, thisVertex.x, thisVertex.y, uv, mBackgroundColour);
        PUSH_VERTEX(mVertices, temp, lastVertex.x, lastVertex.y, uv, mBackgroundColour);
        lastVertex = thisVertex;

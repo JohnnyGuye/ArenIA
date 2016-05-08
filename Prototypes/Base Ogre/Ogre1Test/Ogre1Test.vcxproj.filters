@@ -160,7 +160,13 @@
       <Filter>Fichiers sources\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="GUICode.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="LauncherScene.cpp">
+      <Filter>Fichiers sources\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GUILauncher.cpp">
+      <Filter>Fichiers sources\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,7 +294,13 @@
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="GUICode.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUILauncher.h">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="LauncherScene.h">
+      <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

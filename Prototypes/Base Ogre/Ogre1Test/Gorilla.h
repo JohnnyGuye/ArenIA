@@ -2233,6 +2233,22 @@ namespace Gorilla
      mLayer->_markDirty();
     }
 
+	/*! function. intersects
+		desc.
+			Verify if the the point is in the polygon.
+		note. 
+			it approximates the polygon with a circle, so please,
+			don't use it with a rectangle or some low numbered 
+			sided shapes.
+	*/
+	bool intersects(const Ogre::Vector2& point)
+	{
+		Ogre::Vector2 center(mLeft + mRadius, mTop + mRadius);
+		if(center.squaredDistance(point) <= mRadius * mRadius)
+			return true;
+		return false;
+	}
+
     /*! function. _redraw
         desc.
             Redraw the polygon

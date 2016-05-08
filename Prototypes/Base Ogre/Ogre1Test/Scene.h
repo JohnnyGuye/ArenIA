@@ -41,6 +41,7 @@ class Scene
 public:
 
 	enum Scenes {
+		LAUNCHER,
 		LOGO,
 		CODE,
 		FIGHT,

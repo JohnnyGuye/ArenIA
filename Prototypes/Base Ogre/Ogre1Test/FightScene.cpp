@@ -255,9 +255,17 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 			(*re).update(evt);
 		}
 
-		for(auto me = missileEntities_.begin() ; me != missileEntities_.end() ; me++)
+		for(auto me = missileEntities_.begin() ; me != missileEntities_.end() ;)
 		{
-			(*me).update(evt);
+			auto m = *me;
+			if(!m.update(evt))
+			{
+				me = missileEntities_.erase(me);
+			}
+			else
+			{
+				me++;
+			}
 		}
 
 		
@@ -431,7 +439,8 @@ FightScene::GameEntity::GameEntity(FightScene* fs, const string& mesh,
 	const Vector3& position, const Real& scale, GameObject* object)
 	:	fs_(fs),
 	object_(object),
-	orientation_(0)
+	orientation_(0),
+	animState_(nullptr)
 {
 	entity_ = fs->sceneMgr_->createEntity(mesh); 
 
@@ -441,17 +450,23 @@ FightScene::GameEntity::GameEntity(FightScene* fs, const string& mesh,
 	node_->attachObject(entity_);
 	node_->pitch(Degree(-90));
 
-	animState_ = entity_->getAnimationState("IDLE");
-	animState_->setLoop(true);
-	animState_->setEnabled(true);
+	if(entity_->hasAnimationState("IDLE"))
+	{
+		animState_ = entity_->getAnimationState("IDLE");
+		animState_->setLoop(true);
+		animState_->setEnabled(true);
+	}
 }
 
 FightScene::GameEntity::~GameEntity()
 {
+	//fs_->sceneMgr_->destroyEntity(entity_);
+	//fs_->sceneMgr_->destroySceneNode(node_);
 }
 
-void FightScene::GameEntity::update(const FrameEvent& evt)
+bool FightScene::GameEntity::update(const FrameEvent& evt)
 {
+	if(object_->isDead()) return false;
 	node_->setPosition(object_->getPosition());
 
 	if(object_->getOrientation() != orientation_)
@@ -460,7 +475,8 @@ void FightScene::GameEntity::update(const FrameEvent& evt)
 		orientation_ = object_->getOrientation();
 	}
 
-	animState_->addTime(evt.timeSinceLastFrame);
+	if(animState_)	animState_->addTime(evt.timeSinceLastFrame);
+	return true;
 }
 
 // ----------------------------------------------
@@ -480,11 +496,11 @@ FightScene::RobotEntity::~RobotEntity()
 {
 }
 
-void FightScene::RobotEntity::update(const FrameEvent& evt)
+bool FightScene::RobotEntity::update(const FrameEvent& evt)
 {
 	Robot* robot = (Robot*)object_;
 	animState_ = entity_->getAnimationState(stateToString(robot->getState()));
-	GameEntity::update(evt);
+	return GameEntity::update(evt);
 }
 
 string FightScene::RobotEntity::stateToString(const Robot::State& state) const
@@ -505,7 +521,6 @@ string FightScene::RobotEntity::stateToString(const Robot::State& state) const
 FightScene::MissileEntity::MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Real& scale, Missile* missile)
 	:	GameEntity(fs, mesh, missile->getPosition(), scale, missile)
 {
-	
 	missile->setOrientation(Degree(0));
 	node_->roll(Degree(missile->getOrientation()));
 }
@@ -514,10 +529,10 @@ FightScene::MissileEntity::~MissileEntity()
 {
 }
 
-void FightScene::MissileEntity::update(const FrameEvent& evt)
+bool FightScene::MissileEntity::update(const FrameEvent& evt)
 {
 	Missile* missile = (Missile*)object_;
-	GameEntity::update(evt);
+	return GameEntity::update(evt);
 }
 
 // ----------------------------------------------

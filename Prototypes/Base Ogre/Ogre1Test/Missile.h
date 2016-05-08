@@ -21,7 +21,7 @@ public:
 	*	@param name the name of this missile
 	**/
 	Missile(Ogre::Vector3 position = Ogre::Vector3::ZERO,
-		Hitbox* hitbox = new HitboxVoid(), GameObject* caster = nullptr,
+		const Ogre::Real& radius = 50.f, GameObject* caster = nullptr,
 		Stats stats = Stats(), std::string name = "unnamed");
 
 	/** @Create a new missile using one other as a model
@@ -48,8 +48,6 @@ public:
     virtual void setStats(Stats stats);
 
     virtual void setCaster(GameObject* caster);
-
-    virtual void setHitbox(Hitbox* hitbox);
 
     virtual bool move();
 

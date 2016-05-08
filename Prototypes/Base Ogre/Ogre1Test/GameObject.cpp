@@ -5,7 +5,8 @@ using namespace Ogre;
 
 GameObject::GameObject(Ogre::Vector3 position, std::string name)
 	: name_(name), 
-	position_(position)
+	position_(position),
+	dead_(false)
 {
 	setStatus();
 	setOrientation(Degree(0));
@@ -37,6 +38,11 @@ bool GameObject::isInStase() const
 	return (impotent_ && snare_ && invincible_);
 }
 
+bool GameObject::isDead() const
+{
+	return dead_;
+}
+
 //Getters
 
 Vector3 GameObject::getPosition() const
@@ -66,6 +72,11 @@ void GameObject::setStatus(const int flag)
 	snare_		= ((flag & SNARE) == 1);
 	invincible_	= ((flag & INVINCIBLE) == 1);
 	impotent_	= ((flag & IMPOTENT) == 1);
+}
+
+void GameObject::kill()
+{
+	dead_ = true;
 }
 
 void GameObject::setPosition(Ogre::Vector3 const& newPos)

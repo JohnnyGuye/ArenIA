@@ -91,7 +91,7 @@ bool FightWindow::setup(void)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Popular");
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Essential");
-	activScene_ = sceneMap_.at("Logos");
+	activScene_ = sceneMap_.at("Fight");
 	activScene_->loadResources();
 	
 	FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");
@@ -165,6 +165,8 @@ void FightWindow::createFrameListener(void)
     inputContext_.mMouse = mouse_;
 
 	root_->addFrameListener(this);
+
+	windowResized(window_);
 }
 //---------------------------------------------------------------------------
 bool FightWindow::changeScene()

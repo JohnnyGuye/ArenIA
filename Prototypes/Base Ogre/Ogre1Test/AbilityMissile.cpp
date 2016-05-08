@@ -1,9 +1,10 @@
 #include "AbilityMissile.h"
 #include "Robot.h"
 
- AbilityMissile::AbilityMissile(Missile* missile)
+ AbilityMissile::AbilityMissile(Robot* caster)
+	 : Ability(caster)
  {
-     missile_ = missile;
+     missile_ = new Missile(Ogre::Vector3::ZERO, 50.f, caster);
  }
 
  AbilityMissile::~AbilityMissile()
@@ -16,9 +17,10 @@
      return missile_;
  }
 
- void AbilityMissile::setMissile(Missile* missile)
+ void AbilityMissile::setMissile(Missile missile)
  {
-     missile_ = missile;
+	 if(missile_) delete missile_;
+     missile_ = new Missile(missile);
  }
 
  Missile* AbilityMissile::sendMissile()
@@ -29,10 +31,11 @@
      return m;
  }
 
-void AbilityMissile::Cast()
+void AbilityMissile::cast()
  {
-	 if( getCD().IsEmpty() ){
-		 caster_->getFightManager()->addMissile( sendMissile() );
-		 getCD().fill();
+	 if( CD_.IsEmpty() ){
+		 Missile* m = sendMissile();
+		 caster_->getFightManager()->addMissile( m );
+		 CD_.fill();
 	 }
  }

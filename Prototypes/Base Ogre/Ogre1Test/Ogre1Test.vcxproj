@@ -87,8 +87,10 @@
     <ClCompile Include="Gorilla.cpp" />
     <ClCompile Include="GUICode.cpp" />
     <ClCompile Include="GUIElement.cpp" />
+    <ClCompile Include="GUILauncher.cpp" />
     <ClCompile Include="GUIShowLogo.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="LauncherScene.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="LogoScene.cpp" />
     <ClCompile Include="LuaHandler.cpp" />
@@ -125,11 +127,13 @@
     <ClInclude Include="GUIConsole.h" />
     <ClInclude Include="GUIDecompte.h" />
     <ClInclude Include="GUIElement.h" />
+    <ClInclude Include="GUILauncher.h" />
     <ClInclude Include="GUIShowLogo.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="HitboxSphere.h" />
     <ClInclude Include="HitboxVoid.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="LauncherScene.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="LogoScene.h" />
     <ClInclude Include="LuaHandler.h" />
