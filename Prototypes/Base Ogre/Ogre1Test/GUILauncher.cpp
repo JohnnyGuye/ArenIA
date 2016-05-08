@@ -51,18 +51,17 @@ bool GUI::ListArea::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool GUI::ListArea::mouseMoved(const OIS::MouseEvent &arg)
 {
-
+	return true;
 }
 
 bool GUI::ListArea::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-
 	return true;
 }
 
 bool GUI::ListArea::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-
+	return true;
 }
 
 /*********************************************************
@@ -148,6 +147,10 @@ GUI::ListArea::RobotBlock::RobotBlock( Gorilla::Layer* layer, Ogre::Vector2 pos,
 	robot_ = robot;
 }
 
+GUI::ListArea::RobotBlock::~RobotBlock(void)
+{
+}
+
 
 /*********************************************************
 **********************BlockList***************************
@@ -164,12 +167,13 @@ GUI::ListArea::BlockList::BlockList(Gorilla::Layer* layer, Ogre::Vector2 pos, Og
 	switch(blockType)
 	{
 	case ROBOT:
-		
-		for (std::list<Robot>::iterator iterator = GUILauncher::robots_.begin(), end = GUILauncher::robots_.end(); iterator != end; ++iterator)
+		// Pourquoi c'est le launcher global qui possède les éléments ?
+		/*
+		for (std::list<Robot>::iterator iterator = robots_.begin(), end = robots_.end(); iterator != end; ++iterator)
 		{
 			blocks_.push_back( new RobotBlock( layer, Ogre::Vector2(600, 200), &(*iterator) ) );
 		}
-		
+		*/
 		break;
 	case AI:
 
@@ -200,12 +204,15 @@ std::list<GUI::ListArea::Block*> GUI::ListArea::BlockList::getBlocks()
 
 bool GUI::ListArea::BlockList::mouseMoved(const OIS::MouseEvent &arg)
 {
+	return true;
 }
 bool GUI::ListArea::BlockList::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
+	return true;
 }
 bool GUI::ListArea::BlockList::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
+	return true;
 }
 
 /*********************************************************

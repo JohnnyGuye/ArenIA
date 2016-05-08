@@ -5,6 +5,7 @@
 #include "FightScene.h"
 #include "LogoScene.h"
 #include "CodeEditScene.h"
+#include "LauncherScene.h"
 
 using namespace Ogre;
 using namespace std;
@@ -86,12 +87,13 @@ bool FightWindow::setup(void)
 	sceneMap_.insert(ScenePair("Logos", new LogoScene()));	//Logos at beginning
 	sceneMap_.insert(ScenePair("Fight", new FightScene()));	//Real game
 	sceneMap_.insert(ScenePair("Code", new CodeEditScene()));	//Coding instance
+	sceneMap_.insert(ScenePair("Launcher", new LauncherScene()));
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Popular");
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Essential");
-	activScene_ = sceneMap_.at("Fight");
+	activScene_ = sceneMap_.at("Launcher");
 	activScene_->loadResources();
 	
 	FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");

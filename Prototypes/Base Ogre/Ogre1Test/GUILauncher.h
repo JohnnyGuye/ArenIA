@@ -138,7 +138,7 @@ public:
 	GUILauncher(Ogre::Viewport*);
 	~GUILauncher(void);
 
-	bool GUILauncher::loadFile(const Ogre::String& fileName);
+	bool loadFile(const Ogre::String& fileName);
 	bool stringHasEnding(std::string &myString, std::string const &ending);
 	bool stringHasBeginning(std::string &myString, std::string const &beginning);
 	void loadAllElements();
@@ -161,7 +161,7 @@ public:
 	Gorilla::Rectangle*	mouse_;
 
 public:
-	static std::list<Robot>			robots_;
+	std::list<Robot>			robots_;
 	std::list<Ogre::String>		ais_;
 	std::list<Terrain>			maps_;
 	GUI::ListArea*				listArea_;

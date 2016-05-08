@@ -1,5 +1,5 @@
 function main()
 	move();
-	turnRobot(1);
+	turnRobot(0.2);
 	fire();
 end

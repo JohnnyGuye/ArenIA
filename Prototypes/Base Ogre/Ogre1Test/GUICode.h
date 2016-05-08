@@ -7,6 +7,30 @@
 
 namespace GUI
 {
+	class Pane
+	{
+	public:
+		Pane()
+			: parent_(this)
+		{
+		}
+
+		virtual void setPosition(Ogre::Vector2 pos)	{	position_ = pos;	}
+		virtual void setPosition(Ogre::Real x, Ogre::Real y)	{	position_ = Ogre::Vector2(x, y);	}
+		virtual bool intersect(Ogre::Vector2 point) = 0;
+		virtual Pane* getParent()	{		return parent_;		}
+
+		virtual void addChild(Pane* pane)
+		{
+			childrens_.push_back(pane);
+			pane->parent_ = this;
+		}
+	private:
+		Ogre::Vector2		position_;
+		Pane*				parent_;
+		std::list<Pane*>	childrens_;
+	};
+
 	class TextArea
 	{
 	public:
