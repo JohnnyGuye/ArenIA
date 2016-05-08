@@ -26,7 +26,14 @@
  Missile* AbilityMissile::sendMissile()
  {
      Missile* m = missile_->clone();
-     m->setOrientation(caster_->getTurretOrientation());
+	 //Ogre's addition caps to 360 without cycling and we need it to cycle
+	 Ogre::Real valueAngle = caster_->getOrientation().valueDegrees();
+	 valueAngle += caster_->getTurretOrientation().valueDegrees() ;
+	 if ( valueAngle >= 360 ){ valueAngle-=360; }
+	 Ogre::Degree angle( valueAngle );
+	 std::cout << angle << std::endl;
+	 //std::cout << m->getOrientationVect() << std::endl;
+	 m->setOrientation( angle );
 	 m->setPosition(caster_->getPosition());
      return m;
  }

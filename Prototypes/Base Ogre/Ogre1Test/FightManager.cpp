@@ -127,7 +127,7 @@ void FightManager::update()
 			it++;
 		}
 	}
-	std::cout << std::endl;
+	//std::cout << std::endl;
 
 	//updating the day
 	day_.update();

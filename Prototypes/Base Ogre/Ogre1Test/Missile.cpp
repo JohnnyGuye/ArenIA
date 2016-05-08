@@ -58,6 +58,7 @@ void Missile::setCaster(GameObject* caster)
 
 bool Missile::move()
 {
+	std::cout<< "missile moves " <<orientation_<<std::endl;
 	GameObject::move(stats_.speed * orientation_);
     return true;
 }

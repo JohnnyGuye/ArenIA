@@ -91,6 +91,7 @@ void GameObject::setOrientation(const Degree& angle)
 	Real sin = Math::Sin(angle.valueRadians());
 
 	orientation_ = Ogre::Vector3(sin, 0, cos);
+	std::cout << " orientation " << name_ << orientation_ << angle_ <<std::endl;
 }
 
 bool GameObject::move(Ogre::Vector3 const& direction)
