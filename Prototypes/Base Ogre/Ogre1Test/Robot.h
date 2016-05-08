@@ -155,7 +155,7 @@ public:
 	std::vector<Ability* > getAbilities() const;
 
     /** **/
-    std::list<GameObject*> getSeenObjects(bool fetchRobots = true, bool fetchMissiles = false) const;//pas const dans le doute, mais devrait le devenir
+    std::list<GameObject*> getSeenObjects(bool fetchRobots = true, bool fetchMissiles = true) const;//pas const dans le doute, mais devrait le devenir
 
 	/** **/
 	Ability* Robot::getTurretAbility() const;
