@@ -490,6 +490,7 @@ FightScene::RobotEntity::RobotEntity(FightScene* fs, const string& mesh,
 	
 	robot->setOrientation(Degree(0));
 	node_->roll(Degree(robot->getOrientation()));
+	orientation_ = object_->getOrientation();
 }
 
 FightScene::RobotEntity::~RobotEntity()
@@ -522,6 +523,7 @@ FightScene::MissileEntity::MissileEntity(FightScene* fs, const std::string& mesh
 	:	GameEntity(fs, mesh, missile->getPosition(), scale, missile)
 {
 	node_->roll(Degree(missile->getOrientation()));
+	orientation_ = object_->getOrientation();
 }
 
 FightScene::MissileEntity::~MissileEntity()
