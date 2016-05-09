@@ -521,7 +521,6 @@ string FightScene::RobotEntity::stateToString(const Robot::State& state) const
 FightScene::MissileEntity::MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Real& scale, Missile* missile)
 	:	GameEntity(fs, mesh, missile->getPosition(), scale, missile)
 {
-	//missile->setOrientation(Degree(0));
 	node_->roll(Degree(missile->getOrientation()));
 }
 
@@ -565,7 +564,6 @@ void FightScene::addMissile(Missile* missile)
 	std::string mesh = "RobotTondeuse_Projectile.mesh";
 	Real scale(80);
 	missileEntities_.push_back(MissileEntity(this, mesh, scale, missile));
-	//std::cout << "Missile created" << std::endl;
 }
 
 void FightScene::createRobots(void)
