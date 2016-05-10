@@ -12,7 +12,7 @@ Missile::Missile(const Missile &rhs)
 {
 }
 
-Missile::Missile(Ogre::Vector3 position, const Real& rad, GameObject* caster, Stats stats, std::string name)
+Missile::Missile(Ogre::Vector3 position, const Real& rad, Robot* caster, Stats stats, std::string name)
 	: GameObject(position, name),
 	stats_(stats),
 	caster_(caster),
@@ -36,7 +36,7 @@ Stats Missile::getStats() const
     return stats_;
 }
 
-GameObject* Missile::getCaster() const
+Robot* Missile::getCaster() const
 {
     return caster_;
 }
@@ -51,7 +51,7 @@ void Missile::setStats(Stats stats)
     stats_ = stats;
 }
 
-void Missile::setCaster(GameObject* caster)
+void Missile::setCaster(Robot* caster)
 {
     caster_ = caster;
 }
@@ -65,4 +65,12 @@ bool Missile::move()
 void Missile::update()
 {
 	move();
+}
+
+void Missile::onCollide(Robot* r)
+{
+	if( caster_->getTeam() != r->getTeam() ){
+		r->takeDamage( 20.0, caster_ );
+		kill();
+	}
 }

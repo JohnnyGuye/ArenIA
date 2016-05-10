@@ -28,7 +28,8 @@
      Missile* m = missile_->clone();
 	 Ogre::Real angle = caster_->getOrientation().valueDegrees();
 	 //angle += caster_->getTurretOrientation().valueDegrees() ; / ! \ THE TURRET ORIENTATION IS NOT SET PROPERLY ATM
-	 m->setPosition(caster_->getPosition());
+	 Ogre::Vector3 position = caster_->getPosition() + 20*Ogre::Vector3::UNIT_Y ;
+	 m->setPosition( position );
 	 m->setOrientation( Ogre::Degree(angle) );
      return m;
  }

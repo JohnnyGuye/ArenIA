@@ -6,6 +6,7 @@
 #include "Stats.h"
 #include "Ability.h"
 #include "GameObject.h"
+#include "Robot.h"
 
 class Missile : 
 	public GameObject
@@ -21,7 +22,7 @@ public:
 	*	@param name the name of this missile
 	**/
 	Missile(Ogre::Vector3 position = Ogre::Vector3::ZERO,
-		const Ogre::Real& radius = 50.f, GameObject* caster = nullptr,
+		const Ogre::Real& radius = 50.f, Robot* caster = nullptr,
 		Stats stats = Stats(), std::string name = "unnamed");
 
 	/** @Create a new missile using one other as a model
@@ -35,11 +36,14 @@ public:
 	/** Destroy a missile **/
     virtual ~Missile();
 
+	/** @brief to be executed when the missile hits a robot **/
+	virtual void onCollide(Robot* r);
+
 	// Getters
 
     virtual Stats getStats(void) const;
 
-    virtual GameObject* getCaster(void) const;
+    virtual Robot* getCaster(void) const;
 
     virtual Hitbox* getHitbox(void) const;
 
@@ -47,7 +51,7 @@ public:
 
     virtual void setStats(Stats stats);
 
-    virtual void setCaster(GameObject* caster);
+    virtual void setCaster(Robot* caster);
 
     virtual bool move();
 
@@ -57,6 +61,6 @@ protected:
 
     Stats stats_;
     Hitbox* hitbox_;
-	GameObject* caster_;
+	Robot* caster_;
 
 };
