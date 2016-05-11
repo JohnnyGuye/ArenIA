@@ -7,7 +7,7 @@ using namespace Ogre;
 
 LauncherScene::LauncherScene(void)
 	: Scene(),
-	showLogos_(nullptr)
+	GUILauncher_(nullptr)
 {
 	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 }
@@ -18,7 +18,7 @@ LauncherScene::~LauncherScene(void)
 
 void LauncherScene::destroyScene(void)
 {
-	if(showLogos_)	delete showLogos_;
+	if(GUILauncher_)	delete GUILauncher_;
 	sceneMgr_->clearScene();
 	sceneMgr_->destroyCamera(camera_);
 }
@@ -80,11 +80,6 @@ bool LauncherScene::frameRenderingQueued(const Ogre::FrameEvent& evt)
 //------------------------------------------------------------------------------------------
 bool LauncherScene::keyPressed( const OIS::KeyEvent& arg)
 {
-    return true;
-}
-//---------------------------------------------------------------------------
-bool LauncherScene::keyReleased(const OIS::KeyEvent &arg)
-{
 	switch(arg.key)
 	{
 	case OIS::KC_ESCAPE:
@@ -95,19 +90,6 @@ bool LauncherScene::keyReleased(const OIS::KeyEvent &arg)
 	}
     return true;
 }
-bool LauncherScene::keyPressed( const OIS::KeyEvent& arg)
-{
-	switch(arg.key)
-	{
-	case OIS::KC_ESCAPE:
-		stop_ = true;
-		break;
-	default:
-		break;
-	}
-    return true;
-}
-
 //---------------------------------------------------------------------------
 bool LauncherScene::keyReleased(const OIS::KeyEvent &arg)
 {

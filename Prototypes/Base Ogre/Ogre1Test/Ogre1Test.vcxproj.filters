@@ -168,6 +168,12 @@
     <ClCompile Include="GUILauncher.cpp">
       <Filter>Fichiers sources\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="MowerRobot.cpp">
+      <Filter>Fichiers sources\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="WasheeRobot.cpp">
+      <Filter>Fichiers sources\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Terrain.h">
@@ -301,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="LauncherScene.h">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="WasheeRobot.h">
+      <Filter>Fichiers d%27en-tête\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MowerRobot.h">
+      <Filter>Fichiers d%27en-tête\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -35,6 +35,9 @@
 #include <string>
 #include <list>
 
+template <typename T>
+void destroyList(std::list<T> rhs);
+
 class FightManager
 {
 public:
@@ -88,8 +91,14 @@ public:
 	/// @brief return the list of robots
 	inline virtual std::list<Robot*>	getRobots() const;
 
+	/// @brief return the list of Missiles
+	inline virtual std::list<Missile*>	getMissiles() const;
+
+
 	/// @brief reset the fight manager to the first state of the match
 	virtual void reset();
+
+	//@brief returns a list of all the existing objects
 
 protected:
 

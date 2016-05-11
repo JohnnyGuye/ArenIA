@@ -96,6 +96,7 @@
     <ClCompile Include="LuaHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="MowerRobot.cpp" />
     <ClCompile Include="OgreConsoleForGorilla.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="RobotLuaBinding.cpp" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="FightWindow.cpp" />
     <ClCompile Include="VictoryHandler.cpp" />
+    <ClCompile Include="WasheeRobot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ability.h" />
@@ -138,6 +140,7 @@
     <ClInclude Include="LogoScene.h" />
     <ClInclude Include="LuaHandler.h" />
     <ClInclude Include="Missile.h" />
+    <ClInclude Include="MowerRobot.h" />
     <ClInclude Include="OgreConsoleForGorilla.h" />
     <ClInclude Include="ReachPointEvent.h" />
     <ClInclude Include="Robot.h" />
@@ -153,6 +156,7 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="FightWindow.h" />
     <ClInclude Include="VictoryHandler.h" />
+    <ClInclude Include="WasheeRobot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -66,7 +66,7 @@ void HUD::init(void)
 		//Setting the speed
 		std::stringstream so;
 		std::stringstream ss;
-		ss << robot->getSpeed();
+		ss << robot->getFullStats().hp.getCurrent();
 		ri->speed_ = layerInf_->createCaption(9, 
 			infPos.x * width_, 
 			(infPos.y + i * (hudScale + dist)) * width_, 
@@ -86,6 +86,7 @@ void HUD::init(void)
 		ri->gauge_->background_image("gauges_sepia");
 		infRobots_.push_back(ri);
 		i++;
+
 	}
 
 	//---Events
@@ -103,7 +104,7 @@ bool HUD::frameRenderingQueued(FrameEvent const& evt)
 		(*it)->orientation_->text(so.str());
 
 		ss.flush();
-		ss << (*it)->robot_->getSpeed();
+		ss << (*it)->robot_->getFullStats().hp.getCurrent();
 		(*it)->speed_->text(ss.str());
 	}
 	return true;

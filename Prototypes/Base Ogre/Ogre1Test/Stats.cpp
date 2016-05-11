@@ -15,7 +15,7 @@ using namespace std;
 const Stats Stats::STAT_ZERO(Gauge(), Gauge(), 60.f, 300, 0, 1.0f);
 
 //------------------------------------------------- Operators overload
-Stats & Stats::operator+=(Stats & otherStats)
+Stats & Stats::operator+=(Stats const& otherStats)
 {
 	energy+=otherStats.energy;
 	energy.setModifier(energy.getModifier() + otherStats.energy.getModifier());
@@ -35,7 +35,7 @@ Stats & Stats::operator+=(Stats & otherStats)
 }
 
 
-Stats & Stats::operator-=(Stats & otherStats)
+Stats & Stats::operator-=(Stats const& otherStats)
 {
 	energy -= otherStats.energy;
 	energy.setModifier(energy.getModifier() - otherStats.energy.getModifier());
@@ -52,6 +52,20 @@ Stats & Stats::operator-=(Stats & otherStats)
 
 	return *this;
 
+}
+
+Stats operator+(Stats const& lhs, Stats const& rhs)
+{
+	Stats s = lhs;
+	s += rhs;
+	return s;
+}
+
+Stats operator-(Stats const& lhs, Stats const& rhs)
+{
+	Stats s = lhs;
+	s -= rhs;
+	return s;
 }
 
 //-------------------------------------------- Constructors - destructor

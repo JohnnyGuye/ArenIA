@@ -86,10 +86,10 @@ void GameObject::setPosition(Ogre::Vector3 const& newPos)
 
 void GameObject::setOrientation(const Degree& angle)
 {
-	angle_ = angle;
+	int rootAngle = (int)angle.valueDegrees();
+	angle_ = rootAngle % 360 + angle.valueDegrees() - rootAngle;
 	Real cos = Math::Cos(angle.valueRadians());
 	Real sin = Math::Sin(angle.valueRadians());
-
 	orientation_ = Ogre::Vector3(sin, 0, cos);
 }
 

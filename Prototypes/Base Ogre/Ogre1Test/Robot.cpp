@@ -21,19 +21,17 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	stats_(Gauge(), Gauge(), 60, 500, 0, 4.0),
 	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
 	action_(IDLE),
-	iaFilename_("default.lua"),
+	hitbox_(new HitboxSphere(&position_)),
 	id_(robot_count++)
 {
 	setTurretOrientation();
 	luaCode_ = new LuaHandler();
 	setIaFilename("default.lua");
-
-	AbilityMissile* turret = new AbilityMissile(this);
-	setTurretAbility(turret);
 }
 
 Robot::~Robot()
 {
+	if(hitbox_) delete hitbox_;
 }
 
 bool Robot::resetAction()
@@ -75,8 +73,7 @@ bool Robot::move()
 {
 	if( (action_ & MOVING) == MOVING)	return false;
 	if( isSnared() )		return false;
-    double speed = getSpeed();
-    nextPosition_ = position_ + (Real(speed) * orientation_);
+    nextPosition_ = position_ + (Real(getFullStats().speed) * orientation_);
     action_ = (State)(action_ | MOVING);
     return true;
 }
@@ -156,11 +153,10 @@ Vector3 Robot::getTurretOrientationVect() const
     return turretOrientation_;
 }
 
-double Robot::getSpeed() const
+Stats Robot::getFullStats() const
 {
-    return stats_.speed + additionalStats_.speed;
+	return stats_ + additionalStats_;
 }
-
 Robot::Team Robot::getTeam() const
 {
 	return team_;
@@ -239,4 +235,56 @@ bool Robot::takeDamage(float damage, GameObject* source)
         return false;
     }
 
+}
+
+
+std::list<GameObject*> Robot::getSeenObjects(bool fetchRobots, bool fetchMissiles) const
+//TODO someday, replace the input by some flags (just not urgent)
+{
+	std::list<GameObject*> seenObjects;
+	if( fetchRobots )
+	{
+		std::list<Robot*> Robots = fightManager_->getRobots();
+		for(std::list<Robot*>::iterator it = Robots.begin() ; it != Robots.end() ; it++)
+		{
+			Ogre::Vector3 dist = (*it)->getPosition() - position_ ;
+			int range = (stats_.range + additionalStats_.range);
+			if( dist.squaredLength() <= range*range )
+			{
+				//separation for the readability of the conditions
+				Ogre::Real visionAngle( (stats_.visionAngle.getCurrent() + additionalStats_.visionAngle.getCurrent())/2 );
+				if( dist.angleBetween( getTurretOrientationVect() ).valueDegrees() <= visionAngle  )
+				{
+					seenObjects.push_back( (*it) );
+				}
+			}
+		}
+
+	}
+
+	if( fetchMissiles )
+	{
+		std::list<Missile*> Missiles = fightManager_->getMissiles();
+		for(std::list<Missile*>::iterator it = Missiles.begin() ; it != Missiles.end() ; it++)
+		{
+			Ogre::Vector3 dist = (*it)->getPosition() - position_ ;
+			int range = (stats_.range + additionalStats_.range);
+			if( dist.squaredLength() <= range*range )
+			{
+				//separation for the readability of the conditions
+				Ogre::Real visionAngle( (stats_.visionAngle.getCurrent() + additionalStats_.visionAngle.getCurrent())/2 );
+				if( dist.angleBetween( getTurretOrientationVect() ).valueDegrees() <= visionAngle  )
+				{
+					seenObjects.push_back( (*it) );
+				}
+			}
+		}
+
+	}
+
+
+
+
+
+	return seenObjects;
 }

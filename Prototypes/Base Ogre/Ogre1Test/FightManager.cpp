@@ -1,7 +1,18 @@
 #include "FightManager.h"
+#include "WasheeRobot.h"
 #include "Log.h"
 
 using namespace std;
+
+template <typename T>
+void destroyList(std::list<T> rhs)
+{
+	while(rhs.size() > 0)
+	{
+		delete (rhs.front());
+		rhs.pop_front();
+	}
+}
 
 FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	: day_(60 * 60, 0, 0.0, 1.0), roundAfterSD_(0), victoryHandler_(vo)
@@ -15,17 +26,7 @@ FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 		ArenIA::Log::getInstance()->write("Robot created !");
 		std::stringstream ss;
 		ss << "Robot-" << (i > 9 ? "0" : "00") << i++;
-		addRobot(new Robot(*it, ss.str(), Robot::NONE));
-	}
-}
-
-template <typename T>
-void destroyList(std::list<T> rhs)
-{
-	while(rhs.size() > 0)
-	{
-		delete (rhs.front());
-		rhs.pop_front();
+		addRobot(new WasheeRobot(*it, ss.str(), Robot::NONE));
 	}
 }
 
@@ -107,11 +108,13 @@ void FightManager::update()
 		(*it)->update();
 	}
 
+	//Applying collision
 	for(list<Robot*>::iterator it = robots_.begin() ; it != robots_.end() ; it++)
 	{
 		(*it)->applyUpdate(terrain_->getCollision(*it, true));
 	}
 
+	//Updating missiles
 	for(auto it = missiles_.begin() ; it != missiles_.end() ; )
 	{
 		auto m = *it;
@@ -124,10 +127,24 @@ void FightManager::update()
 		}
 		else
 		{
-			it++;
+			//Collision with robots
+			bool asCollided = false;
+			for(auto rIt = robots_.begin() ; rIt != robots_.end() ; rIt++)
+			{
+				//m->getHitbox()->intersect((*it)->get
+			}
+
+			if(asCollided)
+			{
+				it = missiles_.erase(it);
+				m->kill();
+			}
+			else
+			{
+				it++;
+			}
 		}
 	}
-	std::cout << std::endl;
 
 	//updating the day
 	day_.update();
@@ -169,4 +186,9 @@ Terrain* FightManager::getTerrain() const
 std::list<Robot*> FightManager::getRobots() const
 {
 	return robots_;
+}
+
+std::list<Missile*> FightManager::getMissiles() const
+{
+	return missiles_;
 }
