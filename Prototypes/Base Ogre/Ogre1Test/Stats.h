@@ -29,8 +29,8 @@ public:
 public:
 
 //------------------------------------------------- Operators overload
-    Stats & operator+=(Stats & otherStats);
-    Stats & operator-=(Stats & otherStats);
+    Stats & operator+=(Stats const& otherStats);
+    Stats & operator-=(Stats const& otherStats);
     friend std::ostream & operator<<(std::ostream & os, const Stats& stats);
 
 //-------------------------------------------- Constructors - destructor
@@ -56,5 +56,8 @@ private:
 	void display(std::ostream &flux) const;
 
 };
+
+Stats operator+(Stats const& lhs, Stats const& rhs);
+Stats operator-(Stats const& lhs, Stats const& rhs);
 
 

@@ -123,7 +123,7 @@ namespace GUI
 }
 
 typedef struct mapObjects {
-	Robot robot;
+	Robot* robot;
 	std::string ai;
 	Terrain terrain;
 } mapObjects;
@@ -161,7 +161,7 @@ public:
 	Gorilla::Rectangle*	mouse_;
 
 public:
-	std::list<Robot>			robots_;
+	std::list<Robot*>			robots_;
 	std::list<Ogre::String>		ais_;
 	std::list<Terrain>			maps_;
 	GUI::ListArea*				listArea_;

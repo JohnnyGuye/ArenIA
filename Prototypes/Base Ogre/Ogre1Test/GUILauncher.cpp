@@ -240,10 +240,6 @@ GUILauncher::GUILauncher(Ogre::Viewport* vp)
 		Ogre::Vector2(width_ * 0.8f, height_ * 0.98f));
 
 	listArea_->init(layerListArea_);
-
-	std::list<Robot> robots_;
-	std::list<std::string> ais_;
-	std::list<Terrain> maps_;
 }
 
 GUILauncher::~GUILauncher(void)

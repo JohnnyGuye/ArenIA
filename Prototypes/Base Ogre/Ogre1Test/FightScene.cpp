@@ -1,4 +1,5 @@
 #include "FightScene.h"
+#include "WasheeRobot.h"
 
 using namespace std;
 using namespace Ogre;
@@ -22,6 +23,16 @@ FightScene::FightScene(void)
 FightScene::~FightScene(void)
 {
 }
+
+template <typename T>
+void destroyList(std::list<T> rhs)
+{
+	while(rhs.size() > 0)
+	{
+		delete (rhs.front());
+		rhs.pop_front();
+	}
+}
 //---------------------------------------------------------------------------
 void FightScene::destroyScene(void)
 {
@@ -39,6 +50,10 @@ void FightScene::destroyScene(void)
 	{
 		delete DecorEntities_[i];
 	}
+
+	destroyList(this->missileEntities_);
+	destroyList(this->robotsEntities_);
+	destroyList(this->objectEntities_);
 	sceneMgr_->clearScene();
 	sceneMgr_->destroyCamera(camera_);
 	if(cameraMan_)	delete cameraMan_;
@@ -124,7 +139,7 @@ void FightScene::createScene(void)
 	  "ground",
 	  ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 	  plane, 
-	  fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE, fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE, 10, 10, 
+	  Real(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE), Real(fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE), 10, 10, 
 	  true, 
 	  1, 5.0f, 5.0f, 
 	  Vector3::UNIT_X);
@@ -246,29 +261,28 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 
 		for(auto ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
 		{
-			(*ge).update(evt);
+			(*ge)->update(evt);
 		}
 		
 
 		for(auto re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
 		{
-			(*re).update(evt);
+			(*re)->update(evt);
 		}
 
 		for(auto me = missileEntities_.begin() ; me != missileEntities_.end() ;)
 		{
 			auto m = *me;
-			if(!m.update(evt))
+			if(!m->update(evt))
 			{
 				me = missileEntities_.erase(me);
+				delete m;
 			}
 			else
 			{
 				me++;
 			}
 		}
-
-		
 
 		console_->frameStarted(evt);
 		hud_->frameRenderingQueued(evt);
@@ -400,7 +414,7 @@ FightScene::Sun::Sun(FightScene* fs)
 	node_ = sceneMgr_->getRootSceneNode()->createChildSceneNode(initPos);
 
 	//Ambient light
-	sceneMgr_->setAmbientLight(ColourValue(0.4f, 0.4f, 0.4f));
+	sceneMgr_->setAmbientLight(ColourValue(0.3f, 0.3f, 0.3f));
 	sceneMgr_->setShadowTechnique(SHADOWTYPE_STENCIL_ADDITIVE);
 	
 	//SpotLight
@@ -460,8 +474,8 @@ FightScene::GameEntity::GameEntity(FightScene* fs, const string& mesh,
 
 FightScene::GameEntity::~GameEntity()
 {
-	//fs_->sceneMgr_->destroyEntity(entity_);
-	//fs_->sceneMgr_->destroySceneNode(node_);
+	fs_->sceneMgr_->destroyEntity(entity_);
+	fs_->sceneMgr_->destroySceneNode(node_);
 }
 
 bool FightScene::GameEntity::update(const FrameEvent& evt)
@@ -483,14 +497,17 @@ bool FightScene::GameEntity::update(const FrameEvent& evt)
 // --------------- ROBOT ENTITY -----------------
 // ----------------------------------------------
 
-FightScene::RobotEntity::RobotEntity(FightScene* fs, const string& mesh,
-	const Vector3& position, const Real& scale, Robot* robot)
-	:	GameEntity(fs, mesh, position, scale, robot)
+FightScene::RobotEntity::RobotEntity(FightScene* fs, Robot* robot)
+	:	GameEntity(fs, robot->getTurretMesh(), robot->getPosition(), robot->getScale(), robot)
 {
 	
 	robot->setOrientation(Degree(0));
 	node_->roll(Degree(robot->getOrientation()));
 	orientation_ = object_->getOrientation();
+	//sight_ = fs_->sceneMgr_->createLight(robot->getName());
+	//sight_->setDiffuseColour(0.9f, 0.9f, 0.9f);
+	//sight_->setSpecularColour(0.9f, 0.9f, 0.9f);
+	//sight_->setType(Light::LT_SPOTLIGHT);
 }
 
 FightScene::RobotEntity::~RobotEntity()
@@ -501,6 +518,9 @@ bool FightScene::RobotEntity::update(const FrameEvent& evt)
 {
 	Robot* robot = (Robot*)object_;
 	animState_ = entity_->getAnimationState(stateToString(robot->getState()));
+	//sight_->setDirection(object_->getOrientationVect());
+	//sight_->setPosition(object_->getPosition());
+	//sight_->setSpotlightInnerAngle(Degree(robot->getFullStats().visionAngle.getCurrent()));
 	return GameEntity::update(evt);
 }
 
@@ -519,8 +539,8 @@ string FightScene::RobotEntity::stateToString(const Robot::State& state) const
 // --------------- MISSILE ENTITY ---------------
 // ----------------------------------------------
 
-FightScene::MissileEntity::MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Real& scale, Missile* missile)
-	:	GameEntity(fs, mesh, missile->getPosition(), scale, missile)
+FightScene::MissileEntity::MissileEntity(FightScene* fs, Missile* missile)
+	:	GameEntity(fs, missile->getMesh(), missile->getPosition(), missile->getScale(), missile)
 {
 	node_->roll(Degree(missile->getOrientation()));
 	orientation_ = object_->getOrientation();
@@ -543,51 +563,20 @@ bool FightScene::MissileEntity::update(const FrameEvent& evt)
 void FightScene::createEntity(const string& mesh, const Vector3& position, const Real& scale)
 {
 	//Add some configuration
-	objectEntities_.push_back(GameEntity(this, mesh, position, scale));
-}
-
-void FightScene::createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team, const Vector3& position, const Real& scale)
-{
-	string mesh;
-	switch(type){
-	case Robot::LAVE_LINGE:
-		mesh = "RobotLaveLinge.mesh";
-	default:
-		mesh = "RobotLaveLinge.mesh";
-
-	}
-	Robot* robot = new Robot(position, name, team);
-	robotsEntities_.push_back(RobotEntity(this, mesh, position, scale, robot));
-	fightManager_->addRobot(robot);
+	objectEntities_.push_back(new GameEntity(this, mesh, position, scale));
 }
 
 void FightScene::addMissile(Missile* missile)
 {
-	std::string mesh = "RobotTondeuse_Projectile.mesh";
-	Real scale(80);
-	missileEntities_.push_back(MissileEntity(this, mesh, scale, missile));
+	missileEntities_.push_back(new MissileEntity(this, missile));
 }
 
 void FightScene::createRobots(void)
 {
 	std::list<Robot*> robots = fightManager_->getRobots();
 
-	for(std::list<Robot*>::iterator it = robots.begin(); it != robots.end() ; it++ )
+	for(auto it = robots.begin(); it != robots.end() ; it++ )
 	{
-		Real scale;
-		string mesh;
-		Robot::Type type = Robot::TONDEUSE;
-		switch(type)
-		{
-		case Robot::TONDEUSE:
-			scale = 20;
-			mesh = "RobotTondeuse.mesh";
-			break;
-		case Robot::LAVE_LINGE:
-		default:
-			scale = 10;
-			mesh = "RobotLaveLinge.mesh";
-		}
-		robotsEntities_.push_back(RobotEntity(this, mesh, (*it)->getPosition(), scale, (*it)));
+		robotsEntities_.push_back(new RobotEntity(this, *it));
 	}
 }

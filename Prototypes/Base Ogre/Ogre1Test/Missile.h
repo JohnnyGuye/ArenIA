@@ -23,7 +23,7 @@ public:
 	**/
 	Missile(Ogre::Vector3 position = Ogre::Vector3::ZERO,
 		const Ogre::Real& radius = 50.f, Robot* caster = nullptr,
-		Stats stats = Stats(), std::string name = "unnamed");
+		std::string name = "unnamed");
 
 	/** @Create a new missile using one other as a model
 	**/
@@ -41,15 +41,11 @@ public:
 
 	// Getters
 
-    virtual Stats getStats(void) const;
-
     virtual Robot* getCaster(void) const;
 
     virtual Hitbox* getHitbox(void) const;
 
 	//Setters
-
-    virtual void setStats(Stats stats);
 
     virtual void setCaster(Robot* caster);
 
@@ -57,9 +53,15 @@ public:
 
     virtual void update();
 
+	//------------------------------------------RENDERING
+	virtual std::string getMesh() const;
+
+	virtual Ogre::Real getScale() const;
+
 protected:
 
-    Stats stats_;
+    float	speed_;
+	float	damages_;
     Hitbox* hitbox_;
 	Robot* caster_;
 

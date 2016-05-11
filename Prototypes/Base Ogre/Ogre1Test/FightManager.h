@@ -35,6 +35,9 @@
 #include <string>
 #include <list>
 
+template <typename T>
+void destroyList(std::list<T> rhs);
+
 class FightManager
 {
 public:

@@ -21,15 +21,11 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	stats_(Gauge(), Gauge(), 60, 500, 0, 4.0),
 	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
 	action_(IDLE),
-	iaFilename_("default.lua"),
 	id_(robot_count++)
 {
 	setTurretOrientation();
 	luaCode_ = new LuaHandler();
 	setIaFilename("default.lua");
-
-	AbilityMissile* turret = new AbilityMissile(this);
-	setTurretAbility(turret);
 }
 
 Robot::~Robot()
@@ -75,8 +71,7 @@ bool Robot::move()
 {
 	if( (action_ & MOVING) == MOVING)	return false;
 	if( isSnared() )		return false;
-    double speed = getSpeed();
-    nextPosition_ = position_ + (Real(speed) * orientation_);
+    nextPosition_ = position_ + (Real(getFullStats().speed) * orientation_);
     action_ = (State)(action_ | MOVING);
     return true;
 }
@@ -156,11 +151,10 @@ Vector3 Robot::getTurretOrientationVect() const
     return turretOrientation_;
 }
 
-double Robot::getSpeed() const
+Stats Robot::getFullStats() const
 {
-    return stats_.speed + additionalStats_.speed;
+	return stats_ + additionalStats_;
 }
-
 Robot::Team Robot::getTeam() const
 {
 	return team_;

@@ -4,7 +4,7 @@
  AbilityMissile::AbilityMissile(Robot* caster)
 	 : Ability(caster)
  {
-     missile_ = new Missile(Ogre::Vector3::ZERO, 50.f, caster);
+     missile_ = new Missile(Ogre::Vector3::ZERO, 20.f, caster);
  }
 
  AbilityMissile::~AbilityMissile()

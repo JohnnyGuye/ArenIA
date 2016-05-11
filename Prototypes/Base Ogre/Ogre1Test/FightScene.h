@@ -55,7 +55,7 @@ protected:
 		GameEntity
 	{
 	public:
-		MissileEntity(FightScene* fs, const std::string& mesh, const Ogre::Real& scale, Missile* missile);
+		MissileEntity(FightScene* fs, Missile* missile);
 		virtual~MissileEntity();
 		virtual bool update(const Ogre::FrameEvent& evt);
 	};
@@ -64,11 +64,12 @@ protected:
 		GameEntity
 	{
 	public:
-		RobotEntity(FightScene* fs, const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale, Robot* robot);
+		RobotEntity(FightScene* fs, Robot* robot);
 		virtual~RobotEntity();
 		virtual bool update(const	Ogre::FrameEvent& evt);
 		inline virtual std::string stateToString(const Robot::State& state) const;
 	protected:
+		Ogre::Light*	sight_;
 	};
 
 public:
@@ -94,7 +95,6 @@ protected:
 	virtual void _loadResources(void);
 
 	virtual void createEntity(const std::string& mesh, const Ogre::Vector3& position, const Ogre::Real& scale = 1);
-	virtual void createRobot(const std::string& name, const Robot::Type& type, const Robot::Team& team = Robot::NONE, const Ogre::Vector3& position = Ogre::Vector3::ZERO, const Ogre::Real& scale = 1);
 	virtual void createRobots(void);
 	virtual void addMissile( Missile* missile);
 	virtual void createScene(void);
@@ -103,9 +103,9 @@ protected:
 	FightManager*		fightManager_;	// The logic of the game 
 
 	std::vector<Ogre::Entity*>	DecorEntities_; // The entities corresponding to the scenery 
-	std::list<RobotEntity>		robotsEntities_; // The robots to carry 
-	std::list<GameEntity>		objectEntities_;	// The other objects to carry
-	std::list<MissileEntity>	missileEntities_;	// the missiles
+	std::list<RobotEntity*>		robotsEntities_; // The robots to carry 
+	std::list<GameEntity*>		objectEntities_;	// The other objects to carry
+	std::list<MissileEntity*>	missileEntities_;	// the missiles
 
 	Sun*						theSun_;// The sun
 
