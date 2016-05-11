@@ -173,6 +173,8 @@ protected:
 
     /** **/
     FightManager* fightManager_;
+	/** **/
+	Hitbox* hitbox_;
 
     /**The robot Id, generated for now by a static count**/
     static int robot_count;
