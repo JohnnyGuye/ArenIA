@@ -31,6 +31,7 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 
 Robot::~Robot()
 {
+	if(hitbox_) delete hitbox_;
 }
 
 bool Robot::resetAction()
