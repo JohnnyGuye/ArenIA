@@ -21,6 +21,7 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	stats_(Gauge(), Gauge(), 60, 500, 0, 4.0),
 	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
 	action_(IDLE),
+	hitbox_(new HitboxSphere(&position_)),
 	id_(robot_count++)
 {
 	setTurretOrientation();
@@ -30,6 +31,7 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 
 Robot::~Robot()
 {
+	if(hitbox_) delete hitbox_;
 }
 
 bool Robot::resetAction()
