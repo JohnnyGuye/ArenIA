@@ -129,5 +129,6 @@ protected:
 	Ogre::Camera*			camera_;
 
 	bool					stop_;
+	bool					shutDown_;
 };
 

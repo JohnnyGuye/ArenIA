@@ -93,7 +93,7 @@ bool FightWindow::setup(void)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Popular");
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Essential");
-	activScene_ = sceneMap_.at("Fight");
+	activScene_ = sceneMap_.at("Launcher");
 	activScene_->loadResources();
 	
 	FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");
@@ -180,6 +180,12 @@ bool FightWindow::changeScene()
 	case Scene::EXIT:
 		shutDown_ = true;
 		return false;
+		break;
+	case Scene::LAUNCHER:
+		activScene_ = sceneMap_.at("Launcher");
+		break;
+	case Scene::LOGO:
+		activScene_ = sceneMap_.at("Logo");
 	case Scene::FIGHT:
 	default:
 		activScene_ = sceneMap_.at("Fight");

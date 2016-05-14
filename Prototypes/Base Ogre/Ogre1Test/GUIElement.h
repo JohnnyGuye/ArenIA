@@ -34,10 +34,160 @@
 */
 
 #include <OGRE\OgreFrameListener.h>
+#include <OIS\OISKeyboard.h>
+#include <OIS\OISMouse.h>
 #include <vector>
+#include "Gauge.h"
 
 #include "Gorilla.h"
 
+#pragma warning(disable : 4355)
+
+//------------------------------------------------------------------GUI
+namespace GUI
+{
+	//-------------------------------------------------------------PANE
+	class Pane
+	{
+	public:
+		Pane(Ogre::Vector2 position, Ogre::Vector2 dimension = Ogre::Vector2(1.f,1.f));
+		
+		virtual~Pane();
+
+		virtual void setPosition(Ogre::Vector2 pos);
+		virtual void resize(Ogre::Vector2 dimension);
+		virtual Ogre::Vector2 getPosition(){	return position_;	}
+		virtual Ogre::Vector2 getDimension(){	return dimension_;	}
+		virtual bool intersect(Ogre::Vector2 point);
+
+		//Handlers
+		virtual bool keyPressed(const OIS::KeyEvent &arg);
+		virtual bool keyReleased(const OIS::KeyEvent &arg);
+		virtual bool mouseMoved(const OIS::MouseEvent &arg);
+		virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+		virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+
+		//Pane tree
+		virtual Pane* getParent()	{		return parent_;		}
+		virtual void addChild(Pane* pane)
+		{
+			childrens_.push_back(pane);
+			pane->parent_ = this;
+		}
+
+	protected:
+		Ogre::Vector2		position_;
+		Ogre::Vector2		dimension_;
+		Pane*				parent_;
+		std::list<Pane*>	childrens_;
+
+		bool dirty_;
+		bool initialized_;
+	};
+	//------------------------------------------------------BUTTON
+	class Button
+		: public Pane
+	{
+	public:
+		Button(Ogre::Vector2 position, Ogre::Vector2 dimension);
+		virtual~Button();
+		
+		virtual Button* init(Gorilla::Layer*);
+
+		virtual void setBackground(const std::string& sprite_name);
+		virtual void setBackground(const Ogre::ColourValue& color);
+		virtual void setText(const std::string& text);
+
+		virtual void setPosition(Ogre::Vector2 position);
+		virtual void resize(Ogre::Vector2 dimension);
+
+		virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+		virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+
+	protected:
+		virtual void onClick();
+		virtual void onRelease();
+		
+	protected:
+		Gorilla::Layer*		layer_;
+
+		Gorilla::Rectangle* back_;
+		Gorilla::Caption*	text_;
+
+		bool	clicked_;
+
+	};
+	//----------------------------------------------------SLIDEBAR
+	class SlideBar
+		: public Pane
+	{
+	public:
+
+		enum Orientation {
+			HORIZONTAL, VERTICAL
+		};
+
+		SlideBar(Ogre::Vector2 position, Ogre::Vector2 dimension, Orientation orientation = VERTICAL);
+		virtual~SlideBar();
+
+		virtual SlideBar* init(Gorilla::Layer*);
+		virtual float getCurrent() const;
+		virtual void setCurrent(float);
+		virtual void regionShown(float ratio);
+
+		virtual void setPosition(Ogre::Vector2 position);
+		virtual void resize(Ogre::Vector2 dimension);
+
+		virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+		virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+		virtual bool mouseMoved(const OIS::MouseEvent& arg);
+
+	protected:
+
+		virtual bool moveScroll(Ogre::Real val, bool relative = false);
+
+		Orientation			orientation_;
+		Gauge				bar_;
+		Gorilla::Layer*		layer_;
+		Gorilla::Rectangle*	back_;
+		Gorilla::Rectangle*	scroll_;
+		Gorilla::Rectangle* arrowTop_;
+		Gorilla::Rectangle*	arrowBot_;
+
+		bool clickTop_;
+		bool clickBot_;
+		bool clickScroll_;
+	};
+	//----------------------------------------------------LIST
+	class List
+		: public Pane
+	{
+	public:
+
+		enum Orientation{
+			RIGHT, BOTTOM, LEFT, TOP
+		};
+
+		List(Ogre::Vector2 position, Ogre::Vector2 dimension, Orientation orientation = RIGHT);
+		virtual~List();
+
+		virtual List* init(Gorilla::Layer* layer);
+		virtual int addElement(Pane*);
+
+		virtual void setPosition(Ogre::Vector2 position);
+		virtual void resize(Ogre::Vector2 dimension);
+
+	protected:
+		SlideBar*		slidebar_;
+		Orientation		orientation_;
+		Gorilla::Layer*		layer_;
+		Gorilla::Rectangle*		back_;
+		std::vector<Pane*>		blockList_;
+	};
+
+};
+
+//-----------------------------------------------------------------------------
 class GUIElement
 {
 public:
