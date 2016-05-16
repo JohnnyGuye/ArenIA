@@ -4,7 +4,7 @@ using namespace Gorilla;
 using namespace Ogre;
 
 HUD::HUD(Viewport* vp, FightManager* fm)
-	: GUIElement(vp, "HUD"),
+	: GUIContext(vp, "HUD"),
 	fightManager_(fm),
 	width_(screen_->getWidth()),
 	height_(screen_->getHeight()),

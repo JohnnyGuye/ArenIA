@@ -6,6 +6,7 @@
 #include <OIS\OISInputManager.h>
 #include "Robot.h"
 #include "Terrain.h"
+
 //#include <boost/filesystem.hpp>
 
 
@@ -25,7 +26,6 @@ namespace GUI
 
 		void update();
 
-		virtual bool intersect(Ogre::Vector2 point);
 		virtual void resize(Ogre::Vector2 dimension);
 
 		bool frameRenderingQueued( const Ogre::FrameEvent& evt);
@@ -49,7 +49,7 @@ typedef struct MapObjects {
 // Alors ici, qu'est-ce qu'on a ? Le code du GUI de la fenêtre. C'est un peu le gros gestionnaire.
 // Il utilise tout les petits éléments ci dessus qui sont réutilisables sous le namespace GUI
 class GUILauncher :
-	public GUIElement
+	public GUIContext
 {
 public:
 
@@ -63,8 +63,6 @@ public:
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 	
 	virtual bool mouseMoved(const OIS::MouseEvent &arg);
-	virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
-	virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
 	Gorilla::Layer*		layerBase_;
 	Gorilla::Layer*		layerListArea_;

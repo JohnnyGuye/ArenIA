@@ -6,7 +6,7 @@ const Ogre::Real GUIShowLogo::FADE_OUT(1.0f);
 const Ogre::Real GUIShowLogo::FULL_FRAME(GUIShowLogo::FADE_IN + GUIShowLogo::FADE_OUT + GUIShowLogo::SHOW);
 
 GUIShowLogo::GUIShowLogo(Ogre::Viewport* vp)
-	: GUIElement(vp, "logo"),
+	: GUIContext(vp, "logo"),
 	lowTimer_(0),
 	asChanged_(false),
 	idx_(0)

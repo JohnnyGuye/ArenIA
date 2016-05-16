@@ -62,11 +62,11 @@ bool GUI::Pane::keyReleased(const OIS::KeyEvent &arg)
 bool GUI::Pane::mouseMoved(const OIS::MouseEvent &arg)
 {
 	Ogre::Vector2 mouse(Ogre::Real(arg.state.X.abs), Ogre::Real(arg.state.Y.abs));
-	if(!intersect(mouse))	return false;
 	for(auto it = childrens_.begin(); it != childrens_.end(); it++)
 	{
 		(*it)->mouseMoved(arg);
 	}
+	if(!intersect(mouse))	return false;
     return true;
 }
 
@@ -84,13 +84,14 @@ bool GUI::Pane::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 bool GUI::Pane::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
 	Ogre::Vector2 mouse(Ogre::Real(arg.state.X.abs), Ogre::Real(arg.state.Y.abs));
-	if(!intersect(mouse))	return false;
 	for(auto it = childrens_.begin(); it != childrens_.end(); it++)
 	{
 		(*it)->mouseReleased(arg, id);
 	}
+	if(!intersect(mouse))	return false;
     return true;
 }
+
 //----------------------------------------------------------BUTTON
 GUI::Button::Button(Ogre::Vector2 pos, Ogre::Vector2 dim)
 	: Pane(pos, dim),
@@ -339,6 +340,7 @@ bool GUI::SlideBar::moveScroll(Real val, bool relative)
 	}
 	return true;
 }
+
 //----------------------------------------------------------------------LIST
 inline bool isVertical(GUI::List::Orientation rhs)
 {
@@ -404,7 +406,7 @@ void GUI::List::resize(Ogre::Vector2 dimension)
 
 }
 //------------- -------------------------------------------------------ELEMENT
-GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
+GUIContext::GUIContext(Ogre::Viewport* vp, const Ogre::String &atlas)
 	: root_(this),
 	parent_(this),
 	screen_(nullptr),
@@ -415,7 +417,7 @@ GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
 		silverback_ = new Gorilla::Silverback();
 	else
 		silverback_ = Gorilla::Silverback::getSingletonPtr();
-
+	
 	try
 	{
 		if((atlas != "") && (vp!=nullptr))
@@ -436,10 +438,10 @@ GUIElement::GUIElement(Ogre::Viewport* vp, const Ogre::String &atlas)
 	}
 }
 
-GUIElement::~GUIElement(void)
+GUIContext::~GUIContext(void)
 {
 	
-	for(std::list<GUIElement*>::iterator it = children_.begin(); it != children_.end() ; it++)
+	for(std::list<GUIContext*>::iterator it = children_.begin(); it != children_.end() ; it++)
 	{
 		if( (*it) ) delete (*it);
 	}
@@ -449,13 +451,13 @@ GUIElement::~GUIElement(void)
 	}
 }
 //---------------------------------------------------------------------
-Ogre::String GUIElement::getAtlasName() const
+Ogre::String GUIContext::getAtlasName() const
 {
 	return screen_->getAtlas()->get2DMaterialName();
 }
 
 //---------------------------------------------------------------------
-GUIElement* GUIElement::addChild(GUIElement* elmnt)
+GUIContext* GUIContext::addChild(GUIContext* elmnt)
 {
 	elmnt->root_ = this->root_;
 	elmnt->parent_ = this;
@@ -468,7 +470,50 @@ GUIElement* GUIElement::addChild(GUIElement* elmnt)
 	return elmnt;
 }
 
-bool GUIElement::frameRenderingQueued(const Ogre::FrameEvent& evt)
+GUI::Pane* GUIContext::addElement(GUI::Pane* pane)
 {
+	panes_.push_back(pane);
+	return pane;
+}
+
+
+bool GUIContext::frameRenderingQueued(const Ogre::FrameEvent& evt)
+{
+	return true;
+}
+
+//Handlers
+bool GUIContext::keyPressed(const OIS::KeyEvent &arg)
+{
+	for(auto it = panes_.begin(); it != panes_.end() ; it++)
+		(*it)->keyPressed(arg);
+	return true;
+}
+
+bool GUIContext::keyReleased(const OIS::KeyEvent &arg)
+{
+	for(auto it = panes_.begin(); it != panes_.end() ; it++)
+		(*it)->keyReleased(arg);
+	return true;
+}
+
+bool GUIContext::mouseMoved(const OIS::MouseEvent &arg)
+{
+	for(auto it = panes_.begin(); it != panes_.end() ; it++)
+		(*it)->mouseMoved(arg);
+	return true;
+}
+
+bool GUIContext::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+{
+	for(auto it = panes_.begin(); it != panes_.end() ; it++)
+		(*it)->mousePressed(arg, id);
+	return true;
+}
+
+bool GUIContext::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
+{
+	for(auto it = panes_.begin(); it != panes_.end() ; it++)
+		(*it)->mouseReleased(arg, id);
 	return true;
 }

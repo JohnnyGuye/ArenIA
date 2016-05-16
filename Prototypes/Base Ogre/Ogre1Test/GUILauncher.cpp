@@ -53,10 +53,6 @@ GUI::ListArea::~ListArea()
 	}
 }
 
-bool GUI::ListArea::intersect(Ogre::Vector2 point)
-{
-	return GUI::Pane::intersect(point);	
-}
 
 void GUI::ListArea::update()
 {
@@ -79,7 +75,7 @@ bool GUI::ListArea::frameRenderingQueued(const Ogre::FrameEvent& evt)
 *********************** GUILauncher **************************
 *********************************************************/
 GUILauncher::GUILauncher(Ogre::Viewport* vp)
-	: GUIElement(vp, "HUDFlowChart"),
+	: GUIContext(vp, "HUDFlowChart"),
 	listArea_(nullptr),
 	mouse_(nullptr),
 	mapObjects_(nullptr)
@@ -100,6 +96,8 @@ GUILauncher::GUILauncher(Ogre::Viewport* vp)
 		Ogre::Vector2(width_ * 0.3f, height_ * 1.f));
 
 	listArea_->init(layerListArea_);
+	
+	addElement(listArea_);
 }
 
 GUILauncher::~GUILauncher(void)
@@ -174,22 +172,10 @@ bool GUILauncher::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 bool GUILauncher::mouseMoved(const OIS::MouseEvent &arg)
 {
+	GUIContext::mouseMoved(arg);
 	Ogre::Real x((float)arg.state.X.abs), 
 		y((float)arg.state.Y.abs);
 	mouse_->left(x);
 	mouse_->top(y);
-	listArea_->mouseMoved(arg);
-	return true;
-}
-
-bool GUILauncher::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
-{
-	listArea_->mousePressed(arg, id);
-	return true;
-}
-
-bool GUILauncher::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
-{
-	listArea_->mouseReleased(arg, id);
 	return true;
 }

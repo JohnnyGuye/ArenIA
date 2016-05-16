@@ -6,12 +6,12 @@
 #include "OgreConsoleForGorilla.h"
 
 class GUIConsole
-	: GUIElement
+	: GUIContext
 {
 public:
 
 	GUIConsole(Ogre::Viewport* vP)
-		: GUIElement(vP, "dejavu")
+		: GUIContext(vP, "dejavu")
 	{
 		mConsole = new OgreConsole();
 		mConsole->init(screen_);

@@ -141,7 +141,7 @@ namespace GUI
 // Alors ici, qu'est-ce qu'on a ? Le code du GUI de la fenêtre. C'est un peu le gros gestionnaire.
 // Il utilise tout les petits éléments ci dessus qui sont réutilisables sous le namespace GUI
 class GUICode :
-	public GUIElement
+	public GUIContext
 {
 public:
 	GUICode(Ogre::Viewport*);

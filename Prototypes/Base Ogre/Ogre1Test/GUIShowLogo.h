@@ -3,7 +3,7 @@
 #include "GUIElement.h"
 
 class GUIShowLogo
-	: public GUIElement
+	: public GUIContext
 {
 public:
 

@@ -293,7 +293,7 @@ void GUI::FlowChartArea::Arrow::setEnd(Bloc* bloc)
 *********************** GUICode **************************
 *********************************************************/
 GUICode::GUICode(Ogre::Viewport* vp)
-	: GUIElement(vp, "HUDFlowChart"),
+	: GUIContext(vp, "HUDFlowChart"),
 	textArea_(nullptr),
 	flowChartArea_(nullptr),
 	mouse_(nullptr)
