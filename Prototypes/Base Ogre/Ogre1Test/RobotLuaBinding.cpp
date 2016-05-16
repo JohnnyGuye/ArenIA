@@ -12,6 +12,8 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_fire,"fire");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_turnRobot,"turnRobot");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_turnTurret,"turnTurret");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_useAbility,"useAbility");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getStats,"getStats");
 
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
 }
@@ -99,6 +101,72 @@ int RobotLuaBinding::lua_Robot_getRobotAngle(lua_State *L)
 	lua_pushnumber(L,theRobot->getOrientation().valueDegrees());
 	return 1;
 }
+
+
+/**lua useAbility(id:int):bool
+	@desc Use the ability with the given id
+	@param id An int corresponding to the number of the ability to use. Call getKnownAbilities in order to know what abilities are aviable
+	@return A bool that is true if the robot has an ability for that index, and false otherwise
+*/
+int RobotLuaBinding::lua_Robot_useAbility(lua_State *L)
+{
+	unsigned int id = luaL_checknumber(L,1);
+	bool hasAbility = theRobot->useAbility(id);
+	
+	lua_pushnumber(L,hasAbility);
+	return 1;
+}
+
+/**lua getStats():table
+	@desc Get the currents and max stats of your robot in a lua table.
+	the lua table contains these fields
+	<ul>
+		<li>maxHp : The max hp of your robot </li>
+		<li>maxHp : The max hp of your robot</li>
+		<li>maxEnergy : The max Energy of your robot</li>
+		<li>currentEnergy : The current Energy of your robot </li>
+		<li>range : The range of your weapon</li>
+		<li>resistance : The armor of your robot</li>
+		<li>speed : The speed of your robot</li>
+	</ul>
+	@example How to use getStats()
+	function main()
+		-- Get the stats
+		stats = getStats()
+
+		-- Use them
+		if (stats.currentHP < 10) then
+			-- ...
+		end
+	end
+	!eend
+*/
+int RobotLuaBinding::lua_Robot_getStats(lua_State *L)
+{
+	lua_newtable(L);
+	Stats stats = theRobot->getFullStats();
+
+	LuaHandler::SetField(L, "maxHP", stats.hp.getMax());
+	LuaHandler::SetField(L, "currentHP", stats.hp.getCurrent());
+
+	LuaHandler::SetField(L, "maxEnergy", stats.energy.getMax());
+	LuaHandler::SetField(L, "currentEnergy", stats.energy.getCurrent());
+
+	LuaHandler::SetField(L, "currentVisionAngle", stats.visionAngle.getCurrent());
+	LuaHandler::SetField(L, "maxVisionAngle", stats.visionAngle.getMax());
+	LuaHandler::SetField(L, "minVisionAngle", stats.visionAngle.getMin());
+	
+	LuaHandler::SetField(L, "range", stats.range);
+	LuaHandler::SetField(L, "resistance", stats.resistance);
+	LuaHandler::SetField(L, "speed", stats.speed);
+	
+	
+	
+
+
+	return 1;
+}
+
 
 
 

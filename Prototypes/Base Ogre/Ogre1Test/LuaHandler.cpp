@@ -90,6 +90,13 @@ void LuaHandler::RegisterFunction(lua_CFunction function, char* nom)
     lua_register(luaState, nom, function);
 }
 
+/* assume that table is at the top */
+void LuaHandler::SetField (lua_State* L, const char *index, float value) {
+    lua_pushstring(L, index);
+    lua_pushnumber(L, value);
+    lua_settable(L, -3);
+}
+
 
 LuaHandler::LuaHandler()
 	: invalid(false)

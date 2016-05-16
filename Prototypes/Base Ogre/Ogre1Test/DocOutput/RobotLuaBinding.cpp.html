@@ -29,6 +29,8 @@
 <li><a href="#4"><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></a></li>
 <li><a href="#5"><strong>getTurretAngle</strong>():<em>double</em></a></li>
 <li><a href="#6"><strong>getRobotAngle</strong>():<em>double</em></a></li>
+<li><a href="#7"><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></a></li>
+<li><a href="#8"><strong>getStats</strong>():<em>table</em></a></li>
 </ul>
 
 <hr />
@@ -137,6 +139,59 @@
 <ul>
 <li>A double corresponding to the angle that the robot is facing</li>
 </ul>
+
+<hr />
+
+<h3><a name="7"></a><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></h3>
+
+<h4>Description</h4>
+
+<p>Use the ability with the given id</p>
+
+<h4>Parameters</h4>
+
+<ul>
+<li><strong>id</strong> An int corresponding to the number of the ability to use. Call getKnownAbilities in order to know what abilities are aviable</li>
+</ul>
+
+<h4>Return</h4>
+
+<ul>
+<li>A bool that is true if the robot has an ability for that index, and false otherwise</li>
+</ul>
+
+<hr />
+
+<h3><a name="8"></a><strong>getStats</strong>():<em>table</em></h3>
+
+<h4>Description</h4>
+
+<p>Get the currents and max stats of your robot in a lua table.
+    the lua table contains these fields
+    <ul>
+        <li>maxHp : The max hp of your robot </li>
+        <li>maxHp : The max hp of your robot</li>
+        <li>maxEnergy : The max Energy of your robot</li>
+        <li>currentEnergy : The current Energy of your robot </li>
+        <li></li>
+        <li></li>
+    </ul></p>
+
+<h4>example</h4>
+
+<h5>Exemple</h5>
+
+<pre><code class="lua">
+    function main()
+        -- Get the stats
+        stats = getStats();
+
+        -- Use them
+        if (stats.currentHP < 10) then
+            -- ...
+        end
+    end
+</code></pre>
 
 </div>
 
