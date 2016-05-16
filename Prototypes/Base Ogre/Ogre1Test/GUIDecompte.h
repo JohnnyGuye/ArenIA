@@ -3,12 +3,12 @@
 #include "GUIElement.h"
 
 class GUIDecompte
-	: public GUIElement
+	: public GUIContext
 {
 public:
 
 	inline GUIDecompte(Ogre::Viewport* vp, const Ogre::String &atlas)
-		: GUIElement(vp, atlas),
+		: GUIContext(vp, atlas),
 		timer_(0)
 	{
 		Ogre::Real vpW = screen_->getWidth(), 

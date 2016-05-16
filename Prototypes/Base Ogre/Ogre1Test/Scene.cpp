@@ -4,7 +4,8 @@ Scene::Scene(void)
 	: root_(Ogre::Root::getSingletonPtr()),
 	sceneMgr_(nullptr),
 	resourcesState_(NOT_LOADED),
-	stop_(false)
+	stop_(false),
+	shutDown_(false)
 {
 	window_ = root_->getAutoCreatedWindow();
 	silverback_ = Gorilla::Silverback::getSingletonPtr();

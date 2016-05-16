@@ -25,6 +25,8 @@ void LauncherScene::destroyScene(void)
 
 Scene::Scenes LauncherScene::nextScene() const
 {
+	if(shutDown_)
+		return EXIT;
 	return FIGHT;
 }
 
@@ -84,6 +86,7 @@ bool LauncherScene::keyPressed( const OIS::KeyEvent& arg)
 	{
 	case OIS::KC_ESCAPE:
 		stop_ = true;
+		shutDown_ = true;
 		break;
 	default:
 		break;

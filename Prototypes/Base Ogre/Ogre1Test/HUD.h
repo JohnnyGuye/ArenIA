@@ -4,7 +4,7 @@
 #include "FightManager.h"
 
 class HUD :
-	public GUIElement
+	public GUIContext
 {
 public:
 	HUD(Ogre::Viewport* vp, FightManager* fm);
