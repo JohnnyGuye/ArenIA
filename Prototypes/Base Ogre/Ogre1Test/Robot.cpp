@@ -78,6 +78,11 @@ bool Robot::move()
     return true;
 }
 
+unsigned int Robot::getId()
+{
+	return id_;
+}
+
 bool Robot::turnTurret (const Degree& angle)
 {
 	if(isSnared())	return false;
