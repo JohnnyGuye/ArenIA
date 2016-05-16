@@ -6,7 +6,9 @@
 #include <OIS\OISInputManager.h>
 #include "Robot.h"
 #include "Terrain.h"
-//#include <boost/filesystem.hpp>
+#include <windows.h>
+#include <tchar.h> 
+#include <strsafe.h>
 
 
 

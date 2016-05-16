@@ -96,9 +96,10 @@ GUILauncher::GUILauncher(Ogre::Viewport* vp)
 	mouse_->background_image("mousepointer");
 
 	loadAllElements();
+	
 	listArea_ = new GUI::ListArea(Ogre::Vector2(width_ * 0.7f, height_ * 0.0f), 
 		Ogre::Vector2(width_ * 0.3f, height_ * 1.f));
-
+	loadAllElements();
 	listArea_->init(layerListArea_);
 }
 
@@ -111,10 +112,48 @@ void GUILauncher::loadAllElements()
 {
 	// /!\ We use the boost library to go through folders
 
+
+	WIN32_FIND_DATA ffd;
+	LARGE_INTEGER filesize;
+	TCHAR szDir[MAX_PATH];
+	size_t length_of_arg;
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+	DWORD dwError=0;
+
+   std::string myPath = "../Media/maps";
+
+
+
+	StringCchCopy(szDir, MAX_PATH, myPath.c_str());
+
+   // Find the first file in the directory.
+	ofstream fout("afile.txt");
+    
+
+   hFind = FindFirstFile(szDir, &ffd);
+    do
+   {
+      if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+      {
+		 filesize.LowPart = ffd.nFileSizeLow;
+         filesize.HighPart = ffd.nFileSizeHigh;
+		 fout << "file : " << ffd.cFileName << "  " << filesize.QuadPart<<endl;
+      }
+      else
+      {
+         filesize.LowPart = ffd.nFileSizeLow;
+         filesize.HighPart = ffd.nFileSizeHigh;
+		 fout << "file : " << ffd.cFileName << "  " << filesize.QuadPart<<endl;
+      }
+   }
+   while (FindNextFile(hFind, &ffd) != 0);
+       fout.close();
+
 	//We first load all robots. We go through the ../Media/models directory, 
 	//we find the robots models and instanciate them to get their stats.
+
 	/*
-	std::string myPath = "../Media/models";
+	
 	boost::filfilesystem::recursive_directory_iterator iterRobots(myPath), eodRobots;
 	Ogre::fil
 	BOOST_FOREACH(boost::filesystem::path const& i, make_pair(iterRobots, eodRobots)){
