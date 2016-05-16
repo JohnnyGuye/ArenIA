@@ -7,7 +7,8 @@ using namespace Ogre;
 
 LauncherScene::LauncherScene(void)
 	: Scene(),
-	GUILauncher_(nullptr)
+	GUILauncher_(nullptr),
+	camera_(nullptr)
 {
 	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 }

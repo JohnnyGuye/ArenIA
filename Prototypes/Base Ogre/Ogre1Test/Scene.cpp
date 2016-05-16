@@ -3,6 +3,7 @@
 Scene::Scene(void)
 	: root_(Ogre::Root::getSingletonPtr()),
 	sceneMgr_(nullptr),
+	camera_(nullptr),
 	resourcesState_(NOT_LOADED),
 	stop_(false),
 	shutDown_(false)

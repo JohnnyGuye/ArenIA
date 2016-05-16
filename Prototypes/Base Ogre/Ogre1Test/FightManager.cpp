@@ -17,7 +17,8 @@ void destroyList(std::list<T> rhs)
 FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	: day_(60 * 60, 0, 0.0, 1.0), roundAfterSD_(0), victoryHandler_(vo)
 {
-	loadTerrain(mapFileName);
+	terrain_ = nullptr;//preinitialisation
+	loadTerrain(mapFileName);//initialisation
 	
 	list<Ogre::Vector3> starts = getTerrain()->getStarts();
 	int i = 0;
@@ -39,10 +40,12 @@ FightManager::~FightManager(void)
 	destroyList(robots_);
 
 	if(victoryHandler_)	delete victoryHandler_;
+	if(terrain_) delete terrain_;
 }
 
 void FightManager::loadTerrain(const string& fileName)
 {
+	if(terrain_) delete terrain_;
 	terrain_ = new Terrain(fileName);
 }
 

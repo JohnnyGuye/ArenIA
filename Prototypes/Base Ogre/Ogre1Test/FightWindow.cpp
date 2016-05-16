@@ -20,15 +20,15 @@ bool FightWindow::lshift_(false);
 bool FightWindow::rshift_(false);
 
 FightWindow::FightWindow(void)
-	:  root_(0),
-    window_(0),
+	:  root_(nullptr),
+    window_(nullptr),
     resourcesCfg_(Ogre::StringUtil::BLANK),
     pluginsCfg_(Ogre::StringUtil::BLANK),
     cursorWasVisible_(false),
     shutDown_(false),
-    inputManager_(0),
-    mouse_(0),
-    keyboard_(0),
+    inputManager_(nullptr),
+    mouse_(nullptr),
+    keyboard_(nullptr),
 	activScene_(nullptr)
 {
 	AllocConsole();

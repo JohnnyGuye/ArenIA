@@ -7,7 +7,8 @@ using namespace Ogre;
 
 LogoScene::LogoScene(void)
 	: Scene(),
-	showLogos_(nullptr)
+	showLogos_(nullptr),
+	camera_(nullptr)
 {
 	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 }

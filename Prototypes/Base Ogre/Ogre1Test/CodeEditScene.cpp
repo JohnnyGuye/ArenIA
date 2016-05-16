@@ -7,10 +7,12 @@ CodeEditScene::CodeEditScene(void)
 	: Scene()
 {
 	sceneMgr_ = root_->createSceneManager(ST_GENERIC);
+	GUICode_ = nullptr;
 }
 
 CodeEditScene::~CodeEditScene(void)
 {
+	if( GUICode_ ) delete GUICode_;
 }
 
 void CodeEditScene::_loadResources(void)
