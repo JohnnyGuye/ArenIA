@@ -405,14 +405,17 @@ void GUI::List::resize(Ogre::Vector2 dimension)
 {
 
 }
-//------------- -------------------------------------------------------ELEMENT
+
+//----------------------------------------------------------------------------
+//-------------------------- GUIContext --------------------------------------
+//----------------------------------------------------------------------------
 GUIContext::GUIContext(Ogre::Viewport* vp, const Ogre::String &atlas)
 	: root_(this),
 	parent_(this),
 	screen_(nullptr),
-	children_()
+	children_(),
+	mouseVisibility_(true)
 {
-	
 	if(!Gorilla::Silverback::getSingletonPtr())
 		silverback_ = new Gorilla::Silverback();
 	else
@@ -424,6 +427,10 @@ GUIContext::GUIContext(Ogre::Viewport* vp, const Ogre::String &atlas)
 		{
 			silverback_->loadAtlas(atlas);
 			screen_ = silverback_->createScreen(vp, atlas);
+		
+		layerMouse_ = screen_->createLayer(15);
+		mouse_ = layerMouse_->createRectangle(0, 0, 20, 20);
+		mouse_->background_image("mousepointer");
 		}
 	}
 	catch(const std::exception e)
@@ -450,13 +457,12 @@ GUIContext::~GUIContext(void)
 		silverback_->destroyScreen(screen_);
 	}
 }
-//---------------------------------------------------------------------
+
 Ogre::String GUIContext::getAtlasName() const
 {
 	return screen_->getAtlas()->get2DMaterialName();
 }
 
-//---------------------------------------------------------------------
 GUIContext* GUIContext::addChild(GUIContext* elmnt)
 {
 	elmnt->root_ = this->root_;
@@ -476,6 +482,23 @@ GUI::Pane* GUIContext::addElement(GUI::Pane* pane)
 	return pane;
 }
 
+bool GUIContext::IsMouseVisible() const
+{
+	return mouseVisibility_;
+}
+
+void GUIContext::mouseVisibility(bool visible)
+{
+	if(visible && ! mouseVisibility_)
+	{
+		mouse_->background_image("mousepointer");
+	}
+	else if( !visible && mouseVisibility_)
+	{
+		mouse_->no_background();
+	}
+	mouseVisibility_ = visible;
+}
 
 bool GUIContext::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
@@ -499,6 +522,10 @@ bool GUIContext::keyReleased(const OIS::KeyEvent &arg)
 
 bool GUIContext::mouseMoved(const OIS::MouseEvent &arg)
 {
+	Ogre::Real x((float)arg.state.X.abs), 
+		y((float)arg.state.Y.abs);
+	mouse_->left(x);
+	mouse_->top(y);
 	for(auto it = panes_.begin(); it != panes_.end() ; it++)
 		(*it)->mouseMoved(arg);
 	return true;

@@ -17,7 +17,7 @@
 * Copyright (c) 2016-2017
 *
 * @author Johnny Guye
-* @summary : This class is a is a part of the GUI. 
+* @summary : The class GUIContext is the first step for GUI. 
 * It encapsulates the life of screens and take care of getting the instance of
 * the silverback. There's no real need to invoke this class as a standalone class.
 * In more cases, you have to inherit from this class to create the GUI for the scene.
@@ -219,6 +219,13 @@ public:
 	/// @return true if updated
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
+	/// Test if the mouse is visible or not
+	/// @return true if visible
+	virtual bool IsMouseVisible() const;
+
+	/// Set the visibility
+	/// @param visible true for visibility
+	virtual void mouseVisibility(bool visible = true);
 
 	//Handlers
 	virtual bool keyPressed(const OIS::KeyEvent &arg);
@@ -235,5 +242,9 @@ protected:
 	Gorilla::Silverback*		silverback_;
 	Gorilla::Screen*			screen_;
 	std::list<GUI::Pane*>		panes_;
+
+	Gorilla::Layer*				layerMouse_;
+	Gorilla::Rectangle*			mouse_;
+	bool						mouseVisibility_;
 };
 

@@ -17,7 +17,7 @@ GUI::ListArea::ListArea(const Ogre::Vector2& pos,const Ogre::Vector2& dim)
 	mapList_(nullptr)
 {
 	
-	mapList_ = new GUI::List(Vector2(pos.x + 50, pos.y + 100), dim*0.8);
+	mapList_ = new GUI::List(Vector2(pos.x + 50.f, pos.y + 100.f), dim*0.8f);
 }
 
 GUI::ListArea* GUI::ListArea::init(Gorilla::Layer* layer)
@@ -86,12 +86,6 @@ GUILauncher::GUILauncher(Ogre::Viewport* vp)
 	layerBackground_ = screen_->createLayer(0);
 	layerBase_ = screen_->createLayer(8);
 	layerListArea_ = screen_->createLayer(10);
-	layerTop_ = screen_->createLayer(15);
-
-	mouse_ = layerTop_->createRectangle(0, 0, 20, 20);
-	mouse_->background_image("mousepointer");
-
-	loadAllElements();
 	
 	listArea_ = new GUI::ListArea(Ogre::Vector2(width_ * 0.7f, height_ * 0.0f), 
 		Ogre::Vector2(width_ * 0.3f, height_ * 1.f));
@@ -99,6 +93,8 @@ GUILauncher::GUILauncher(Ogre::Viewport* vp)
 	listArea_->init(layerListArea_);
 	
 	addElement(listArea_);
+
+	loadAllElements();
 }
 
 GUILauncher::~GUILauncher(void)
@@ -204,15 +200,5 @@ MapObjects * GUILauncher::getmapObjects()
 bool GUILauncher::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	listArea_->frameRenderingQueued(evt);
-	return true;
-}
-
-bool GUILauncher::mouseMoved(const OIS::MouseEvent &arg)
-{
-	GUIContext::mouseMoved(arg);
-	Ogre::Real x((float)arg.state.X.abs), 
-		y((float)arg.state.Y.abs);
-	mouse_->left(x);
-	mouse_->top(y);
 	return true;
 }

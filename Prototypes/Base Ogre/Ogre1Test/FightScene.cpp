@@ -288,6 +288,8 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 		hud_->frameRenderingQueued(evt);
 	}
 
+	if(this->fightManager_->IsVictory())
+		std::cout << "VICTORY !" << std::endl;
 	
 	return true;
 }

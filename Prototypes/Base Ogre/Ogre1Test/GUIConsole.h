@@ -13,6 +13,7 @@ public:
 	GUIConsole(Ogre::Viewport* vP)
 		: GUIContext(vP, "dejavu")
 	{
+		this->mouseVisibility(false);
 		mConsole = new OgreConsole();
 		mConsole->init(screen_);
 		mConsole->setVisible(false);

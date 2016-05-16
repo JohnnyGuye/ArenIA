@@ -1,5 +1,6 @@
 #include "FightManager.h"
 #include "WasheeRobot.h"
+#include "MowerRobot.h"
 #include "Log.h"
 
 using namespace std;
@@ -26,7 +27,8 @@ FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 		ArenIA::Log::getInstance()->write("Robot created !");
 		std::stringstream ss;
 		ss << "Robot-" << (i > 9 ? "0" : "00") << i++;
-		addRobot(new WasheeRobot(*it, ss.str(), Robot::NONE));
+		if(i%2)	addRobot(new WasheeRobot(*it, ss.str(), Robot::NONE));
+		else	addRobot(new MowerRobot(*it, ss.str(), Robot::NONE));
 	}
 }
 

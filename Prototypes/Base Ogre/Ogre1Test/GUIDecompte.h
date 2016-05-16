@@ -11,6 +11,7 @@ public:
 		: GUIContext(vp, atlas),
 		timer_(0)
 	{
+		this->mouseVisibility(false);
 		Ogre::Real vpW = screen_->getWidth(), 
 			vpH = screen_->getHeight();
 

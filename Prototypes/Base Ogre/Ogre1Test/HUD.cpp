@@ -10,13 +10,11 @@ HUD::HUD(Viewport* vp, FightManager* fm)
 	height_(screen_->getHeight()),
 	hudScale(0.070f)
 {
+	this->mouseVisibility(false);
 	layerHUD_ = screen_->createLayer(10);
 	layerIco_ = screen_->createLayer(9);
 	layerInf_ = screen_->createLayer(11);
 	layerTop_ = screen_->createLayer(12);
-	layerHUD_->show();
-	layerIco_->show();
-	layerInf_->show();
 }
 
 HUD::~HUD(void)

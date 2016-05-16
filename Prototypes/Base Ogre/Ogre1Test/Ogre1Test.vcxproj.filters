@@ -293,9 +293,6 @@
     <ClInclude Include="Stats.h">
       <Filter>Fichiers d%27en-tête\Util</Filter>
     </ClInclude>
-    <ClInclude Include="HUD.h">
-      <Filter>Fichiers d%27en-tête\Util</Filter>
-    </ClInclude>
     <ClInclude Include="CodeEditScene.h">
       <Filter>Fichiers d%27en-tête\Scenes</Filter>
     </ClInclude>
@@ -313,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="MowerRobot.h">
       <Filter>Fichiers d%27en-tête\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
