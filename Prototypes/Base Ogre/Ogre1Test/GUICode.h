@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GUIElement.h"
+#include "GUIContext.h"
 #include <OIS\OIS.h>
 #include <OIS\OISMouse.h>
 #include <OIS\OISInputManager.h>

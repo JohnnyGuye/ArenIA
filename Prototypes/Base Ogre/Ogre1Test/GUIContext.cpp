@@ -1,4 +1,4 @@
-#include "GUIElement.h"
+#include "GUIContext.h"
 #include "ExceptionArenIA.h"
 #include <OGRE\OgreLogManager.h>
 

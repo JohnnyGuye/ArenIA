@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GUIElement.h"
+#include "GUIContext.h"
 #include <OGRE\Ogre.h>
 #include <OIS\OIS.h>
 #include "OgreConsoleForGorilla.h"
