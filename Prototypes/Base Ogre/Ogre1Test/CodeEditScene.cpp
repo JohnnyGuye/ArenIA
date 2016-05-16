@@ -4,13 +4,15 @@ using namespace std;
 using namespace Ogre;
 
 CodeEditScene::CodeEditScene(void)
-	: Scene()
+	: Scene(),
+	GUICode_(nullptr)
 {
 	sceneMgr_ = root_->createSceneManager(ST_GENERIC);
 }
 
 CodeEditScene::~CodeEditScene(void)
 {
+	if( GUICode_ ) delete GUICode_;
 }
 
 void CodeEditScene::_loadResources(void)

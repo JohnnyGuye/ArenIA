@@ -5,7 +5,7 @@
 using namespace ArenIA;
 using namespace std;
 
-Log* Log::logArenIA_ = NULL;
+Log* Log::logArenIA_ = nullptr;
 
 void Log::write(std::string text)
 {

@@ -24,6 +24,7 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	hitbox_(new HitboxSphere(&position_)),
 	id_(robot_count++)
 {
+	lastDamageSource_ = nullptr;
 	setTurretOrientation();
 	luaCode_ = new LuaHandler();
 	setIaFilename("default.lua");
@@ -31,6 +32,7 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 
 Robot::~Robot()
 {
+	delete luaCode_;
 	if(hitbox_) delete hitbox_;
 }
 
