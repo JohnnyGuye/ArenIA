@@ -88,6 +88,9 @@ public:
 	/// @brief return the progress of the day. 0 when just began, 1 at the end 
 	inline virtual float getDayRatio() const;
 
+	/// @bried return the robot with the given id
+	inline virtual Robot* getRobot(unsigned int id) const;
+
 	/// @brief return the list of robots
 	inline virtual std::list<Robot*>	getRobots() const;
 

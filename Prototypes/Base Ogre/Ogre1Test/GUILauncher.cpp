@@ -93,12 +93,16 @@ GUILauncher::GUILauncher(Ogre::Viewport* vp)
 
 	loadAllElements();
 	
+
+
+
 	listArea_ = new GUI::ListArea(Ogre::Vector2(width_ * 0.7f, height_ * 0.0f), 
 		Ogre::Vector2(width_ * 0.3f, height_ * 1.f));
 	loadAllElements();
 	listArea_->init(layerListArea_);
 	
 	addElement(listArea_);
+	
 }
 
 GUILauncher::~GUILauncher(void)
@@ -111,58 +115,10 @@ void GUILauncher::loadAllElements()
 	// /!\ We use the boost library to go through folders
 
 
-	WIN32_FIND_DATA ffd;
-	LARGE_INTEGER filesize;
-	TCHAR szDir[MAX_PATH];
-	size_t length_of_arg;
-	HANDLE hFind = INVALID_HANDLE_VALUE;
-	DWORD dwError=0;
 
-    std::string myPath = "../Media/maps";
+	//TODO : add robots to myRobots manuallly
 
-	StringCchCopy(szDir, MAX_PATH, myPath.c_str());
-
-    // Find the first file in the directory.
-	ofstream fout("afile.txt");
-    
-
-	hFind = FindFirstFile(szDir, &ffd);
-    do
-	{
-		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-		{
-			filesize.LowPart = ffd.nFileSizeLow;
-			filesize.HighPart = ffd.nFileSizeHigh;
-			fout << "file : " << ffd.cFileName << "  " << filesize.QuadPart<<endl;
-		}
-		else
-		{
-			filesize.LowPart = ffd.nFileSizeLow;
-			filesize.HighPart = ffd.nFileSizeHigh;
-			fout << "file : " << ffd.cFileName << "  " << filesize.QuadPart<<endl;
-		}
-   }
-   while (FindNextFile(hFind, &ffd) != 0);
-       fout.close();
-
-	//We first load all robots. We go through the ../Media/models directory, 
-	//we find the robots models and instanciate them to get their stats.
-
-	/*
-	
-	boost::filfilesystem::recursive_directory_iterator iterRobots(myPath), eodRobots;
-	Ogre::fil
-	BOOST_FOREACH(boost::filesystem::path const& i, make_pair(iterRobots, eodRobots)){
-
-		if (is_regular_file(i)){
-			std::string fileName = i.string();
-			if ( stringHasBeginning( fileName, "Robot" ) && stringHasEnding ( fileName, "mesh") )
-			{
-				Robot mRobot(Ogre::Vector3::ZERO, fileName, NONE);
-				robots_.push_back(mRobot);
-			}
-		}
-	}
+	boost::filesystem::path myPath;
 
 	//We repeat the same process for the AIs and the maps.
 
@@ -173,9 +129,9 @@ void GUILauncher::loadAllElements()
 
 		if (is_regular_file(i)){
 			std::string fileName = i.string();
-			if ( stringHasEnding ( fileName, "lua") )
+			if ( stringEndsWith ( fileName, "lua") )
 			{
-				ais_.push_back( fileName.resize( 4 ) );
+				myAIs_.push_back( fileName );
 			}
 		}
 	}
@@ -187,13 +143,16 @@ void GUILauncher::loadAllElements()
 
 		if (is_regular_file(i)){
 			std::string fileName = i.string();
-			if ( stringHasEnding ( fileName, "tmx") )
+			if ( stringEndsWith ( fileName, "tmx") )
 			{
 				Terrain mTerrain( fileName );
-				mas_.push_back(mTerrain);
+				myTerrains_.push_back(mTerrain);
 			}
 		}
-	}*/
+	}
+
+
+
 }
 
 MapObjects * GUILauncher::getmapObjects()
@@ -215,4 +174,24 @@ bool GUILauncher::mouseMoved(const OIS::MouseEvent &arg)
 	mouse_->left(x);
 	mouse_->top(y);
 	return true;
+}
+
+
+
+bool GUILauncher::stringStartsWith(std::string myString, std::string myStringFragment)
+{
+	if (myString.length() >= myStringFragment.length()) {
+        return (0 == myString.compare (0, myStringFragment.length(), myStringFragment));
+    } else {
+        return false;
+    }
+}
+
+bool GUILauncher::stringEndsWith(std::string myString, std::string myStringFragment)
+{
+	if (myString.length() >= myStringFragment.length()) {
+        return (0 == myString.compare (myString.length() - myStringFragment.length(), myStringFragment.length(), myStringFragment));
+    } else {
+        return false;
+    }
 }

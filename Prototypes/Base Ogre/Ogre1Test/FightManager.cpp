@@ -1,6 +1,7 @@
 #include "FightManager.h"
 #include "WasheeRobot.h"
 #include "Log.h"
+#include "RobotLuaBinding.h"
 
 using namespace std;
 
@@ -20,6 +21,9 @@ FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	terrain_ = nullptr;//preinitialisation
 	loadTerrain(mapFileName);//initialisation
 	
+	// Init the RobotLuaHandler
+	RobotLuaBinding::setFight(this);
+
 	list<Ogre::Vector3> starts = getTerrain()->getStarts();
 	int i = 0;
 	for(std::list<Ogre::Vector3>::iterator it = starts.begin(); it != starts.end() ; it++ )
@@ -184,6 +188,18 @@ float FightManager::getDayRatio() const
 Terrain* FightManager::getTerrain() const
 {
 	return terrain_;
+}
+
+Robot* FightManager::getRobot(unsigned int id) const
+{
+	for (std::list<Robot*>::const_iterator iterator = robots_.begin(); iterator != robots_.end(); ++iterator)
+	{
+		if ((*iterator)->getId() == id)
+		{
+			return *iterator;
+		}
+	}
+	return nullptr;
 }
 
 std::list<Robot*> FightManager::getRobots() const
