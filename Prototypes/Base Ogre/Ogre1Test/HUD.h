@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GUIElement.h"
+#include "GUIContext.h"
 #include "FightManager.h"
 
 class HUD :
