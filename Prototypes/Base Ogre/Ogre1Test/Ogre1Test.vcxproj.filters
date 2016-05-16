@@ -135,9 +135,6 @@
     <ClCompile Include="LuaHandler.cpp">
       <Filter>Fichiers sources\Lua</Filter>
     </ClCompile>
-    <ClCompile Include="GUIElement.cpp">
-      <Filter>Fichiers sources\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="FightScene.cpp">
       <Filter>Fichiers sources\Scenes</Filter>
     </ClCompile>
@@ -173,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="WasheeRobot.cpp">
       <Filter>Fichiers sources\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIContext.cpp">
+      <Filter>Fichiers sources\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,9 +272,6 @@
     <ClInclude Include="LuaHandler.h">
       <Filter>Fichiers d%27en-tête\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="GUIElement.h">
-      <Filter>Fichiers d%27en-tête\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="GUIDecompte.h">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
@@ -312,6 +309,9 @@
       <Filter>Fichiers d%27en-tête\Objects</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
+		<Filter>Fichiers d%27en-tête\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIContext.h">
       <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
   </ItemGroup>

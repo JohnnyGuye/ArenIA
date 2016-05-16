@@ -1,16 +1,19 @@
 #pragma once
 
-#include "GUIElement.h"
+#include "GUIContext.h"
 #include <OIS\OIS.h>
 #include <OIS\OISMouse.h>
 #include <OIS\OISInputManager.h>
 #include "Robot.h"
+#include "WasheeRobot.h"
+#include "MowerRobot.h"
 #include "Terrain.h"
-#include <windows.h>
-#include <tchar.h> 
-#include <strsafe.h>
 
+#include <boost/filesystem.hpp>
+#include <boost/foreach.hpp> 
 
+bool stringStartsWith(std::string myString, std::string myStringFragment);
+bool stringEndsWith(std::string myString, std::string myStringFragment);
 
 namespace GUI
 {
@@ -38,6 +41,8 @@ namespace GUI
 		GUI::List*				robotList_;
 		GUI::List*				mapList_;
 		GUI::List*				IAList_;
+
+		
 	};
 }
 
@@ -73,6 +78,11 @@ public:
 	Ogre::Real	width_, height_;
 	GUI::ListArea*				listArea_;
 	MapObjects*					mapObjects_;
+
+	std::vector<Robot * >				myRobots_;
+	std::vector<Terrain>				myTerrains_;
+	std::vector<std::string>			myAIs_;
+	
 	
 };
 

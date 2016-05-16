@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GUIElement.h"
+#include "GUIContext.h"
 
 class GUIDecompte
 	: public GUIContext

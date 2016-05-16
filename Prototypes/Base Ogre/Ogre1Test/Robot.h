@@ -86,6 +86,9 @@ public:
     /// @brief  Called to make the Robot move
     virtual bool move();
 
+	/// @brief	Returns the id of the robot
+	virtual unsigned int getId();
+
 	//--------------------------------------------------------------------DIRECTION
     /// @brief turn the turret by a certain amount of degrees
 	/// @param angle this amount

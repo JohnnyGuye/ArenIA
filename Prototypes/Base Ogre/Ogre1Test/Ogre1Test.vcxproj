@@ -65,12 +65,15 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>OgreMain.lib;OIS.lib;OgreOverlay.lib;lua5.1.5-static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>
+      </SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -86,7 +89,7 @@
     <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="Gorilla.cpp" />
     <ClCompile Include="GUICode.cpp" />
-    <ClCompile Include="GUIElement.cpp" />
+    <ClCompile Include="GUIContext.cpp" />
     <ClCompile Include="GUILauncher.cpp" />
     <ClCompile Include="GUIShowLogo.cpp" />
     <ClCompile Include="HUD.cpp" />
@@ -128,7 +131,7 @@
     <ClInclude Include="GUICode.h" />
     <ClInclude Include="GUIConsole.h" />
     <ClInclude Include="GUIDecompte.h" />
-    <ClInclude Include="GUIElement.h" />
+    <ClInclude Include="GUIContext.h" />
     <ClInclude Include="GUILauncher.h" />
     <ClInclude Include="GUIShowLogo.h" />
     <ClInclude Include="Hitbox.h" />

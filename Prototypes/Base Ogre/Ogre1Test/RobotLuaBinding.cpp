@@ -6,12 +6,20 @@ void RobotLuaBinding::setRobot(Robot* robot)
 	theRobot = robot;
 }
 
+void RobotLuaBinding::setFight(FightManager* fight)
+{
+	theFight = fight;
+}
+
 void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 {
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_move,"move");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_fire,"fire");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_turnRobot,"turnRobot");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_turnTurret,"turnTurret");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_useAbility,"useAbility");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getStats,"getStats");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTeam,"getTeam");
 
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
 }
@@ -101,5 +109,164 @@ int RobotLuaBinding::lua_Robot_getRobotAngle(lua_State *L)
 }
 
 
+/**lua useAbility(id:int):bool
+	@desc Use the ability with the given id
+	@param id An int corresponding to the number of the ability to use. Call getKnownAbilities in order to know what abilities are aviable
+	@return A bool that is true if the robot has an ability for that index, and false otherwise
+*/
+int RobotLuaBinding::lua_Robot_useAbility(lua_State *L)
+{
+	unsigned int id = (int)luaL_checknumber(L,1);
+	bool hasAbility = theRobot->useAbility(id);
+	
+	lua_pushnumber(L,hasAbility);
+	return 1;
+}
+
+/**lua getStats(id:int):table
+	@desc Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen
+	the lua table contains these fields
+	<ul>
+		<li>maxHp : The max hp of the robot </li>
+		<li>maxHp : The max hp of the robot</li>
+		<li>maxEnergy : The max Energy of the robot</li>
+		<li>currentEnergy : The current Energy of the robot </li>
+		<li>range : The range of the weapon</li>
+		<li>resistance : The armor of the robot</li>
+		<li>speed : The speed of the robot</li>
+	</ul>
+	@example How to use getStats()
+	function main()
+		-- Get the stats of your robot
+		stats = getStats()
+
+		-- Get the stats of antother robot
+		statsOtherRobot = getStats(1)
+		-- Use them
+		if (stats.currentHP < 10) then
+			-- ...
+		end
+	end
+	!eend
+*/
+int RobotLuaBinding::lua_Robot_getStats(lua_State *L)
+{
+	Stats stats;
+	if (lua_gettop(L) == 0)
+	{
+		stats = theRobot->getFullStats();
+	}
+	else
+	{
+		int id = (int)luaL_checknumber(L,1);
+		stats = theFight->getRobot(id)->getFullStats();
+	}
+	lua_newtable(L);
+	
+	
+	LuaHandler::SetField(L, "maxHP", (float)stats.hp.getMax());
+	LuaHandler::SetField(L, "currentHP", stats.hp.getCurrent());
+
+	LuaHandler::SetField(L, "maxEnergy", (float)stats.energy.getMax());
+	LuaHandler::SetField(L, "currentEnergy", stats.energy.getCurrent());
+
+	LuaHandler::SetField(L, "currentVisionAngle", stats.visionAngle.getCurrent());
+	LuaHandler::SetField(L, "maxVisionAngle", (float)stats.visionAngle.getMax());
+	LuaHandler::SetField(L, "minVisionAngle", (float)stats.visionAngle.getMin());
+	
+	LuaHandler::SetField(L, "range", (float)stats.range);
+	LuaHandler::SetField(L, "resistance", (float)stats.resistance);
+	LuaHandler::SetField(L, "speed", stats.speed);
+
+	return 1;
+}
+
+
+/*lua getTeam():int
+	@desc Return an int indicating the teams that your robot belongs.
+	Each byte of the int correspond to a team. If the bit is set, your robot is in that team
+	Else, you are not.
+	For references, the team colors are :
+	<ul>
+		<li>NONE = 0</li>
+		<li>BLACK = 1</li>
+		<li>WHITE = 2</li>
+		<li>BLUE = 4</li>
+		<li>PURPLE = 8</li>
+		<li>RED = 16</li>
+		<li>ORANGE = 32</li>
+		<li>YELLOW = 64</li>
+		<li>GREEN = 128</li>
+	</ul>
+*/
+int RobotLuaBinding::lua_Robot_getTeam(lua_State *L)
+{
+	Robot* robot;
+	if (lua_gettop(L) == 0)
+	{
+		robot = theRobot;
+	}
+	else
+	{
+		int id = (int)luaL_checknumber(L,1);
+		robot = theFight->getRobot(id);
+	}
+
+	lua_pushnumber(L, robot->getTeam());
+	return 1;
+}
+
+
+/*lua getState():int
+	@desc Return an int indicating the current state of your robot
+*/
+int RobotLuaBinding::lua_Robot_getState(lua_State *L)
+{
+	Robot* robot;
+	if (lua_gettop(L) == 0)
+	{
+		robot = theRobot;
+	}
+	else
+	{
+		int id = (int)luaL_checknumber(L,1);
+		robot = theFight->getRobot(id);
+	}
+
+	lua_pushnumber(L, robot->getState());
+	return 1;
+}
+
+/*lua getRobots():table
+	@desc Returns a table containing the list of all the robots in the game.
+	Your robot will always be in the first (1) index.
+*/
+int RobotLuaBinding::lua_Robot_getRobots(lua_State *L)
+{
+	std::list<Robot*> robotList = theFight->getRobots();
+	int num_robot = robotList.size();
+
+	lua_createtable(L, num_robot, 0);
+
+	// Push our robot as the first element of the list
+	unsigned int ourId = theRobot->getId();
+	lua_pushinteger(L, ourId);
+	int i = 0;
+	lua_rawseti (L, -2, i++);
+	
+	// Push the rest of the robot
+	for (std::list<Robot*>::iterator iterator = robotList.begin(); iterator != robotList.end(); iterator++) {
+		unsigned int robotId = (*iterator)->getId();
+		// If the robot is our robot, skip it
+		if (robotId != ourId)
+		{
+			lua_pushinteger(L, robotId);
+			lua_rawseti (L, -2, i++);
+		}
+	}
+	return 1;
+}
+
 
 Robot* RobotLuaBinding::theRobot = nullptr;
+FightManager* RobotLuaBinding::theFight = nullptr;
