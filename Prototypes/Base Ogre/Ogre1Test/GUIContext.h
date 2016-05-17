@@ -60,6 +60,14 @@ namespace GUI
 		virtual Ogre::Vector2 getDimension(){	return dimension_;	}
 		virtual bool intersect(Ogre::Vector2 point);
 
+		virtual bool update(const Ogre::FrameEvent& evt);
+		virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+		virtual void dirty();
+
+		virtual void hide();
+		virtual void show();
+		virtual bool isVisible();
+
 		//Handlers
 		virtual bool keyPressed(const OIS::KeyEvent &arg);
 		virtual bool keyReleased(const OIS::KeyEvent &arg);
@@ -81,6 +89,7 @@ namespace GUI
 		Pane*				parent_;
 		std::list<Pane*>	childrens_;
 
+		bool shown_;
 		bool dirty_;
 		bool initialized_;
 	};
@@ -103,6 +112,9 @@ namespace GUI
 
 		virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 		virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+
+		virtual void hide();
+		virtual void show();
 
 	protected:
 		virtual void onClick();
@@ -142,6 +154,9 @@ namespace GUI
 		virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 		virtual bool mouseMoved(const OIS::MouseEvent& arg);
 
+		virtual void hide();
+		virtual void show();
+
 	protected:
 
 		virtual bool moveScroll(Ogre::Real val, bool relative = false);
@@ -177,12 +192,17 @@ namespace GUI
 		virtual void setPosition(Ogre::Vector2 position);
 		virtual void resize(Ogre::Vector2 dimension);
 
+		void showSlideBar(bool set = true);
+		void setSpacing(float value = 0.0f);
+
 	protected:
 		SlideBar*		slidebar_;
 		Orientation		orientation_;
 		Gorilla::Layer*		layer_;
 		Gorilla::Rectangle*		back_;
 		std::vector<Pane*>		blockList_;
+
+		float				spacing_;
 	};
 
 };
@@ -242,6 +262,9 @@ protected:
 	Gorilla::Silverback*		silverback_;
 	Gorilla::Screen*			screen_;
 	std::list<GUI::Pane*>		panes_;
+
+	Ogre::Real		width_;
+	Ogre::Real		height_;
 
 	Gorilla::Layer*				layerMouse_;
 	Gorilla::Rectangle*			mouse_;

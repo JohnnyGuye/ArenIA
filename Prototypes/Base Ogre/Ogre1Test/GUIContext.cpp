@@ -16,10 +16,34 @@ GUI::Pane::Pane(Ogre::Vector2 position, Ogre::Vector2 dimension)
 {
 }
 
+void GUI::Pane::hide()
+{
+	if(shown_)
+	{
+		for(auto it = childrens_.begin(); it != childrens_.end(); it++)	(*it)->hide();
+		shown_ = false;
+	}
+}
+
+void GUI::Pane::show()
+{
+	if(!shown_)
+	{
+		for(auto it = childrens_.begin(); it != childrens_.end(); it++)	(*it)->show();
+		shown_ = true;
+	}
+}
+
+bool GUI::Pane::isVisible()
+{
+	return shown_;
+}
+
 GUI::Pane::~Pane()
 {
 	for(auto it = childrens_.begin(); it != childrens_.end(); it++)	delete (*it);
 }
+
 
 void GUI::Pane::setPosition(Ogre::Vector2 pos)
 {
@@ -39,6 +63,29 @@ bool GUI::Pane::intersect(Ogre::Vector2 point)
 		(point.y > position_.y + dimension_.y) )
 		return false;
 	return true;
+}
+
+bool GUI::Pane::frameRenderingQueued(const Ogre::FrameEvent& evt)
+{
+	if(dirty_)
+	{
+		dirty_ = update(evt);
+		for(auto it = childrens_.begin(); it != childrens_.end(); it++)
+		{
+			(*it)->frameRenderingQueued(evt);
+		}
+	}
+	return true;
+}
+
+bool GUI::Pane::update(const Ogre::FrameEvent& evt)
+{
+	return false;
+}
+
+void GUI::Pane::dirty()
+{
+	dirty_ = false;
 }
 
 bool GUI::Pane::keyPressed( const OIS::KeyEvent& arg)
@@ -180,7 +227,23 @@ void GUI::Button::onClick()
 
 void GUI::Button::onRelease()
 {
-	back_->border(1, Gorilla::Colours::Black);
+	back_->border(1, Gorilla::Colours::Brown);
+}
+
+void GUI::Button::hide()
+{
+	GUI::Pane::hide();
+	back_->no_background();
+	back_->no_border();
+	text_->text("");
+}
+
+void GUI::Button::show()
+{
+	GUI::Pane::show();
+	back_->background_colour(Gorilla::Colours::Sienna);
+	back_->border(1, Gorilla::Colours::Brown);
+	text_->text("Button");
 }
 //--------------------------------------------------------------------------SLIDEBAR
 
@@ -219,13 +282,7 @@ GUI::SlideBar* GUI::SlideBar::init(Gorilla::Layer* layer)
 		scroll_ = layer_->createRectangle( position_.x + sqy, position_.y, (dimension_.x - 2 * sqy) * 0.2f, dimension_.y);
 	}
 
-	back_->background_colour(Gorilla::Colours::AntiqueWhite);
-	back_->border(1, Gorilla::Colours::Grey);
-
-
-	arrowTop_->background_image("hexa_orange");
-	arrowBot_->background_image("hexa_orange");
-	scroll_->background_colour(Gorilla::Colours::Sienna);
+	show();
 	return this;	
 }
 
@@ -257,17 +314,40 @@ void GUI::SlideBar::setPosition(Ogre::Vector2 position)
 
 void GUI::SlideBar::resize(Ogre::Vector2 dimension)
 {
-
+	//TODO
 }
 
 void GUI::SlideBar::setCurrent(float ratio)
 {
-
+	//TODO
 }
 
 void GUI::SlideBar::regionShown(Real percent)
 {
+	//TODO
+}
 
+void GUI::SlideBar::hide()
+{
+	GUI::Pane::hide();
+	back_->no_background();
+	back_->no_border();
+	arrowTop_->no_background();
+	arrowTop_->no_border();
+	arrowBot_->no_background();
+	arrowBot_->no_border();
+	scroll_->no_background();
+	scroll_->no_border();
+}
+
+void GUI::SlideBar::show()
+{
+	GUI::Pane::show();
+	back_->background_colour(Gorilla::Colours::AntiqueWhite);
+	back_->border(1, Gorilla::Colours::Grey);
+	arrowTop_->background_image("hexa_orange");
+	arrowBot_->background_image("hexa_orange");
+	scroll_->background_colour(Gorilla::Colours::Sienna);
 }
 
 bool GUI::SlideBar::mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
@@ -428,9 +508,12 @@ GUIContext::GUIContext(Ogre::Viewport* vp, const Ogre::String &atlas)
 			silverback_->loadAtlas(atlas);
 			screen_ = silverback_->createScreen(vp, atlas);
 		
-		layerMouse_ = screen_->createLayer(15);
-		mouse_ = layerMouse_->createRectangle(0, 0, 20, 20);
-		mouse_->background_image("mousepointer");
+			width_ = screen_->getWidth();
+			height_ = screen_->getHeight();
+
+			layerMouse_ = screen_->createLayer(15);
+			mouse_ = layerMouse_->createRectangle(0, 0, 20, 20);
+			mouse_->background_image("mousepointer");
 		}
 	}
 	catch(const std::exception e)

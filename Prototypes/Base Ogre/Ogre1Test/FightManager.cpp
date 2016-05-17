@@ -14,7 +14,7 @@ void destroyList(std::list<T> rhs)
 		delete (rhs.front());
 		rhs.pop_front();
 	}
-}
+};
 
 FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	: day_(60 * 60, 0, 0.0, 1.0), 

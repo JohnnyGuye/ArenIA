@@ -133,18 +133,20 @@ void GUILauncher::loadAllElements()
 
 	myPath = "../Media/maps";
 	boost::filesystem::recursive_directory_iterator iterMaps(myPath), eodMaps;
-
+	
 	BOOST_FOREACH(boost::filesystem::path const& i, make_pair(iterMaps, eodMaps)){
 
 		if (is_regular_file(i)){
 			std::string fileName = i.string();
-			if ( stringEndsWith ( fileName, "tmx") )
+			if ( stringEndsWith ( fileName, "txt") )
 			{
+				std::cout << fileName << std::endl; // Les erreurs sont ici parce que fileName contient myPath. Faut que tu formates pour n'avoir que la fin
 				Terrain mTerrain( fileName );
 				myTerrains_.push_back(mTerrain);
 			}
 		}
 	}
+	
 }
 
 MapObjects * GUILauncher::getmapObjects()

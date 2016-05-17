@@ -75,7 +75,7 @@ public:
 	Gorilla::Rectangle*	mouse_;
 
 public:
-	Ogre::Real	width_, height_;
+
 	GUI::ListArea*				listArea_;
 	MapObjects*					mapObjects_;
 

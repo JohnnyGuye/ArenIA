@@ -73,11 +73,13 @@ Terrain::Terrain(const string& sourceFile)
 	}
 	catch (ExceptionArenIA e)
 	{
+		std::stringstream ss;
+		ss << "Exception raised : the file " << sourceFile << " can't be read.";
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		MessageBox(NULL, e.getDescription().c_str(), "An exception has occurred!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		MessageBox(NULL, ss.str().c_str(), e.getDescription().c_str(), MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		ArenIA::Log::getInstance()->write(e.getDescription());
 #else
-            std::cerr << "An exception has occurred: " <<
+            std::cerr << ss.str().c_str() <<
                 e.getDescription().c_str() << std::endl;
 #endif
 	}
@@ -175,10 +177,13 @@ void Terrain::LoadFromFile()
 								for(int j = 0; j < width_; j++)
 								{
 									if(grille_[i][j])	delete grille_[i][j];
+									grille_[i][j] = nullptr;
 								}
 								delete grille_[i];
+								grille_[i] = nullptr;
 							}
 							delete grille_;
+							grille_ = nullptr;
 						}
 						grille_ = new GameObject**[width_];
 						for(int i = 0; i < height_; i++){	grille_[i] = new GameObject*[width_];	}
