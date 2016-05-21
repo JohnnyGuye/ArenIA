@@ -8,6 +8,8 @@
 #include "HUD.h"
 #include <SdkCameraMan.h>
 
+class HUD;
+
 class FightScene :
 	public Scene
 {
@@ -78,10 +80,13 @@ public:
 
 	virtual bool launch(void);
 	virtual bool initFightManager(const std::string& map);
+	virtual FightManager*	getFightManager() const;
 
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 	virtual Scenes nextScene(void) const;
+
+	virtual void togglePause();
 
 	virtual void destroyScene(void);
 

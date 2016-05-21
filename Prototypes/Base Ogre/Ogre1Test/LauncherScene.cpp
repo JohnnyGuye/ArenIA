@@ -37,6 +37,8 @@ void LauncherScene::_loadResources(void)
 
 bool LauncherScene::launch(void)
 {
+	shutDown_ = false;
+	stop_ = false;
 	//Cameras
 	camera_ = sceneMgr_->createCamera("PlayerCam");
 	camera_->setPosition(Ogre::Vector3(0, 300, 500));

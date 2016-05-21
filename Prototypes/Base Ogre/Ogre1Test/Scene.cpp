@@ -6,7 +6,8 @@ Scene::Scene(void)
 	camera_(nullptr),
 	resourcesState_(NOT_LOADED),
 	stop_(false),
-	shutDown_(false)
+	shutDown_(false),
+	nextScene_(Scene::EXIT)
 {
 	window_ = root_->getAutoCreatedWindow();
 	silverback_ = Gorilla::Silverback::getSingletonPtr();
@@ -17,6 +18,7 @@ void Scene::loadResources(void)
 	resourcesState_ = LOADING;
 	_loadResources();
 	resourcesState_ = LOADED;
+	stop_ = false;
 }
 
 Scene::~Scene(void)
@@ -26,4 +28,10 @@ Scene::~Scene(void)
 Ogre::SceneManager* Scene::getSceneManager(void) const
 {
 	return sceneMgr_;
+}
+
+void Scene::stop(Scene::Scenes nextScene)
+{
+	stop_ = true;
+	nextScene_ = nextScene;
 }

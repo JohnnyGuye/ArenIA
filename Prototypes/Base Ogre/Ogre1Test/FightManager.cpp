@@ -142,7 +142,17 @@ void FightManager::update()
 			bool asCollided = false;
 			for(auto rIt = robots_.begin() ; rIt != robots_.end() ; rIt++)
 			{
-				//m->getHitbox()->intersect((*it)->get
+				if((*rIt)->intersect(m->getHitbox()) )
+				{
+					Robot::Team rt = (*rIt)->getTeam();
+					Robot::Team mt = m->getCaster()->getTeam();
+					if((rt != mt) || ((mt == Robot::NONE) && ((*rIt) != m->getCaster())))
+					{
+						asCollided = true;
+						m->onCollide(*rIt);
+					}
+				}
+				
 			}
 
 			if(asCollided)

@@ -16,6 +16,15 @@ GUI::Pane::Pane(Ogre::Vector2 position, Ogre::Vector2 dimension)
 {
 }
 
+GUI::Pane* GUI::Pane::init(Layer* layer)
+{
+	layer_ = layer;
+	back_ = layer_->createRectangle(position_, dimension_);
+	back_->background_colour(Gorilla::Colours::Sienna);
+	back_->border(2, Gorilla::Colours::Brown);
+	return this;
+}
+
 void GUI::Pane::hide()
 {
 	if(shown_)
@@ -85,7 +94,7 @@ bool GUI::Pane::update(const Ogre::FrameEvent& evt)
 
 void GUI::Pane::dirty()
 {
-	dirty_ = false;
+	dirty_ = true;
 }
 
 bool GUI::Pane::keyPressed( const OIS::KeyEvent& arg)
@@ -157,13 +166,15 @@ GUI::Button::~Button()
 
 GUI::Button* GUI::Button::init(Gorilla::Layer* layer)
 {
-	if(initialized_)	return this;
-	initialized_ = true;
-	layer_ = layer;
-	back_ = layer->createRectangle(position_, dimension_);
-	text_ = layer->createCaption(14, position_.x, position_.y+dimension_.y/2, "Bouton");
-	text_->align(Gorilla::TextAlign_Centre);
-	resize(dimension_);
+	if(!initialized_)
+	{
+		initialized_ = true;
+		layer_ = layer;
+		back_ = layer->createRectangle(position_, dimension_);
+		text_ = layer->createCaption(14, position_.x, position_.y+dimension_.y/2, "Bouton");
+		text_->align(Gorilla::TextAlign_Centre);
+		resize(dimension_);
+	}
 	return this;
 }
 
@@ -197,6 +208,21 @@ void GUI::Button::resize(Ogre::Vector2 dimension)
 	back_->height(dimension.y);
 	text_->width(dimension_.x);	
 	text_->height(dimension_.y);
+}
+
+bool GUI::Button::mouseMoved(const OIS::MouseEvent& arg)
+{
+	if(GUI::Pane::mouseMoved(arg))
+	{
+		std::cout << dimension_ << std::endl;
+		back_->border(2, Gorilla::Colours::AntiqueWhite);
+		return true;
+	}
+	else
+	{
+		back_->border(0, Gorilla::Colours::AntiqueWhite);
+		return false;
+	}
 }
 
 bool GUI::Button::mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
@@ -430,7 +456,8 @@ inline bool isVertical(GUI::List::Orientation rhs)
 GUI::List::List(Ogre::Vector2 position ,Ogre::Vector2 dimension, Orientation orientation)
 	: Pane(position, dimension),
 	slidebar_(nullptr),
-	orientation_(orientation)
+	orientation_(orientation),
+	spacing_(0.0f)
 {
 }
 
@@ -467,7 +494,7 @@ int GUI::List::addElement(Pane* pane)
 	if(!(blockList_.size() == 0))
 	{
 		Pane* p = blockList_.back();
-		newY = p->getPosition().y + p->getDimension().y;
+		newY = p->getPosition().y + p->getDimension().y + spacing_;
 		
 	}
 	pane->setPosition(Ogre::Vector2(newX, newY));
@@ -484,6 +511,19 @@ void GUI::List::setPosition(Ogre::Vector2 position)
 void GUI::List::resize(Ogre::Vector2 dimension)
 {
 
+}
+
+void GUI::List::showSlideBar(bool show)
+{
+	if(show)
+		slidebar_->show();
+	else
+		slidebar_->hide();
+}
+
+void GUI::List::setSpacing(float val)
+{
+	spacing_ = val;
 }
 
 //----------------------------------------------------------------------------
@@ -574,17 +614,19 @@ void GUIContext::mouseVisibility(bool visible)
 {
 	if(visible && ! mouseVisibility_)
 	{
-		mouse_->background_image("mousepointer");
+		layerMouse_->show();
 	}
 	else if( !visible && mouseVisibility_)
 	{
-		mouse_->no_background();
+		layerMouse_->hide();
 	}
 	mouseVisibility_ = visible;
 }
 
 bool GUIContext::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
+	for(auto it = panes_.begin(); it != panes_.end() ; it++)
+		(*it)->frameRenderingQueued(evt);
 	return true;
 }
 

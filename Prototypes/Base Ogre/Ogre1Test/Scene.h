@@ -82,6 +82,7 @@ public:
 	/// has not been fully deleted, you can keep some informations and the resources.
 	virtual void destroyScene() = 0;
 
+	virtual void stop(Scenes nextScene = LOGO);
 
 //-------------------------------------------------------------------Handlers
 	/// Things to do when a key is pressed
@@ -128,6 +129,7 @@ protected:
 	Gorilla::Silverback*	silverback_;
 	Ogre::Camera*			camera_;
 
+	Scenes					nextScene_;
 	bool					stop_;
 	bool					shutDown_;
 };

@@ -21,7 +21,7 @@ Robot::Robot(Vector3 position, string name, Robot::Team team)
 	stats_(Gauge(), Gauge(), 60, 500, 0, 4.0),
 	additionalStats_(Gauge(0), Gauge(0), 0, 0, 0, 0),
 	action_(IDLE),
-	hitbox_(new HitboxSphere(&position_)),
+	hitbox_(new HitboxSphere(&position_, 50, Ogre::Vector3(0,50,0))),
 	id_(robot_count++)
 {
 	lastDamageSource_ = nullptr;
@@ -241,7 +241,11 @@ bool Robot::takeDamage(float damage, GameObject* source)
     {
         return false;
     }
+}
 
+bool Robot::intersect(Hitbox* hitbox)
+{
+	return (hitbox_->intersect(hitbox));
 }
 
 
@@ -266,7 +270,6 @@ std::list<GameObject*> Robot::getSeenObjects(bool fetchRobots, bool fetchMissile
 				}
 			}
 		}
-
 	}
 
 	if( fetchMissiles )
@@ -288,10 +291,6 @@ std::list<GameObject*> Robot::getSeenObjects(bool fetchRobots, bool fetchMissile
 		}
 
 	}
-
-
-
-
 
 	return seenObjects;
 }
