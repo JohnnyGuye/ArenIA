@@ -381,11 +381,11 @@ void GUI::SlideBar::hide()
 void GUI::SlideBar::show()
 {
 	GUI::Pane::show();
-	back_->background_colour(Gorilla::Colours::AntiqueWhite);
+	back_->background_colour(Gorilla::Colours::SlateGray);
 	back_->border(1, Gorilla::Colours::Grey);
-	arrowTop_->background_image("hexa_orange");
-	arrowBot_->background_image("hexa_orange");
-	scroll_->background_colour(Gorilla::Colours::Sienna);
+	arrowTop_->background_image("arrow_up");
+	arrowBot_->background_image("arrow_down");
+	scroll_->background_colour(Gorilla::Colours::LightGray);
 }
 
 bool GUI::SlideBar::mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
