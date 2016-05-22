@@ -577,5 +577,6 @@ hexa_red 400 400 200 230
 hexa_green 600 400 200 230
 hexa_blue 800 400 200 230
 rect_violet 0 630 400 252
+button_bg 540 0 400 252
 mousepointer 0 882 50 51
 if_form_green 400 630 300 330

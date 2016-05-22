@@ -34,22 +34,30 @@ namespace GUI
 
 		bool frameRenderingQueued( const Ogre::FrameEvent& evt);
 
+		void loadAllElements();
+
 	protected:
 		Gorilla::Layer*			layerBack_;
 		Gorilla::Rectangle*		background_;
 		Gorilla::Caption*		cursor_;
 		GUI::List*				robotList_;
 		GUI::List*				mapList_;
-		GUI::List*				IAList_;
+		GUI::List*				AIList_;
+
+		std::vector<Robot*>			myRobots_;
+		std::vector<Terrain*>		myTerrains_;
+		std::vector<std::string*>	myAIs_;
+	
 
 		
 	};
+
 }
 
 typedef struct MapObjects {
 	Robot* robot;
-	std::string ai;
-	Terrain terrain;
+	std::string * ai;
+	Terrain * terrain;
 } MapObjects;
 
 // Alors ici, qu'est-ce qu'on a ? Le code du GUI de la fenêtre. C'est un peu le gros gestionnaire.
@@ -62,9 +70,14 @@ public:
 	GUILauncher(Ogre::Viewport*);
 	~GUILauncher(void);
 
-	void loadAllElements();
+	
 
 	MapObjects * getmapObjects();
+	void setMapObjectsRobot( Robot *);
+	void setMapObjectsAI( std::string *);
+	void setMapObjectsTerrain( Terrain *);
+	
+
 
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
@@ -79,9 +92,6 @@ public:
 	GUI::ListArea*				listArea_;
 	MapObjects*					mapObjects_;
 
-	std::vector<Robot * >				myRobots_;
-	std::vector<Terrain>				myTerrains_;
-	std::vector<std::string>			myAIs_;
 	
 	
 };
