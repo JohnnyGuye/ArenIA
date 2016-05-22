@@ -8,6 +8,7 @@ using namespace Ogre;
 //============= CONSTANTS ====================
 
 const double Terrain::I_CELL_SIZE = 1 / (double)CELL_SIZE;
+const char* Terrain::NOT_KNOWN = "NOT_KNOWN";
 
 // ============ DOMObject METHODS ============
 
@@ -46,7 +47,7 @@ string Terrain::DOMObject::getAttr(const string& attr) const
 	if(it != Attrs_.cend())
 		return it->second;
 	else
-		return "NOT_KNOWN";
+		return NOT_KNOWN;
 }
 
 Vector2 Terrain::DOMObject::getPosition() const
@@ -122,7 +123,9 @@ void Terrain::LoadFromFile()
 		OBJECTS
 		};
 
-	ArenIA::Log::getInstance()->write("Parsing the map");
+	std::stringstream ss("Parsing the map");
+	ss << sourceFile_;
+	ArenIA::Log::getInstance()->write(ss.str());
 
 	std::string path = "../Media/maps/";
 	std::ifstream mapFile(path + sourceFile_, ios::in);
@@ -183,12 +186,10 @@ void Terrain::LoadFromFile()
 						{
 							std::stringstream ss;
 							ss << "WARNING !!! Two layers or more created on the map " << sourceFile_;
-							std::cout << ss << std::endl;
 							ArenIA::Log::getInstance()->write(ss.str());
 							unLoad();
 						}
 						//Fill the grid
-						std::cout << "Grid fill " << sourceFile_ << std::endl;
 						grille_ = new GameObject**[height_];
 						for(int i = 0; i < height_; i++)
 						{	
@@ -200,16 +201,16 @@ void Terrain::LoadFromFile()
 							for(int j = 0; j < width_; j++)
 							{
 								getline(mapFile, sRead, ',');
-								createObjectInCell(i, j, sRead);
+								createObjectInCell(j, i, sRead);
 							}
 						}
 						for(int j = 0; j < width_ -1; j++)
 						{
 							getline(mapFile, sRead, ',');
-							createObjectInCell(height_ - 1, j, sRead);
+							createObjectInCell(j, height_ - 1, sRead);
 						}
 						getline(mapFile, sRead);
-						createObjectInCell(height_ - 1, width_ -1, sRead);
+						createObjectInCell( width_ -1, height_ - 1, sRead);
 					}
 					else
 					{
@@ -289,17 +290,22 @@ void Terrain::InterpreterDOM(const DOMObject& domo)
 	ArenIA::Log::getInstance()->write(ss.str());
 	if(domo.getType() == "Start")
 	{
-		Vector2 pos = domo.getPosition();
-		starts_.push_back(Vector3(cellToPos((int)pos.x), 0, cellToPos((int)pos.y)));
+		Start* s = new Start();
+		s->x = (int)domo.getPosition().x;
+		s->y = (int)domo.getPosition().y;
+		s->IA = domo.getAttr("IA");
+		s->name = domo.getName();
+
+		starts_.push_back(s);
 	}
 }
 
 void Terrain::createObjectInCell(const int& x, const int& y, const string& nums)
 {	
 	if(nums == "0" || nums == "256")
-		grille_[x][y] = nullptr;
+		grille_[y][x] = nullptr;
 	else
-		grille_[x][y] = new SceneryObject(Vector3(Real(CELL_SIZE * y), 0, Real(CELL_SIZE* x)), stoi(nums));
+		grille_[y][x] = new SceneryObject(Vector3(Real(CELL_SIZE * x), 0, Real(CELL_SIZE* y)), stoi(nums));
 }
 
 //---------------------------------------------Public
@@ -321,12 +327,12 @@ Vector3 Terrain::resolveCollision(GameObject* object) const
 
 bool Terrain::IsAWall(const int& x, const int& y) const
 {
-	return (((SceneryObject*)grille_[x][y]) != nullptr);
+	return (((SceneryObject*)grille_[y][x]) != nullptr);
 }
 
 GameObject* Terrain::getObjectInCell(const int& x, const int& y) const
 {
-	return grille_[x][y];
+	return grille_[y][x];
 }
 
 unsigned int Terrain::getWidth() const
@@ -349,7 +355,7 @@ Vector2 Terrain::getDimension() const
 	return Vector2(Real(width_) * CELL_SIZE, Real(height_) * CELL_SIZE);
 }
 
-std::list<Ogre::Vector3> Terrain::getStarts() const
+std::list<Start*> Terrain::getStarts() const
 {
 	return starts_;
 }

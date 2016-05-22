@@ -145,7 +145,7 @@ void FightScene::createScene(void)
 	  "ground",
 	  ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 	  plane, 
-	  Real(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE), Real(fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE), 10, 10, 
+	  Real(fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE), Real(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE), 10, 10, 
 	  true, 
 	  1, 5.0f, 5.0f, 
 	  Vector3::UNIT_X);
@@ -164,11 +164,11 @@ void FightScene::createScene(void)
 	unsigned int width = fightManager_->getTerrain()->getWidth();
 	unsigned int height = fightManager_->getTerrain()->getHeight();
 
-	for(unsigned int i = 0; i < width; i++)
+	for(unsigned int i = 0; i < height; i++)
 	{
-		for(unsigned int j = 0; j < height; j++)
+		for(unsigned int j = 0; j < width; j++)
 		{
-			GameObject* go = fightManager_->getTerrain()->getObjectInCell(i, j);
+			GameObject* go = fightManager_->getTerrain()->getObjectInCell(j, i);
 			if(go != nullptr)
 			{
 				SceneryObject* so = (SceneryObject*)go;

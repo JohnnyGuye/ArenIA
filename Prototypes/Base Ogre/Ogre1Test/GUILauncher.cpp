@@ -162,7 +162,6 @@ void GUI::ListArea::loadAllElements()
 			
 			if ( stringEndsWith ( fileName , extension) )
 			{				
-				//std::cout << mapName << std::endl;
 				Terrain * mTerrain = new Terrain( fileName );
 				myTerrains_.push_back(mTerrain);
 			}

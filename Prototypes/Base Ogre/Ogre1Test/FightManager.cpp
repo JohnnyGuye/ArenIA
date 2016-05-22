@@ -27,15 +27,27 @@ FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	// Init the RobotLuaHandler
 	RobotLuaBinding::setFight(this);
 
-	list<Ogre::Vector3> starts = getTerrain()->getStarts();
+	list<Start*> starts = getTerrain()->getStarts();
 	int i = 0;
-	for(std::list<Ogre::Vector3>::iterator it = starts.begin(); it != starts.end() ; it++ )
+	for(auto it = starts.begin(); it != starts.end() ; it++ )
 	{
+		auto s = (*it);
 		ArenIA::Log::getInstance()->write("Robot created !");
 		std::stringstream ss;
 		ss << "Robot-" << (i > 9 ? "0" : "00") << i++;
-		if(i%2)	addRobot(new WasheeRobot(*it, ss.str(), Robot::NONE));
-		else	addRobot(new MowerRobot(*it, ss.str(), Robot::NONE));
+		auto pos = Ogre::Vector3(Terrain::cellToPos(s->x), 0, Terrain::cellToPos(s->y));
+		Robot* r;
+		if(i%2)	r = new WasheeRobot(pos, s->name, Robot::NONE);
+		else	r = new MowerRobot(pos, s->name, Robot::NONE);
+
+		if(s->IA == Terrain::NOT_KNOWN)
+		{
+			r->setIaFilename("default.lua");
+			std::cout << "default" << std::endl;
+		}
+		else
+			r->setIaFilename(s->IA);
+		addRobot(r);
 	}
 }
 

@@ -31,6 +31,14 @@
 #include "Robot.h"
 #include "ExceptionArenIA.h"
 
+class Start
+{
+public:
+	std::string name;
+	int x, y;
+	std::string IA;
+};
+
 class Terrain
 {
 	//typedef std::map<std::string, GameObject*> ObjectDataBase;
@@ -38,6 +46,7 @@ class Terrain
 public:
 	static const int CELL_SIZE = 100;
 	static const double I_CELL_SIZE;
+	static const char* NOT_KNOWN;
 	// -- Member classes
 protected:
 
@@ -103,7 +112,7 @@ public:
 
 	/** @brief get the starting position in the map 
 	*	@return a list of vectors with the centr positions **/
-	std::list<Ogre::Vector3> getStarts() const;
+	std::list<Start*> getStarts() const;
 
 	static int posToCell (const Ogre::Real& val);
 	static Ogre::Real cellToPos(const int& val);
@@ -123,7 +132,7 @@ protected:
 	GameObject*** grille_;
 	
 	///A list of vector3 for each position possible for a start
-	std::list<Ogre::Vector3> starts_;
+	std::list<Start*> starts_;
 
 	//ObjectDataBase objectDataBase_;
 

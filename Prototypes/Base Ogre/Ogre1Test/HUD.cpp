@@ -141,30 +141,26 @@ void HUD::RobotInf::setRobot(Robot* r)
 	ico_->background_image("ico_tondeuse");
 	name_->text(robot_->getName());
 
-	std::stringstream ss ;
+	std::stringstream ss(std::ios::trunc) ;
 	Stats stats = robot_->getFullStats();
 
 	ss << stats.hp.getCurrent();
 	speed_->text(ss.str());
-	ss.clear();
 
 	ss << robot_->getOrientation().valueDegrees() << "'";
 	orientation_->text(ss.str());
-	ss.clear();
 }
 
 bool HUD::RobotInf::update(const Ogre::FrameEvent& evt)
 {
-	std::stringstream ss ;
+	std::stringstream ss(std::ios::trunc) ;
 	Stats stats = robot_->getFullStats();
 
 	ss << stats.hp.getCurrent();
 	speed_->text(ss.str());
-	ss.clear();
 
 	ss << robot_->getOrientation().valueDegrees() << "'";
 	orientation_->text(ss.str());
-	ss.clear();
 
 	return true;
 }
