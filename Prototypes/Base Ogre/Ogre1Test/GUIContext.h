@@ -192,6 +192,7 @@ namespace GUI
 
 		virtual void setPosition(Ogre::Vector2 position);
 		virtual void resize(Ogre::Vector2 dimension);
+		virtual bool mouseMoved(const OIS::MouseEvent& arg);
 
 		void showSlideBar(bool set = true);
 		void setSpacing(float value = 0.0f);
@@ -201,6 +202,8 @@ namespace GUI
 		Orientation		orientation_;
 		Gorilla::Rectangle*		back_;
 		std::vector<Pane*>		blockList_;
+		Ogre::Real			lengthItems_;
+		Ogre::Real			beginLengthItems_;
 
 		float				spacing_;
 	};
