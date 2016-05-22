@@ -13,6 +13,10 @@ void RobotLuaBinding::setFight(FightManager* fight)
 
 void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 {
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getPosition,"getPosition");
+
+
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_move,"move");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_fire,"fire");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_turnRobot,"turnRobot");
@@ -23,6 +27,40 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
 }
+
+/**lua getTerrainSize():int,int
+	@desc Returns the height and the width of the Terrain
+*/
+int RobotLuaBinding::lua_Robot_getTerrainSize(lua_State *L)
+{
+	lua_pushnumber(L, Terrain::cellToPos(theFight->getTerrain()->getHeight()));
+	lua_pushnumber(L, Terrain::cellToPos(theFight->getTerrain()->getWidth()));
+	return 2;
+}
+
+/**lua getPosition():double,double
+	@desc Returns the current X and Y position of your robot
+	@return The X position of your robot
+	@return The Y position of your robot
+*/
+int RobotLuaBinding::lua_Robot_getPosition(lua_State *L)
+{
+	Robot* robot;
+	if (lua_gettop(L) == 0)
+	{
+		robot = theRobot;
+	}
+	else
+	{
+		int id = (int)luaL_checknumber(L,1);
+		robot = theFight->getRobot(id);
+	}
+
+	lua_pushnumber(L, robot->getPosition().x);
+	lua_pushnumber(L, robot->getPosition().z);
+	return 2;
+}
+
 
 /**lua move():void
 	@desc Gives the robot the order to move
@@ -124,8 +162,8 @@ int RobotLuaBinding::lua_Robot_useAbility(lua_State *L)
 }
 
 /**lua getStats(id:int):table
-	@desc Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen
-	the lua table contains these fields
+	@desc Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen. <br/>
+	The lua table contains these fields
 	<ul>
 		<li>maxHp : The max hp of the robot </li>
 		<li>maxHp : The max hp of the robot</li>
@@ -218,7 +256,7 @@ int RobotLuaBinding::lua_Robot_getTeam(lua_State *L)
 
 
 /*lua getState():int
-	@desc Return an int indicating the current state of your robot
+	@desc Return an int indicating the current state of the selected robot
 */
 int RobotLuaBinding::lua_Robot_getState(lua_State *L)
 {
@@ -264,6 +302,21 @@ int RobotLuaBinding::lua_Robot_getRobots(lua_State *L)
 			lua_rawseti (L, -2, i++);
 		}
 	}
+	return 1;
+}
+
+/**lua isAWall(x:int,y:int):bool
+	@desc Tells if there is a wall at the given coordinate.
+	@param x The x position of the point where to check
+	@param y The y position of the point where to check
+	@return True if there is a wall, false if there is no wall
+*/
+int RobotLuaBinding::lua_Robot_isAWall(lua_State *L)
+{
+	int x = Terrain::posToCell((int)luaL_checknumber(L,1));
+	int y = Terrain::posToCell((int) luaL_checknumber(L,1));
+
+	lua_pushboolean(L, theFight->getTerrain()->IsAWall(x,y));
 	return 1;
 }
 

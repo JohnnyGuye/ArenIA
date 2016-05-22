@@ -49,13 +49,13 @@ public:
 		/* Set a field in a lua table (this lua table must be at the
 	top of the stack*/
 	static void SetField (lua_State* L, const char *index, float value);
-
+	static long int currentHandlerLineCount;
 private:
 	lua_State *luaState;
 	static void LineHookFunc(lua_State *L, lua_Debug *ar);
 	lua_State* CreateBasicLua();
 
-
+	long int lineCount;
 
 	static int lua_CustomPrint(lua_State* L);
 	

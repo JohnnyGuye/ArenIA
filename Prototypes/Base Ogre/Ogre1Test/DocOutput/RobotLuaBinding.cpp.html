@@ -23,21 +23,45 @@
 <h2>Table of Contents</h2>
 
 <ul>
-<li><a href="#1"><strong>move</strong>():<em>void</em></a></li>
-<li><a href="#2"><strong>fire</strong>():<em>void</em></a></li>
-<li><a href="#3"><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></a></li>
-<li><a href="#4"><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></a></li>
-<li><a href="#5"><strong>getTurretAngle</strong>():<em>double</em></a></li>
-<li><a href="#6"><strong>getRobotAngle</strong>():<em>double</em></a></li>
-<li><a href="#7"><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></a></li>
-<li><a href="#8"><strong>getStats</strong>():<em>table</em></a></li>
+<li><a href="#1"><strong>getTerrainSize</strong>():<em>int</em>,int</a></li>
+<li><a href="#2"><strong>getPosition</strong>():<em>double</em>,double</a></li>
+<li><a href="#3"><strong>move</strong>():<em>void</em></a></li>
+<li><a href="#4"><strong>fire</strong>():<em>void</em></a></li>
+<li><a href="#5"><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></a></li>
+<li><a href="#6"><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></a></li>
+<li><a href="#7"><strong>getTurretAngle</strong>():<em>double</em></a></li>
+<li><a href="#8"><strong>getRobotAngle</strong>():<em>double</em></a></li>
+<li><a href="#9"><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></a></li>
+<li><a href="#10"><strong>getStats</strong>(id:<em>int</em>):<em>table</em></a></li>
 </ul>
 
 <hr />
 
 <hr />
 
-<h3><a name="1"></a><strong>move</strong>():<em>void</em></h3>
+<h3><a name="1"></a><strong>getTerrainSize</strong>():<em>int</em>,int</h3>
+
+<h4>Description</h4>
+
+<p>Returns the height and the width of the Terrain</p>
+
+<hr />
+
+<h3><a name="2"></a><strong>getPosition</strong>():<em>double</em>,double</h3>
+
+<h4>Description</h4>
+
+<p>Returns the current X and Y position of your robot</p>
+
+<h4>Return</h4>
+
+<ul>
+<li>X, Y</li>
+</ul>
+
+<hr />
+
+<h3><a name="3"></a><strong>move</strong>():<em>void</em></h3>
 
 <h4>Description</h4>
 
@@ -56,7 +80,7 @@
 
 <hr />
 
-<h3><a name="2"></a><strong>fire</strong>():<em>void</em></h3>
+<h3><a name="4"></a><strong>fire</strong>():<em>void</em></h3>
 
 <h4>Description</h4>
 
@@ -75,7 +99,7 @@
 
 <hr />
 
-<h3><a name="3"></a><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></h3>
+<h3><a name="5"></a><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></h3>
 
 <h4>Description</h4>
 
@@ -100,7 +124,7 @@
 
 <hr />
 
-<h3><a name="4"></a><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></h3>
+<h3><a name="6"></a><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></h3>
 
 <h4>Description</h4>
 
@@ -114,7 +138,7 @@
 
 <hr />
 
-<h3><a name="5"></a><strong>getTurretAngle</strong>():<em>double</em></h3>
+<h3><a name="7"></a><strong>getTurretAngle</strong>():<em>double</em></h3>
 
 <h4>Description</h4>
 
@@ -128,7 +152,7 @@
 
 <hr />
 
-<h3><a name="6"></a><strong>getRobotAngle</strong>():<em>double</em></h3>
+<h3><a name="8"></a><strong>getRobotAngle</strong>():<em>double</em></h3>
 
 <h4>Description</h4>
 
@@ -142,7 +166,7 @@
 
 <hr />
 
-<h3><a name="7"></a><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></h3>
+<h3><a name="9"></a><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></h3>
 
 <h4>Description</h4>
 
@@ -162,30 +186,33 @@
 
 <hr />
 
-<h3><a name="8"></a><strong>getStats</strong>():<em>table</em></h3>
+<h3><a name="10"></a><strong>getStats</strong>(id:<em>int</em>):<em>table</em></h3>
 
 <h4>Description</h4>
 
-<p>Get the currents and max stats of your robot in a lua table.
+<p>Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen. <br/>
     the lua table contains these fields
     <ul>
-        <li>maxHp : The max hp of your robot </li>
-        <li>maxHp : The max hp of your robot</li>
-        <li>maxEnergy : The max Energy of your robot</li>
-        <li>currentEnergy : The current Energy of your robot </li>
-        <li></li>
-        <li></li>
+        <li>maxHp : The max hp of the robot </li>
+        <li>maxHp : The max hp of the robot</li>
+        <li>maxEnergy : The max Energy of the robot</li>
+        <li>currentEnergy : The current Energy of the robot </li>
+        <li>range : The range of the weapon</li>
+        <li>resistance : The armor of the robot</li>
+        <li>speed : The speed of the robot</li>
     </ul></p>
 
 <h4>example</h4>
 
-<h5>Exemple</h5>
+<h5>How to use getStats()</h5>
 
 <pre><code class="lua">
     function main()
-        -- Get the stats
-        stats = getStats();
+        -- Get the stats of your robot
+        stats = getStats()
 
+        -- Get the stats of antother robot
+        statsOtherRobot = getStats(1)
         -- Use them
         if (stats.currentHP < 10) then
             -- ...
