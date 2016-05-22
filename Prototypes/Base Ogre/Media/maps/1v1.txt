@@ -56,11 +56,9 @@ data=
 # Robot1
 type=Start
 location=4,19,1,1
-IA=monIa.lua
 
 [Starts]
 # Robot2
 type=Start
 location=14,19,1,1
-IA=stupide.lua
 

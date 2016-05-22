@@ -87,19 +87,31 @@ Terrain::Terrain(const string& sourceFile)
 
 Terrain::~Terrain(void)
 {
-
-	for(int i = 0; i < width_;i++)
-	{	
-		for(int j = 0; j < height_; j++)
-		{
-			delete grille_[i][j];
-		}
-		delete grille_[i];
-	}
-	delete grille_;
+	unLoad();
 }
 
 //--------------------------------------------Private
+void Terrain::unLoad()
+{
+	if(grille_)
+	{
+		for(int i = 0; i < height_;i++)
+		{	
+			if(grille_[i])
+			{
+				for(int j = 0; j < width_; j++)
+				{
+					if(grille_[i][j])	delete grille_[i][j];
+					grille_[i][j] = nullptr;
+				}
+				delete grille_[i];
+				grille_[i] = nullptr;
+			}
+		}
+		delete grille_;
+		grille_ = nullptr;
+	}
+}
 
 void Terrain::LoadFromFile()
 {
@@ -171,22 +183,17 @@ void Terrain::LoadFromFile()
 						{
 							std::stringstream ss;
 							ss << "WARNING !!! Two layers or more created on the map " << sourceFile_;
+							std::cout << ss << std::endl;
 							ArenIA::Log::getInstance()->write(ss.str());
-							for(int i = 0; i < height_;i++)
-							{	
-								for(int j = 0; j < width_; j++)
-								{
-									if(grille_[i][j])	delete grille_[i][j];
-									grille_[i][j] = nullptr;
-								}
-								delete grille_[i];
-								grille_[i] = nullptr;
-							}
-							delete grille_;
-							grille_ = nullptr;
+							unLoad();
 						}
-						grille_ = new GameObject**[width_];
-						for(int i = 0; i < height_; i++){	grille_[i] = new GameObject*[width_];	}
+						//Fill the grid
+						std::cout << "Grid fill " << sourceFile_ << std::endl;
+						grille_ = new GameObject**[height_];
+						for(int i = 0; i < height_; i++)
+						{	
+							grille_[i] = new GameObject*[width_];	
+						}
 
 						for(int i = 0; i < height_-1;i++)
 						{

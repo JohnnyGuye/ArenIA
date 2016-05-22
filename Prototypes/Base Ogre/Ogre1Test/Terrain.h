@@ -111,6 +111,7 @@ public:
 	
 protected:
 	void	LoadFromFile();
+	void	unLoad();
 	void	InterpreterDOM(const DOMObject& domo);
 	void	createObjectInCell (const int& x, const int& y, const std::string& num = "0");
 
