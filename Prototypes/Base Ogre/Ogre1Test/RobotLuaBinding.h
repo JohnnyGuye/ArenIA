@@ -18,6 +18,10 @@ private:
 	static Robot* theRobot;
 	static FightManager* theFight;
 
+	static int lua_Robot_getTerrainSize(lua_State *L);
+
+	static int lua_Robot_getPosition(lua_State *L);
+
 	static int lua_Robot_move(lua_State *L);
 	static int lua_Robot_fire(lua_State *L);
 	static int lua_Robot_turnRobot(lua_State *L);
@@ -33,6 +37,8 @@ private:
 	static int lua_Robot_getState(lua_State *L);
 	static int lua_Robot_getRobots(lua_State *L);
 	static int lua_Robot_debugTurn(lua_State *L);
+
+	static int lua_Robot_isAWall(lua_State *L);
 		
 };
 

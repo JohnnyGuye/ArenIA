@@ -8,9 +8,8 @@ void LuaHandler::LineHookFunc(lua_State *L, lua_Debug *ar)
 {
     if(ar->event == LUA_HOOKCOUNT)
     {
-      static long int i = 0;
-      i ++;
-      if (i>MAX_COUNT/COUNT_STEP)
+      LuaHandler::currentHandlerLineCount ++;
+      if (LuaHandler::currentHandlerLineCount >MAX_COUNT/COUNT_STEP)
 	  {
 		tooManyLines = true;
         luaL_error(L, "Too Many Lines Error");
@@ -49,7 +48,9 @@ lua_State* LuaHandler::CreateBasicLua()
 LuaHandler::ExecutionStatus LuaHandler::LoadFile(const char* filename)
 {
 	int ret = luaL_loadfile(luaState, filename);
-    lua_pcall(luaState,0,0,0);
+    
+
+	lua_pcall(luaState,0,0,0);
 
 	  if(ret != 0){
 		ArenIA::Log::getInstance()->write("ERREUR : Impossible d'ouvrir le ficher :");
@@ -67,6 +68,9 @@ LuaHandler::ExecutionStatus LuaHandler::Execute()
 	{
 		tooManyLines = false;
 		lua_getglobal(luaState, "main");
+		
+		// Reset the line count
+		LuaHandler::currentHandlerLineCount = 0;
 		if (lua_pcall(luaState,0,0,0) != 0)
 		{
 			//ArenIA::Log::getInstance()->write("ERREUR : Execution LUA échouée :");
@@ -75,7 +79,6 @@ LuaHandler::ExecutionStatus LuaHandler::Execute()
 			invalid = true;
 			if (tooManyLines)
 			{
-				
 				return TOO_MANY_LINES;
 			}
 			return ES_ERROR;
@@ -127,3 +130,5 @@ int LuaHandler::lua_CustomPrint(lua_State* L) {
 	std::cout.flush();
     return 0;
 }
+
+long int LuaHandler::currentHandlerLineCount = 0;
