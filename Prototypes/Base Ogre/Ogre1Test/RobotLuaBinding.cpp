@@ -15,7 +15,7 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 {
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getPosition,"getPosition");
-
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getRobots,"getRobots");
 
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_move,"move");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_fire,"fire");
@@ -24,6 +24,7 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_useAbility,"useAbility");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getStats,"getStats");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTeam,"getTeam");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getRobotAngle,"getRobotAngle");
 
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
 }
@@ -289,7 +290,7 @@ int RobotLuaBinding::lua_Robot_getRobots(lua_State *L)
 	// Push our robot as the first element of the list
 	unsigned int ourId = theRobot->getId();
 	lua_pushinteger(L, ourId);
-	int i = 0;
+	int i = 1;
 	lua_rawseti (L, -2, i++);
 	
 	// Push the rest of the robot

@@ -7,10 +7,11 @@ using namespace std;
 Missile::Missile(const Missile &rhs)
 	: GameObject(rhs),
 	caster_(rhs.caster_),
-	hitbox_(rhs.hitbox_->clone()),
 	speed_(rhs.speed_),
 	damages_(rhs.damages_)
 {
+	HitboxSphere* hs = (HitboxSphere*)rhs.hitbox_;
+	hitbox_ = new HitboxSphere(*hs, &(this->position_));
 }
 
 Missile::Missile(Ogre::Vector3 position, const Real& rad, Robot* caster, std::string name)

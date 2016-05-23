@@ -571,7 +571,8 @@ kerning_58 121 -2
 
 
 [Sprites]
-mousepointer 54 464 15 22
+mousepointer 0 383 50 51
+mousepointer2 54 464 15 22
 ogrehead 0 464 48 48
 robothud 0 274 305 110
 ico_lavelinge 77 419 92 92
@@ -579,3 +580,4 @@ ico_tondeuse 171 419 92 92
 gauge_blue 307 273 20 144
 gauge_red 327 273 20 144
 gauges_sepia 351 273 40 144
+button_back 512 0 395 245

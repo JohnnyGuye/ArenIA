@@ -15,8 +15,29 @@
 bool stringStartsWith(std::string myString, std::string myStringFragment);
 bool stringEndsWith(std::string myString, std::string myStringFragment);
 
+typedef struct MapObjects {
+	Robot* robot;
+	std::string * ai;
+	Terrain * terrain;
+} MapObjects;
+
 namespace GUI
 {
+
+	
+	class PlayButton :
+		public GUI::Button
+	{
+	public:
+		PlayButton(Ogre::Vector2 position, Ogre::Vector2 dimension, MapObjects *);
+		virtual~PlayButton();
+		void onClick();
+
+	protected:
+		MapObjects * mapObjects_;
+	};
+
+
 	class ListArea
 		: public GUI::Pane
 	{
@@ -36,6 +57,11 @@ namespace GUI
 
 		void loadAllElements();
 
+		void setMapObjectsRobot( Robot *);
+		void setMapObjectsAI( std::string *);
+		void setMapObjectsTerrain( Terrain *);
+		MapObjects * getMapObjects();
+
 	protected:
 		Gorilla::Layer*			layerBack_;
 		Gorilla::Rectangle*		background_;
@@ -43,22 +69,75 @@ namespace GUI
 		GUI::List*				robotList_;
 		GUI::List*				mapList_;
 		GUI::List*				AIList_;
+		GUI::PlayButton*		playButton_;
+		GUI::Button*			areniaLogo_;
 
 		std::vector<Robot*>			myRobots_;
 		std::vector<Terrain*>		myTerrains_;
 		std::vector<std::string*>	myAIs_;
+		MapObjects*					mapObjects_;
+
+
+		
 	
 
 		
 	};
 
+	class ListButton:
+		public GUI::Button
+	{
+	public:
+		ListButton(Ogre::Vector2 position, Ogre::Vector2 dimension, MapObjects *);
+		virtual~ListButton();
+	protected:
+		MapObjects * mapObjects_;
+	};
+
+	class RobotButton :
+		public GUI::ListButton
+	{
+	public:
+		RobotButton(Ogre::Vector2 position, Ogre::Vector2 dimension,MapObjects * mapObjects, Robot * robot);
+		virtual~RobotButton();
+		void onClick();
+
+	protected:
+
+		Robot * robot_;
+	};
+
+	class AIButton :
+		public GUI::ListButton
+	{
+	public:
+		AIButton(Ogre::Vector2 position, Ogre::Vector2 dimension,MapObjects * mapObjects,  std::string * ai);
+		virtual~AIButton();
+		void onClick();
+
+	protected:
+
+		std::string * ai_;
+	};
+
+	class TerrainButton :
+		public GUI::ListButton
+	{
+	public:
+		TerrainButton(Ogre::Vector2 position, Ogre::Vector2 dimension,MapObjects * mapObjects,  Terrain * terrain);
+		virtual~TerrainButton();
+		void onClick();
+
+	protected:
+
+		Terrain * terrain_;
+	};
+
+
+
 }
 
-typedef struct MapObjects {
-	Robot* robot;
-	std::string * ai;
-	Terrain * terrain;
-} MapObjects;
+
 
 // Alors ici, qu'est-ce qu'on a ? Le code du GUI de la fenêtre. C'est un peu le gros gestionnaire.
 // Il utilise tout les petits éléments ci dessus qui sont réutilisables sous le namespace GUI
@@ -72,10 +151,8 @@ public:
 
 	
 
-	MapObjects * getmapObjects();
-	void setMapObjectsRobot( Robot *);
-	void setMapObjectsAI( std::string *);
-	void setMapObjectsTerrain( Terrain *);
+	
+
 	
 
 
@@ -90,7 +167,6 @@ public:
 public:
 
 	GUI::ListArea*				listArea_;
-	MapObjects*					mapObjects_;
 
 	
 	

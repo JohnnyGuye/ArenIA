@@ -1645,7 +1645,6 @@ namespace Gorilla
        return;
 #endif
       }
-	  this->background_colour(Gorilla::Colours::Black);
       Ogre::Real texelOffsetX = mLayer->_getTexelX(), texelOffsetY = mLayer->_getTexelY();
       texelOffsetX /= mLayer->_getTextureSize().x;
       texelOffsetY /= mLayer->_getTextureSize().y;

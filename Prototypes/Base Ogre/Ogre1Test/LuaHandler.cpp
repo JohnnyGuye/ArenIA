@@ -18,6 +18,18 @@ void LuaHandler::LineHookFunc(lua_State *L, lua_Debug *ar)
             
 }
 
+
+static int traceback(lua_State *L) {
+    lua_getfield(L, LUA_GLOBALSINDEX, "debug");
+    lua_getfield(L, -1, "traceback");
+    lua_pushvalue(L, 1);
+    lua_pushinteger(L, 2);
+    lua_call(L, 2, 1);
+    fprintf(stderr, "%s\n", lua_tostring(L, -1));
+    return 1;
+}
+
+
 lua_State* LuaHandler::CreateBasicLua()
 {
     lua_State *L;
@@ -41,6 +53,8 @@ lua_State* LuaHandler::CreateBasicLua()
 		luaL_register(L, NULL, printlib);
 		lua_pop(L, 1);
 
+		lua_pushcfunction(L, traceback);
+
     }
     return L;
 }
@@ -55,12 +69,15 @@ LuaHandler::ExecutionStatus LuaHandler::LoadFile(const char* filename)
 	  if(ret != 0){
 		ArenIA::Log::getInstance()->write("ERREUR : Impossible d'ouvrir le ficher :");
 		ArenIA::Log::getInstance()->write(filename);
+		ArenIA::Log::getInstance()->write(lua_tostring(luaState, -1));
 		ArenIA::Log::getInstance()->write("\n");
+
 	    return ES_ERROR;
 	  }
 
 	  return OK;
 }
+
 
 LuaHandler::ExecutionStatus LuaHandler::Execute()
 {
@@ -75,7 +92,8 @@ LuaHandler::ExecutionStatus LuaHandler::Execute()
 		{
 			//ArenIA::Log::getInstance()->write("ERREUR : Execution LUA échouée :");
 			//ArenIA::Log::getInstance()->write(lua_tostring(luaState, -1));
-			std::cout << "ERREUR : Execution LUA échouée : " << lua_tostring(luaState, -1) << std::endl;
+			std::cout << "ERREUR : Execution LUA : " << lua_tostring(luaState, -1) << std::endl;
+			
 			invalid = true;
 			if (tooManyLines)
 			{

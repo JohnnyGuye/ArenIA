@@ -66,9 +66,15 @@ bool FightScene::initFightManager(const std::string& map)
 	return true;
 }
 //---------------------------------------------------------------------------
+FightManager*	FightScene::getFightManager() const
+{
+	return this->fightManager_;
+}
+
+//---------------------------------------------------------------------------
 Scene::Scenes FightScene::nextScene() const
 {
-	return EXIT;
+	return nextScene_;
 }
 //---------------------------------------------------------------------------
 void FightScene::_loadResources(void)
@@ -103,7 +109,7 @@ bool FightScene::launch(void)
 	vp->setBackgroundColour(ColourValue(0, 0, 0));
 
 	decompte_ = new GUIDecompte(vp, "dec_all");
-	hud_ = new HUD(vp, fightManager_);
+	hud_ = new HUD(vp, this);
 	console_ = new GUIConsole(vp);
 	hud_->init();
 
@@ -139,7 +145,7 @@ void FightScene::createScene(void)
 	  "ground",
 	  ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 	  plane, 
-	  Real(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE), Real(fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE), 10, 10, 
+	  Real(fightManager_->getTerrain()->getHeight() * Terrain::CELL_SIZE), Real(fightManager_->getTerrain()->getWidth() * Terrain::CELL_SIZE), 10, 10, 
 	  true, 
 	  1, 5.0f, 5.0f, 
 	  Vector3::UNIT_X);
@@ -158,11 +164,11 @@ void FightScene::createScene(void)
 	unsigned int width = fightManager_->getTerrain()->getWidth();
 	unsigned int height = fightManager_->getTerrain()->getHeight();
 
-	for(unsigned int i = 0; i < width; i++)
+	for(unsigned int i = 0; i < height; i++)
 	{
-		for(unsigned int j = 0; j < height; j++)
+		for(unsigned int j = 0; j < width; j++)
 		{
-			GameObject* go = fightManager_->getTerrain()->getObjectInCell(i, j);
+			GameObject* go = fightManager_->getTerrain()->getObjectInCell(j, i);
 			if(go != nullptr)
 			{
 				SceneryObject* so = (SceneryObject*)go;
@@ -222,14 +228,22 @@ void FightScene::createScene(void)
 	}
 }
 //---------------------------------------------------------------------------
+void FightScene::togglePause(void)
+{
+	pause_ = !pause_;
+	this->hud_->showMenu(pause_);
+}
+//---------------------------------------------------------------------------
 bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 {
+	//Don't render if time between to frames is too long
 	if(evt.timeSinceLastFrame > 0.25)
 	{
 		root_->clearEventTimes();
 		return true;
 	}
-	cameraMan_->frameRenderingQueued(evt);
+	
+	//State countdown
 	if(state_ == COUNTDOWN)	
 	{	
 		if(!decompte_->frameRenderingQueue(evt))
@@ -239,6 +253,7 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 		}
 	}
 	
+	//Game while not in pause
 	if(!pause_)
 	{
 		/* LOGIC */
@@ -252,6 +267,7 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 		/* RENDERING */
 		theSun_->update();
 
+		//Add missiles
 		for(Missile * m = fightManager_->renderLastQueuedMissile() ;
 			m != nullptr ; 
 			m = fightManager_->renderLastQueuedMissile())
@@ -259,17 +275,19 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 			addMissile(m);
 		}
 
+		//Render objects
 		for(auto ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
 		{
 			(*ge)->update(evt);
 		}
 		
-
+		//Render robots
 		for(auto re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
 		{
 			(*re)->update(evt);
 		}
 
+		//Render missiles
 		for(auto me = missileEntities_.begin() ; me != missileEntities_.end() ;)
 		{
 			auto m = *me;
@@ -284,22 +302,30 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 			}
 		}
 
+		//Render console and HUD
 		console_->frameStarted(evt);
 		hud_->frameRenderingQueued(evt);
 	}
 
+
 	if(this->fightManager_->IsVictory())
 		std::cout << "VICTORY !" << std::endl;
-	
+
+	//Update the camera
+		cameraMan_->frameRenderingQueued(evt);
+
 	return true;
 }
 //---------------------------------------------------------------------------
 bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 {
+	//Different mods following the state
 	switch(state_)
 	{
+		//STATE while playing
 	case GAME:
-		cameraMan_->injectKeyDown(arg);
+		if(!pause_)
+			cameraMan_->injectKeyDown(arg);
 		switch(arg.key)
 		{
 		case OIS::KC_F2:
@@ -338,9 +364,10 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 			window_->writeContentsToTimestampedFile("screenshot", ".jpg");
 			break;
 		case OIS::KC_PAUSE:
-			pause_ = !pause_;
+			togglePause();
 			break;
 		}
+		//STATE while console is on
 	case CONSOLE_ON:
 		console_->onKeyPressed(arg);
 		break;
@@ -365,27 +392,30 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 				state_ = CONSOLE_ON;
 			}
 		}
-		
 	}
- 
-    return true;
+	hud_->keyPressed(arg);
+    return !stop_;
 }
 //---------------------------------------------------------------------------
 bool FightScene::keyReleased(const OIS::KeyEvent &arg)
 {
-    cameraMan_->injectKeyUp(arg);
+	hud_->keyReleased(arg);
+	if(!pause_)
+		cameraMan_->injectKeyUp(arg);
     return true;
 }
 //---------------------------------------------------------------------------
 bool FightScene::mouseMoved(const OIS::MouseEvent &arg)
 {
+	hud_->mouseMoved(arg);
 	switch(state_)
 	{
 	case CONSOLE_ON:
 		break;
 	case GAME:
 	default:
-		cameraMan_->injectMouseMove(arg);
+		if(!pause_)
+			cameraMan_->injectMouseMove(arg);
 		break;
 	}
     return true;
@@ -393,13 +423,17 @@ bool FightScene::mouseMoved(const OIS::MouseEvent &arg)
 //---------------------------------------------------------------------------
 bool FightScene::mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-    cameraMan_->injectMouseDown(arg, id);
+	hud_->mousePressed(arg, id);
+	if(!pause_)
+		cameraMan_->injectMouseDown(arg, id);
     return true;
 }
 //---------------------------------------------------------------------------
 bool FightScene::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 {
-    cameraMan_->injectMouseUp(arg, id);
+	hud_->mouseReleased(arg, id);
+	if(!pause_)
+		cameraMan_->injectMouseUp(arg, id);
     return true;
 }
 // ----------------------------------------------

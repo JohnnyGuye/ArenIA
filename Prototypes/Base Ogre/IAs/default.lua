@@ -7,5 +7,5 @@ function main()
 	turnRobot(0.2);
 	fire();
 	x,y = getPosition()
-	print(x ..", " .. y);
+	-- print(x ..", " .. y);
 end

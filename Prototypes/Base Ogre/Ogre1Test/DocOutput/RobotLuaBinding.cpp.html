@@ -33,6 +33,7 @@
 <li><a href="#8"><strong>getRobotAngle</strong>():<em>double</em></a></li>
 <li><a href="#9"><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></a></li>
 <li><a href="#10"><strong>getStats</strong>(id:<em>int</em>):<em>table</em></a></li>
+<li><a href="#11"><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></a></li>
 </ul>
 
 <hr />
@@ -56,7 +57,8 @@
 <h4>Return</h4>
 
 <ul>
-<li>X, Y</li>
+<li>The X position of your robot</li>
+<li>The Y position of your robot</li>
 </ul>
 
 <hr />
@@ -191,7 +193,7 @@
 <h4>Description</h4>
 
 <p>Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen. <br/>
-    the lua table contains these fields
+    The lua table contains these fields
     <ul>
         <li>maxHp : The max hp of the robot </li>
         <li>maxHp : The max hp of the robot</li>
@@ -219,6 +221,27 @@
         end
     end
 </code></pre>
+
+<hr />
+
+<h3><a name="11"></a><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></h3>
+
+<h4>Description</h4>
+
+<p>Tells if there is a wall at the given coordinate.</p>
+
+<h4>Parameters</h4>
+
+<ul>
+<li><strong>x</strong> The x position of the point where to check</li>
+<li><strong>y</strong> The y position of the point where to check</li>
+</ul>
+
+<h4>Return</h4>
+
+<ul>
+<li>True if there is a wall, false if there is no wall</li>
+</ul>
 
 </div>
 

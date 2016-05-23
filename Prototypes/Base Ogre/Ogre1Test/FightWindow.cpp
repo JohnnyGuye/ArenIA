@@ -93,11 +93,11 @@ bool FightWindow::setup(void)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Popular");
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Essential");
-	activScene_ = sceneMap_.at("Launcher");
+	activScene_ = sceneMap_.at("Fight");
 	activScene_->loadResources();
 	
 	FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");
-	fightScene->initFightManager("big_map_test.txt");
+	fightScene->initFightManager("1v1.txt");
 	
 	activScene_->launch();
 

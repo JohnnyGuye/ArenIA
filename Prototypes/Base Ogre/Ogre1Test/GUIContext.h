@@ -51,7 +51,7 @@ namespace GUI
 	{
 	public:
 		Pane(Ogre::Vector2 position, Ogre::Vector2 dimension = Ogre::Vector2(1.f,1.f));
-		
+		virtual Pane* init(Gorilla::Layer* layer);
 		virtual~Pane();
 
 		virtual void setPosition(Ogre::Vector2 pos);
@@ -88,6 +88,8 @@ namespace GUI
 		Ogre::Vector2		dimension_;
 		Pane*				parent_;
 		std::list<Pane*>	childrens_;
+		Gorilla::Layer*		layer_;
+		Gorilla::Rectangle*	back_;
 
 		bool shown_;
 		bool dirty_;
@@ -110,6 +112,7 @@ namespace GUI
 		virtual void setPosition(Ogre::Vector2 position);
 		virtual void resize(Ogre::Vector2 dimension);
 
+		virtual bool mouseMoved(const OIS::MouseEvent& arg);
 		virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 		virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
@@ -121,7 +124,6 @@ namespace GUI
 		virtual void onRelease();
 		
 	protected:
-		Gorilla::Layer*		layer_;
 
 		Gorilla::Rectangle* back_;
 		Gorilla::Caption*	text_;
@@ -163,7 +165,6 @@ namespace GUI
 
 		Orientation			orientation_;
 		Gauge				bar_;
-		Gorilla::Layer*		layer_;
 		Gorilla::Rectangle*	back_;
 		Gorilla::Rectangle*	scroll_;
 		Gorilla::Rectangle* arrowTop_;
@@ -191,6 +192,7 @@ namespace GUI
 
 		virtual void setPosition(Ogre::Vector2 position);
 		virtual void resize(Ogre::Vector2 dimension);
+		virtual bool mouseMoved(const OIS::MouseEvent& arg);
 
 		void showSlideBar(bool set = true);
 		void setSpacing(float value = 0.0f);
@@ -198,9 +200,10 @@ namespace GUI
 	protected:
 		SlideBar*		slidebar_;
 		Orientation		orientation_;
-		Gorilla::Layer*		layer_;
 		Gorilla::Rectangle*		back_;
 		std::vector<Pane*>		blockList_;
+		Ogre::Real			lengthItems_;
+		Ogre::Real			beginLengthItems_;
 
 		float				spacing_;
 	};

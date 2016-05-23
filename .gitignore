@@ -17,6 +17,8 @@ Release\
 *.pdb
 *.suo
 *.ilk
+*.lib
+*.exp
 #*.vcxproj
 #*.vcproj
 *.idb

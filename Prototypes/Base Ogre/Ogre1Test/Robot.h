@@ -73,6 +73,11 @@ public:
     /// @return true if the damage killed the robot, false otherwise
     virtual bool takeDamage(float damage, GameObject* source);
 
+	/// @brief verify intersection with an other hitbox
+	/// @param hitbox : the other hitbox
+	/// @return true if it collides
+	virtual bool intersect(Hitbox* hitbox);
+
 	/// @brief Update the robot using the lua file
 	virtual void update();
 

@@ -61,6 +61,8 @@ private:
 	
 	static bool tooManyLines;
 
+
+
 	// Set to true if the robot has encountered an error
 	bool invalid;
 };
