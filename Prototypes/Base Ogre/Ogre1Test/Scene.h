@@ -76,7 +76,7 @@ public:
 	/// The nextScene this scene wants after her.
 	/// @return The next scene to be loaded, 
 	/// or the call to EXIT wich means it is the end of the app
-	virtual Scenes nextScene() const = 0;
+	virtual Scenes nextScene() const;
 
 	/// Cleanup the scene before the next relaunch. But since the scene 
 	/// has not been fully deleted, you can keep some informations and the resources.

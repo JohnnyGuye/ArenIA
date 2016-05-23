@@ -1,4 +1,5 @@
 #include "GUILauncher.h"
+#include "LauncherScene.h"
 
 
 #include <OGRE\OgrePrerequisites.h>
@@ -16,14 +17,12 @@ GUI::ListArea::ListArea(const Ogre::Vector2& pos,const Ogre::Vector2& dim)
 	AIList_(nullptr),
 	mapList_(nullptr)
 {
-	Vector2 logoDimensions = Vector2(dim.x*0.25f, dim.y*0.15);
+	Vector2 logoDimensions = Vector2(dim.x*0.25f, dim.y*0.15f);
 	areniaLogo_ = new GUI::Button(Vector2(pos.x + (this->getParent()->getDimension().x - logoDimensions.x)/2.f, pos.y), logoDimensions);
 	mapObjects_ = new MapObjects;
 	robotList_ = new GUI::List(Vector2(pos.x, pos.y + areniaLogo_->getDimension().y*1.01f), dim*0.3f);
 	AIList_ = new GUI::List(Vector2(pos.x + robotList_->getDimension().x + dim.x*0.01f, pos.y + areniaLogo_->getDimension().y*1.01f), dim*0.3f);
 	mapList_ = new GUI::List(Vector2(pos.x + ( robotList_->getDimension().x + dim.x*0.01f ) *2, pos.y + areniaLogo_->getDimension().y*1.01f), dim*0.3f);
-	Ogre::Vector2 playDimension = Ogre::Vector2(this->getParent()->getDimension().x - ( robotList_->getDimension().x + dim.x*0.01f ) *3, robotList_->getDimension().y*0.2f);
-	playButton_ = new GUI::PlayButton(Vector2(this->getParent()->getDimension().x - playDimension.x , this->getParent()->getDimension().y - playDimension.y),playDimension, mapObjects_);
 }
 
 GUI::ListArea* GUI::ListArea::init(Gorilla::Layer* layer)
@@ -36,30 +35,13 @@ GUI::ListArea* GUI::ListArea::init(Gorilla::Layer* layer)
 	background_->background_colour(Gorilla::Colours::DimGray);
 	background_->border(5.f, Gorilla::Colours::AliceBlue);
 
-	/* Example
-	addChild(mapList_->init(layer));
-	auto firstButton = new GUI::Button(position_, Ogre::Vector2(200,100));
-	firstButton->init(layer);
-	firstButton->setBackground("button_bg");
-	mapList_->addElement(firstButton);
-
-	auto secondButton = new GUI::Button(Ogre::Vector2(100,100), Ogre::Vector2(200,300));
-	secondButton->init(layer);
-	secondButton->setBackground("button_bg");
-	mapList_->addElement(secondButton);
-	*/
-
 	addChild(areniaLogo_->init(layer));
 	areniaLogo_->setBackground("arenia_logo");
 	areniaLogo_->setText("");
 
-	addChild(playButton_->init(layer));
-	playButton_->setBackground("button_bg");
-	playButton_->setText("PLAY");
-	
-	
+	//Robot list
 	addChild(robotList_->init(layer));
-	for ( int i = 0 ; i < myRobots_.size() ; i++ )
+	for (unsigned int i = 0 ; i < myRobots_.size() ; i++ )
 	{
 		Robot * robot = myRobots_.at(i);
 		std::string label = robot->getName();
@@ -70,11 +52,10 @@ GUI::ListArea* GUI::ListArea::init(Gorilla::Layer* layer)
 		robotList_->addElement(button);
 	}
 
-
+	//IA list
 	addChild(AIList_->init(layer));
-
 	std::string extension = ".lua";
-	for ( int i = 0 ; i < myAIs_.size() ; i++ )
+	for (unsigned int i = 0 ; i < myAIs_.size() ; i++ )
 	{
 		std::string label = myAIs_.at(i)->substr(0, myAIs_.at(i)->length() - extension.length());
 		auto button = new GUI::AIButton(position_, Ogre::Vector2(200,100), mapObjects_, myAIs_.at(i));
@@ -84,11 +65,10 @@ GUI::ListArea* GUI::ListArea::init(Gorilla::Layer* layer)
 		AIList_->addElement(button);
 	}
 
-	
+	//Map list
 	addChild(mapList_->init(layer));
-
 	extension = ".txt";
-	for ( int i = 0 ; i < myTerrains_.size() ;  i++ )
+	for (unsigned int i = 0 ; i < myTerrains_.size() ;  i++ )
 	{
 		Terrain * terrain = myTerrains_.at(i);
 		std::string label = terrain->getName();
@@ -204,9 +184,9 @@ void GUI::ListArea::setMapObjectsTerrain( Terrain * mTerrain)
 /*********************************************************
 *********************** PlayButton ***********************
 *********************************************************/
-GUI::PlayButton::PlayButton(Ogre::Vector2 position, Ogre::Vector2 dimension,MapObjects * mapObjects)
+GUI::PlayButton::PlayButton(Ogre::Vector2 position, Ogre::Vector2 dimension, ::LauncherScene* ls)
 	: Button(position, dimension),
-	mapObjects_(mapObjects)
+	ls_(ls)
 {
 }
 
@@ -216,7 +196,7 @@ GUI::PlayButton::~PlayButton()
 
 void GUI::PlayButton::onClick()
 {
-	//TODO : launch the game with this button's mapObjects_
+	ls_->stop(Scene::FIGHT);
 }
 
 /*********************************************************
@@ -294,7 +274,7 @@ void GUI::TerrainButton::onClick()
 /*********************************************************
 *********************** GUILauncher **********************
 *********************************************************/
-GUILauncher::GUILauncher(Ogre::Viewport* vp)
+GUILauncher::GUILauncher(Ogre::Viewport* vp, LauncherScene* ls)
 	: GUIContext(vp, "HUDFlowChart"),
 	listArea_(nullptr),
 	mouse_(nullptr)
@@ -312,6 +292,16 @@ GUILauncher::GUILauncher(Ogre::Viewport* vp)
 		Ogre::Vector2(width_ * 1.0f, height_ * 1.0f));
 	listArea_->loadAllElements();
 	listArea_->init(layerListArea_);
+
+	Vector2 playDimension = Ogre::Vector2(width_/16 , height_ /16);
+	auto playButton = new GUI::PlayButton(
+		Vector2(width_ - playDimension.x , height_ - playDimension.y),
+		playDimension, 
+		ls);
+	addElement(playButton->init(layerListArea_));
+	playButton->setBackground("button_bg");
+	playButton->setText("PLAY");
+	
 	this->addElement(listArea_);
 }
 

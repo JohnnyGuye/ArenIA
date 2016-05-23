@@ -59,7 +59,7 @@ bool LauncherScene::launch(void)
 	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
 
 	//INSERT GUI
-	GUILauncher_ = new GUILauncher(vp);
+	GUILauncher_ = new GUILauncher(vp, this);
 
 	camera_->setAspectRatio(
 		  Ogre::Real(vp->getActualWidth()) /

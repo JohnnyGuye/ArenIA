@@ -84,9 +84,8 @@ public:
 
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
-	virtual Scenes nextScene(void) const;
-
 	virtual void togglePause();
+	virtual void reset(bool resetPos = false);
 
 	virtual void destroyScene(void);
 

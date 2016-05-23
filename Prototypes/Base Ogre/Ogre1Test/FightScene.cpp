@@ -1,5 +1,6 @@
 #include "FightScene.h"
 #include "WasheeRobot.h"
+#include "FightWindow.h"
 
 using namespace std;
 using namespace Ogre;
@@ -69,12 +70,6 @@ bool FightScene::initFightManager(const std::string& map)
 FightManager*	FightScene::getFightManager() const
 {
 	return this->fightManager_;
-}
-
-//---------------------------------------------------------------------------
-Scene::Scenes FightScene::nextScene() const
-{
-	return nextScene_;
 }
 //---------------------------------------------------------------------------
 void FightScene::_loadResources(void)
@@ -228,6 +223,12 @@ void FightScene::createScene(void)
 	}
 }
 //---------------------------------------------------------------------------
+void FightScene::reset(bool resetPos)
+{
+	fightManager_->reset(resetPos);
+}
+
+//---------------------------------------------------------------------------
 void FightScene::togglePause(void)
 {
 	pause_ = !pause_;
@@ -365,6 +366,9 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 			break;
 		case OIS::KC_PAUSE:
 			togglePause();
+			break;
+		case OIS::KC_F5:
+			reset(FightWindow::isAlt());
 			break;
 		}
 		//STATE while console is on

@@ -15,6 +15,8 @@
 bool stringStartsWith(std::string myString, std::string myStringFragment);
 bool stringEndsWith(std::string myString, std::string myStringFragment);
 
+class LauncherScene;
+
 typedef struct MapObjects {
 	Robot* robot;
 	std::string * ai;
@@ -24,20 +26,20 @@ typedef struct MapObjects {
 namespace GUI
 {
 
-	
+	//Play Button
 	class PlayButton :
 		public GUI::Button
 	{
 	public:
-		PlayButton(Ogre::Vector2 position, Ogre::Vector2 dimension, MapObjects *);
+		PlayButton(Ogre::Vector2 position, Ogre::Vector2 dimension, ::LauncherScene* ls);
 		virtual~PlayButton();
 		void onClick();
 
 	protected:
-		MapObjects * mapObjects_;
+		::LauncherScene*	ls_;
 	};
 
-
+	//List Area
 	class ListArea
 		: public GUI::Pane
 	{
@@ -84,6 +86,7 @@ namespace GUI
 		
 	};
 
+	// Button list
 	class ListButton:
 		public GUI::Button
 	{
@@ -94,6 +97,7 @@ namespace GUI
 		MapObjects * mapObjects_;
 	};
 
+	//Robot button
 	class RobotButton :
 		public GUI::ListButton
 	{
@@ -107,6 +111,7 @@ namespace GUI
 		Robot * robot_;
 	};
 
+	//AI Button
 	class AIButton :
 		public GUI::ListButton
 	{
@@ -120,6 +125,7 @@ namespace GUI
 		std::string * ai_;
 	};
 
+	//Terrain Button
 	class TerrainButton :
 		public GUI::ListButton
 	{
@@ -146,15 +152,8 @@ class GUILauncher :
 {
 public:
 
-	GUILauncher(Ogre::Viewport*);
+	GUILauncher(Ogre::Viewport* v, LauncherScene* ls);
 	~GUILauncher(void);
-
-	
-
-	
-
-	
-
 
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
