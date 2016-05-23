@@ -21,6 +21,11 @@ void Scene::loadResources(void)
 	stop_ = false;
 }
 
+Scene::Scenes Scene::nextScene() const
+{
+	return nextScene_;
+}
+
 Scene::~Scene(void)
 {
 }

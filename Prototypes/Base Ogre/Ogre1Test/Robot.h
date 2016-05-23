@@ -65,6 +65,8 @@ public:
     /** **/
     virtual ~Robot();
 
+	virtual void reset();
+
     /// @brief  Reset the action state of the Robot to IDLE
     virtual bool Robot::resetAction();
 

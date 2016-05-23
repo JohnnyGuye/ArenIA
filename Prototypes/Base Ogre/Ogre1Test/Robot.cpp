@@ -36,6 +36,15 @@ Robot::~Robot()
 	if(hitbox_) delete hitbox_;
 }
 
+void Robot::reset()
+{
+	stats_.hp.fill();
+	stats_.energy.fill();
+	dead_ = false;
+	setIaFilename(iaFilename_);
+}
+
+
 bool Robot::resetAction()
 {
     action_ = Robot::IDLE;

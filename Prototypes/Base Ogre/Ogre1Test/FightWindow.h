@@ -101,6 +101,10 @@ public:
 
 	virtual void go(void);
 
+	static bool isShift();
+	static bool isAlt();
+	static bool isCtrl();
+
 protected:
 
 	virtual bool setup(void);
@@ -116,9 +120,6 @@ protected:
     virtual bool mouseMoved(const OIS::MouseEvent &arg);
     virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
-	static bool isShift();
-	static bool isAlt();
-	static bool isCtrl();
 
 	 // Adjust mouse clipping area
     virtual void windowResized(Ogre::RenderWindow* rw);

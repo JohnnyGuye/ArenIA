@@ -99,7 +99,7 @@ public:
 
 
 	/// @brief reset the fight manager to the first state of the match
-	virtual void reset();
+	virtual void reset(bool resetPos = false);
 
 	//@brief returns a list of all the existing objects
 

@@ -190,10 +190,23 @@ void FightManager::update()
 }
 
 //TODO implement reset
-void FightManager::reset()
+void FightManager::reset(bool resetPos)
 {
 	addEvent(new GameEvent(GameEvent::RESET_TIMER));
 	day_.empty();
+	auto starts = terrain_->getStarts();
+	auto its = starts.begin();
+	for(auto it = robots_.begin() ; it != robots_.end() ; it++)
+	{
+		(*it)->reset();
+		if(resetPos)
+		{
+			(*it)->setPosition(Ogre::Vector3(Terrain::cellToPos((*its)->x), 
+				0, 
+				Terrain::cellToPos((*its)->y)));
+		}
+		its++;
+	}
 }
 
 float FightManager::getActualTime() const
