@@ -72,6 +72,10 @@ LuaHandler::ExecutionStatus LuaHandler::LoadFile(const char* filename)
 		ArenIA::Log::getInstance()->write(lua_tostring(luaState, -1));
 		ArenIA::Log::getInstance()->write("\n");
 
+		std::cout << "ERREUR : Impossible d'ouvrir le ficher :" << filename << std::endl;
+		
+		std::cout << lua_tostring(luaState, -1) << std::endl;
+
 	    return ES_ERROR;
 	  }
 

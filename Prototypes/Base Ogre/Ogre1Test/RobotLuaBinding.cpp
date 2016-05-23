@@ -25,6 +25,8 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getStats,"getStats");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTeam,"getTeam");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getRobotAngle,"getRobotAngle");
+		handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_isAWall,"isAWall");
 
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
 }
@@ -314,9 +316,10 @@ int RobotLuaBinding::lua_Robot_getRobots(lua_State *L)
 */
 int RobotLuaBinding::lua_Robot_isAWall(lua_State *L)
 {
-	int x = Terrain::posToCell((int) luaL_checknumber(L,1));
-	int y = Terrain::posToCell((int) luaL_checknumber(L,1));
+	int x = Terrain::posToCell(luaL_checknumber(L,1));
+	int y = Terrain::posToCell(luaL_checknumber(L,2));
 
+	//std::cout << "Trace isAWall : x : " << x << ", y = " << y << std::endl; 
 	lua_pushboolean(L, theFight->getTerrain()->IsAWall(x,y));
 	return 1;
 }
