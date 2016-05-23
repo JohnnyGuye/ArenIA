@@ -535,7 +535,7 @@ int GUI::List::addElement(Pane* pane)
 		
 		}
 		lengthItems_ += newY + spacing_;
-		Ogre::Real ratio(dimension_.x / lengthItems_);
+		Ogre::Real ratio((dimension_.x) / lengthItems_);
 		slidebar_->regionShown(ratio > 1 ? 1.f : ratio);
 	}
 	pane->resize(Ogre::Vector2(newW, newH ));
@@ -572,7 +572,7 @@ bool GUI::List::mouseMoved(const OIS::MouseEvent& arg)
 {
 	if(isVertical(orientation_))
 	{
-		beginLengthItems_ = (slidebar_->getCurrent() * lengthItems_);
+		beginLengthItems_ = (slidebar_->getCurrent() * lengthItems_ * (1.f - dimension_.y / lengthItems_));
 		Real decay(position_.y - beginLengthItems_);
 		if(blockList_.size() != 0)
 		{
