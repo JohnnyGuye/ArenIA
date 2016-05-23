@@ -313,10 +313,10 @@ int RobotLuaBinding::lua_Robot_getRobots(lua_State *L)
 */
 int RobotLuaBinding::lua_Robot_isAWall(lua_State *L)
 {
-	int x = Terrain.posToCell((int) luaL_checknumber(L,1));
-	int y = Terrain.posToCell((int) luaL_checknumber(L,1));
+	int x = Terrain::posToCell((int) luaL_checknumber(L,1));
+	int y = Terrain::posToCell((int) luaL_checknumber(L,1));
 
-	lua_pushboolean(L, theFight->getTerrain()->IsAWall(x,y);
+	lua_pushboolean(L, theFight->getTerrain()->IsAWall(x,y));
 	return 1;
 }
 
