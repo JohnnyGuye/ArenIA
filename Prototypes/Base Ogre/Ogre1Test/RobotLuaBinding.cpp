@@ -16,6 +16,7 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getPosition,"getPosition");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getRobots,"getRobots");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getWallSize,"getWallSize");
 
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_move,"move");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_fire,"fire");
@@ -25,20 +26,32 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getStats,"getStats");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTeam,"getTeam");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getRobotAngle,"getRobotAngle");
-		handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_isAWall,"isAWall");
 
-	handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
+	//handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
 }
 
 /**lua getTerrainSize():int,int
 	@desc Returns the height and the width of the Terrain
+	@return height : The heigh in units of the terrain
+	@return width : the width in units of the terrain
 */
 int RobotLuaBinding::lua_Robot_getTerrainSize(lua_State *L)
 {
 	lua_pushnumber(L, Terrain::cellToPos(theFight->getTerrain()->getHeight()));
 	lua_pushnumber(L, Terrain::cellToPos(theFight->getTerrain()->getWidth()));
 	return 2;
+}
+
+/**lua getWallSize():int
+	@desc Returns the size of the map's walls. The walls are squares, so this function returns both width and length of the
+	walls at the same time.
+	@return the size of the walls.
+*/
+int RobotLuaBinding::lua_Robot_getWallSize(lua_State *L){
+	lua_pushnumber(L, Terrain::CELL_SIZE);
+	return 1;
 }
 
 /**lua getPosition():double,double
@@ -278,7 +291,7 @@ int RobotLuaBinding::lua_Robot_getState(lua_State *L)
 	return 1;
 }
 
-/*lua getRobots():table
+/**lua getRobots():table
 	@desc Returns a table containing the list of all the robots in the game.
 	Your robot will always be in the first (1) index.
 */
