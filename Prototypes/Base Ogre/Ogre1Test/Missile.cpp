@@ -62,7 +62,7 @@ void Missile::update()
 
 void Missile::onCollide(Robot* r)
 {
-	if( (r->getTeam() == Robot::NONE) || ( !caster_->isAnAlly(r) ) ){
+	if( (r->getTeam() == Robot::NONE) || ( caster_->getTeam() != r->getTeam()) ){
 		r->takeDamage( damages_, caster_ );
 		kill();
 	}

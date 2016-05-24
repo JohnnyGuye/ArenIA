@@ -171,11 +171,6 @@ public:
 	/// @return the list of abilities of this robot
 	std::vector<Ability* > getAbilities() const;
 
-	//-------------------------------------------------------VISION
-
-	/// @brief checks whether or not a Robot is an ally
-	virtual bool isAnAlly(Robot* r) const;
-
     /// @return the list of the objects in the sight of this robot
     std::list<GameObject*> getSeenObjects(bool fetchRobots = true, bool fetchMissiles = true) const;
 
