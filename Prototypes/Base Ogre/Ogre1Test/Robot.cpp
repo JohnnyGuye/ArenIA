@@ -58,14 +58,16 @@ Vector3 Robot::getNextPosition() const
 
 void Robot::update()
 {
-	turret_->update();
-	for(unsigned int i=0; i < abilities_.size(); i++)
-	{
-		abilities_[i]->update();
+	if(!isDead()){
+		turret_->update();
+		for(unsigned int i=0; i < abilities_.size(); i++)
+		{
+			abilities_[i]->update();
+		}
+		resetAction();
+		RobotLuaBinding::setRobot(this);
+		luaCode_->Execute();
 	}
-	resetAction();
-	RobotLuaBinding::setRobot(this);
-	luaCode_->Execute();
 }
 
 void Robot::applyUpdate(bool wallCollide)

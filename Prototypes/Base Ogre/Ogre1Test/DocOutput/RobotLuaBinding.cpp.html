@@ -35,8 +35,9 @@
     <li><a href="#9"><strong>getRobotAngle</strong>():<em>double</em></a></li>
     <li><a href="#10"><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></a></li>
     <li><a href="#11"><strong>getStats</strong>(id:<em>int</em>):<em>table</em></a></li>
-    <li><a href="#12"><strong>getRobots</strong>():<em>table</em></a></li>
-    <li><a href="#13"><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></a>
+    <li><a href="#12"><strong>getTeam</strong>():<em>int</em></a></li>
+    <li><a href="#13"><strong>getRobots</strong>():<em>table</em></a></li>
+    <li><a href="#14"><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></a>
     <hr/></li>
 </ul>
 
@@ -56,9 +57,7 @@
 
 <h4>Description</h4>
 
-<p> Returns the size of the map's walls. The walls are squares, so this function returns both width and length of the</p>
-<pre><code class="lua"><code>walls at the same time.
-</code></code></pre>
+<p> Returns the size of the map's walls. The walls are squares, so this function returns both width and length of the walls at the same time.</p>
 
 <h4>Return</h4>
 <p>-  the size of the walls.</p>
@@ -173,18 +172,19 @@
 
 <h4>Description</h4>
 
-<p> Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen. <br/></p>
-<pre><code class="lua"><code>The lua table contains these fields
-&lt;ul&gt;
-    &lt;li&gt;maxHp : The max hp of the robot &lt;/li&gt;
-    &lt;li&gt;maxHp : The max hp of the robot&lt;/li&gt;
-    &lt;li&gt;maxEnergy : The max Energy of the robot&lt;/li&gt;
-    &lt;li&gt;currentEnergy : The current Energy of the robot &lt;/li&gt;
-    &lt;li&gt;range : The range of the weapon&lt;/li&gt;
-    &lt;li&gt;resistance : The armor of the robot&lt;/li&gt;
-    &lt;li&gt;speed : The speed of the robot&lt;/li&gt;
-&lt;/ul&gt;
-</code></code></pre>
+<p> Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen. <br/>
+The lua table contains these fields</p>
+
+<ul>
+<li>maxHp : The max hp of the robot </li>
+<li>maxHp : The max hp of the robot</li>
+<li>maxEnergy : The max Energy of the robot</li>
+<li>currentEnergy : The current Energy of the robot </li>
+<li>range : The range of the weapon</li>
+<li>resistance : The armor of the robot</li>
+<li>speed : The speed of the robot</li>
+</ul>
+
 
 <h4>Example</h4>
 <h5>How to use getStats()</h5>
@@ -205,15 +205,35 @@
 </code></pre>
 
 <hr/>
-<h3><a name="12"></a><strong>getRobots</strong>():<em>table</em></h3>
+<h3><a name="12"></a><strong>getTeam</strong>():<em>int</em></h3>
+
+<h4>Description</h4>
+
+<p> Return an int indicating the teams that your robot belongs.
+Each byte of the int correspond to a team. If the bit is set, your robot is in that team
+Else, you are not.
+For references, the team colors are :</p>
+
+<ul>
+<li>NONE = 0</li>
+<li>BLACK = 1</li>
+<li>WHITE = 2</li>
+<li>BLUE = 4</li>
+<li>PURPLE = 8</li>
+<li>RED = 16</li>
+<li>ORANGE = 32</li>
+<li>YELLOW = 64</li>
+<li>GREEN = 128</li>
+</ul>
+
+<hr/>
+<h3><a name="13"></a><strong>getRobots</strong>():<em>table</em></h3>
 
 <h4>Description</h4>
 
 <p> Returns a table containing the list of all the robots in the game.</p>
-<pre><code class="lua"><code>Your robot will always be in the first (1) index.
-</code></code></pre>
-<hr/>
-<h3><a name="13"></a><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></h3>
+<h2>Your robot will always be in the first (1) index.</h2>
+<h3><a name="14"></a><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></h3>
 
 <h4>Description</h4>
 
