@@ -45,8 +45,7 @@ int RobotLuaBinding::lua_Robot_getTerrainSize(lua_State *L)
 }
 
 /**lua getWallSize():int
-	@desc Returns the size of the map's walls. The walls are squares, so this function returns both width and length of the
-	walls at the same time.
+	@desc Returns the size of the map's walls. The walls are squares, so this function returns both width and length of the walls at the same time.
 	@return the size of the walls.
 */
 int RobotLuaBinding::lua_Robot_getWallSize(lua_State *L){

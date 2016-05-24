@@ -3,6 +3,8 @@
 	Parse Javadoc-like comments and generate a
 	html file based on the tags read
 
+	Author : Espeute Clément
+
 	Usage : 
 
 	lua gendoc.lua fileToParse [outputPath]
@@ -35,6 +37,10 @@ path = arg[2] or ""
 text = input:read("*all")
 outbuffer = ""
 prototypes = {}
+
+
+-- The idea there is to transform the javadoc comments into markdown
+-- and then transform the markdown in html (because im stupid)
 
 -- For each /**lua ... */ block, do :
 for doc in string.gmatch(text, "/%*%*lua.-%*/") do
