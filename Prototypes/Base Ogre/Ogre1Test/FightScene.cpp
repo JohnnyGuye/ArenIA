@@ -60,10 +60,10 @@ void FightScene::destroyScene(void)
 	if(cameraMan_)	delete cameraMan_;
 }
 //---------------------------------------------------------------------------
-bool FightScene::initFightManager(const std::string& map)
+bool FightScene::initFightManager(FightInformations* fi)
 {
 	if(fightManager_)	return false;
-	fightManager_ = new FightManager(map);
+	fightManager_ = new FightManager(fi);
 	return true;
 }
 //---------------------------------------------------------------------------
@@ -103,7 +103,7 @@ bool FightScene::launch(void)
 	
 	vp->setBackgroundColour(ColourValue(0, 0, 0));
 
-	decompte_ = new GUIDecompte(vp, "dec_all");
+	decompte_ = new GUIDecompte(vp, this);
 	hud_ = new HUD(vp, this);
 	console_ = new GUIConsole(vp);
 	hud_->init();
@@ -227,7 +227,6 @@ void FightScene::reset(bool resetPos)
 {
 	fightManager_->reset(resetPos);
 }
-
 //---------------------------------------------------------------------------
 void FightScene::togglePause(void)
 {
@@ -245,75 +244,82 @@ bool FightScene::frameRenderingQueued(const FrameEvent& evt)
 	}
 	
 	//State countdown
-	if(state_ == COUNTDOWN)	
-	{	
-		if(!decompte_->frameRenderingQueue(evt))
+	switch(state_)
+	{
+	case COUNTDOWN:
+		if(!decompte_->frameRenderingQueued(evt))
 		{
 			pause_ = false;
 			state_ = GAME;	
 		}
-	}
+		break;
+	case VICTORY:
+			decompte_->frameRenderingQueued(evt);
+		break;
+	default:
+	case GAME:
+		if(!pause_)
+		{
+			/* LOGIC */
+			for(lag_ += (evt.timeSinceLastFrame * 1000 * 1000 * displaySpeed_) ; 
+				lag_ >= (GameTime::ROUND_IN_MS) ; 
+				lag_ -= (GameTime::ROUND_IN_MS))
+			{
+				fightManager_->update();
+			}
 	
-	//Game while not in pause
-	if(!pause_)
-	{
-		/* LOGIC */
-		for(lag_ += (evt.timeSinceLastFrame * 1000 * 1000 * displaySpeed_) ; 
-			lag_ >= (GameTime::ROUND_IN_MS) ; 
-			lag_ -= (GameTime::ROUND_IN_MS))
-		{
-			fightManager_->update();
-		}
-	
-		/* RENDERING */
-		theSun_->update();
+			/* RENDERING */
+			theSun_->update();
 
-		//Add missiles
-		for(Missile * m = fightManager_->renderLastQueuedMissile() ;
-			m != nullptr ; 
-			m = fightManager_->renderLastQueuedMissile())
-		{
-			addMissile(m);
-		}
+			//Add missiles
+			for(Missile * m = fightManager_->renderLastQueuedMissile() ;
+				m != nullptr ; 
+				m = fightManager_->renderLastQueuedMissile())
+			{
+				addMissile(m);
+			}
 
-		//Render objects
-		for(auto ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
-		{
-			(*ge)->update(evt);
-		}
+			//Render objects
+			for(auto ge = objectEntities_.begin() ; ge != objectEntities_.end() ; ge++)
+			{
+				(*ge)->update(evt);
+			}
 		
-		//Render robots
-		for(auto re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
-		{
-			(*re)->update(evt);
-		}
-
-		//Render missiles
-		for(auto me = missileEntities_.begin() ; me != missileEntities_.end() ;)
-		{
-			auto m = *me;
-			if(!m->update(evt))
+			//Render robots
+			for(auto re = robotsEntities_.begin() ; re != robotsEntities_.end() ; re++)
 			{
-				me = missileEntities_.erase(me);
-				delete m;
+				(*re)->update(evt);
 			}
-			else
+
+			//Render missiles
+			for(auto me = missileEntities_.begin() ; me != missileEntities_.end() ;)
 			{
-				me++;
+				auto m = *me;
+				if(!m->update(evt))
+				{
+					me = missileEntities_.erase(me);
+					delete m;
+				}
+				else
+				{
+					me++;
+				}
+			}
+
+			//Render console and HUD
+			console_->frameStarted(evt);
+			hud_->frameRenderingQueued(evt);
+
+			if(fightManager_->IsVictory())
+			{
+				state_ = VICTORY;
+				std::cout << "VICTORY !" << std::endl;
 			}
 		}
-
-		//Render console and HUD
-		console_->frameStarted(evt);
-		hud_->frameRenderingQueued(evt);
 	}
-
-
-	if(this->fightManager_->IsVictory())
-		std::cout << "VICTORY !" << std::endl;
 
 	//Update the camera
-		cameraMan_->frameRenderingQueued(evt);
+	cameraMan_->frameRenderingQueued(evt);
 
 	return true;
 }
@@ -367,9 +373,6 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 		case OIS::KC_PAUSE:
 			togglePause();
 			break;
-		case OIS::KC_F5:
-			reset(FightWindow::isAlt());
-			break;
 		}
 		//STATE while console is on
 	case CONSOLE_ON:
@@ -377,12 +380,14 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 		break;
 
 	}
-    if (arg.key == OIS::KC_ESCAPE)
-    {
-        return false;
-    }
-	else if (arg.key == OIS::KC_F1)
+
+	//Not depending on the state
+	switch(arg.key)
 	{
+	case OIS::KC_ESCAPE:
+		return false;
+		break;
+	case OIS::KC_F1:
 		if(state_ != COUNTDOWN)
 		{
 			if(console_->isVisible())
@@ -396,7 +401,16 @@ bool FightScene::keyPressed( const OIS::KeyEvent& arg)
 				state_ = CONSOLE_ON;
 			}
 		}
+		break;
+	case OIS::KC_F9:
+		reset(FightWindow::isAlt());
+		if(FightWindow::isCtrl())
+			state_ = COUNTDOWN;
+		break;
+	default:
+		break;
 	}
+	
 	hud_->keyPressed(arg);
     return !stop_;
 }

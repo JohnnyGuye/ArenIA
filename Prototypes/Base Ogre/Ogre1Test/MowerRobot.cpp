@@ -23,3 +23,8 @@ Ogre::Real MowerRobot::getScale() const
 {
 	return 10;
 }
+
+Robot::Type MowerRobot::getType() const
+{
+	return Robot::TONDEUSE;
+}

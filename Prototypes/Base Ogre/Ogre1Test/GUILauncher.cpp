@@ -58,7 +58,7 @@ GUI::ListArea* GUI::ListArea::init(Gorilla::Layer* layer)
 	for (unsigned int i = 0 ; i < myAIs_.size() ; i++ )
 	{
 		std::string label = myAIs_.at(i)->substr(0, myAIs_.at(i)->length() - extension.length());
-		auto button = new GUI::AIButton(position_, Ogre::Vector2(200,100), ls_, myAIs_.at(i));
+		auto button = new GUI::AIButton(position_, Ogre::Vector2(200,100), ls_, *myAIs_.at(i));
 		button->init(layer);
 		button->setBackground("button_bg");
 		button->setText(label);
@@ -170,16 +170,18 @@ FightInformations * GUI::ListArea::getFightInformations()
 
 void GUI::ListArea::setFightInformationsRobot( Robot * mRobot)
 {
+	delete ls_->getFightInformations()->robot;
 	ls_->getFightInformations()->robot = mRobot;
 }
 
-void GUI::ListArea::setFightInformationsAI( std::string * mAI)
+void GUI::ListArea::setFightInformationsAI(const std::string& mAI)
 {
 	ls_->getFightInformations()->ai = mAI;
 }
 
 void GUI::ListArea::setFightInformationsTerrain( Terrain * mTerrain)
 {
+	delete ls_->getFightInformations()->terrain;
 	ls_->getFightInformations()->terrain = mTerrain;
 }
 
@@ -235,7 +237,7 @@ void GUI::RobotButton::onClick()
 /*********************************************************
 *********************** AIButton *************************
 *********************************************************/
-GUI::AIButton::AIButton(Ogre::Vector2 position, Ogre::Vector2 dimension, LauncherScene* ls, std::string * ai)
+GUI::AIButton::AIButton(Ogre::Vector2 position, Ogre::Vector2 dimension, LauncherScene* ls, const std::string& ai)
 	: ListButton(position, dimension, ls),
 	ai_(ai)
 {

@@ -9,7 +9,7 @@
   </data>
  </layer>
  <objectgroup name="Starts">
-  <object id="4" name="Start1" type="Start" x="176" y="288" width="16" height="16" rotation="5"/>
+  <object id="4" name="Start1" type="Start" x="176" y="288" width="16" height="16"/>
   <object id="6" name="Start2" type="Start" x="128" y="288" width="16" height="16"/>
  </objectgroup>
 </map>

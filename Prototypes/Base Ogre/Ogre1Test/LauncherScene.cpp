@@ -9,6 +9,9 @@ LauncherScene::LauncherScene(void)
 	camera_(nullptr),
 	fightInformations_(new FightInformations())
 {
+	fightInformations_->ai = Terrain::NOT_KNOWN;
+	fightInformations_->robot = new WasheeRobot();
+	fightInformations_->terrain = new Terrain("1v1.txt");
 	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 }
 

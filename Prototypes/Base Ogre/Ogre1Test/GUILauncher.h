@@ -55,7 +55,7 @@ namespace GUI
 		void loadAllElements();
 
 		void setFightInformationsRobot( Robot *);
-		void setFightInformationsAI( std::string *);
+		void setFightInformationsAI(const std::string& );
 		void setFightInformationsTerrain( Terrain *);
 		FightInformations * getFightInformations();
 
@@ -106,13 +106,13 @@ namespace GUI
 		public GUI::ListButton
 	{
 	public:
-		AIButton(Ogre::Vector2 position, Ogre::Vector2 dimension,LauncherScene*,  std::string * ai);
+		AIButton(Ogre::Vector2 position, Ogre::Vector2 dimension,LauncherScene*, const std::string& ai);
 		virtual~AIButton();
 		void onClick();
 
 	protected:
 
-		std::string * ai_;
+		std::string ai_;
 	};
 
 	//Terrain Button

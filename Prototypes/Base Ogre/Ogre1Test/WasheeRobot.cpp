@@ -23,3 +23,8 @@ Ogre::Real WasheeRobot::getScale() const
 {
 	return 10;
 }
+
+Robot::Type WasheeRobot::getType() const
+{
+	return LAVE_LINGE;
+}

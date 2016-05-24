@@ -5,7 +5,7 @@
 
 typedef struct FightInformations {
 	Robot* robot;
-	std::string * ai;
+	std::string ai;
 	Terrain * terrain;
 } FightInformations;
 

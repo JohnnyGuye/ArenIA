@@ -93,14 +93,20 @@ bool FightWindow::setup(void)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Popular");
 	Ogre::ResourceGroupManager::getSingleton().initialiseResourceGroup("Essential");
-	activScene_ = sceneMap_.at("Launcher");
+	
+	std::string nameScene("Launcher");
+	activScene_ = sceneMap_.at(nameScene);
 	activScene_->loadResources();
 	
-	FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");
-	fightScene->initFightManager("1v1.txt");
+	if(nameScene == "Fight")
+	{
+		FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");
+		LauncherScene* launcherScene = (LauncherScene*)sceneMap_.at("Launcher");
+		auto inf = launcherScene->getFightInformations();
+		fightScene->initFightManager(inf);
+	}
 	
 	activScene_->launch();
-
     createFrameListener();
 
     return true;
@@ -189,6 +195,12 @@ bool FightWindow::changeScene()
 	case Scene::FIGHT:
 	default:
 		activScene_ = sceneMap_.at("Fight");
+		{
+			FightScene* fightScene = (FightScene*)sceneMap_.at("Fight");
+			LauncherScene* launcherScene = (LauncherScene*)sceneMap_.at("Launcher");
+			auto inf = launcherScene->getFightInformations();
+			fightScene->initFightManager(inf);
+		}
 		break;
 	}
 

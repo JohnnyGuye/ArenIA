@@ -319,5 +319,5 @@ std::list<GameObject*> Robot::getSeenObjects(bool fetchRobots, bool fetchMissile
 
 bool Robot::isAnAlly(Robot* r) const
 {
-	return getTeam() == r->getTeam();
+	return ((getTeam() != NONE && getTeam() == r->getTeam()) || r == this);
 }

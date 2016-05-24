@@ -7,6 +7,7 @@
 #include "GUIDecompte.h"
 #include "HUD.h"
 #include <SdkCameraMan.h>
+#include "LauncherScene.h"
 
 class HUD;
 
@@ -18,7 +19,8 @@ protected:
 	enum RenderState {
 		CONSOLE_ON,
 		GAME,
-		COUNTDOWN
+		COUNTDOWN,
+		VICTORY
 	};
 
 	class Sun
@@ -79,7 +81,7 @@ public:
 	virtual ~FightScene(void);
 
 	virtual bool launch(void);
-	virtual bool initFightManager(const std::string& map);
+	virtual bool initFightManager(FightInformations* fi);
 	virtual FightManager*	getFightManager() const;
 
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);

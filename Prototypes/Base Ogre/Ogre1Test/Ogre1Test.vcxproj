@@ -90,6 +90,7 @@
     <ClCompile Include="Gorilla.cpp" />
     <ClCompile Include="GUICode.cpp" />
     <ClCompile Include="GUIContext.cpp" />
+    <ClCompile Include="GUIDecompte.cpp" />
     <ClCompile Include="GUILauncher.cpp" />
     <ClCompile Include="GUIShowLogo.cpp" />
     <ClCompile Include="HUD.cpp" />

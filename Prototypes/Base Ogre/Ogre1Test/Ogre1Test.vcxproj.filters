@@ -174,6 +174,9 @@
     <ClCompile Include="GUIContext.cpp">
       <Filter>Fichiers sources\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="GUIDecompte.cpp">
+      <Filter>Fichiers sources\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Terrain.h">
@@ -309,7 +312,7 @@
       <Filter>Fichiers d%27en-tête\Objects</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-		<Filter>Fichiers d%27en-tête\GUI</Filter>
+      <Filter>Fichiers d%27en-tête\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIContext.h">
       <Filter>Fichiers d%27en-tête\GUI</Filter>

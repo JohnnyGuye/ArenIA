@@ -16,13 +16,13 @@ void destroyList(std::list<T> rhs)
 	}
 };
 
-FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
+FightManager::FightManager(const FightInformations* fi, VictoryHandler* vo)
 	: day_(60 * 60, 0, 0.0, 1.0), 
 	roundAfterSD_(0), 
 	victoryHandler_(vo),
 	terrain_(nullptr)
 {
-	loadTerrain(mapFileName);
+	loadTerrain(fi->terrain->getName());
 	
 	// Init the RobotLuaHandler
 	RobotLuaBinding::setFight(this);
@@ -33,20 +33,37 @@ FightManager::FightManager(const std::string& mapFileName, VictoryHandler* vo)
 	{
 		auto s = (*it);
 		ArenIA::Log::getInstance()->write("Robot created !");
-		std::stringstream ss;
-		ss << "Robot-" << (i > 9 ? "0" : "00") << i++;
 		auto pos = Ogre::Vector3(Terrain::cellToPos(s->x), 0, Terrain::cellToPos(s->y));
 		Robot* r;
-		if(i%2)	r = new WasheeRobot(pos, s->name, Robot::NONE);
-		else	r = new MowerRobot(pos, s->name, Robot::NONE);
 
-		if(s->IA == Terrain::NOT_KNOWN)
+		if(i++ > 0)
 		{
-			r->setIaFilename("default.lua");
-			std::cout << "default" << std::endl;
+			if(i%2)	r = new WasheeRobot(pos, s->name, Robot::NONE);
+			else	r = new MowerRobot(pos, s->name, Robot::NONE);
+			if(s->IA == Terrain::NOT_KNOWN)
+			{
+				r->setIaFilename("default.lua");
+				std::cout << "IA Loading failed: default" << std::endl;
+			}
+			else
+				r->setIaFilename(s->IA);
 		}
 		else
-			r->setIaFilename(s->IA);
+		{
+			switch (fi->robot->getType())
+			{
+			case Robot::TONDEUSE:
+				r = new MowerRobot(pos, s->name, Robot::NONE);
+				break;
+			case Robot::LAVE_LINGE:
+			default:
+				r = new WasheeRobot(pos, s->name, Robot::NONE);
+				break;
+			}
+				
+			r->setIaFilename(fi->ai);
+		}
+
 		addRobot(r);
 	}
 }
@@ -158,7 +175,7 @@ void FightManager::update()
 				{
 					Robot::Team rt = (*rIt)->getTeam();
 					Robot::Team mt = m->getCaster()->getTeam();
-					if((rt != mt) || ((mt == Robot::NONE) && ((*rIt) != m->getCaster())))
+					if(!m->getCaster()->isAnAlly(*rIt))
 					{
 						asCollided = true;
 						m->onCollide(*rIt);

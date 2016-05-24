@@ -31,6 +31,7 @@
 #include "Gauge.h"
 #include "Robot.h"
 #include "Missile.h"
+#include "LauncherScene.h"
 
 #include <string>
 #include <list>
@@ -41,7 +42,7 @@ void destroyList(std::list<T> rhs);
 class FightManager
 {
 public:
-	FightManager(const std::string& mapFileName = "essai1.txt", VictoryHandler* vo = new EndOfDayVictory());
+	FightManager(const FightInformations* fi, VictoryHandler* vo = new EndOfDayVictory());
 	virtual ~FightManager(void);
 
 	/// @brief Load a new terrain into the fight manager 

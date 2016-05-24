@@ -67,6 +67,8 @@ public:
 
 	virtual void reset();
 
+	virtual Type getType() const = 0;
+
     /// @brief  Reset the action state of the Robot to IDLE
     virtual bool Robot::resetAction();
 

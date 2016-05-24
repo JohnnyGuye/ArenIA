@@ -42,8 +42,3 @@ location=11,18,1,1
 type=Start
 location=8,18,1,1
 
-[Starts]
-# Trigger1
-type=OnWalk
-location=9,7,2,2
-
