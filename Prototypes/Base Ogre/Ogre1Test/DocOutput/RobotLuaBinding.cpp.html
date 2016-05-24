@@ -18,84 +18,70 @@
 
 <body>
 <div class="markdown-body">
-	<h1>ArenIA Lua API</h1>
+	
+<h1>ArenIA Lua API</h1>
 
 <h2>Table of Contents</h2>
 
 <ul>
-<li><a href="#1"><strong>getTerrainSize</strong>():<em>int</em>,int</a></li>
-<li><a href="#2"><strong>getWallSize</strong>():<em>int</em></a></li>
-<li><a href="#3"><strong>getPosition</strong>():<em>double</em>,double</a></li>
-<li><a href="#4"><strong>move</strong>():<em>void</em></a></li>
-<li><a href="#5"><strong>fire</strong>():<em>void</em></a></li>
-<li><a href="#6"><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></a></li>
-<li><a href="#7"><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></a></li>
-<li><a href="#8"><strong>getTurretAngle</strong>():<em>double</em></a></li>
-<li><a href="#9"><strong>getRobotAngle</strong>():<em>double</em></a></li>
-<li><a href="#10"><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></a></li>
-<li><a href="#11"><strong>getStats</strong>(id:<em>int</em>):<em>table</em></a></li>
-<li><a href="#12"><strong>getRobots</strong>():<em>table</em></a></li>
-<li><a href="#13"><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></a></li>
+    <li><a href="#1"><strong>getTerrainSize</strong>():<em>int</em>,int</a></li>
+    <li><a href="#2"><strong>getWallSize</strong>():<em>int</em></a></li>
+    <li><a href="#3"><strong>getPosition</strong>():<em>double</em>,double</a></li>
+    <li><a href="#4"><strong>move</strong>():<em>void</em></a></li>
+    <li><a href="#5"><strong>fire</strong>():<em>void</em></a></li>
+    <li><a href="#6"><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></a></li>
+    <li><a href="#7"><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></a></li>
+    <li><a href="#8"><strong>getTurretAngle</strong>():<em>double</em></a></li>
+    <li><a href="#9"><strong>getRobotAngle</strong>():<em>double</em></a></li>
+    <li><a href="#10"><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></a></li>
+    <li><a href="#11"><strong>getStats</strong>(id:<em>int</em>):<em>table</em></a></li>
+    <li><a href="#12"><strong>getRobots</strong>():<em>table</em></a></li>
+    <li><a href="#13"><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></a>
+    <hr/></li>
 </ul>
 
-<hr />
 
-<hr />
-
+<hr/>
 <h3><a name="1"></a><strong>getTerrainSize</strong>():<em>int</em>,int</h3>
 
 <h4>Description</h4>
 
-<p>Returns the height and the width of the Terrain</p>
+<p> Returns the height and the width of the Terrain</p>
 
 <h4>Return</h4>
-
-<ul>
-<li>height : The heigh in units of the terrain</li>
-<li>width : the width in units of the terrain</li>
-</ul>
-
-<hr />
-
+<p>-  height : The heigh in units of the terrain
+-  width : the width in units of the terrain</p>
+<hr/>
 <h3><a name="2"></a><strong>getWallSize</strong>():<em>int</em></h3>
 
 <h4>Description</h4>
 
-<p>Returns the size of the map's walls. The walls are squares, so this function returns both width and length of the
-    walls at the same time.</p>
+<p> Returns the size of the map's walls. The walls are squares, so this function returns both width and length of the</p>
+<pre><code class="lua"><code>walls at the same time.
+</code></code></pre>
 
 <h4>Return</h4>
-
-<ul>
-<li>the size of the walls.</li>
-</ul>
-
-<hr />
-
+<p>-  the size of the walls.</p>
+<hr/>
 <h3><a name="3"></a><strong>getPosition</strong>():<em>double</em>,double</h3>
 
 <h4>Description</h4>
 
-<p>Returns the current X and Y position of your robot</p>
+<p> Returns the current X and Y position of your robot</p>
 
 <h4>Return</h4>
-
-<ul>
-<li>The X position of your robot</li>
-<li>The Y position of your robot</li>
-</ul>
-
-<hr />
-
+<p>-  The X position of your robot
+-  The Y position of your robot</p>
+<hr/>
 <h3><a name="4"></a><strong>move</strong>():<em>void</em></h3>
 
 <h4>Description</h4>
 
-<p>Gives the robot the order to move</p>
+<p> Gives the robot the order to move</p>
 
 <h4>example</h4>
-
 <h5>How to move</h5>
+
 
 <pre><code class="lua">
     function main()
@@ -104,17 +90,16 @@
     end
 </code></pre>
 
-<hr />
-
+<hr/>
 <h3><a name="5"></a><strong>fire</strong>():<em>void</em></h3>
 
 <h4>Description</h4>
 
-<p>Gives the robot the order to fire his gun in front of him</p>
+<p> Gives the robot the order to fire his gun in front of him</p>
 
 <h4>example</h4>
-
 <h5>How to fire</h5>
+
 
 <pre><code class="lua">
     function main()
@@ -123,23 +108,19 @@
     end
 </code></pre>
 
-<hr />
-
+<hr/>
 <h3><a name="6"></a><strong>turnRobot</strong>(angle:<em>double</em>):<em>void</em></h3>
 
 <h4>Description</h4>
 
-<p>Gives the robot the order to turn at a certain angle</p>
+<p> Gives the robot the order to turn at a certain angle</p>
 
 <h4>Parameters</h4>
-
-<ul>
-<li><strong>angle</strong>:<em>double</em> The angle in degree that the robot has to turn. A positive angle means he will turn anti-clockwise, and a negative one means he will turn anti-clockwise.</li>
-</ul>
+<p>- <strong>angle</strong>:<em>double</em> The angle in degree that the robot has to turn. A positive angle means he will turn anti-clockwise, and a negative one means he will turn anti-clockwise.</p>
 
 <h4>example</h4>
-
 <h5>How to turn</h5>
+
 
 <pre><code class="lua">
     function main()
@@ -148,89 +129,66 @@
     end
 </code></pre>
 
-<hr />
-
+<hr/>
 <h3><a name="7"></a><strong>turnTurret</strong>(angle:<em>double</em>):<em>void</em></h3>
 
 <h4>Description</h4>
 
-<p>Gives the robot the order to turn his turret at a certain angle</p>
+<p> Gives the robot the order to turn his turret at a certain angle</p>
 
 <h4>Parameters</h4>
-
-<ul>
-<li><strong>angle</strong>:<em>double</em> The angle in degree that the turret has to turn. A positive angle means he will turn anti-clockwise, and a negative one means he will turn anti-clockwise.</li>
-</ul>
-
-<hr />
-
+<p>- <strong>angle</strong>:<em>double</em> The angle in degree that the turret has to turn. A positive angle means he will turn anti-clockwise, and a negative one means he will turn anti-clockwise.</p>
+<hr/>
 <h3><a name="8"></a><strong>getTurretAngle</strong>():<em>double</em></h3>
 
 <h4>Description</h4>
 
-<p>Gives you the angle that the robot's turret is facing, relative to the (trouver par rapport à quoi on mesure)</p>
+<p> Gives you the angle that the robot's turret is facing, relative to the (trouver par rapport à quoi on mesure)</p>
 
 <h4>Return</h4>
-
-<ul>
-<li>A double corresponding to the angle that the robot's turret is facing</li>
-</ul>
-
-<hr />
-
+<p>-  A double corresponding to the angle that the robot's turret is facing</p>
+<hr/>
 <h3><a name="9"></a><strong>getRobotAngle</strong>():<em>double</em></h3>
 
 <h4>Description</h4>
 
-<p>Gives you the angle that the robot is facing, relative to the (trouver par rapport à quoi on mesure)</p>
+<p> Gives you the angle that the robot is facing, relative to the (trouver par rapport à quoi on mesure)</p>
 
 <h4>Return</h4>
-
-<ul>
-<li>A double corresponding to the angle that the robot is facing</li>
-</ul>
-
-<hr />
-
+<p>-  A double corresponding to the angle that the robot is facing</p>
+<hr/>
 <h3><a name="10"></a><strong>useAbility</strong>(id:<em>int</em>):<em>bool</em></h3>
 
 <h4>Description</h4>
 
-<p>Use the ability with the given id</p>
+<p> Use the ability with the given id</p>
 
 <h4>Parameters</h4>
-
-<ul>
-<li><strong>id</strong> An int corresponding to the number of the ability to use. Call getKnownAbilities in order to know what abilities are aviable</li>
-</ul>
+<p>- <strong>id</strong> An int corresponding to the number of the ability to use. Call getKnownAbilities in order to know what abilities are aviable</p>
 
 <h4>Return</h4>
-
-<ul>
-<li>A bool that is true if the robot has an ability for that index, and false otherwise</li>
-</ul>
-
-<hr />
-
+<p>-  A bool that is true if the robot has an ability for that index, and false otherwise</p>
+<hr/>
 <h3><a name="11"></a><strong>getStats</strong>(id:<em>int</em>):<em>table</em></h3>
 
 <h4>Description</h4>
 
-<p>Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen. <br/>
-    The lua table contains these fields
-    <ul>
-        <li>maxHp : The max hp of the robot </li>
-        <li>maxHp : The max hp of the robot</li>
-        <li>maxEnergy : The max Energy of the robot</li>
-        <li>currentEnergy : The current Energy of the robot </li>
-        <li>range : The range of the weapon</li>
-        <li>resistance : The armor of the robot</li>
-        <li>speed : The speed of the robot</li>
-    </ul></p>
+<p> Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen. <br/></p>
+<pre><code class="lua"><code>The lua table contains these fields
+&lt;ul&gt;
+    &lt;li&gt;maxHp : The max hp of the robot &lt;/li&gt;
+    &lt;li&gt;maxHp : The max hp of the robot&lt;/li&gt;
+    &lt;li&gt;maxEnergy : The max Energy of the robot&lt;/li&gt;
+    &lt;li&gt;currentEnergy : The current Energy of the robot &lt;/li&gt;
+    &lt;li&gt;range : The range of the weapon&lt;/li&gt;
+    &lt;li&gt;resistance : The armor of the robot&lt;/li&gt;
+    &lt;li&gt;speed : The speed of the robot&lt;/li&gt;
+&lt;/ul&gt;
+</code></code></pre>
 
 <h4>example</h4>
-
 <h5>How to use getStats()</h5>
+
 
 <pre><code class="lua">
     function main()
@@ -246,35 +204,27 @@
     end
 </code></pre>
 
-<hr />
-
+<hr/>
 <h3><a name="12"></a><strong>getRobots</strong>():<em>table</em></h3>
 
 <h4>Description</h4>
 
-<p>Returns a table containing the list of all the robots in the game.
-    Your robot will always be in the first (1) index.</p>
-
-<hr />
-
+<p> Returns a table containing the list of all the robots in the game.</p>
+<pre><code class="lua"><code>Your robot will always be in the first (1) index.
+</code></code></pre>
+<hr/>
 <h3><a name="13"></a><strong>isAWall</strong>(x:<em>int</em>,y:<em>int</em>):<em>bool</em></h3>
 
 <h4>Description</h4>
 
-<p>Tells if there is a wall at the given coordinate.</p>
+<p> Tells if there is a wall at the given coordinate.</p>
 
 <h4>Parameters</h4>
-
-<ul>
-<li><strong>x</strong> The x position of the point where to check</li>
-<li><strong>y</strong> The y position of the point where to check</li>
-</ul>
+<p>- <strong>x</strong> The x position of the point where to check
+- <strong>y</strong> The y position of the point where to check</p>
 
 <h4>Return</h4>
-
-<ul>
-<li>True if there is a wall, false if there is no wall</li>
-</ul>
+<p>-  True if there is a wall, false if there is no wall</p>
 
 </div>
 
