@@ -1,3 +1,23 @@
+--[[ gendoc.lua
+	Documentation tool for the ArenIA project
+	Parse Javadoc-like comments and generate a
+	html file based on the tags read
+
+	Usage : 
+
+	lua gendoc.lua fileToParse [outputPath]
+	
+	or
+
+	Use 
+	gendoc.bat fileToParse
+
+	Thats copies the right files at the right place
+]]--
+
+
+
+-- Open the markdonw.lua library
 require "markdown"
 
 input = io.open(arg[1],"r")
@@ -5,6 +25,7 @@ if input == nil then
 	return 0
 end
 
+-- Get the file to parse
 inputFileName = arg[1]
 outputFileName = inputFileName..".md"
 path = arg[2] or ""
@@ -15,7 +36,10 @@ text = input:read("*all")
 outbuffer = ""
 prototypes = {}
 
+-- For each /**lua ... */ block, do :
 for doc in string.gmatch(text, "/%*%*lua.-%*/") do
+
+
 	tagList = {}
 	tagList.param = {}
 	tagList.desc = {}
