@@ -141,26 +141,46 @@ void HUD::RobotInf::setRobot(Robot* r)
 	ico_->background_image("ico_tondeuse");
 	name_->text(robot_->getName());
 
-	std::stringstream ss(std::ios::trunc) ;
+	std::stringstream ss ;
+	std::stringstream so;
 	Stats stats = robot_->getFullStats();
 
-	ss << stats.hp.getCurrent();
-	speed_->text(ss.str());
+	if(!robot_->isDead())
+	{
+		ss << stats.hp.getCurrent();
+		speed_->text(ss.str());
 
-	ss << robot_->getOrientation().valueDegrees() << "'";
-	orientation_->text(ss.str());
+		so << robot_->getOrientation().valueDegrees() << "'";
+		orientation_->text(ss.str());
+	}
+	else
+	{
+		speed_->text("The life is not worth");
+		orientation_->text("I'll stay proud in death");
+	}
+
+	
 }
 
 bool HUD::RobotInf::update(const Ogre::FrameEvent& evt)
 {
-	std::stringstream ss(std::ios::trunc) ;
+	std::stringstream ss ;
+	std::stringstream so;
 	Stats stats = robot_->getFullStats();
 
-	ss << stats.hp.getCurrent();
-	speed_->text(ss.str());
+	if(!robot_->isDead())
+	{
+		ss << stats.hp.getCurrent();
+		speed_->text(ss.str());
 
-	ss << robot_->getOrientation().valueDegrees() << "'";
-	orientation_->text(ss.str());
+		so << robot_->getOrientation().valueDegrees() << "'";
+		orientation_->text(ss.str());
+	}
+	else
+	{
+		speed_->text("The life is not worth");
+		orientation_->text("I'll stay proud in death");
+	}
 
 	return true;
 }

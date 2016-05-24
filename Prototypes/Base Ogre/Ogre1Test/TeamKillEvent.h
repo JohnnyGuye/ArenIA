@@ -41,6 +41,13 @@ public:
 
 	inline virtual EventType	getEventType() const {	return TEAM_KILL;	}
 
+	inline friend std::ostream& operator<<( std::ostream& lhs, const TeamKillEvent& rhs)
+	{
+		lhs << rhs.getTime().getRound() << " - ";
+		lhs << "Team eradication : " << rhs.team_ << " is not anymore a team";
+		return lhs;
+	}
+
 protected:
 	int team_;
 };

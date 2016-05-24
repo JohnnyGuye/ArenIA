@@ -16,12 +16,7 @@ bool stringStartsWith(std::string myString, std::string myStringFragment);
 bool stringEndsWith(std::string myString, std::string myStringFragment);
 
 class LauncherScene;
-
-typedef struct MapObjects {
-	Robot* robot;
-	std::string * ai;
-	Terrain * terrain;
-} MapObjects;
+struct FightInformations;
 
 namespace GUI
 {
@@ -46,7 +41,7 @@ namespace GUI
 	public:
 		
 
-		ListArea(const Ogre::Vector2& pos, const Ogre::Vector2& dim);
+		ListArea(const Ogre::Vector2& pos, const Ogre::Vector2& dim, LauncherScene*);
 		virtual~ListArea();
 
 		ListArea* init(Gorilla::Layer* layer);
@@ -59,10 +54,10 @@ namespace GUI
 
 		void loadAllElements();
 
-		void setMapObjectsRobot( Robot *);
-		void setMapObjectsAI( std::string *);
-		void setMapObjectsTerrain( Terrain *);
-		MapObjects * getMapObjects();
+		void setFightInformationsRobot( Robot *);
+		void setFightInformationsAI( std::string *);
+		void setFightInformationsTerrain( Terrain *);
+		FightInformations * getFightInformations();
 
 	protected:
 		Gorilla::Layer*			layerBack_;
@@ -77,13 +72,8 @@ namespace GUI
 		std::vector<Robot*>			myRobots_;
 		std::vector<Terrain*>		myTerrains_;
 		std::vector<std::string*>	myAIs_;
-		MapObjects*					mapObjects_;
+		LauncherScene*				ls_;
 
-
-		
-	
-
-		
 	};
 
 	// Button list
@@ -91,10 +81,10 @@ namespace GUI
 		public GUI::Button
 	{
 	public:
-		ListButton(Ogre::Vector2 position, Ogre::Vector2 dimension, MapObjects *);
+		ListButton(Ogre::Vector2 position, Ogre::Vector2 dimension, LauncherScene*);
 		virtual~ListButton();
 	protected:
-		MapObjects * mapObjects_;
+		LauncherScene* ls_;
 	};
 
 	//Robot button
@@ -102,7 +92,7 @@ namespace GUI
 		public GUI::ListButton
 	{
 	public:
-		RobotButton(Ogre::Vector2 position, Ogre::Vector2 dimension,MapObjects * mapObjects, Robot * robot);
+		RobotButton(Ogre::Vector2 position, Ogre::Vector2 dimension, LauncherScene*, Robot * robot);
 		virtual~RobotButton();
 		void onClick();
 
@@ -116,7 +106,7 @@ namespace GUI
 		public GUI::ListButton
 	{
 	public:
-		AIButton(Ogre::Vector2 position, Ogre::Vector2 dimension,MapObjects * mapObjects,  std::string * ai);
+		AIButton(Ogre::Vector2 position, Ogre::Vector2 dimension,LauncherScene*,  std::string * ai);
 		virtual~AIButton();
 		void onClick();
 
@@ -130,7 +120,7 @@ namespace GUI
 		public GUI::ListButton
 	{
 	public:
-		TerrainButton(Ogre::Vector2 position, Ogre::Vector2 dimension,MapObjects * mapObjects,  Terrain * terrain);
+		TerrainButton(Ogre::Vector2 position, Ogre::Vector2 dimension, LauncherScene*,  Terrain * terrain);
 		virtual~TerrainButton();
 		void onClick();
 
@@ -166,6 +156,7 @@ public:
 public:
 
 	GUI::ListArea*				listArea_;
+	LauncherScene* ls_;
 
 	
 	

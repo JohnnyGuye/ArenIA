@@ -19,7 +19,7 @@ Missile::Missile(Ogre::Vector3 position, const Real& rad, Robot* caster, std::st
 	caster_(caster),
 	hitbox_(new HitboxSphere(&position_, rad)),
 	speed_(20.0f),
-	damages_(50.0f)
+	damages_(40.0f)
 {
 	position_.y += 20;
 }

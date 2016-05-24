@@ -127,6 +127,11 @@ namespace GUI
 
 		Gorilla::Rectangle* back_;
 		Gorilla::Caption*	text_;
+		std::string reloadImage_;
+		std::string reloadText_;
+		Gorilla::Colours::Colour reloadColour_;
+		int reloadBorderWidth_;
+		Ogre::ColourValue reloadBorderColour_;
 
 		bool	clicked_;
 
@@ -199,6 +204,7 @@ namespace GUI
 
 	protected:
 		SlideBar*		slidebar_;
+		float			oldCurrent_;
 		Orientation		orientation_;
 		Gorilla::Rectangle*		back_;
 		std::vector<Pane*>		blockList_;

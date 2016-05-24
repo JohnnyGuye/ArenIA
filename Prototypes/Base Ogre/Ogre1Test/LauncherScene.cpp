@@ -1,20 +1,20 @@
 #include "LauncherScene.h"
-
 #include "GUILauncher.h"
 
 using namespace Ogre;
 
-
 LauncherScene::LauncherScene(void)
 	: Scene(),
 	GUILauncher_(nullptr),
-	camera_(nullptr)
+	camera_(nullptr),
+	fightInformations_(new FightInformations())
 {
 	sceneMgr_ = root_->createSceneManager(Ogre::ST_GENERIC);
 }
 
 LauncherScene::~LauncherScene(void)
 {
+	delete fightInformations_;
 }
 
 void LauncherScene::destroyScene(void)
@@ -29,6 +29,11 @@ Scene::Scenes LauncherScene::nextScene() const
 	if(shutDown_)
 		return EXIT;
 	return FIGHT;
+}
+
+FightInformations* LauncherScene::getFightInformations() const
+{
+	return fightInformations_;
 }
 
 void LauncherScene::_loadResources(void)

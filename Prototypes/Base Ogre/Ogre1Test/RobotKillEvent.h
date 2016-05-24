@@ -41,6 +41,13 @@ public:
 
 	virtual EventType	getEventType() const {	return ROBOT_KILL;	}
 
+	inline friend std::ostream& operator<<( std::ostream& lhs, const RobotKillEvent& rhs)
+	{
+		lhs << rhs.getTime().getRound() << " - ";
+		lhs << "Robot kill : " << rhs.killer_ << "slained" << rhs.victim_;
+		return lhs;
+	}
+
 protected:
 	int victim_;
 	int killer_;

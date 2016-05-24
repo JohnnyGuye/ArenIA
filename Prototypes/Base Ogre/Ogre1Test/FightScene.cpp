@@ -558,6 +558,15 @@ bool FightScene::RobotEntity::update(const FrameEvent& evt)
 {
 	Robot* robot = (Robot*)object_;
 	animState_ = entity_->getAnimationState(stateToString(robot->getState()));
+	if(robot->isDead() && 1 < node_->getScale().x)
+	{
+		node_->setScale(node_->getScale() * 0.99);
+	}
+	else if(!robot->isDead() && node_->getScale().x != robot->getScale())
+	{
+		node_->setScale(Ogre::Vector3(robot->getScale()));
+	}
+
 	//sight_->setDirection(object_->getOrientationVect());
 	//sight_->setPosition(object_->getPosition());
 	//sight_->setSpotlightInnerAngle(Degree(robot->getFullStats().visionAngle.getCurrent()));

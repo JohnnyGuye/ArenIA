@@ -151,7 +151,12 @@ bool GUI::Pane::mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id)
 //----------------------------------------------------------BUTTON
 GUI::Button::Button(Ogre::Vector2 pos, Ogre::Vector2 dim)
 	: Pane(pos, dim),
-	clicked_(false)
+	clicked_(false),
+	reloadBorderWidth_(0),
+	reloadBorderColour_(webcolour(Gorilla::Colours::AntiqueWhite)),
+	reloadText_(""),
+	reloadColour_(Gorilla::Colours::Black),
+	reloadImage_("")
 {
 }
 
@@ -171,8 +176,9 @@ GUI::Button* GUI::Button::init(Gorilla::Layer* layer)
 		initialized_ = true;
 		layer_ = layer;
 		back_ = layer->createRectangle(position_, dimension_);
-		text_ = layer->createCaption(14, position_.x, position_.y+dimension_.y/2, "Bouton");
+		text_ = layer->createCaption(14, position_.x, position_.y, "Bouton");
 		text_->align(Gorilla::TextAlign_Centre);
+		text_->vertical_align(Gorilla::VerticalAlign_Middle);
 		resize(dimension_);
 	}
 	return this;
@@ -180,17 +186,20 @@ GUI::Button* GUI::Button::init(Gorilla::Layer* layer)
 
 void GUI::Button::setBackground(const std::string& sprite_name)
 {
-	back_->background_image(sprite_name);
+	reloadImage_ = sprite_name;
+	if(isVisible())	back_->background_image(sprite_name);
 }
 
 void GUI::Button::setBackground(const Ogre::ColourValue& colour)
 {
-	back_->background_colour(colour);
+	//reloadColour_ = colour;
+	if(isVisible())	back_->background_colour(colour);
 }
 
 void GUI::Button::setText(const std::string& text)
 {
-	text_->text(text);
+	reloadText_ = text;
+	if(isVisible())	text_->text(text);
 }
 
 void GUI::Button::setPosition(Ogre::Vector2 position)
@@ -214,12 +223,12 @@ bool GUI::Button::mouseMoved(const OIS::MouseEvent& arg)
 {
 	if(GUI::Pane::mouseMoved(arg))
 	{
-		back_->border(2, Gorilla::Colours::AntiqueWhite);
+		back_->border(1, Gorilla::Colours::AntiqueWhite);
 		return true;
 	}
 	else
 	{
-		back_->border(0, Gorilla::Colours::AntiqueWhite);
+		back_->border(0, reloadBorderColour_);
 		return false;
 	}
 }
@@ -247,7 +256,7 @@ bool GUI::Button::mouseReleased(const OIS::MouseEvent& arg, OIS::MouseButtonID i
 
 void GUI::Button::onClick()
 {
-	back_->border(2, Gorilla::Colours::White);
+	back_->border(1, Gorilla::Colours::Grey);
 }
 
 void GUI::Button::onRelease()
@@ -258,17 +267,19 @@ void GUI::Button::onRelease()
 void GUI::Button::hide()
 {
 	GUI::Pane::hide();
-	back_->no_background();
-	back_->no_border();
+	back_->background_colour(webcolour(Gorilla::Colours::White, 0.f));
+	back_->background_image("");
+	back_->border(0, Gorilla::Colours::White);
 	text_->text("");
 }
 
 void GUI::Button::show()
 {
 	GUI::Pane::show();
-	back_->background_colour(Gorilla::Colours::Sienna);
-	back_->border(1, Gorilla::Colours::Brown);
-	text_->text("Button");
+	//back_->background_colour(webcolour(reloadColour_, 1.f));
+	back_->background_image(reloadImage_);
+	back_->border(reloadBorderWidth_, reloadBorderColour_);
+	text_->text(reloadText_);
 }
 //--------------------------------------------------------------------------SLIDEBAR
 
@@ -487,6 +498,7 @@ GUI::List* GUI::List::init(Gorilla::Layer* layer)
 	Ogre::Vector2 pos(position_.x + dimension_.x - dim.x, position_.y);
 	slidebar_= new SlideBar(pos, dim, (isVertical(orientation_) ? SlideBar::VERTICAL : SlideBar::HORIZONTAL));
 	addChild(slidebar_->init(layer));
+	oldCurrent_ = slidebar_->getCurrent() -1;
 	return this;
 }
 
@@ -570,26 +582,40 @@ void GUI::List::setSpacing(float val)
 
 bool GUI::List::mouseMoved(const OIS::MouseEvent& arg)
 {
-	if(isVertical(orientation_))
+	if(oldCurrent_ != slidebar_->getCurrent())
 	{
-		beginLengthItems_ = (slidebar_->getCurrent() * lengthItems_ * (1.f - dimension_.y / lengthItems_));
-		Real decay(position_.y - beginLengthItems_);
-		if(blockList_.size() != 0)
+		oldCurrent_ = slidebar_->getCurrent();
+		if(isVertical(orientation_))
 		{
-			auto e = *(blockList_.begin());
-			e->setPosition(Vector2(e->getPosition().x, decay));
-		}
-		auto previous = blockList_.begin();
-		auto it = previous;
-		for(it++; it != blockList_.end() ; it++)
-		{
-			(*it)->setPosition(
-				Vector2((*it)->getPosition().x,
-				(*previous)->getPosition().y + (*previous)->getDimension().y + spacing_
-				));
-			previous = it;	
+			beginLengthItems_ = (oldCurrent_ * lengthItems_ * (1.f - dimension_.y / lengthItems_));
+			Real decay(position_.y - beginLengthItems_);
+			if(blockList_.size() != 0)
+			{
+				auto e = *(blockList_.begin());
+				e->setPosition(Vector2(e->getPosition().x, decay));
+			}
+			auto previous = blockList_.begin();
+			auto it = previous;
+			for(it++; it != blockList_.end() ; it++)
+			{
+				(*it)->setPosition(
+					Vector2((*it)->getPosition().x,
+					(*previous)->getPosition().y + (*previous)->getDimension().y + spacing_
+					));
+				/*
+				if(((*it)->getPosition().y + (*it)->getDimension().y < position_.y)
+					|| ((*it)->getPosition().y > position_.y + dimension_.y))
+				{
+					(*it)->hide();
+				}
+				else 
+					(*it)->show();
+					*/
+				previous = it;	
+			}
 		}
 	}
+	
 	return GUI::Pane::mouseMoved(arg);
 }
 

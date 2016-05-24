@@ -2,6 +2,7 @@
 #include "RobotLuaBinding.h"
 #include "AbilityMissile.h"
 #include "HitboxSphere.h"
+#include "RobotKillEvent.h"
 
 using namespace Ogre;
 using namespace std;
@@ -58,14 +59,17 @@ Vector3 Robot::getNextPosition() const
 
 void Robot::update()
 {
-	turret_->update();
-	for(unsigned int i=0; i < abilities_.size(); i++)
+	if(!isDead())
 	{
-		abilities_[i]->update();
+		turret_->update();
+		for(unsigned int i=0; i < abilities_.size(); i++)
+		{
+			abilities_[i]->update();
+		}
+		resetAction();
+		RobotLuaBinding::setRobot(this);
+		luaCode_->Execute();
 	}
-	resetAction();
-	RobotLuaBinding::setRobot(this);
-	luaCode_->Execute();
 }
 
 void Robot::applyUpdate(bool wallCollide)
@@ -226,30 +230,39 @@ bool Robot::takeDamage(float damage, GameObject* source)
 {
     lastDamageSource_ = source;
 	if(isInvincible())	return false;
-    //Step 1 : Apply the damage
-    if( additionalStats_.hp.getFilledAbsolute() >= damage )
-    {
-        additionalStats_.hp.setCurrent( additionalStats_.hp.getCurrent() - damage );
-    }
-    else if ( additionalStats_.hp.getFilledAbsolute() > 0 )
-    {
-        float damageBaseGauge = damage - additionalStats_.hp.getFilledAbsolute();
-        additionalStats_.hp.setCurrent( additionalStats_.hp.getCurrent() - damage );
-        stats_.hp.setCurrent( stats_.hp.getCurrent() - damageBaseGauge );
-    }
-    else
-    {
-        stats_.hp.setCurrent( stats_.hp.getCurrent() - damage );
-    }
-    //Step 2 : Check for the robot death
-    if ( stats_.hp.getFilledAbsolute() == 0 )
-    {
-        return true;
-    }
-    else//could end up as a ROBOT_HIT event
-    {
-        return false;
-    }
+
+	if(!isDead())
+	{
+		//Step 1 : Apply the damage
+		if( additionalStats_.hp.getFilledAbsolute() >= damage )
+		{
+			additionalStats_.hp.setCurrent( additionalStats_.hp.getCurrent() - damage );
+		}
+		else if ( additionalStats_.hp.getFilledAbsolute() > 0 )
+		{
+			float damageBaseGauge = damage - additionalStats_.hp.getFilledAbsolute();
+			additionalStats_.hp.setCurrent( additionalStats_.hp.getCurrent() - damage );
+			stats_.hp.setCurrent( stats_.hp.getCurrent() - damageBaseGauge );
+		}
+		else
+		{
+			stats_.hp.setCurrent( stats_.hp.getCurrent() - damage );
+		}
+		//Step 2 : Check for the robot death
+		if ( stats_.hp.getFilledAbsolute() == 0 )
+		{
+			kill();
+			fightManager_->addEvent(new RobotKillEvent(this->getId(), 
+				((Robot*)this->lastDamageSource_)->getId(), 
+				GameTime(this->fightManager_->getActualTime())));
+			return true;
+		}
+		else//could end up as a ROBOT_HIT event
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool Robot::intersect(Hitbox* hitbox)

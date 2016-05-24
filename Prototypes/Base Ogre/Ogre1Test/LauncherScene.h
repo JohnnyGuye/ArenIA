@@ -3,6 +3,16 @@
 #include "scene.h"
 #include "GUILauncher.h"
 
+typedef struct FightInformations {
+	Robot* robot;
+	std::string * ai;
+	Terrain * terrain;
+} FightInformations;
+
+/****************************************************
+*****************************************************
+*****************************************************/
+
 class LauncherScene :
 	public Scene
 {
@@ -23,10 +33,13 @@ public:
     virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
     virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
+	virtual FightInformations* getFightInformations() const;
+
 protected:
 	virtual void _loadResources(void);
 
 	GUILauncher*		GUILauncher_;
 	Ogre::Camera*		camera_;
+	FightInformations*	fightInformations_;
 };
 
