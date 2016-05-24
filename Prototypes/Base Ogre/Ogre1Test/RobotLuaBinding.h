@@ -19,6 +19,7 @@ private:
 	static FightManager* theFight;
 
 	static int lua_Robot_getTerrainSize(lua_State *L);
+	static int lua_Robot_getWallSize(lua_State *L);
 
 	static int lua_Robot_getPosition(lua_State *L);
 

@@ -1,19 +1,51 @@
+--[[ gendoc.lua
+	Documentation tool for the ArenIA project
+	Parse Javadoc-like comments and generate a
+	html file based on the tags read
+
+	Author : Espeute Clément
+
+	Usage : 
+
+	lua gendoc.lua fileToParse [outputPath]
+	
+	or
+
+	Use 
+	gendoc.bat fileToParse
+
+	Thats copies the right files at the right place
+]]--
+
+
+
+-- Open the markdonw.lua library
+require "markdown"
+
 input = io.open(arg[1],"r")
 if input == nil then
 	return 0
 end
 
+-- Get the file to parse
 inputFileName = arg[1]
 outputFileName = inputFileName..".md"
 path = arg[2] or ""
 
-output = io.open(outputFileName,"w")
+--output = io.open(outputFileName,"w")
 
 text = input:read("*all")
 outbuffer = ""
 prototypes = {}
 
+
+-- The idea there is to transform the javadoc comments into markdown
+-- and then transform the markdown in html (because im stupid)
+
+-- For each /**lua ... */ block, do :
 for doc in string.gmatch(text, "/%*%*lua.-%*/") do
+
+
 	tagList = {}
 	tagList.param = {}
 	tagList.desc = {}
@@ -84,7 +116,7 @@ for doc in string.gmatch(text, "/%*%*lua.-%*/") do
 	end
 
 	if #tagList.example > 0 then
-		outbuffer = outbuffer .. "\n\n#### example"
+		outbuffer = outbuffer .. "\n\n#### Example"
 		for _,v in ipairs (tagList.example) do
 			outbuffer = outbuffer .."\n".. v 
 		end
@@ -92,24 +124,29 @@ for doc in string.gmatch(text, "/%*%*lua.-%*/") do
 end
 
 -- write the summary
-output:write("# ArenIA Lua API\n\n")
 
-output:write("## Table of Contents\n\n")
+mdBuffer = ""
+mdBuffer = mdBuffer .. "# ArenIA Lua API\n\n"
+
+mdBuffer = mdBuffer .. "## Table of Contents\n\n"
 for k,v in ipairs(prototypes) do
-	output:write("- ["..v.."](#"..k..")\n")
+	mdBuffer = mdBuffer .. "- ["..v.."](#"..k..")\n"
 end
 
-output:write("- - -\n\n")
-output:write(outbuffer)
-output:close()
+mdBuffer = mdBuffer .. "- - -\n\n"
+mdBuffer = mdBuffer .. outbuffer
 
-os.execute("perl "..path.."Markdown.pl "..outputFileName.." > "..inputFileName..".tmp")
+-- OMG WHY DID I DID THIS ?
+--os.execute("perl "..path.."Markdown.pl "..outputFileName.." > "..inputFileName..".tmp")
 
-mdResult = io.open(inputFileName..".tmp")
-mdResultText = mdResult:read("*all")
+
+
+--mdResult = io.open(inputFileName..".tmp")
+--mdResultText = mdResult:read("*all")
+
+mdResultText = markdown(mdBuffer);
 mdResultText = mdResultText:gsub("<pre>","<pre><code class=\"lua\">")
 mdResultText = mdResultText:gsub("</pre>","</code></pre>")
-mdResult:close()
 
 template = io.open(path.."template.html")
 templateText = template:read("*all")

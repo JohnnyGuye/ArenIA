@@ -16,6 +16,7 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getPosition,"getPosition");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getRobots,"getRobots");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getWallSize,"getWallSize");
 
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_move,"move");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_fire,"fire");
@@ -25,20 +26,31 @@ void RobotLuaBinding::bindFunctions(LuaHandler* handler)
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getStats,"getStats");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTeam,"getTeam");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getRobotAngle,"getRobotAngle");
-		handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
+	handler->RegisterFunction(RobotLuaBinding::lua_Robot_getTerrainSize,"getTerrainSize");
 	handler->RegisterFunction(RobotLuaBinding::lua_Robot_isAWall,"isAWall");
 
-	handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
+	//handler->RegisterFunction(RobotLuaBinding::lua_Robot_debugTurn,"debugTurn");
 }
 
 /**lua getTerrainSize():int,int
 	@desc Returns the height and the width of the Terrain
+	@return height : The heigh in units of the terrain
+	@return width : the width in units of the terrain
 */
 int RobotLuaBinding::lua_Robot_getTerrainSize(lua_State *L)
 {
 	lua_pushnumber(L, Terrain::cellToPos(theFight->getTerrain()->getHeight()));
 	lua_pushnumber(L, Terrain::cellToPos(theFight->getTerrain()->getWidth()));
 	return 2;
+}
+
+/**lua getWallSize():int
+	@desc Returns the size of the map's walls. The walls are squares, so this function returns both width and length of the walls at the same time.
+	@return the size of the walls.
+*/
+int RobotLuaBinding::lua_Robot_getWallSize(lua_State *L){
+	lua_pushnumber(L, Terrain::CELL_SIZE);
+	return 1;
 }
 
 /**lua getPosition():double,double
@@ -166,16 +178,16 @@ int RobotLuaBinding::lua_Robot_useAbility(lua_State *L)
 
 /**lua getStats(id:int):table
 	@desc Get the currents and max stats of the robot with the given id in a lua table. If no robot is given, your robot is chosen. <br/>
-	The lua table contains these fields
-	<ul>
-		<li>maxHp : The max hp of the robot </li>
-		<li>maxHp : The max hp of the robot</li>
-		<li>maxEnergy : The max Energy of the robot</li>
-		<li>currentEnergy : The current Energy of the robot </li>
-		<li>range : The range of the weapon</li>
-		<li>resistance : The armor of the robot</li>
-		<li>speed : The speed of the robot</li>
-	</ul>
+The lua table contains these fields
+<ul>
+<li>maxHp : The max hp of the robot </li>
+<li>maxHp : The max hp of the robot</li>
+<li>maxEnergy : The max Energy of the robot</li>
+<li>currentEnergy : The current Energy of the robot </li>
+<li>range : The range of the weapon</li>
+<li>resistance : The armor of the robot</li>
+<li>speed : The speed of the robot</li>
+</ul>
 	@example How to use getStats()
 	function main()
 		-- Get the stats of your robot
@@ -223,22 +235,22 @@ int RobotLuaBinding::lua_Robot_getStats(lua_State *L)
 }
 
 
-/*lua getTeam():int
+/**lua getTeam():int
 	@desc Return an int indicating the teams that your robot belongs.
-	Each byte of the int correspond to a team. If the bit is set, your robot is in that team
-	Else, you are not.
-	For references, the team colors are :
-	<ul>
-		<li>NONE = 0</li>
-		<li>BLACK = 1</li>
-		<li>WHITE = 2</li>
-		<li>BLUE = 4</li>
-		<li>PURPLE = 8</li>
-		<li>RED = 16</li>
-		<li>ORANGE = 32</li>
-		<li>YELLOW = 64</li>
-		<li>GREEN = 128</li>
-	</ul>
+Each byte of the int correspond to a team. If the bit is set, your robot is in that team
+Else, you are not.
+For references, the team colors are :
+<ul>
+<li>NONE = 0</li>
+<li>BLACK = 1</li>
+<li>WHITE = 2</li>
+<li>BLUE = 4</li>
+<li>PURPLE = 8</li>
+<li>RED = 16</li>
+<li>ORANGE = 32</li>
+<li>YELLOW = 64</li>
+<li>GREEN = 128</li>
+</ul>
 */
 int RobotLuaBinding::lua_Robot_getTeam(lua_State *L)
 {
@@ -278,9 +290,9 @@ int RobotLuaBinding::lua_Robot_getState(lua_State *L)
 	return 1;
 }
 
-/*lua getRobots():table
+/**lua getRobots():table
 	@desc Returns a table containing the list of all the robots in the game.
-	Your robot will always be in the first (1) index.
+Your robot will always be in the first (1) index.
 */
 int RobotLuaBinding::lua_Robot_getRobots(lua_State *L)
 {
@@ -299,7 +311,7 @@ int RobotLuaBinding::lua_Robot_getRobots(lua_State *L)
 	for (std::list<Robot*>::iterator iterator = robotList.begin(); iterator != robotList.end(); iterator++) {
 		unsigned int robotId = (*iterator)->getId();
 		// If the robot is our robot, skip it
-		if (robotId != ourId)
+		if (robotId != ourId && !(*iterator)->isDead())
 		{
 			lua_pushinteger(L, robotId);
 			lua_rawseti (L, -2, i++);

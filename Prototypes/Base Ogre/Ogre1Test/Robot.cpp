@@ -316,3 +316,8 @@ std::list<GameObject*> Robot::getSeenObjects(bool fetchRobots, bool fetchMissile
 
 	return seenObjects;
 }
+
+bool Robot::isAnAlly(Robot* r) const
+{
+	return getTeam() == r->getTeam();
+}

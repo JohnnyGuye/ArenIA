@@ -34,7 +34,7 @@ function main()
 	angle = math.rad(getRobotAngle())
 	x,z = getPosition()
 
-	print(x .. ", " .. z)
+	--print(x .. ", " .. z)
 	for i=0,MAX_WALL_RANGE, MAX_WALL_RANGE/STEPS do
 		
 
